@@ -1,0 +1,11 @@
+# Eine Beispiel-Config Datei
+input = /home/likewise-open/UKP/reimers/test.txt
+output = src/test/resources/
+language = de
+paragraphSingleLineBreak = True
+pos_tagger = True
+lemmatizer = True
+morph_tagger = True
+dep_parser = True
+con_parser = True
+ner = False

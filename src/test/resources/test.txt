@@ -1,0 +1,5 @@
+Dies ist ein kurzer Beispielsatz zum Testen der Pipeline mit Klaus Meier und Monika von Pechstein die sich in Berlin getroffen haben um über IBM zu reden, was der DAX oder der Dow Jones alles so macht.
+
+Er enhält zwei Absätze und drei Sätze. Dies ist der dritte Satz mit Berlin Frankfurt Dresden.
+
+Paul sagte "Ich liebe dich!", was sie fassungslos machte.
