@@ -11,6 +11,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.fit.component.CasDumpWriter;
@@ -19,12 +21,14 @@ import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
+import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2012Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
 import de.tudarmstadt.ukp.dkpro.core.matetools.MateLemmatizer;
 import de.tudarmstadt.ukp.dkpro.core.matetools.MateMorphTagger;
 import de.tudarmstadt.ukp.dkpro.core.matetools.MateParser;
 import de.tudarmstadt.ukp.dkpro.core.matetools.MatePosTagger;
+import de.tudarmstadt.ukp.dkpro.core.matetools.MateSemanticRoleLabeler;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
@@ -33,9 +37,13 @@ import de.tudarmstadt.ukp.dkpro.core.tokit.ParagraphSplitter;
 import de.tudarmstadt.ukp.dkpro.core.tokit.PatternBasedTokenSegmenter;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -232,6 +240,7 @@ public class RunPipeline {
 	
 	public static void main(String[] args) throws Exception {
 		
+		/*
 		//Check if -config parameter is specified
 		for(int i=0; i<args.length-1; i++) {
 			if(args[i].equals("-config")) {
@@ -249,8 +258,33 @@ public class RunPipeline {
 		}
 		
 		printConfiguration();
+		*/
+		//Read the config file
 		
+		Configuration config = new PropertiesConfiguration("/home/likewise-open/UKP/reimers/Dropbox/Doktor/DARIAH/java/Pipeline/src/main/resources/configs/default_de.properties");
+		
+
+		
+//		Properties javaProperties = new Properties();
+//		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("configs/default.prop"));
+//		InputStream inputStream = RunPipeline.class.getResourceAsStream("/configs/default_de.properties");
+//		InputStreamReader streamReader = new InputStreamReader(inputStream);
+//		BufferedReader stream = new BufferedReader(streamReader);
+//		javaProperties.load(stream);
+//		stream.close();
+		
+
 			
+		HashMap<String, String> properties = new HashMap<>();
+		Iterator<String> it = config.getKeys();
+		
+		
+		while(it.hasNext()) {
+			String key = it.next();
+	        properties.put(key, config.getString(key));
+	    }
+		
+		
 		
 		
 		
@@ -281,7 +315,7 @@ public class RunPipeline {
 				DirectSpeechAnnotator.PARAM_START_QUOTE, optStartQuote
 		);
 
-//		AnalysisEngineDescription srl = createEngineDescription(MateSemanticRoleLabeler.class); //Requires DKPro 1.8.0
+		AnalysisEngineDescription srl = createEngineDescription(MateSemanticRoleLabeler.class); //Requires DKPro 1.8.0
 		
 		AnalysisEngineDescription writer = createEngineDescription(
 				DARIAHWriter.class,
@@ -290,6 +324,8 @@ public class RunPipeline {
 		AnalysisEngineDescription annWriter = createEngineDescription(
 				AnnotationWriter.class
 				);
+		
+		
 		
 		AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
 		
@@ -307,7 +343,7 @@ public class RunPipeline {
 				(optDependencyParsing) ? depParser : noOp,
 				(optConstituencyParsing) ? constituencyParser : noOp,
 				(optNER) ? ner : noOp,
-//				srl, //Requires DKPro 1.8.0
+				srl, //Requires DKPro 1.8.0
 				writer
 //				annWriter
 		);

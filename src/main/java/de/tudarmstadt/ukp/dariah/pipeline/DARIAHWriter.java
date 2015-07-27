@@ -38,6 +38,7 @@ import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.descriptor.TypeCapability;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.FSArray;
 
 import de.tudarmstadt.ukp.dkpro.core.api.io.JCasFileWriter_ImplBase;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.Morpheme;
@@ -47,6 +48,8 @@ import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Paragraph;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
+import de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticArgument;
+import de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticPredicate;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.ROOT;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 import de.tudarmstadt.ukp.dkpro.core.io.penntree.PennTreeNode;
@@ -125,6 +128,10 @@ extends JCasFileWriter_ImplBase
 		Map<Token, Collection<NamedEntity>> neCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, NamedEntity.class);
 		Map<Token, Collection<DirectSpeech>> directSpeechCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, DirectSpeech.class);
 
+		Map<Token, Collection<SemanticPredicate>> predIdx = JCasUtil.indexCovered(aJCas, Token.class,
+                SemanticPredicate.class);
+        Map<SemanticArgument, Collection<Token>> argIdx = JCasUtil.indexCovered(aJCas,
+                SemanticArgument.class, Token.class);
 		for(Paragraph para : select(aJCas, Paragraph.class)) {
 			for (Sentence sentence : selectCovered(Sentence.class, para)) {
 				HashMap<Token, Row> ctokens = new LinkedHashMap<Token, Row>();
@@ -149,12 +156,15 @@ extends JCasFileWriter_ImplBase
 	            boolean useParseFragements = (parseFragments != null && parseFragments.length == tokens.size());
 	            
 
+	            List<SemanticPredicate> preds = selectCovered(SemanticPredicate.class, sentence);
+	            
 				for (int i = 0; i < tokens.size(); i++) {
 					Row row = new Row();
 					row.paragraphId = paragraphId;
 					row.sentenceId = sentenceId;
 					row.tokenId = tokenId;
 					row.token = tokens.get(i);
+					row.args = new SemanticArgument[preds.size()];
 					
 					if(useParseFragements) {
 						row.parseFragment = parseFragments[i];
@@ -169,12 +179,18 @@ extends JCasFileWriter_ImplBase
 					if(ne.size() > 0)
 						row.ne = ne.toArray(new NamedEntity[0])[0];
 					
+					//Quote annotation
 					Collection<DirectSpeech> ds = directSpeechCoveringMap.get(row.token);
 					if(ds.size() > 0)
 						row.directSpeech = ds.toArray(new DirectSpeech[0])[0];
+					
+					//Predicate
+	                Collection<SemanticPredicate> predsForToken = predIdx.get(row.token);
+	                if (predsForToken != null && !predsForToken.isEmpty()) {
+	                    row.pred = predsForToken.iterator().next();
+	                }
 
 					ctokens.put(row.token, row);
-
 					tokenId++;
 				}
 
@@ -182,6 +198,18 @@ extends JCasFileWriter_ImplBase
 				for (Dependency rel : selectCovered(Dependency.class, sentence)) {
 					ctokens.get(rel.getDependent()).deprel = rel;
 				}
+				
+				 // Semantic arguments
+	            for (int p = 0; p < preds.size(); p++) {
+	                FSArray args = preds.get(p).getArguments();
+	                for (SemanticArgument arg : select(args, SemanticArgument.class)) {
+	                    for (Token t : argIdx.get(arg)) {
+	                        Row row = ctokens.get(t);
+	                        row.args[p] = arg;
+	                    }
+	                }
+	            }
+	            
 
 				
 	            
@@ -260,6 +288,23 @@ extends JCasFileWriter_ImplBase
 		String parseFragment = UNUSED;
 		if(row.parseFragment != null)
 			parseFragment = row.parseFragment;
+		
+		 String fillpred = UNUSED;
+         String pred = UNUSED;
+         StringBuilder apreds = new StringBuilder();
+        
+         if (row.pred != null) {
+             fillpred = "Y";
+             pred = row.pred.getCategory();
+         }
+         
+         for (SemanticArgument arg : row.args) {
+             if (apreds.length() > 0) {
+                 apreds.append('\t');
+             }
+             apreds.append(arg != null ? arg.getRole() : UNUSED);
+         }
+         
 
 
 		String[] output = new String[] {
@@ -278,7 +323,10 @@ extends JCasFileWriter_ImplBase
 				deprel,
 				ne,
 				quoteMarker,
-				parseFragment
+				parseFragment,
+				fillpred,
+				pred,
+				apreds.toString()
 				
 		};
 		return output;
@@ -301,7 +349,9 @@ extends JCasFileWriter_ImplBase
 				"DependencyRelation",
 				"NamedEntity",
 				"QuoteMarker",
-				"SyntaxTree"
+				"SyntaxTree",
+				"Predicate",
+				"SemanticArguments"
 		};
 
 		return header;
@@ -340,6 +390,8 @@ extends JCasFileWriter_ImplBase
 
 
 	private static final class Row {
+		public SemanticPredicate pred;
+		public SemanticArgument[] args;
 		String sectionId = "_";
 		int paragraphId;
 		int sentenceId;
