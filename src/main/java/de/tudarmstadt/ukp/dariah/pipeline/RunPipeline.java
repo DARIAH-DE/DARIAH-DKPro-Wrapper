@@ -12,7 +12,9 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.fit.component.CasDumpWriter;
@@ -57,170 +59,31 @@ public class RunPipeline {
 	private static String optStartQuote = "»\"„";
 	private static boolean optParagraphSingleLineBreak = false;
 	
-	private static boolean optPOSTagger = true;
-	private static boolean optLemmatizer = true;
-	private static boolean optMorphTagger = true;
-	private static boolean optDependencyParsing = true;
-	private static boolean optConstituencyParsing = true;
-	private static boolean optNER = true;
+	private static boolean optSegmenter = true;
+	private static Class<? extends AnalysisComponent> optSegmenterCls;
 	
-	private static String[] parseConfigFile(String configFile, String[] cmdArgs) throws IOException {
-		HashMap<String, String> properties = new HashMap<>();
-		
-		//Read the config file
-		Properties javaProperties = new Properties();
-		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(configFile));
-		javaProperties.load(stream);
-		stream.close();
-		
-		for (final Entry<Object, Object> entry : javaProperties.entrySet()) {
-	        properties.put((String) entry.getKey(), (String) entry.getValue());
-	    }
-		
-		//Cmd Args overwrites config file
-		for(int i=0;i<cmdArgs.length-1; i++) {
-			if(cmdArgs[i].startsWith("-")) { 
-				properties.put(cmdArgs[i], cmdArgs[i+1]);
-				i++;
-			}
-		}
-		
-		//Map Hashmap for args array
-		String[] newArgs = new String[2*properties.size()];
-		int i=0;
-		for (Map.Entry<String, String> entry : properties.entrySet()) {
-			newArgs[i] = "-"+entry.getKey();
-			newArgs[i+1] = entry.getValue();
-			i += 2;
-		}
-		
-		return newArgs;
-	}
-
-
-	@SuppressWarnings("static-access")
-	private static boolean parseArgs(String[] args) throws ParseException {
-		Options options = new Options();
-		options.addOption("help", false, "print this message");
-		
-		Option paragraphSingleLineBreak = OptionBuilder.withArgName("True/False")
-											.hasArg()
-											.withDescription("Paragraphs are splitted along single line breaks (default: "+optParagraphSingleLineBreak+")")
-											.create("paragraphSingleLineBreak");
-		options.addOption(paragraphSingleLineBreak);
-		
-		Option lang = OptionBuilder.withArgName("lang")
-							.hasArg()
-							.withDescription("Language code for input file (default: "+optLanguage+")")
-							.create("language");
-		options.addOption(lang);		
-		
-		Option input = OptionBuilder.withArgName("path")
-							.hasArg()
-							.withDescription("Input path")							
-							.create("input");
-		options.addOption(input);		
-		
-		Option output = OptionBuilder.withArgName("path")
-				.hasArg()
-				.withDescription("Output path")							
-				.create("output");
-		options.addOption(output);
-		
-		Option startQuote = OptionBuilder.withArgName("quotes")
-				.hasArg()
-				.withDescription("Starting quoates (default: "+optStartQuote+")")							
-				.create("quotestart");
-		options.addOption(startQuote);
-		
-		Option configFile = OptionBuilder.withArgName("path")
-				.hasArg()
-				.withDescription("Config file")							
-				.create("config");
-		options.addOption(configFile);
-		
-		
-		//For the components of the pipeline
-		Option posTagger = OptionBuilder.withArgName("True/False").hasArg().withDescription("POS-tagging").create("pos_tagger");
-		options.addOption(posTagger);
-		
-		Option lemmatizer = OptionBuilder.withArgName("True/False").hasArg().withDescription("Lemmatizer").create("lemmatizer");
-		options.addOption(lemmatizer);
-		
-		Option morphTagger = OptionBuilder.withArgName("True/False").hasArg().withDescription("Morphology-tagging").create("morph_tagger");
-		options.addOption(morphTagger);
-		
-		Option depParser = OptionBuilder.withArgName("True/False").hasArg().withDescription("Dependency Parsing").create("dep_parser");
-		options.addOption(depParser);
-		
-		Option conParser = OptionBuilder.withArgName("True/False").hasArg().withDescription("Constituency Parsing").create("con_parser");
-		options.addOption(conParser);
-		
-		Option ner = OptionBuilder.withArgName("True/False").hasArg().withDescription("Named Entity Recognition").create("ner");
-		options.addOption(ner);
-		
-
-		
-		CommandLineParser argParser = new BasicParser();
-		CommandLine cmd = argParser.parse(options, args);
-		
-		if(cmd.hasOption("help")) {
-			// automatically generate the help statement
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp( "pipeline.jar", options );
-			return false;
-		}
-		
-		if(cmd.hasOption(input.getOpt())) {
-			optInput = cmd.getOptionValue(input.getOpt());
-		} else {
-			System.out.println("Input option required");
-			return false;
-		}		
-		
-		if(cmd.hasOption(output.getOpt())) {
-			optOutput = cmd.getOptionValue(output.getOpt());
-		} else {
-			System.out.println("Output option required");
-			return false;
-		}
-		
-		if(cmd.hasOption(lang.getOpt())) {
-			optLanguage = cmd.getOptionValue(lang.getOpt());
-		}
-		
-		if(cmd.hasOption(startQuote.getOpt())) {
-			optStartQuote = cmd.getOptionValue(startQuote.getOpt());
-		}		
-
-		if(cmd.hasOption(paragraphSingleLineBreak.getOpt())) {			
-			optParagraphSingleLineBreak = Boolean.parseBoolean(cmd.getOptionValue(paragraphSingleLineBreak.getOpt()));
-		}
-		
-		//For the components of the pipeline
-		if(cmd.hasOption(posTagger.getOpt())) {			
-			optPOSTagger = Boolean.parseBoolean(cmd.getOptionValue(posTagger.getOpt()));
-		}
-		if(cmd.hasOption(lemmatizer.getOpt())) {			
-			optLemmatizer = Boolean.parseBoolean(cmd.getOptionValue(lemmatizer.getOpt()));
-		}
-		if(cmd.hasOption(morphTagger.getOpt())) {			
-			optMorphTagger = Boolean.parseBoolean(cmd.getOptionValue(morphTagger.getOpt()));
-		}
-		if(cmd.hasOption(depParser.getOpt())) {			
-			optDependencyParsing = Boolean.parseBoolean(cmd.getOptionValue(depParser.getOpt()));
-		}
-		if(cmd.hasOption(conParser.getOpt())) {			
-			optConstituencyParsing = Boolean.parseBoolean(cmd.getOptionValue(conParser.getOpt()));
-		}
-		if(cmd.hasOption(ner.getOpt())) {			
-			optNER = Boolean.parseBoolean(cmd.getOptionValue(ner.getOpt()));
-		}
-		
-		
-		return true;
-		
-	}
+	private static boolean optPOSTagger = true;
+	private static Class<? extends AnalysisComponent> optPOSTaggerCls;
+	
+	private static boolean optLemmatizer = true;
+	private static Class<? extends AnalysisComponent> optLemmatizerCls;
+	
+	private static boolean optMorphTagger = true;
+	private static Class<? extends AnalysisComponent> optMorphTaggerCls;
+	
+	private static boolean optDependencyParsing = true;
+	private static Class<? extends AnalysisComponent> optDependencyParserCls;
+	
+	private static boolean optConstituencyParsing = true;
+	private static Class<? extends AnalysisComponent> optConstituencyParserCls;
+	
+	private static boolean optNER = true;
+	private static Class<? extends AnalysisComponent> optNerCls;
+	
+	private static boolean optSRL = true;
+	private static Class<? extends AnalysisComponent> optSrlCls;
+	
+	
 	
 	private static void printConfiguration() {
 		System.out.println("Input: "+optInput);
@@ -237,56 +100,81 @@ public class RunPipeline {
 		System.out.println("Named Entity Recognition: "+optNER);		
 	}
 	
+	public static Class<? extends AnalysisComponent> getClassFromConfig(Configuration config, String key) throws ClassNotFoundException {
+		
+		String entry = config.getString(key, "null");
+		
+		if(entry.toLowerCase().equals("null")) {
+			return NoOpAnnotator.class;
+		}
+		
+		return (Class<? extends AnalysisComponent>) Class.forName(entry);
+		
+	}
+	
+	private static void parseConfig(String configFile) throws ConfigurationException,
+	ClassNotFoundException {
+		Configuration config = new PropertiesConfiguration(configFile);
+		
+		
+		
+		optSegmenter = config.getBoolean("useSegmenter", true);
+		optSegmenterCls = getClassFromConfig(config, "segmenter");
+		
+		optPOSTagger = config.getBoolean("usePosTagger", true);
+		optPOSTaggerCls = getClassFromConfig(config, "posTagger");
+		
+		optLemmatizer = config.getBoolean("useLemmatizer", true);
+		optLemmatizerCls = getClassFromConfig(config, "lemmatizer");
+		
+		optMorphTagger = config.getBoolean("useMorphTagger", true);
+		optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
+		
+		optDependencyParsing = config.getBoolean("useDependencyParser", true);
+		optDependencyParserCls = getClassFromConfig(config, "dependencyParser");
+		
+		optConstituencyParsing = config.getBoolean("useConstituencyParser", true);
+		optConstituencyParserCls = getClassFromConfig(config, "constituencyParser");
+		
+		optNER = config.getBoolean("useNER", true);
+		optNerCls = getClassFromConfig(config, "ner");
+		
+		optSRL = config.getBoolean("useSRL", true);
+		optSrlCls = getClassFromConfig(config, "srl");
+		
+		if(config.containsKey("language"))
+			optLanguage = config.getString("language");
+	}
+
 	
 	public static void main(String[] args) throws Exception {
 		
-		/*
-		//Check if -config parameter is specified
+		String defaultConfigFile = "/home/likewise-open/UKP/reimers/Dropbox/Doktor/DARIAH/java/Pipeline/src/main/resources/configs/default_de.properties";		
+		String configFile = null;
+		String optLanguage = null;
+		
 		for(int i=0; i<args.length-1; i++) {
 			if(args[i].equals("-config")) {
-				String configFile = args[i+1];
-				
-				args = parseConfigFile(configFile, args);
+				configFile = args[i+1];				
+			} else if(args[i].equals("-language")) {
+				optLanguage = args[i+1];
+			}
+		}
+
+		
+		if(configFile == null) { //No config file set
+			
+			switch(optLanguage) {
+				default: configFile = defaultConfigFile; break;
 			}
 		}
 		
-		if(!parseArgs(args)) {
-			System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
-			System.out.println("Usage: java -jar pipeline.jar -help");
-			System.out.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
-			return;
-		}
+		
+		
+		parseConfig(configFile);
+		
 		
 		printConfiguration();
-		*/
-		//Read the config file
-		
-		Configuration config = new PropertiesConfiguration("/home/likewise-open/UKP/reimers/Dropbox/Doktor/DARIAH/java/Pipeline/src/main/resources/configs/default_de.properties");
-		
-
-		
-//		Properties javaProperties = new Properties();
-//		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("configs/default.prop"));
-//		InputStream inputStream = RunPipeline.class.getResourceAsStream("/configs/default_de.properties");
-//		InputStreamReader streamReader = new InputStreamReader(inputStream);
-//		BufferedReader stream = new BufferedReader(streamReader);
-//		javaProperties.load(stream);
-//		stream.close();
-		
-
-			
-		HashMap<String, String> properties = new HashMap<>();
-		Iterator<String> it = config.getKeys();
-		
-		
-		while(it.hasNext()) {
-			String key = it.next();
-	        properties.put(key, config.getString(key));
-	    }
-		
-		
-		
-		
 		
 		CollectionReaderDescription reader = createReaderDescription(
 				TextReader.class,
@@ -295,27 +183,27 @@ public class RunPipeline {
 
 		AnalysisEngineDescription paragraph = createEngineDescription(ParagraphSplitter.class,
 				ParagraphSplitter.PARAM_SPLIT_PATTERN, (optParagraphSingleLineBreak) ? ParagraphSplitter.SINGLE_LINE_BREAKS_PATTERN : ParagraphSplitter.DOUBLE_LINE_BREAKS_PATTERN);	
-		AnalysisEngineDescription seg = createEngineDescription(OpenNlpSegmenter.class);	
+		AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls);	
 		AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 			    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
 		AnalysisEngineDescription quotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 			    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[\"\"]");
-		AnalysisEngineDescription posTagger = createEngineDescription(MatePosTagger.class);	     
-		AnalysisEngineDescription lemma = createEngineDescription(MateLemmatizer.class);	
+		AnalysisEngineDescription posTagger = createEngineDescription(optPOSTaggerCls);	     
+		AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls);	
 		
 		
-		AnalysisEngineDescription morph = optLanguage.toLowerCase().equals("de") ? createEngineDescription(MateMorphTagger.class) : createEngineDescription(NoOpAnnotator.class);	 
+		AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls);	 
 		
-		AnalysisEngineDescription depParser = createEngineDescription(MateParser.class); 		
-		AnalysisEngineDescription constituencyParser = createEngineDescription(StanfordParser.class);
+		AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls); 		
+		AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls);
 		
-		AnalysisEngineDescription ner = createEngineDescription(StanfordNamedEntityRecognizer.class); 
+		AnalysisEngineDescription ner = createEngineDescription(optNerCls); 
 		AnalysisEngineDescription directSpeech =createEngineDescription(
 				DirectSpeechAnnotator.class,
 				DirectSpeechAnnotator.PARAM_START_QUOTE, optStartQuote
 		);
 
-		AnalysisEngineDescription srl = createEngineDescription(MateSemanticRoleLabeler.class); //Requires DKPro 1.8.0
+		AnalysisEngineDescription srl = createEngineDescription(optSrlCls); //Requires DKPro 1.8.0
 		
 		AnalysisEngineDescription writer = createEngineDescription(
 				DARIAHWriter.class,
@@ -333,7 +221,7 @@ public class RunPipeline {
 		
 		SimplePipeline.runPipeline(reader, 
 				paragraph,
-				seg, 
+				(optSegmenter) ? seg : noOp, 
 				frenchQuotesSeg,
 				quotesSeg,
 				(optPOSTagger) ? posTagger : noOp, 
@@ -343,7 +231,7 @@ public class RunPipeline {
 				(optDependencyParsing) ? depParser : noOp,
 				(optConstituencyParsing) ? constituencyParser : noOp,
 				(optNER) ? ner : noOp,
-				srl, //Requires DKPro 1.8.0
+				(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 				writer
 //				annWriter
 		);
@@ -351,6 +239,7 @@ public class RunPipeline {
 
 	}
 
+	
 	
 
 	
