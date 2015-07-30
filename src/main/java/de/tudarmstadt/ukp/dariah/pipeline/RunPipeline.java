@@ -13,6 +13,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.ConfigurationUtils;
+import org.apache.commons.configuration.FileSystem;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -45,6 +47,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -53,11 +56,11 @@ import java.util.Properties;
 
 
 public class RunPipeline {
-	
+	 
 	private static String optLanguage = "de";
 	private static String optInput;
 	private static String optOutput;
-	private static String optStartQuote = "»\"„";
+	private static String optStartQuote;
 	private static boolean optParagraphSingleLineBreak = false;
 	
 	private static boolean optSegmenter = true;
@@ -86,9 +89,11 @@ public class RunPipeline {
 	
 	
 	
-	private static void printConfiguration() {
+	private static void printConfiguration(String configFileName) {
 		System.out.println("Input: "+optInput);
 		System.out.println("Output: "+optOutput);
+		System.out.println("Config: "+configFileName);
+		
 		System.out.println("Language: "+optLanguage);
 		System.out.println("Start Quote: "+optStartQuote);
 		System.out.println("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
@@ -161,6 +166,9 @@ public class RunPipeline {
 		optSRL = config.getBoolean("useSRL", true);
 		optSRLCls = getClassFromConfig(config, "srl");
 		
+		optParagraphSingleLineBreak = config.getBoolean("splitParagraphOnSingleLineBreak", false);
+		optStartQuote = config.getString("startingQuotes", "»\"„");
+		
 		if(config.containsKey("language"))
 			optLanguage = config.getString("language");
 	}
@@ -169,31 +177,25 @@ public class RunPipeline {
 	private static boolean parseArgs(String[] args) throws ParseException {
 		Options options = new Options();
 		options.addOption("help", false, "print this message");
-		Option paragraphSingleLineBreak = OptionBuilder.withArgName("True/False")
-				.hasArg()
-				.withDescription("Paragraphs are splitted along single line breaks (default: "+optParagraphSingleLineBreak+")")
-				.create("paragraphSingleLineBreak");
-		options.addOption(paragraphSingleLineBreak);
+		
 		Option lang = OptionBuilder.withArgName("lang")
 				.hasArg()
 				.withDescription("Language code for input file (default: "+optLanguage+")")
 				.create("language");
 		options.addOption(lang);
+		
 		Option input = OptionBuilder.withArgName("path")
 				.hasArg()
 				.withDescription("Input path")
 				.create("input");
 		options.addOption(input);
+		
 		Option output = OptionBuilder.withArgName("path")
 				.hasArg()
 				.withDescription("Output path")
 				.create("output");
 		options.addOption(output);
-		Option startQuote = OptionBuilder.withArgName("quotes")
-				.hasArg()
-				.withDescription("Starting quoates (default: "+optStartQuote+")")
-				.create("quotestart");
-		options.addOption(startQuote);
+		
 		Option configFile = OptionBuilder.withArgName("path")
 				.hasArg()
 				.withDescription("Config file")
@@ -225,12 +227,7 @@ public class RunPipeline {
 		if(cmd.hasOption(lang.getOpt())) {
 			optLanguage = cmd.getOptionValue(lang.getOpt());
 		}
-		if(cmd.hasOption(startQuote.getOpt())) {
-			optStartQuote = cmd.getOptionValue(startQuote.getOpt());
-		}
-		if(cmd.hasOption(paragraphSingleLineBreak.getOpt())) {
-			optParagraphSingleLineBreak = Boolean.parseBoolean(cmd.getOptionValue(paragraphSingleLineBreak.getOpt()));
-		}
+		
 		
 		return true;
 	}
@@ -238,8 +235,8 @@ public class RunPipeline {
 	public static void main(String[] args) throws Exception {
 		
 		if(!parseArgs(args)) {
-			System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
 			System.out.println("Usage: java -jar pipeline.jar -help");
+			System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
 			System.out.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
 			return;
 		}
@@ -256,10 +253,12 @@ public class RunPipeline {
 
 		
 		if(configFile == null) { //No config file set
+			String path = defaultConfigFile+"_"+optLanguage+".properties";			
+			URL url = ConfigurationUtils.locate(FileSystem.getDefaultFileSystem(), null, path);
 			
-			File f = new File(defaultConfigFile+"_"+optLanguage+".properties");
-			if(f.exists() && f.isFile()) {
-				configFile = defaultConfigFile+"_"+optLanguage+".properties";		
+			File f = new File(url.getPath());
+			if(f.exists()) {
+				configFile = path;		
 			} else {
 				configFile = defaultConfigFile+".properties";
 			}
@@ -267,10 +266,9 @@ public class RunPipeline {
 		
 		
 		
-		parseConfig(configFile);
+		parseConfig(configFile);	
 		
-		
-		printConfiguration();
+		printConfiguration(configFile); 
 		
 		CollectionReaderDescription reader = createReaderDescription(
 				TextReader.class,
