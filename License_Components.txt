@@ -1,0 +1,21 @@
+This program uses the following external components:
+
+== OpenNLP ==
+License: Apache License, Version 2.0
+Website: https://opennlp.apache.org/
+
+== MateTools ==
+License: GNU GENERAL PUBLIC LICENSE Version 3 (http://www.gnu.org/licenses/gpl-3.0.html)
+Website: https://code.google.com/p/mate-tools/
+
+== Stanford CorNLP ==
+License: GNU GENERAL PUBLIC LICENSE Version 3 (http://www.gnu.org/licenses/gpl-3.0.html)
+Website: http://nlp.stanford.edu/software/corenlp.shtml
+
+== Commons-CLI ==
+License: Apache License, Version 2.0
+Website: https://commons.apache.org/proper/commons-cli/
+
+== Commons-Configuration ==
+License: Apache License, Version 2.0
+Website: https://commons.apache.org/proper/commons-configuration/
