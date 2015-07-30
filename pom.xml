@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<distributionManagement>
 		<repository>
 			<id>dariah.nexus.snapshots</id>
@@ -88,7 +88,7 @@
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl
 			</artifactId>			
-			<version>1.8.0-SNAPSHOT</version>
+			<version>1.8.0-SNAPSHOT</version>			
 		</dependency>
 		<dependency>
 			<groupId>commons-configuration</groupId>
