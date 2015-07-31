@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.3.1</version>
 	<distributionManagement>
 		<repository>
 			<id>dariah.nexus.snapshots</id>
