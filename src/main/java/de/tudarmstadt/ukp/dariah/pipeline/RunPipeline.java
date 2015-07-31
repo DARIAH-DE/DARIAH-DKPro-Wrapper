@@ -50,6 +50,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -65,28 +67,35 @@ public class RunPipeline {
 	
 	private static boolean optSegmenter = true;
 	private static Class<? extends AnalysisComponent> optSegmenterCls;
+	private static String[] optSegmenterArguments;
 	
 	private static boolean optPOSTagger = true;
 	private static Class<? extends AnalysisComponent> optPOSTaggerCls;
+	private static String[] optPOSTaggerArguments;
 	
 	private static boolean optLemmatizer = true;
 	private static Class<? extends AnalysisComponent> optLemmatizerCls;
+	private static String[] optLemmatizerArguments;
 	
 	private static boolean optMorphTagger = true;
 	private static Class<? extends AnalysisComponent> optMorphTaggerCls;
+	private static String[] optMorphTaggerArguments;
 	
 	private static boolean optDependencyParsing = true;
 	private static Class<? extends AnalysisComponent> optDependencyParserCls;
+	private static String[] optDependencyParserArguments;
 	
 	private static boolean optConstituencyParsing = true;
 	private static Class<? extends AnalysisComponent> optConstituencyParserCls;
+	private static String[] optConstituencyParserArguments;
 	
 	private static boolean optNER = true;
 	private static Class<? extends AnalysisComponent> optNERCls;
+	private static String[] optNERArguments;
 	
 	private static boolean optSRL = true;
 	private static Class<? extends AnalysisComponent> optSRLCls;
-	
+	private static String[] optSRLArguments;
 	
 	
 	private static void printConfiguration(String configFileName) {
@@ -138,33 +147,41 @@ public class RunPipeline {
 	
 	private static void parseConfig(String configFile) throws ConfigurationException,
 	ClassNotFoundException {
-		Configuration config = new PropertiesConfiguration(configFile);
-		
+		Configuration config = new PropertiesConfiguration(configFile);		
 		
 		
 		optSegmenter = config.getBoolean("useSegmenter", true);
 		optSegmenterCls = getClassFromConfig(config, "segmenter");
+		optSegmenterArguments = config.getList("segmenterArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optPOSTagger = config.getBoolean("usePosTagger", true);
 		optPOSTaggerCls = getClassFromConfig(config, "posTagger");
+		optPOSTaggerArguments = config.getList("posArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optLemmatizer = config.getBoolean("useLemmatizer", true);
 		optLemmatizerCls = getClassFromConfig(config, "lemmatizer");
+		optLemmatizerArguments = config.getList("lemmatizerArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optMorphTagger = config.getBoolean("useMorphTagger", true);
 		optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
+		optMorphTaggerArguments = config.getList("morphArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optDependencyParsing = config.getBoolean("useDependencyParser", true);
 		optDependencyParserCls = getClassFromConfig(config, "dependencyParser");
+		optDependencyParserArguments = config.getList("dependencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optConstituencyParsing = config.getBoolean("useConstituencyParser", true);
 		optConstituencyParserCls = getClassFromConfig(config, "constituencyParser");
+		optConstituencyParserArguments = config.getList("constituencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optNER = config.getBoolean("useNER", true);
 		optNERCls = getClassFromConfig(config, "ner");
+		optNERArguments = config.getList("nerArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optSRL = config.getBoolean("useSRL", true);
 		optSRLCls = getClassFromConfig(config, "srl");
+		optSRLArguments = config.getList("srlArguments", new LinkedList<String>()).toArray(new String[0]);
+		
 		
 		optParagraphSingleLineBreak = config.getBoolean("splitParagraphOnSingleLineBreak", false);
 		optStartQuote = config.getString("startingQuotes", "»\"„");
@@ -277,27 +294,42 @@ public class RunPipeline {
 
 		AnalysisEngineDescription paragraph = createEngineDescription(ParagraphSplitter.class,
 				ParagraphSplitter.PARAM_SPLIT_PATTERN, (optParagraphSingleLineBreak) ? ParagraphSplitter.SINGLE_LINE_BREAKS_PATTERN : ParagraphSplitter.DOUBLE_LINE_BREAKS_PATTERN);	
-		AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls);	
+		
+		AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls,
+				(Object[])optSegmenterArguments);	
+		
 		AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 			    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
+		
 		AnalysisEngineDescription quotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 			    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[\"\"]");
-		AnalysisEngineDescription posTagger = createEngineDescription(optPOSTaggerCls);	     
-		AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls);	
 		
+		AnalysisEngineDescription posTagger = createEngineDescription(optPOSTaggerCls,
+				(Object[])optPOSTaggerArguments);	     
 		
-		AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls);	 
+		AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls,
+				(Object[])optLemmatizerArguments);	
+				
+		AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls,
+				(Object[])optMorphTaggerArguments);	 
 		
-		AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls); 		
-		AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls);
+		AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls,
+				(Object[])optDependencyParserArguments); 	
 		
-		AnalysisEngineDescription ner = createEngineDescription(optNERCls); 
+		AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls,
+				(Object[])optConstituencyParserArguments);
+				
+		
+		AnalysisEngineDescription ner = createEngineDescription(optNERCls,
+				(Object[])optNERArguments); 
+		
 		AnalysisEngineDescription directSpeech =createEngineDescription(
 				DirectSpeechAnnotator.class,
 				DirectSpeechAnnotator.PARAM_START_QUOTE, optStartQuote
 		);
 
-		AnalysisEngineDescription srl = createEngineDescription(optSRLCls); //Requires DKPro 1.8.0
+		AnalysisEngineDescription srl = createEngineDescription(optSRLCls,
+				(Object[])optSRLArguments); //Requires DKPro 1.8.0
 		
 		AnalysisEngineDescription writer = createEngineDescription(
 				DARIAHWriter.class,
