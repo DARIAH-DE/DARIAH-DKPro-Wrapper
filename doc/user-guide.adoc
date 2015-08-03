@@ -15,7 +15,7 @@
 = DARIAH-DKPro-Wrapper
 :Author: DARIAH2 - Cluster 5, Use Case 1 Team
 :toc-title: User Guide
-:version:  0.3.2
+:version:  0.3.1
 
 This is a short user guide for the current version v{version} of the DARIAH-DKPro-Wrapper.
 
