@@ -1,0 +1,72 @@
+// Copyright 2015
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+    
+= DARIAH-DKPro-Wrapper
+:Author: DARIAH2 - Cluster 5, Use Case 1 Team
+:toc-title: User Guide
+:version:  0.3.2
+
+This is a short user guide for the current version v{version} of the DARIAH-DKPro-Wrapper.
+
+== System Requirements
+To run the pipeline properly, a system equipped with and able to handle at least 4 GB RAM is recommended. The following operating systems have been tested:
+
+.Systems:
+* Mac OS X
+* Linux (Ubuntu 14.04)
+* Windows 7/8
+
+Furthermore, the  pipeline depends on a internet connection when running to download the models for the current configuration. It does not work off line!
+
+The pipeline requires required *Java 1.8* or higher. You can download Java from the http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle website]. You can check your current Java version by running `java -version` in your command line.
+
+== Running up the pipeline
+
+After downloading and unzipping the files, execute in your command line the following code:
+----
+java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -input file.txt -output folder+
+----
+
+You can change the language by specifying the language parameter for the pipeline. Support for the following languages are include in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). To run the pipeline for English, execute the following command:
+
+----
+java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -language en -input file.txt -output folder+
+----
+
+== Write your own config files
+
+The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_es.properties` for English and so on.
+
+The config for the different languages include two important lines:
+----
+language = fr
+# ...
+include = default.properties
+----
+
+
+The `language` parameter configures the pipeline for a certain langauge, in this case for French (fr). The last line of the file is a special command, the `include` command. Using this command, all configuration parameters from the default.properties are loaded. It is important, that the include command is *in at the end* of the file. 
+
+The idea behind this is that you have a parent file, in most cases the `default.properties`. This parent files gives the basic configuration of the pipeline. The child files, for example `default_fr.properties', only change certain properties, for example the language, that certain components can't be used or that other components for example as segmenter should be used.
+
+If you like to write your own config file, it is recommended to add the `include`-line into your file. Then add your custom configuration *before* this line.
+
+You can run the pipeline by executing:
+----
+java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config configs/myConfigFile.properties -language en -input file.txt -output folder`
+----
+
+The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].
+
+
