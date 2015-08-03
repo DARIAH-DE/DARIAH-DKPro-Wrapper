@@ -1,0 +1,281 @@
+
+<text xml:id="d1">
+<front xml:id="d2">
+<titlePage xml:id="d3">
+<pb/>
+<docTitle>
+<titlePart type="main"> THE WILD DUCK<lb/> THE LEAGUE OF YOUTH<lb/> ROSMERSHOLM<lb/> By HENRIK IBSEN<lb/></titlePart>
+</docTitle>
+<docImprint> BONI AND LIVERIGHT, INC.<lb/> PUBLISHERS — NEW YORK<lb/> Printed in<lb/> the United States of America<lb/></docImprint>
+</titlePage>
+<div1 type="contents" xml:id="d4">
+<head> CONTENTS</head>
+<list>
+<item> PAGE</item>
+<lb/>
+<item> THE WILD DUCK</item>
+<lb/>
+<item> ACT I................. 3</item>
+<lb/>
+<item> ACT II................ 24</item>
+<lb/>
+<item> ACT III............... 48</item>
+<lb/>
+<item> ACT IV................ 74</item>
+<lb/>
+<item> ACT V................. 98</item>
+<lb/>
+<item> THE LEAGUE OF YOUTH</item>
+<lb/>
+<item> ACT I................. 123</item>
+<lb/>
+<item> ACT II................ 148</item>
+<lb/>
+<item> ACT III............... 178</item>
+<lb/>
+<item> ACT IV................ 199</item>
+<lb/>
+<item> ACT V................. 227</item>
+<lb/>
+<item> ROSMERSHOLM</item>
+<lb/>
+<item> ACT I................. 251</item>
+<lb/>
+<item> ACT II................ 278</item>
+<lb/>
+<item> ACT III............... 304</item>
+<lb/>
+<item> ACT IV................ 326</item>
+<lb/>
+</list>
+</div1>
+</front>
+<body xml:id="d5">
+<div1 type="section" xml:id="d6">
+<pb n="2"/>
+<head>CHARACTERS</head>
+<list>
+<item>WERLE, a merchant, manufacturer, etc.</item>
+<lb/>
+<item>GREGERS WERLE, his son.</item>
+<lb/>
+<item>OLD EKDAL.</item>
+<lb/>
+<item>HIALMAR EKDAL, his son, a photographer.</item>
+<lb/>
+<item>GINA EKDAL, Hjalmar's wife.</item>
+<lb/>
+<item>HEDVIG, their daughter, a girl of fourteen.</item>
+<lb/>
+<item>MRS. SORBY, Werle's housekeeper.</item>
+<lb/>
+<item>RELLING, a doctor.</item>
+<lb/>
+<item>MOLVIK, student of theology.</item>
+<lb/>
+<item>GRABERG, Werle's bookkeeper.</item>
+<lb/>
+<item>PETTERSEN, Werle's servant.</item>
+<lb/>
+<item>JENSEN, a hired waiter.</item>
+<lb/>
+<item>A FLABBY GENTLEMAN.</item>
+<lb/>
+<item>A THIN-HAIRED GENTLEMAN.</item>
+<lb/>
+<item>A SHORT-SIGHTED GENTLEMAN.</item>
+<lb/>
+<item>SIX OTHER GENTLEMEN, guests at Werle's dinner-party.</item>
+<lb/>
+<item>SEVERAL HIRED WAITERS.</item>
+<lb/>
+</list>
+<p>The first act passes in WERLE'S house, the remaining acts at HJALMAR EKDAL'S. </p>
+<p> Pronunciation of Names: GREGERS WERLE = Grayghers Verle; HIALMAR EKDAL = Yalmar Aykdal; GINA = Cheena; GRABERG = Groberg; JENSEN = Yensen. </p>
+</div1>
+<!-- ... -->
+<div1 type="act" n="5" xml:id="d11">
+<pb n="98"/>
+<head>ACT FIFTH</head>
+<!-- ... -->
+<sp>
+<speaker>Relling.</speaker>
+<p> Well, you see, I'm supposed to be a sort of a doctor — save the mark! I can't but give a hand to the poor sick folk who live under the same roof with me. <pb n="102"/></p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Oh, indeed! Hialmar Ekdal is sick too, is he! </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> Most people are, worse luck. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> And what remedy are you applying in Hialmar's case? </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> My usual one. I am cultivating the life-illusion<ref target="note5">*</ref> in him. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Life-illusion? I didn't catch what you said. </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> Yes, I said illusion. For illusion, you know, is the stimulating principle. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> May I ask with what illusion Hialmar is inoculated? </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> No, thank you; I don't betray professional secrets to quacksalvers. You would probably go and muddle his case still more than you have already. But my method is infallible. I have applied it to Molvik as well. I have made him "daemonic." That's the blister I have to put on his neck. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Is he not really daemonic then? </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> What the devil do you mean by daemonic! It's only a piece of gibberish I've invented to keep up a spark of life in him. But for that, the poor harmless creature would have succumbed to self-contempt and despair many a long year ago. And then the old lieutenant! But he has hit upon his own cure, you see. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Lieutenant Ekdal? What of him? </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> Just think of the old bear-hunter shutting himself up in that dark garret to shoot rabbits! I tell you there is not a happier sportsman in the world than that old man pottering about in there among all that rubbish. The four or five withered Christmas-trees he has saved up are the same to him as the whole great fresh Hoidal forest; the cock and the hens are big game-birds in the fir-tops; and the rabbits that flop about the garret floor are the bears *<note place="foot" xml:id="note5">
+<seg type="note-symbol">"Livslognen,"</seg>
+<p>literally "the life-lie."</p>
+</note><pb n="103"/> he has to battle with — the mighty hunter of the mountains! </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Poor unfortunate old man! Yes; he has indeed had to narrow the ideals of his youth. </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> While I think of it, Mr. Werle, junior — don't use that foreign word: ideals. We have the excellent native word: lies. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Do you think the two things are related? </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> Yes, just about as closely as typhus and putrid fever. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Dr. Relling, I shall not give up the struggle until I have rescued Hialmar from your clutches! </p>
+</sp>
+<sp>
+<speaker>Relling.</speaker>
+<p> So much the worse for him. Rob the average man of his life-illusion, and you rob him of his happiness at the same stroke. <stage> (To HEDVIG, who comes in from the sitting-room.)</stage> Well, little wild-duck-mother, I'm just going down to see whether papa is still lying meditating upon that wonderful invention of his.</p>
+</sp>
+<stage> [Goes out by passage door.</stage>
+<sp>
+<speaker>Gregers</speaker>
+<stage> (approaches HEDVIG).</stage>
+<p> I can see by your face that you have not yet done it. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> What? Oh, that about the wild duck! No. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> I suppose your courage failed when the time came. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> No, that wasn't it. But when I awoke this morning and remembered what we had been talking about, it seemed so strange. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Strange? </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> Yes, I don't know — Yesterday evening, at the moment, I thought there was something so delightful about it; but since I have slept and thought of it again, it somehow doesn't seem worth while. </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Ah, I thought you could not have grown up quite unharmed in this house. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> I don't care about that, if only father would come up — </p>
+</sp>
+<sp>
+<speaker>Gregers.</speaker>
+<p> Oh, if only your eyes had been opened to that <pb n="104"/> which gives life its value — if you possessed the true, joyous, fearless spirit of sacrifice, you would soon see how he would come up to you. — But I believe in you still, Hedvig.</p>
+</sp>
+<stage>
+<p> [He goes out by the passage door. HEDVIG wanders about the room for a time; she is on the point of going into the kitchen when a knock is heard at the garret door. HEDVIG goes over and opens it a little; old EKDAL comes out; she pushes the door to again.</p>
+</stage>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> H'm, it's not much fun to take one's morning walk alone. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> Wouldn't you like to go shooting, grandfather? </p>
+</sp>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> It's not the weather for it to-day. It's so dark there, you can scarcely see where you're going. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> Do you never want to shoot anything besides the rabbits? </p>
+</sp>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> Do you think the rabbits aren't good enough? </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> Yes, but what about the wild duck? </p>
+</sp>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> Ho-ho! are you afraid I shall shoot your wild duck? Never in the world. Never. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> No, I suppose you couldn't; they say it's very difficult to shoot wild ducks. </p>
+</sp>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> Couldn't! Should rather think I could. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> How would you set about it, grandfather? — I don't mean with my wild duck, but with others? </p>
+</sp>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> I should take care to shoot them in the breast, you know; that's the surest place. And then you must shoot against the feathers, you see — not the way of the feathers. </p>
+</sp>
+<sp>
+<speaker>Hedvig.</speaker>
+<p> Do they die then, grandfather? </p>
+</sp>
+<sp>
+<speaker>Ekdal.</speaker>
+<p> Yes, they die right enough — when you shoot properly. — Well, I must go and brush up a bit. H'm — understand — h'm.</p>
+</sp>
+<stage> [Goes into his room.</stage>
+<stage>
+<p> [HEDVIG waits a little, glances towards the sitting-room door, goes over to the book-case, stands on tip-toe, takes the double-barrelled pistol down <pb n="105"/> from the shelf, and looks at it. GINA, with brush and duster, comes from the sitting-room. HEDVIG hastily lays down the pistol, unobserved.</p>
+</stage>
+<!-- ... -->
+</div1>
+</body>
+</text>
+
