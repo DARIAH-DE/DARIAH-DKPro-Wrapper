@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
     
-= DARIAH-DKPro-Wrapper
+:version:  0.3.2
+
+= DARIAH-DKPro-Wrapper v{version}
 :Author: DARIAH2 - Cluster 5, Use Case 1 Team
 :toc-title: User Guide
-:version:  0.3.1
+
 
 This is a short user guide for the current version v{version} of the DARIAH-DKPro-Wrapper.
 
@@ -31,7 +33,7 @@ Furthermore, the  pipeline depends on a internet connection when running to down
 
 The pipeline requires required *Java 1.8* or higher. You can download Java from the http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle website]. You can check your current Java version by running `java -version` in your command line.
 
-== Running up the pipeline
+== Running the pipeline
 
 After downloading and unzipping the files, execute in your command line the following code:
 ****
@@ -44,11 +46,52 @@ You can change the language by specifying the language parameter for the pipelin
 +java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -language en -input file.txt -output folder+
 ****
 
+== Run a light version
+In case you do not need all the annotation components, you can run the pipeline with the light-configuration:
+
+****
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config light.properties -language en -input file.txt -output folder+
+****
+
+The `light.properties` disabels memory intensive compontents like parsing or semantic role labeling. The only enabled components are: POS-tagger, Lemmatizer, Chunker, MorphologyTagger and NER.
+
 == Write your own config files
 
 The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_es.properties` for English and so on.
 
-The config for the different languages include two important lines:
+
+If you like to write your own config file, just create your own `.properties` file. You can run the pipeline with your `.properties`-file by setting the command argument.
+****
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder+
+****
+
+In case you store your `myconfigfile.properties` in the `configs` folder, you can run the pipeline via:
+****
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config myconfigfile.properties -language en -input file.txt -output folder+
+****
+
+You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:
+****
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder+
+****
+
+*Note:* The system always uses the default_[langcode].properties as a basic configuration file. All further config files are added on top of this file.
+
+
+In case you like to use the _light_-version and also want to change the POS-tagger, you can run the pipeline in the following way:
+****
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config light.properties,myPOSTagger.properties -language en -input file.txt -output folder+
+****
+
+In `myPOSTagger.properties` you just add the configuration for the different POS-tagger.
+
+*Note:* The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].
+
+
+== Structure of default.properties
+
+The `default_[languagecode].properties` files contain two important lines:
+
 ----
 language = fr
 # ...
@@ -56,17 +99,10 @@ include = default.properties
 ----
 
 
-The `language` parameter configures the pipeline for a certain langauge, in this case for French (fr). The last line of the file is a special command, the `include` command. Using this command, all configuration parameters from the default.properties are loaded. It is important, that the include command is *in at the end* of the file. 
+The `language` parameter configures the pipeline for a certain langauge, in this case for French (fr). The last line of the file is a special command, the `include` command. Using this command, all configuration parameters from the default.properties are loaded. It is important, that the include command is *at the end* of the file. 
 
 The idea behind this is that you have a parent file, in most cases the `default.properties`. This parent files gives the basic configuration of the pipeline. The child files, for example `default_fr.properties', only change certain properties, for example the language, that certain components can't be used or that other components for example as segmenter should be used.
 
-If you like to write your own config file, it is recommended to add the `include`-line into your file. Then add your custom configuration *before* this line.
-
-You can run the pipeline by executing:
-****
-+java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config configs/myConfigFile.properties -language en -input file.txt -output folder+
-****
-
-The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].
+When writing your own properties-files, you do not need to use the include command. The `default_[languagecode].properties` is always loaded and the config files you specify with the _config_ parameter are loaded on top.
 
 
