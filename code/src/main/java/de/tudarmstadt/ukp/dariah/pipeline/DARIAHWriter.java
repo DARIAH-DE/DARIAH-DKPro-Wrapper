@@ -50,6 +50,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticArgument;
 import de.tudarmstadt.ukp.dkpro.core.api.semantics.type.SemanticPredicate;
+import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.constituent.ROOT;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 import de.tudarmstadt.ukp.dkpro.core.io.penntree.PennTreeNode;
@@ -126,6 +127,8 @@ extends JCasFileWriter_ImplBase
 		aOut.printf("%s\n",StringUtils.join(getHeader(), "\t"));
 
 		Map<Token, Collection<NamedEntity>> neCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, NamedEntity.class);
+		Map<Token, Collection<Chunk>> chunksCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, Chunk.class);
+		
 		Map<Token, Collection<DirectSpeech>> directSpeechCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, DirectSpeech.class);
 
 		Map<Token, Collection<SemanticPredicate>> predIdx = JCasUtil.indexCovered(aJCas, Token.class,
@@ -178,6 +181,11 @@ extends JCasFileWriter_ImplBase
 					Collection<NamedEntity> ne = neCoveringMap.get(row.token);
 					if(ne.size() > 0)
 						row.ne = ne.toArray(new NamedEntity[0])[0];
+					
+					// Named entities
+					Collection<Chunk> chunks = chunksCoveringMap.get(row.token);
+					if(chunks.size() > 0)
+						row.chunk = chunks.toArray(new Chunk[0])[0];
 					
 					//Quote annotation
 					Collection<DirectSpeech> ds = directSpeechCoveringMap.get(row.token);
@@ -265,12 +273,27 @@ extends JCasFileWriter_ImplBase
 		if (writeMorph && (row.morphology != null)) {
 			morphology = row.morphology.getMorphTag();
 		}
+		
+		String chunk = UNUSED;
+		if(row.chunk != null) {
+			chunk = row.chunk.getChunkValue(); //Remove IOB tagging from Stanford Tagger
+			//BIO-Tagging, B for beginning tag, I for all intermediate tags
+			if(row.chunk.getBegin() == row.token.getBegin()) {
+				chunk = "B-"+chunk;
+			} else {
+				chunk = "I-"+chunk;
+			}
+		}
 
 
 		String ne = UNUSED;
 
 		if(row.ne != null) {
-			ne = row.ne.getValue().substring(2); //Remove IOB tagging from Stanford Tagger
+			if(row.ne.getValue().length() > 1 && row.ne.getValue().substring(1, 2).equals("-"))
+				ne = row.ne.getValue().substring(2); //Remove IOB tagging from Stanford Tagger
+			else
+				ne = row.ne.getValue();
+			
 			//BIO-Tagging, B for beginning tag, I for all intermediate tags
 			if(row.ne.getBegin() == row.token.getBegin()) {
 				ne = "B-"+ne;
@@ -318,6 +341,7 @@ extends JCasFileWriter_ImplBase
 				lemma, 
 				cpos, 
 				pos, 
+				chunk,
 				morphology, 
 				head, 
 				deprel,
@@ -344,6 +368,7 @@ extends JCasFileWriter_ImplBase
 				"Lemma",
 				"CPOS",
 				"POS",
+				"Chunk",
 				"Morphology",
 				"DependencyHead",
 				"DependencyRelation",
@@ -390,17 +415,18 @@ extends JCasFileWriter_ImplBase
 
 
 	private static final class Row {
-		public SemanticPredicate pred;
-		public SemanticArgument[] args;
 		String sectionId = "_";
 		int paragraphId;
 		int sentenceId;
 		int tokenId;
 		Token token;
+		Chunk chunk;
 		Morpheme morphology;
 		Dependency deprel;
 		NamedEntity ne;
 		DirectSpeech directSpeech;
 		String parseFragment;
+		SemanticPredicate pred;
+		SemanticArgument[] args;
 	}
 }

@@ -59,7 +59,7 @@ import java.util.Properties;
 
 public class RunPipeline {
 	 
-	private static String optLanguage = "de";
+	private static String optLanguage = "en";
 	private static String optInput;
 	private static String optOutput;
 	private static String optStartQuote;
@@ -76,6 +76,10 @@ public class RunPipeline {
 	private static boolean optLemmatizer = true;
 	private static Class<? extends AnalysisComponent> optLemmatizerCls;
 	private static String[] optLemmatizerArguments;
+	
+	private static boolean optChunker = true;
+	private static Class<? extends AnalysisComponent> optChunkerCls;
+	private static String[] optChunkerArguments;
 	
 	private static boolean optMorphTagger = true;
 	private static Class<? extends AnalysisComponent> optMorphTaggerCls;
@@ -115,6 +119,9 @@ public class RunPipeline {
 		
 		System.out.println("Lemmatizer: "+optLemmatizer);
 		System.out.println("Lemmatizer: "+optPOSTaggerCls);
+		
+		System.out.println("Chunker: "+optChunker);
+		System.out.println("Chunker: "+optChunkerCls);
 		
 		System.out.println("Morphology Tagging: "+optMorphTagger);
 		System.out.println("Morphology Tagging: "+optMorphTaggerCls);
@@ -161,6 +168,10 @@ public class RunPipeline {
 		optLemmatizer = config.getBoolean("useLemmatizer", true);
 		optLemmatizerCls = getClassFromConfig(config, "lemmatizer");
 		optLemmatizerArguments = config.getList("lemmatizerArguments", new LinkedList<String>()).toArray(new String[0]);
+		
+		optChunker = config.getBoolean("useChunker", true);
+		optChunkerCls = getClassFromConfig(config, "chunker");
+		optChunkerArguments = config.getList("chunkerArguments", new LinkedList<String>()).toArray(new String[0]);
 		
 		optMorphTagger = config.getBoolean("useMorphTagger", true);
 		optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
@@ -309,6 +320,9 @@ public class RunPipeline {
 		
 		AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls,
 				(Object[])optLemmatizerArguments);	
+		
+		AnalysisEngineDescription chunker = createEngineDescription(optChunkerCls,
+				(Object[])optChunkerArguments);	
 				
 		AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls,
 				(Object[])optMorphTaggerArguments);	 
@@ -352,6 +366,7 @@ public class RunPipeline {
 				quotesSeg,
 				(optPOSTagger) ? posTagger : noOp, 
 				(optLemmatizer) ? lemma : noOp,
+				(optChunker) ? chunker : noOp,
 				(optMorphTagger) ? morph : noOp,
 				directSpeech,
 				(optDependencyParsing) ? depParser : noOp,

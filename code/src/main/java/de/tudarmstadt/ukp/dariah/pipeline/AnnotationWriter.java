@@ -89,39 +89,29 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 		for (Annotation a : JCasUtil.select(jcas, Annotation.class)) {
 			String value = "";
 			
-			
-		
-			if(!(a instanceof DirectSpeech))
-				continue;
-			
-
+	
 			// If the annotation is a lemma, find out what the lemmatized form is
 			if (a instanceof Token)  {
 				Token t = (Token) a;
 				if(t.getPos() != null)
 					value = ((Token) a).getPos().getPosValue();
-				
-				
 			}
 			
-			if(a instanceof Stem)
-				continue;
+
 			
 			if(a instanceof Chunk) {
-				value = ((Chunk) a).getChunkValue();
+				value = ((Chunk) a).getChunkValue();				
+			} else {
 				continue;
 			}
-			
-	
+				
 			
 			if(a instanceof NamedEntity) {
-				value = ((NamedEntity) a).getValue();
-				continue;
+				value = ((NamedEntity) a).getValue();				
 			}
 			
 			if(a instanceof Lemma) {
-				value = ((Lemma) a).getValue();
-				continue;
+				value = ((Lemma) a).getValue();				
 			}
 
 			if(a instanceof Dependency) {
@@ -130,7 +120,8 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 			}
 			
 			if(a instanceof Constituent) {
-				continue;
+				value = ((Constituent) a).getConstituentType();
+				
 			}
 
 			
