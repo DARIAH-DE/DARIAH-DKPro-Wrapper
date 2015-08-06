@@ -16,6 +16,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.FileSystem;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.collection.CollectionReaderDescription;
@@ -102,10 +103,10 @@ public class RunPipeline {
 	private static String[] optSRLArguments;
 	
 	
-	private static void printConfiguration(String configFileName) {
+	private static void printConfiguration(String[] configFileNames) {
 		System.out.println("Input: "+optInput);
 		System.out.println("Output: "+optOutput);
-		System.out.println("Config: "+configFileName);
+		System.out.println("Config: "+StringUtils.join(configFileNames, ", "));
 		
 		System.out.println("Language: "+optLanguage);
 		System.out.println("Start Quote: "+optStartQuote);
@@ -156,46 +157,73 @@ public class RunPipeline {
 	ClassNotFoundException {
 		Configuration config = new PropertiesConfiguration(configFile);		
 		
+		if(config.containsKey("useSegmenter"))
+			optSegmenter = config.getBoolean("useSegmenter", true);		
+		if(config.containsKey("segmenter"))
+			optSegmenterCls = getClassFromConfig(config, "segmenter");		
+		if(config.containsKey("segmenterArguments"))
+			optSegmenterArguments = config.getList("segmenterArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optSegmenter = config.getBoolean("useSegmenter", true);
-		optSegmenterCls = getClassFromConfig(config, "segmenter");
-		optSegmenterArguments = config.getList("segmenterArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("usePosTagger"))
+			optPOSTagger = config.getBoolean("usePosTagger", true);		
+		if(config.containsKey("posTagger"))
+			optPOSTaggerCls = getClassFromConfig(config, "posTagger");		
+		if(config.containsKey("posArguments"))
+			optPOSTaggerArguments = config.getList("posArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optPOSTagger = config.getBoolean("usePosTagger", true);
-		optPOSTaggerCls = getClassFromConfig(config, "posTagger");
-		optPOSTaggerArguments = config.getList("posArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useLemmatizer"))
+			optLemmatizer = config.getBoolean("useLemmatizer", true);
+		if(config.containsKey("lemmatizer"))
+			optLemmatizerCls = getClassFromConfig(config, "lemmatizer");
+		if(config.containsKey("lemmatizerArguments"))
+			optLemmatizerArguments = config.getList("lemmatizerArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optLemmatizer = config.getBoolean("useLemmatizer", true);
-		optLemmatizerCls = getClassFromConfig(config, "lemmatizer");
-		optLemmatizerArguments = config.getList("lemmatizerArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useChunker"))
+			optChunker = config.getBoolean("useChunker", true);
+		if(config.containsKey("chunker"))
+			optChunkerCls = getClassFromConfig(config, "chunker");
+		if(config.containsKey("chunkerArguments"))
+			optChunkerArguments = config.getList("chunkerArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optChunker = config.getBoolean("useChunker", true);
-		optChunkerCls = getClassFromConfig(config, "chunker");
-		optChunkerArguments = config.getList("chunkerArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useMorphTagger"))
+			optMorphTagger = config.getBoolean("useMorphTagger", true);
+		if(config.containsKey("morphTagger"))
+			optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
+		if(config.containsKey("morphArguments"))
+			optMorphTaggerArguments = config.getList("morphArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optMorphTagger = config.getBoolean("useMorphTagger", true);
-		optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
-		optMorphTaggerArguments = config.getList("morphArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useDependencyParser"))
+			optDependencyParsing &= config.getBoolean("useDependencyParser", true);
+		if(config.containsKey("dependencyParser"))
+			optDependencyParserCls = getClassFromConfig(config, "dependencyParser");
+		if(config.containsKey("dependencyParserArguments"))
+			optDependencyParserArguments = config.getList("dependencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optDependencyParsing = config.getBoolean("useDependencyParser", true);
-		optDependencyParserCls = getClassFromConfig(config, "dependencyParser");
-		optDependencyParserArguments = config.getList("dependencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useConstituencyParser"))
+			optConstituencyParsing &= config.getBoolean("useConstituencyParser", true);
+		if(config.containsKey("constituencyParser"))
+			optConstituencyParserCls = getClassFromConfig(config, "constituencyParser");
+		if(config.containsKey("constituencyParserArguments"))
+			optConstituencyParserArguments = config.getList("constituencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optConstituencyParsing = config.getBoolean("useConstituencyParser", true);
-		optConstituencyParserCls = getClassFromConfig(config, "constituencyParser");
-		optConstituencyParserArguments = config.getList("constituencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useNER"))
+			optNER = config.getBoolean("useNER", true);
+		if(config.containsKey("ner"))
+			optNERCls = getClassFromConfig(config, "ner");
+		if(config.containsKey("nerArguments"))
+			optNERArguments = config.getList("nerArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optNER = config.getBoolean("useNER", true);
-		optNERCls = getClassFromConfig(config, "ner");
-		optNERArguments = config.getList("nerArguments", new LinkedList<String>()).toArray(new String[0]);
+		if(config.containsKey("useSRL"))
+			optSRL = config.getBoolean("useSRL", true);
+		if(config.containsKey("srl"))
+			optSRLCls = getClassFromConfig(config, "srl");
+		if(config.containsKey("srlArguments"))
+			optSRLArguments = config.getList("srlArguments", new LinkedList<String>()).toArray(new String[0]);
 		
-		optSRL = config.getBoolean("useSRL", true);
-		optSRLCls = getClassFromConfig(config, "srl");
-		optSRLArguments = config.getList("srlArguments", new LinkedList<String>()).toArray(new String[0]);
-		
-		
-		optParagraphSingleLineBreak = config.getBoolean("splitParagraphOnSingleLineBreak", false);
-		optStartQuote = config.getString("startingQuotes", "»\"„");
+		if(config.containsKey("splitParagraphOnSingleLineBreak"))
+			optParagraphSingleLineBreak = config.getBoolean("splitParagraphOnSingleLineBreak", false);
+		if(config.containsKey("startingQuotes"))
+			optStartQuote = config.getString("startingQuotes", "»\"„");
 		
 		if(config.containsKey("language"))
 			optLanguage = config.getString("language");
@@ -269,34 +297,53 @@ public class RunPipeline {
 			return;
 		}
 		
-		String defaultConfigFile = "configs/default";		
-		String configFile = null;
+		LinkedList<String> configFiles = new LinkedList<>();
 		
+		String configFolder = "configs/";
+		String path = configFolder+"default_"+optLanguage+".properties";			
+		URL url = ConfigurationUtils.locate(FileSystem.getDefaultFileSystem(), null, path);
+		
+		File f = new File(url.getPath());
+		if(f.exists()) {
+			configFiles.add(path);		
+		} else {
+			configFiles.add(configFolder+"default.properties");
+		}
+	
+		
+		String[] configFileArg = new String[0];		
 		for(int i=0; i<args.length-1; i++) {
 			if(args[i].equals("-config")) {
-				configFile = args[i+1];	
+				configFileArg = args[i+1].split("[,;]");	
 				break;
 			} 
 		}
-
 		
-		if(configFile == null) { //No config file set
-			String path = defaultConfigFile+"_"+optLanguage+".properties";			
-			URL url = ConfigurationUtils.locate(FileSystem.getDefaultFileSystem(), null, path);
+		for(String configFile : configFileArg) {			
 			
-			File f = new File(url.getPath());
+			f = new File(configFile);
 			if(f.exists()) {
-				configFile = path;		
+				configFiles.add(configFile);	
 			} else {
-				configFile = defaultConfigFile+".properties";
-			}
+				//Check in configs folder
+				path = configFolder+configFile;
+				url = ConfigurationUtils.locate(FileSystem.getDefaultFileSystem(), null, path);
+				f = new File(url.getPath());
+				if(f.exists()) {
+					configFiles.add(path);		
+				} else {
+					System.err.println("Config file: "+configFile+" not found");
+					return;
+				}
+			}			
 		}
 		
 		
+		for(String configFile : configFiles) {
+			parseConfig(configFile);	
+		}
 		
-		parseConfig(configFile);	
-		
-		printConfiguration(configFile); 
+		printConfiguration(configFiles.toArray(new String[0])); 
 		
 		CollectionReaderDescription reader = createReaderDescription(
 				TextReader.class,
@@ -374,7 +421,7 @@ public class RunPipeline {
 				(optNER) ? ner : noOp,
 				(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 				writer
-//				annWriter
+//				,annWriter
 		);
 		System.out.println("DONE");
 
