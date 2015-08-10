@@ -24,10 +24,12 @@ import static org.apache.uima.fit.util.JCasUtil.selectCovered;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -124,7 +126,7 @@ extends JCasFileWriter_ImplBase
 	{
 		int paragraphId = 0, sentenceId = 0, tokenId = 0;
 
-		aOut.printf("%s\n",StringUtils.join(getHeader(), "\t"));
+		
 
 		Map<Token, Collection<NamedEntity>> neCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, NamedEntity.class);
 		Map<Token, Collection<Chunk>> chunksCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, Chunk.class);
@@ -133,11 +135,16 @@ extends JCasFileWriter_ImplBase
 
 		Map<Token, Collection<SemanticPredicate>> predIdx = JCasUtil.indexCovered(aJCas, Token.class,
                 SemanticPredicate.class);
+		
+		Map<SemanticPredicate, Collection<Token>> pred2TokenIdx = JCasUtil.indexCovering(aJCas, SemanticPredicate.class, Token.class);
+		
         Map<SemanticArgument, Collection<Token>> argIdx = JCasUtil.indexCovered(aJCas,
                 SemanticArgument.class, Token.class);
+        
+        HashMap<Token, Row> ctokens = new LinkedHashMap<Token, Row>();
+        
 		for(Paragraph para : select(aJCas, Paragraph.class)) {
 			for (Sentence sentence : selectCovered(Sentence.class, para)) {
-				HashMap<Token, Row> ctokens = new LinkedHashMap<Token, Row>();
 
 				// Tokens
 				List<Token> tokens = selectCovered(Token.class, sentence);
@@ -209,7 +216,16 @@ extends JCasFileWriter_ImplBase
 				
 				 // Semantic arguments
 	            for (int p = 0; p < preds.size(); p++) {
-	                FSArray args = preds.get(p).getArguments();
+	                FSArray args = preds.get(p).getArguments();	 
+	                
+	                //Set the column position info
+	                Collection<Token> tokensOfPredicate = pred2TokenIdx.get(preds.get(p));
+	                for(Token t: tokensOfPredicate) {
+	                	Row row = ctokens.get(t);
+	                	row.semanticArgIndex = p;
+	                }
+	                
+	                //Set the arguments information
 	                for (SemanticArgument arg : select(args, SemanticArgument.class)) {
 	                    for (Token t : argIdx.get(arg)) {
 	                        Row row = ctokens.get(t);
@@ -221,20 +237,40 @@ extends JCasFileWriter_ImplBase
 
 				
 	            
-
-				// Write sentence 
-				for (Row row : ctokens.values()) {
-					String[] output = getData(ctokens, row);					
-					aOut.printf("%s\n",StringUtils.join(output, "\t"));
-				}           
+//
+//				// Write sentence 
+//				for (Row row : ctokens.values()) {
+//					String[] output = getData(ctokens, row);					
+//					aOut.printf("%s\n",StringUtils.join(output, "\t"));
+//				}           
 	            
 				sentenceId++;
 			}
 			paragraphId++;
 		}
+		
+
+	
+			
+		// Write to output file
+		int maxPredArguments = 0;
+		for (Row row : ctokens.values()) {
+			maxPredArguments = Math.max(maxPredArguments, row.args.length);
+		}
+		
+		aOut.printf("%s\n",StringUtils.join(getHeader(maxPredArguments), "\t"));
+		
+		
+		for (Row row : ctokens.values()) {
+			String[] output = getData(ctokens, maxPredArguments, row);					
+			aOut.printf("%s\n",StringUtils.join(output, "\t"));
+		}    
+			
+		
+		       
 	}
 
-	private String[] getData(HashMap<Token, Row> ctokens, Row row) {
+	private String[] getData(HashMap<Token, Row> ctokens, int numPredArguments, Row row) {
 		String lemma = UNUSED;
 		if (writeLemma && (row.token.getLemma() != null)) {
 			lemma = row.token.getLemma().getValue();
@@ -314,19 +350,24 @@ extends JCasFileWriter_ImplBase
 		
 		 String fillpred = UNUSED;
          String pred = UNUSED;
-         StringBuilder apreds = new StringBuilder();
-        
+         String semanticArgumentIndex = UNUSED;
+         
          if (row.pred != null) {
              fillpred = "Y";
              pred = row.pred.getCategory();
+             semanticArgumentIndex = String.valueOf(row.semanticArgIndex);
          }
          
-         for (SemanticArgument arg : row.args) {
-             if (apreds.length() > 0) {
-                 apreds.append('\t');
-             }
-             apreds.append(arg != null ? arg.getRole() : UNUSED);
+
+         String[] apreds = new String[numPredArguments];
+         for(int i=0;i<apreds.length; i++) {
+        	 apreds[i] = UNUSED;
+        	 
+        	 if(row.args.length > i && row.args[i] != null) {
+        		 apreds[i] = row.args[i].getRole();
+        	 }
          }
+        
          
 
 
@@ -347,17 +388,17 @@ extends JCasFileWriter_ImplBase
 				deprel,
 				ne,
 				quoteMarker,
-				parseFragment,
-				fillpred,
+				parseFragment,				
 				pred,
-				apreds.toString()
+				semanticArgumentIndex,
+				StringUtils.join(apreds, '\t')
 				
 		};
 		return output;
 	}
 
-	private String[] getHeader() {
-		String[] header = new String[] {
+	private String[] getHeader(int numPredArguments) {
+		List<String> header = new LinkedList<String>(Arrays.asList(new String[] {
 				"SectionId",
 				"ParagraphId",
 				"SentenceId",
@@ -376,10 +417,16 @@ extends JCasFileWriter_ImplBase
 				"QuoteMarker",
 				"SyntaxTree",
 				"Predicate",
-				"SemanticArguments"
-		};
+				"SemanticArgumentIndex"
+		}));
+		
+		for(int i=0;i<numPredArguments;i++) {
+			header.add("SemanticArgument"+i);
+		}
+		
+		
 
-		return header;
+		return header.toArray(new String[0]);
 	}
 	
 	public static String[] toPrettyPennTree(PennTreeNode aNode)
@@ -427,6 +474,7 @@ extends JCasFileWriter_ImplBase
 		DirectSpeech directSpeech;
 		String parseFragment;
 		SemanticPredicate pred;
+		int semanticArgIndex;
 		SemanticArgument[] args;
 	}
 }
