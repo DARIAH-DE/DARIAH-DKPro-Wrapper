@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.6" />
-<title>DARIAH-DKPro-Wrapper v0.3.2</title>
+<title>DARIAH-DKPro-Wrapper v0.3.3</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -735,13 +735,13 @@ asciidoc.install();
 </head>
 <body class="article">
 <div id="header">
-<h1>DARIAH-DKPro-Wrapper v0.3.2</h1>
+<h1>DARIAH-DKPro-Wrapper v0.3.3</h1>
 <span id="author">DARIAH2 - Cluster 5, Use Case 1 Team</span><br />
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>This is a short user guide for the current version v0.3.2 of the DARIAH-DKPro-Wrapper.</p></div>
+<div class="paragraph"><p>This is a short user guide for the current version v0.3.3 of the DARIAH-DKPro-Wrapper.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -775,12 +775,12 @@ Windows 7/8
 <div class="paragraph"><p>After downloading and unzipping the files, execute in your command line the following code:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>You can change the language by specifying the language parameter for the pipeline. Support for the following languages are include in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). To run the pipeline for English, execute the following command:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 </div>
 </div>
@@ -790,7 +790,7 @@ Windows 7/8
 <div class="paragraph"><p>In case you do not need all the annotation components, you can run the pipeline with the light-configuration:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -config light.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -config light.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>The <tt>light.properties</tt> disabels memory intensive compontents like parsing or semantic role labeling. The only enabled components are: POS-tagger, Lemmatizer, Chunker, MorphologyTagger and NER.</p></div>
 </div>
@@ -802,23 +802,23 @@ Windows 7/8
 <div class="paragraph"><p>If you like to write your own config file, just create your own <tt>.properties</tt> file. You can run the pipeline with your <tt>.properties</tt>-file by setting the command argument.</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>In case you store your <tt>myconfigfile.properties</tt> in the <tt>configs</tt> folder, you can run the pipeline via:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -config myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -config myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p><strong>Note:</strong> The system always uses the default_[langcode].properties as a basic configuration file. All further config files are added on top of this file.</p></div>
 <div class="paragraph"><p>In case you like to use the <em>light</em>-version and also want to change the POS-tagger, you can run the pipeline in the following way:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.2-standalone.jar -config light.properties,myPOSTagger.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-0.3.3-standalone.jar -config light.properties,myPOSTagger.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>In <tt>myPOSTagger.properties</tt> you just add the configuration for the different POS-tagger.</p></div>
 <div class="paragraph"><p><strong>Note:</strong> The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].</p></div>
@@ -843,7 +843,7 @@ include = default.properties</tt></pre>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-07 09:43:04 CEST
+Last updated 2015-08-10 16:29:08 CEST
 </div>
 </div>
 </body>
