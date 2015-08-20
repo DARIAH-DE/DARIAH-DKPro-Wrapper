@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
     
-:version:  0.3.3
+:version:  0.3.4
 
 = DARIAH-DKPro-Wrapper v{version}
 :Author: DARIAH2 - Cluster 5, Use Case 1 Team
 :toc-title: User Guide
+
 
 
 This is a short user guide for the current version v{version} of the DARIAH-DKPro-Wrapper.
@@ -105,4 +106,53 @@ The idea behind this is that you have a parent file, in most cases the `default.
 
 When writing your own properties-files, you do not need to use the include command. The `default_[languagecode].properties` is always loaded and the config files you specify with the _config_ parameter are loaded on top.
 
+== Using Treetagger
+
+Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro. 
+
+=== TreeTagger Installation for Linux
+
+    * Go to the TreeTagger website
+    * From the download section, download the correct tagger package, i.e. PC-Linux
+        ** Extract the .gz archive
+        ** Copy the tree-tagger-linux-3.2/bin/tree-tagger file and place it in the same folder as the script treetagger.jy 
+    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
+        ** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz)
+        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
+
+=== TreeTagger Installation for Windows 7
+
+    * Ensure that you have a program to unzip .gz files. For example you can use 7zip or WinRar or many others.
+    * Go to the TreeTagger website
+    * In the Windows section, you find the download link for the tree-tagger-windows-3.2.zip file.
+        ** Extract the zip-archive
+        ** Copy the tree-tagger-windows-3.2/bin/tree-tagger.exe to your folder with with the treetagger.jy script 
+    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
+        ** Unzip the file (e.g. by using 7zip)
+        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
+    * In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PATH, "tree-tagger", change the value tree-tagger to tree-tagger.exe 
+
+=== Configuration of the pipeline
+After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+----
+posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
+posTaggerArguments = executablePath,C:/tree-tagger/bin/tree-tagger.exe,\
+	modelLocation,C:/tree-tagger/lib/german-utf8.par,\
+	modelEncoding,utf-8
+
+# Treetagger adds lemmas, no need for an additional lemmatizer
+useLemmatizer = false 
+----
+
+Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use Treetagger in your pipeline using the `-config` argument:
+****
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config treetagger-example.properties -language de -input file.txt -output folder+
+****
+
+Check the output of the pipeline that Treetagger is used. The output of your pipeline should look something like this:
+----
+POS-Tagger: true
+POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
+POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/german-utf8.par, modelEncoding, utf-8
+----
 
