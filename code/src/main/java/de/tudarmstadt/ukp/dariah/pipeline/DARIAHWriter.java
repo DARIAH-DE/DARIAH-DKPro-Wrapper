@@ -45,6 +45,7 @@ import org.apache.uima.jcas.cas.FSArray;
 import de.tudarmstadt.ukp.dkpro.core.api.io.JCasFileWriter_ImplBase;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.Morpheme;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
+import de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Paragraph;
@@ -105,8 +106,6 @@ extends JCasFileWriter_ImplBase
 	@Override
 	public void process(JCas aJCas)	throws AnalysisEngineProcessException{
 		
-		System.out.println("Write jCAS to output file");
-		
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new OutputStreamWriter(getOutputStream(aJCas, filenameSuffix), encoding));
@@ -119,7 +118,6 @@ extends JCasFileWriter_ImplBase
 			closeQuietly(out);
 		}
 		
-		System.out.println("File written");
 	}
 
 	private void convert(JCas aJCas, PrintWriter aOut)

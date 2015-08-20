@@ -17,6 +17,7 @@ import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.FileSystem;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.collection.CollectionReaderDescription;
@@ -45,10 +46,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -56,6 +60,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 
 public class RunPipeline {
@@ -288,12 +294,32 @@ public class RunPipeline {
 		return true;
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args)  {
 		
-		if(!parseArgs(args)) {
-			System.out.println("Usage: java -jar pipeline.jar -help");
-			System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
-			System.out.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
+		Date startDate = new Date();
+		
+		PrintStream ps;
+		try {
+			ps = new PrintStream("error.log");
+			System.setErr(ps);
+		} catch (FileNotFoundException e) {
+			System.out.println("Errors cannot be redirected");
+		}
+		
+		
+		
+		
+		try {
+			if(!parseArgs(args)) {
+				System.out.println("Usage: java -jar pipeline.jar -help");
+				System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
+				System.out.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
+				return;
+			}
+		} catch (ParseException e) {			
+			e.printStackTrace();
+			System.out.println("Error when parsing command line arguments. Use\njava -jar pipeline.jar -help\n to get further information");
+			System.out.println("See error.log for further details");
 			return;
 		}
 		
@@ -340,91 +366,124 @@ public class RunPipeline {
 		
 		
 		for(String configFile : configFiles) {
-			parseConfig(configFile);	
+			try {
+				parseConfig(configFile);
+			} catch (Exception e) {				
+				e.printStackTrace();
+				System.out.println("Exception when parsing config file: "+configFile);
+				System.out.println("See error.log for further details");
+			} 
 		}
 		
 		printConfiguration(configFiles.toArray(new String[0])); 
 		
-		CollectionReaderDescription reader = createReaderDescription(
-				TextReader.class,
-				TextReader.PARAM_SOURCE_LOCATION, optInput,
-				TextReader.PARAM_LANGUAGE, optLanguage);
-
-		AnalysisEngineDescription paragraph = createEngineDescription(ParagraphSplitter.class,
-				ParagraphSplitter.PARAM_SPLIT_PATTERN, (optParagraphSingleLineBreak) ? ParagraphSplitter.SINGLE_LINE_BREAKS_PATTERN : ParagraphSplitter.DOUBLE_LINE_BREAKS_PATTERN);	
+		try {
+			CollectionReaderDescription reader = createReaderDescription(
+					TextReaderWithInfo.class,
+					TextReaderWithInfo.PARAM_SOURCE_LOCATION, optInput,
+					TextReaderWithInfo.PARAM_LANGUAGE, optLanguage);
+	
+			AnalysisEngineDescription paragraph = createEngineDescription(ParagraphSplitter.class,
+					ParagraphSplitter.PARAM_SPLIT_PATTERN, (optParagraphSingleLineBreak) ? ParagraphSplitter.SINGLE_LINE_BREAKS_PATTERN : ParagraphSplitter.DOUBLE_LINE_BREAKS_PATTERN);	
+			
+			AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls,
+					(Object[])optSegmenterArguments);	
+			
+			AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
+				    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
+			
+			AnalysisEngineDescription quotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
+				    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[\"\"]");
+			
+			AnalysisEngineDescription posTagger = createEngineDescription(optPOSTaggerCls,
+					(Object[])optPOSTaggerArguments);	     
+			
+			AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls,
+					(Object[])optLemmatizerArguments);	
+			
+			AnalysisEngineDescription chunker = createEngineDescription(optChunkerCls,
+					(Object[])optChunkerArguments);	
+					
+			AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls,
+					(Object[])optMorphTaggerArguments);	 
+			
+			AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls,
+					(Object[])optDependencyParserArguments); 	
+			
+			AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls,
+					(Object[])optConstituencyParserArguments);
+					
+			
+			AnalysisEngineDescription ner = createEngineDescription(optNERCls,
+					(Object[])optNERArguments); 
+			
+			AnalysisEngineDescription directSpeech =createEngineDescription(
+					DirectSpeechAnnotator.class,
+					DirectSpeechAnnotator.PARAM_START_QUOTE, optStartQuote
+			);
+	
+			AnalysisEngineDescription srl = createEngineDescription(optSRLCls,
+					(Object[])optSRLArguments); //Requires DKPro 1.8.0
+			
+			AnalysisEngineDescription writer = createEngineDescription(
+					DARIAHWriter.class,
+					DARIAHWriter.PARAM_TARGET_LOCATION, optOutput);
+			
+			AnalysisEngineDescription annWriter = createEngineDescription(
+					AnnotationWriter.class
+					);
+			
+			
+			
+			AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
+			
+			
+			System.out.println("\nStart running the pipeline (this may take a while)...");
+			
+			SimplePipeline.runPipeline(reader, 
+					paragraph,
+					(optSegmenter) ? seg : noOp, 
+					frenchQuotesSeg,
+					quotesSeg,
+					(optPOSTagger) ? posTagger : noOp, 
+					(optLemmatizer) ? lemma : noOp,
+					(optChunker) ? chunker : noOp,
+					(optMorphTagger) ? morph : noOp,
+					directSpeech,
+					(optDependencyParsing) ? depParser : noOp,
+					(optConstituencyParsing) ? constituencyParser : noOp,
+					(optNER) ? ner : noOp,
+					(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
+					writer
+	//				,annWriter
+			);
+			
+			Date enddate = new Date();
+			double duration = (enddate.getTime() - startDate.getTime()) / (1000*60.0);
+			
+			System.out.println("---- DONE -----");
+			System.out.printf("All files processed in %.2f minutes", duration);
+		} catch(ResourceInitializationException e) {
+			System.out.println("Error when initializing the pipeline.");	
+			if(e.getCause() instanceof FileNotFoundException) {
+				System.out.println("File not found. Maybe the input / output path is incorrect?");
+				System.out.println(e.getCause().getMessage());
+			}
+			
+			e.printStackTrace();
+			System.out.println("See error.log for further details");
+		} catch (UIMAException e) {			
+			e.printStackTrace();
+			System.out.println("Error in the pipeline.");			
+			System.out.println("See error.log for further details");
+		} catch (IOException e) {			
+			e.printStackTrace();
+			System.out.println("Error while reading or writing to the file system. Maybe some paths are incorrect?");	
+			System.out.println("See error.log for further details");
+		}
 		
-		AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls,
-				(Object[])optSegmenterArguments);	
-		
-		AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
-			    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
-		
-		AnalysisEngineDescription quotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
-			    PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[\"\"]");
-		
-		AnalysisEngineDescription posTagger = createEngineDescription(optPOSTaggerCls,
-				(Object[])optPOSTaggerArguments);	     
-		
-		AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls,
-				(Object[])optLemmatizerArguments);	
-		
-		AnalysisEngineDescription chunker = createEngineDescription(optChunkerCls,
-				(Object[])optChunkerArguments);	
-				
-		AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls,
-				(Object[])optMorphTaggerArguments);	 
-		
-		AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls,
-				(Object[])optDependencyParserArguments); 	
-		
-		AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls,
-				(Object[])optConstituencyParserArguments);
-				
-		
-		AnalysisEngineDescription ner = createEngineDescription(optNERCls,
-				(Object[])optNERArguments); 
-		
-		AnalysisEngineDescription directSpeech =createEngineDescription(
-				DirectSpeechAnnotator.class,
-				DirectSpeechAnnotator.PARAM_START_QUOTE, optStartQuote
-		);
-
-		AnalysisEngineDescription srl = createEngineDescription(optSRLCls,
-				(Object[])optSRLArguments); //Requires DKPro 1.8.0
-		
-		AnalysisEngineDescription writer = createEngineDescription(
-				DARIAHWriter.class,
-				DARIAHWriter.PARAM_TARGET_LOCATION, optOutput);
-		
-		AnalysisEngineDescription annWriter = createEngineDescription(
-				AnnotationWriter.class
-				);
 		
 		
-		
-		AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
-		
-		
-		
-		SimplePipeline.runPipeline(reader, 
-				paragraph,
-				(optSegmenter) ? seg : noOp, 
-				frenchQuotesSeg,
-				quotesSeg,
-				(optPOSTagger) ? posTagger : noOp, 
-				(optLemmatizer) ? lemma : noOp,
-				(optChunker) ? chunker : noOp,
-				(optMorphTagger) ? morph : noOp,
-				directSpeech,
-				(optDependencyParsing) ? depParser : noOp,
-				(optConstituencyParsing) ? constituencyParser : noOp,
-				(optNER) ? ner : noOp,
-				(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
-				writer
-//				,annWriter
-		);
-		System.out.println("DONE");
-
 	}
 
 	
