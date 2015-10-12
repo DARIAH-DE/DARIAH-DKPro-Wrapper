@@ -343,14 +343,16 @@ public class RunPipeline {
 		LinkedList<String> configFiles = new LinkedList<>();
 
 		String configFolder = "configs/";
-		String path = configFolder+"default_"+optLanguage+".properties";			
-		URL url = ConfigurationUtils.locate(FileSystem.getDefaultFileSystem(), null, path);
-
-		File f = new File(url.getPath());
+		configFiles.add(configFolder+"default.properties");
+		
+		
+		//Language dependent properties file
+		String path = configFolder+"default_"+optLanguage+".properties";	
+		File f = new File(path);
 		if(f.exists()) {
 			configFiles.add(path);		
 		} else {
-			configFiles.add(configFolder+"default.properties");
+			System.out.println("Language config file: "+path+" not found");
 		}
 
 
@@ -370,12 +372,12 @@ public class RunPipeline {
 			} else {
 				//Check in configs folder
 				path = configFolder+configFile;
-				url = ConfigurationUtils.locate(FileSystem.getDefaultFileSystem(), null, path);
-				f = new File(url.getPath());
+				
+				f = new File(path);
 				if(f.exists()) {
 					configFiles.add(path);		
 				} else {
-					System.err.println("Config file: "+configFile+" not found");
+					System.out.println("Config file: "+configFile+" not found");
 					return;
 				}
 			}			
