@@ -1,72 +1,72 @@
-SectionId	ParagraphId	SentenceId	TokenId	Begin	End	Token	Lemma	CPOS	POS	Chunk	Morphology	DependencyHead	DependencyRelation	NamedEntity	QuoteMarker	SyntaxTree	Predicate	SemanticArgumentIndex	SemanticArgument0	SemanticArgument1
-_	0	0	0	0	4	Dies	dieser	PR	PDS	_	nom|sg|neut	1	SB	_	0	(TOP(S*	_	_	_	_
-_	0	0	1	5	8	ist	sein	V	VAFIN	_	sg|3|pres|ind	_	_	_	0	*	_	_	_	_
-_	0	0	2	9	12	ein	ein	ART	ART	_	nom|sg|masc	4	NK	_	0	(NP*	_	_	_	_
-_	0	0	3	13	19	kurzer	kurz	ADJ	ADJA	_	nom|sg|masc|pos	4	MO	_	0	*	_	_	_	_
-_	0	0	4	20	32	Beispielsatz	Beispielsatz	NN	NN	_	nom|sg|masc	1	PD	_	0	*	_	_	_	_
-_	0	0	5	33	36	zum	zu	PP	APPRART	_	dat|sg|masc	4	MNR	_	0	(PP*	_	_	_	_
-_	0	0	6	37	43	Testen	Testen	NN	NN	_	dat|sg|masc	5	NK	_	0	*	_	_	_	_
-_	0	0	7	44	47	der	der	ART	ART	_	nom|sg|masc	8	NK	_	0	(NP*	_	_	_	_
-_	0	0	8	48	56	Pipeline	Pipeline	NN	NN	_	nom|sg|masc	6	AG	_	0	*	_	_	_	_
-_	0	0	9	57	60	mit	mit	PP	APPR	_	_	8	MNR	_	0	(PP*	_	_	_	_
-_	0	0	10	61	66	Klaus	Klaus	NP	NE	_	nom|sg|masc	11	PNC	B-PER	0	(CNP(MPN*	_	_	_	_
-_	0	0	11	67	72	Meier	Meier	NP	NE	_	dat|sg|masc	9	NK	I-PER	0	*)	_	_	_	_
-_	0	0	12	73	76	und	und	CONJ	KON	_	_	11	CD	_	0	*	_	_	_	_
-_	0	0	13	77	83	Monika	Monika	NP	NE	_	dat|sg|neut	15	PNC	B-PER	0	(MPN*	_	_	_	_
-_	0	0	14	84	87	von	von	PP	APPR	_	_	15	PNC	I-PER	0	*	_	_	_	_
-_	0	0	15	88	97	Pechstein	Pechstein	NP	NE	_	dat|sg|neut	12	CJ	I-PER	0	*))))))	_	_	_	_
-_	0	0	16	98	101	die	der	ART	ART	_	nom|sg|fem	21	SB	_	0	(NP(CS(S*	_	_	_	_
-_	0	0	17	102	106	sich	sich	PR	PRF	_	acc|sg|3	20	OA	_	0	(VP*	_	_	_	_
-_	0	0	18	107	109	in	in	PP	APPR	_	_	20	MO	_	0	(PP*	_	_	_	_
-_	0	0	19	110	116	Berlin	Berlin	NP	NE	_	dat|sg|neut	18	NK	B-LOC	0	*)	_	_	_	_
-_	0	0	20	117	126	getroffen	treffen	V	VVPP	_	_	21	OC	_	0	*)	_	_	_	_
-_	0	0	21	127	132	haben	haben	V	VAFIN	_	pl|3|pres|ind	8	RC	_	0	*)))	_	_	_	_
-_	0	0	22	133	135	um	um	CONJ	KOUI	_	_	26	CP	_	0	(VP*	_	_	_	_
-_	0	0	23	136	140	über	über	PP	APPR	_	_	26	OP	_	0	(PP*	_	_	A3	_
-_	0	0	24	141	144	IBM	IBM	NP	NE	_	acc|sg|fem	23	NK	B-ORG	0	*)	_	_	_	_
-_	0	0	25	145	147	zu	zu	O	PTKZU	_	_	26	PM	_	0	(VZ*	_	_	_	_
-_	0	0	26	148	153	reden	reden	V	VVINF	_	_	1	MO	_	0	*))	reden.1	0	_	_
-_	0	0	27	153	154	,	--	PUNC	$,	_	_	26	--	_	0	*	_	_	_	_
-_	0	0	28	155	158	was	was	PR	PRELS	_	acc|sg|neut	37	OA	_	0	(S*	_	_	_	_
-_	0	0	29	159	162	der	der	ART	ART	_	nom|sg|masc	30	NK	_	0	(CNP(NP*	_	_	_	_
-_	0	0	30	163	166	DAX	DAX	NP	NE	_	nom|sg|masc	21	SB	B-ORG	0	*)	_	_	_	_
-_	0	0	31	167	171	oder	oder	CONJ	KON	_	_	30	CD	_	0	*	_	_	_	_
-_	0	0	32	172	175	der	der	ART	ART	_	nom|sg|masc	33	NK	_	0	(NP*	_	_	_	_
-_	0	0	33	176	179	Dow	Dow	NP	NE	_	nom|sg|masc	31	CJ	B-ORG	0	(MPN*	_	_	_	_
-_	0	0	34	180	185	Jones	Jones	NP	NE	_	acc|sg|neut	33	NK	I-ORG	0	*)))	_	_	_	_
-_	0	0	35	186	191	alles	alle	PR	PIS	_	acc|sg|neut	37	DA	_	0	(NP*)	_	_	_	_
-_	0	0	36	192	194	so	so	ADV	ADV	_	_	37	MO	_	0	*	_	_	_	_
-_	0	0	37	195	200	macht	machen	V	VVFIN	_	sg|3|pres|ind	26	OC	_	0	*)	_	_	A1	_
-_	0	0	38	200	201	.	--	PUNC	$.	_	_	37	--	_	0	*))	_	_	_	_
-_	1	1	39	203	205	Er	er	PR	PPER	_	nom|sg|masc|3	40	SB	_	0	(TOP(S*	_	_	A0	_
-_	1	1	40	206	212	enhält	enhalten	V	VVFIN	_	sg|3|pres|ind	_	_	_	0	*	enhalten.1	0	_	_
-_	1	1	41	213	217	zwei	zwei	CARD	CARD	_	_	42	NK	_	0	(CNP(NP*	_	_	_	_
-_	1	1	42	218	225	Absätze	Absatz	NN	NN	_	acc|pl|masc	40	OA	_	0	*)	_	_	_	_
-_	1	1	43	226	229	und	und	CONJ	KON	_	_	42	CD	_	0	*	_	_	_	_
-_	1	1	44	230	234	drei	drei	CARD	CARD	_	_	45	NK	_	0	(NP*	_	_	_	_
-_	1	1	45	235	240	Sätze	Satz	NN	NN	_	acc|pl|masc	43	CJ	_	0	*))	_	_	_	_
-_	1	1	46	240	241	.	--	PUNC	$.	_	_	45	--	_	0	*))	_	_	_	_
-_	1	2	47	242	246	Dies	dieser	PR	PDS	_	nom|sg|neut	48	SB	_	0	(TOP(S*	_	_	_	_
-_	1	2	48	247	250	ist	sein	V	VAFIN	_	sg|3|pres|ind	_	_	_	0	*	_	_	_	_
-_	1	2	49	251	254	der	der	ART	ART	_	nom|sg|masc	51	NK	_	0	(NP*	_	_	_	_
-_	1	2	50	255	261	dritte	dritter	ADJ	ADJA	_	nom|sg|masc|pos	51	NK	_	0	*	_	_	_	_
-_	1	2	51	262	266	Satz	Satz	NN	NN	_	nom|sg|masc	48	PD	_	0	*	_	_	_	_
-_	1	2	52	267	270	mit	mit	PP	APPR	_	_	51	MNR	_	0	(PP*	_	_	_	_
-_	1	2	53	271	277	Berlin	Berlin	NP	NE	_	nom|sg|neut	55	PNC	B-LOC	0	(MPN*	_	_	_	_
-_	1	2	54	278	287	Frankfurt	Frankfurt	NP	NE	_	nom|sg|neut	55	PNC	I-LOC	0	*	_	_	_	_
-_	1	2	55	288	295	Dresden	Dresden	NP	NE	_	nom|sg|neut	52	NK	I-LOC	0	*)))	_	_	_	_
-_	1	2	56	295	296	.	--	PUNC	$.	_	_	55	--	_	0	*))	_	_	_	_
-_	2	3	57	298	302	Paul	Paul	NP	NE	_	nom|sg|masc	58	SB	B-PER	0	(TOP(S*	_	_	A0	_
-_	2	3	58	303	308	sagte	sagen	V	VVFIN	_	sg|3|past|ind	_	_	_	0	*	sagen.1	0	_	_
-_	2	3	59	309	310	"	--	PUNC	$(	_	_	58	--	_	0	*	_	_	_	_
-_	2	3	60	310	313	Ich	ich	PR	PPER	_	nom|sg|*|1	61	SB	_	1	(CS(S*	_	_	_	A0
-_	2	3	61	314	319	liebe	lieben	V	VVFIN	_	sg|1|pres|ind	58	OC	_	1	*	lieben.1	1	A1	_
-_	2	3	62	320	324	dich	dich	PR	PRF	_	acc|sg|*|2	61	OA	_	1	*))	_	_	_	_
-_	2	3	63	324	325	!	--	PUNC	$.	_	_	62	--	_	1	*	_	_	_	_
-_	2	3	64	325	326	"	--	PUNC	$(	_	_	63	--	_	0	(S*	_	_	_	_
-_	2	3	65	326	327	,	--	PUNC	$,	_	_	64	--	_	0	*	_	_	_	_
-_	2	3	66	328	331	was	was	PR	PWS	_	acc|sg|neut	69	OA	_	0	(S*	_	_	_	_
-_	2	3	67	332	335	sie	sie	PR	PPER	_	nom|pl|masc|3	69	OA	_	0	*	_	_	_	_
-_	2	3	68	336	347	fassungslos	fassungslos	ADJ	ADJD	_	pos	69	MO	_	0	*	_	_	_	_
-_	2	3	69	348	354	machte	machen	V	VVFIN	_	sg|3|past|ind	61	OC	_	0	*))	_	_	_	A1
-_	2	3	70	354	355	.	--	PUNC	$.	_	_	69	--	_	0	*))	_	_	_	_
+SectionId	ParagraphId	SentenceId	TokenId	Begin	End	Token	Lemma	CPOS	POS	Chunk	Morphology	DependencyHead	DependencyRelation	NamedEntity	QuoteMarker	SyntaxTree	Predicate	SemanticArgumentIndex	SemanticArgument0	SemanticArgument1	SemanticArgument2	SemanticArgument3	SemanticArgument4	SemanticArgument5	SemanticArgument6	SemanticArgument7
+_	0	0	0	0	4	Dies	die	NN	NNS	B-NP	_	1	SBJ	_	0	(TOP(SINV(S(NP*)	_	_	A0	_	_	_	_	_	_	_
+_	0	0	1	5	8	ist	ist	V	VBP	B-VP	_	_	_	_	0	(VP*	ist.01	0	_	_	_	_	_	_	_	_
+_	0	0	2	9	12	ein	ein	NN	NN	B-NP	_	3	NMOD	_	0	(NP(NP*	_	_	_	A1	_	_	_	_	_	_
+_	0	0	3	13	19	kurzer	kurzer	NN	NN	I-NP	_	1	OBJ	_	0	*	kurzer.01	1	A1	_	_	_	_	_	_	_
+_	0	0	4	20	32	Beispielsatz	beispielsatz	NP	NNP	I-NP	_	6	NAME	B-LOCATION	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	5	33	36	zum	zum	NP	NNP	I-NP	_	6	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	6	37	43	Testen	testen	NP	NNP	I-NP	_	9	NMOD	_	0	*)	_	_	_	_	A0	A0	_	_	_	_
+_	0	0	7	44	47	der	der	NN	NN	I-NP	_	8	NMOD	_	0	(SBAR(S(NP*	_	_	_	_	A1	_	_	_	_	_
+_	0	0	8	48	56	Pipeline	pipeline	NN	NN	I-NP	_	9	NMOD	_	0	*	pipeline.01	2	_	_	_	A1	_	_	_	_
+_	0	0	9	57	60	mit	mit	NN	NN	I-NP	_	28	SBJ	_	0	*	mit.01	3	_	_	_	_	_	A1	_	_
+_	0	0	10	61	66	Klaus	klaus	NP	NNP	I-NP	_	11	NAME	B-PERSON	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	11	67	72	Meier	meier	NP	NNP	I-NP	_	12	NMOD	I-PERSON	0	*	_	_	_	_	_	_	A0	_	_	_
+_	0	0	12	73	76	und	und	NN	NN	I-NP	_	16	SBJ	_	0	*	und.01	4	_	_	_	_	_	A1	_	_
+_	0	0	13	77	83	Monika	monika	NP	NNP	I-NP	_	15	NAME	B-PERSON	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	14	84	87	von	von	NP	NNP	I-NP	_	15	NAME	I-PERSON	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	15	88	97	Pechstein	pechstein	NP	NNP	I-NP	_	12	APPO	I-PERSON	0	*)	_	_	_	_	_	_	A1	_	_	_
+_	0	0	16	98	101	die	die	V	VBP	B-VP	_	9	NMOD	_	0	(VP*	die.01	5	_	_	_	_	_	_	_	_
+_	0	0	17	102	106	sich	sich	NP	NNP	B-NP	_	16	OBJ	_	0	(NP(NP*)	_	_	_	_	_	_	_	A1	_	_
+_	0	0	18	107	109	in	in	PP	IN	B-PP	_	16	LOC	_	0	(PP*	_	_	_	_	_	_	_	AM-LOC	_	_
+_	0	0	19	110	116	Berlin	berlin	NP	NNP	B-NP	_	21	NAME	B-LOCATION	0	(NP*	_	_	_	_	_	_	_	_	_	_
+_	0	0	20	117	126	getroffen	getroffen	NP	NNP	I-NP	_	21	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	21	127	132	haben	haben	NP	NNP	I-NP	_	23	NMOD	_	0	*	_	_	_	_	_	_	_	_	A0	_
+_	0	0	22	133	135	um	um	NN	NN	I-NP	_	23	NMOD	_	0	*	_	_	_	_	_	_	_	_	A1	_
+_	0	0	23	136	140	über	über	NN	NN	I-NP	_	18	PMOD	_	0	*	über.01	6	_	_	_	_	_	_	_	_
+_	0	0	24	141	144	IBM	ibm	NP	NNP	I-NP	_	26	NAME	B-ORGANIZATION	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	25	145	147	zu	zu	NP	NNP	I-NP	_	26	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	26	148	153	reden	reden	NP	NNP	I-NP	_	23	APPO	_	0	*)))))))))	_	_	_	_	_	_	_	_	A1	_
+_	0	0	27	153	154	,	,	PUNC	,	_	_	9	P	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	28	155	158	was	be	V	VBD	B-VP	_	3	NMOD	_	0	(VP*)	_	_	_	_	_	_	_	_	_	_
+_	0	0	29	159	162	der	der	PP	IN	B-PP	_	28	PRD	_	0	(SBAR*	_	_	_	_	_	_	_	_	_	_
+_	0	0	30	163	166	DAX	dax	NP	NNP	B-NP	_	34	NAME	_	0	(S(NP*	_	_	_	_	_	_	_	_	_	_
+_	0	0	31	167	171	oder	oder	NN	NN	I-NP	_	34	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	32	172	175	der	der	NN	NN	I-NP	_	34	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	33	176	179	Dow	dow	NP	NNP	I-NP	_	34	NAME	B-ORGANIZATION	0	*	_	_	_	_	_	_	_	_	_	_
+_	0	0	34	180	185	Jones	jones	NP	NNP	I-NP	_	35	SBJ	I-ORGANIZATION	0	*)	_	_	_	_	_	_	_	_	_	A0
+_	0	0	35	186	191	alles	alle	V	VBZ	B-VP	_	29	SUB	_	0	(VP*	alle.01	7	_	_	_	_	_	_	_	_
+_	0	0	36	192	194	so	so	ADV	RB	B-NP	_	37	NMOD	_	0	(NP*	_	_	_	_	_	_	_	_	_	_
+_	0	0	37	195	200	macht	macht	NN	NN	I-NP	_	35	OBJ	_	0	*))))	_	_	_	_	_	_	_	_	_	A1
+_	0	0	38	200	201	.	.	PUNC	.	_	_	1	P	_	0	*))	_	_	_	_	_	_	_	_	_	_
+_	1	1	39	203	205	Er	er	CONJ	CC	_	_	40	ADV	_	0	(TOP(S(NP*)	_	_	_	_	_	_	_	_	_	_
+_	1	1	40	206	212	enhält	enhält	V	VB	B-VP	_	_	_	_	0	(VP*	enhält.01	0	_	_	_	_	_	_	_	_
+_	1	1	41	213	217	zwei	zwei	NP	NNP	B-NP	_	42	NAME	_	0	(NP(S(NP*	_	_	_	_	_	_	_	_	_	_
+_	1	1	42	218	225	Absätze	absätze	NP	NNP	I-NP	_	45	NMOD	B-PERSON	0	*)	_	_	_	_	_	_	_	_	_	_
+_	1	1	43	226	229	und	und	ADJ	JJ	I-NP	_	45	NMOD	_	0	(NP*	_	_	_	_	_	_	_	_	_	_
+_	1	1	44	230	234	drei	drei	NP	NNP	I-NP	_	45	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	1	1	45	235	240	Sätze	sätze	NP	NNP	I-NP	_	40	OBJ	_	0	*))))	_	_	A1	_	_	_	_	_	_	_
+_	1	1	46	240	241	.	.	PUNC	.	_	_	40	P	_	0	*))	_	_	_	_	_	_	_	_	_	_
+_	1	2	47	242	246	Dies	die	NN	NNS	B-NP	_	48	SBJ	_	0	(TOP(NP(NP*)	_	_	A0	_	_	_	_	_	_	_
+_	1	2	48	247	250	ist	ist	V	VBP	B-VP	_	_	_	_	0	(VP*	ist.01	0	_	_	_	_	_	_	_	_
+_	1	2	49	251	254	der	der	ADJ	JJR	B-NP	_	52	NMOD	_	0	(NP*	_	_	_	AM-MNR	_	_	_	_	_	_
+_	1	2	50	255	261	dritte	dritte	NN	NN	I-NP	_	52	NMOD	_	0	*))	_	_	_	A1	_	_	_	_	_	_
+_	1	2	51	262	266	Satz	satz	NP	NNP	I-NP	_	52	NMOD	B-PERSON	0	(NP(NP*	_	_	_	A0	_	_	_	_	_	_
+_	1	2	52	267	270	mit	mit	NN	NN	I-NP	_	48	OBJ	_	0	*)	mit.01	1	A1	_	_	_	_	_	_	_
+_	1	2	53	271	277	Berlin	berlin	NP	NNP	I-NP	_	55	NAME	B-LOCATION	0	(NP*	_	_	_	_	_	_	_	_	_	_
+_	1	2	54	278	287	Frankfurt	frankfurt	NP	NNP	I-NP	_	55	NAME	I-LOCATION	0	*	_	_	_	_	_	_	_	_	_	_
+_	1	2	55	288	295	Dresden	dresden	NP	NNP	I-NP	_	52	APPO	I-LOCATION	0	*))	_	_	_	A1	_	_	_	_	_	_
+_	1	2	56	295	296	.	.	PUNC	.	_	_	48	P	_	0	*))	_	_	_	_	_	_	_	_	_	_
+_	2	3	57	298	302	Paul	paul	NP	NNP	B-NP	_	58	NMOD	B-PERSON	0	(TOP(S(NP*	_	_	_	_	_	_	_	_	_	_
+_	2	3	58	303	308	sagte	sagte	NN	NN	I-NP	_	66	SBJ	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	59	309	310	"	"	NP	NNP	I-NP	_	60	NAME	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	60	310	313	Ich	ich	NP	NNP	I-NP	_	62	NAME	_	1	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	61	314	319	liebe	liebe	NP	NNP	I-NP	_	62	NAME	_	1	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	62	320	324	dich	dich	NP	NNP	I-NP	_	58	APPO	_	1	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	63	324	325	!	!	PUNC	.	I-NP	_	64	NAME	_	1	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	64	325	326	"	"	NP	NNP	I-NP	_	58	POSTHON	_	0	*)	_	_	_	_	_	_	_	_	_	_
+_	2	3	65	326	327	,	,	PUNC	,	_	_	58	P	_	0	*	_	_	_	_	_	_	_	_	_	_
+_	2	3	66	328	331	was	be	V	VBD	B-VP	_	_	_	_	0	(VP*	_	_	_	_	_	_	_	_	_	_
+_	2	3	67	332	335	sie	sie	PR	PRP	B-NP	_	66	SBJ	_	0	(S(NP*	_	_	_	_	_	_	_	_	_	_
+_	2	3	68	336	347	fassungslos	fassungslo	NN	NNS	B-NP	_	69	SBJ	_	0	*)	_	_	A1	_	_	_	_	_	_	_
+_	2	3	69	348	354	machte	machte	V	VBP	B-VP	_	66	VC	_	0	(VP*)))	machte.01	0	_	_	_	_	_	_	_	_
+_	2	3	70	354	355	.	.	PUNC	.	_	_	66	P	_	0	*))	_	_	_	_	_	_	_	_	_	_

@@ -101,9 +101,7 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 			
 			if(a instanceof Chunk) {
 				value = ((Chunk) a).getChunkValue();				
-			} else {
-				continue;
-			}
+			} 
 				
 			
 			if(a instanceof NamedEntity) {
@@ -117,6 +115,8 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 			if(a instanceof Dependency) {
 				value = ((Dependency) a).getDependencyType() + " - " + ((Dependency) a).getGovernor().getCoveredText();
 				
+			} else {
+				continue;
 			}
 			
 			if(a instanceof Constituent) {

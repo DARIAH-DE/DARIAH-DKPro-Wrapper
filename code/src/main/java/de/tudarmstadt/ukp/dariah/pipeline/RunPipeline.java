@@ -26,6 +26,7 @@ import org.apache.uima.fit.component.NoOpAnnotator;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2012Writer;
@@ -60,6 +61,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
@@ -75,39 +77,39 @@ public class RunPipeline {
 
 	private static boolean optSegmenter = true;
 	private static Class<? extends AnalysisComponent> optSegmenterCls;
-	private static String[] optSegmenterArguments;
+	private static Object[] optSegmenterArguments;
 
 	private static boolean optPOSTagger = true;
 	private static Class<? extends AnalysisComponent> optPOSTaggerCls;
-	private static String[] optPOSTaggerArguments;
+	private static Object[] optPOSTaggerArguments;
 
 	private static boolean optLemmatizer = true;
 	private static Class<? extends AnalysisComponent> optLemmatizerCls;
-	private static String[] optLemmatizerArguments;
+	private static Object[] optLemmatizerArguments;
 
 	private static boolean optChunker = true;
 	private static Class<? extends AnalysisComponent> optChunkerCls;
-	private static String[] optChunkerArguments;
+	private static Object[] optChunkerArguments;
 
 	private static boolean optMorphTagger = true;
 	private static Class<? extends AnalysisComponent> optMorphTaggerCls;
-	private static String[] optMorphTaggerArguments;
+	private static Object[] optMorphTaggerArguments;
 
 	private static boolean optDependencyParser = true;
 	private static Class<? extends AnalysisComponent> optDependencyParserCls;
-	private static String[] optDependencyParserArguments;
+	private static Object[] optDependencyParserArguments;
 
 	private static boolean optConstituencyParser = true;
 	private static Class<? extends AnalysisComponent> optConstituencyParserCls;
-	private static String[] optConstituencyParserArguments;
+	private static Object[] optConstituencyParserArguments;
 
 	private static boolean optNER = true;
 	private static Class<? extends AnalysisComponent> optNERCls;
-	private static String[] optNERArguments;
+	private static Object[] optNERArguments;
 
 	private static boolean optSRL = true;
 	private static Class<? extends AnalysisComponent> optSRLCls;
-	private static String[] optSRLArguments;
+	private static Object[] optSRLArguments;
 
 
 	private static void printConfiguration(String[] configFileNames) {
@@ -158,7 +160,7 @@ public class RunPipeline {
 	}
 
 	private static void printIfNotEmpty(String text,
-			String[] arguments) {
+			Object[] arguments) {
 		if(arguments != null && arguments.length > 0)
 			System.out.println(text+StringUtils.join(arguments, ", "));
 	}
@@ -184,63 +186,63 @@ public class RunPipeline {
 		if(config.containsKey("segmenter"))
 			optSegmenterCls = getClassFromConfig(config, "segmenter");		
 		if(config.containsKey("segmenterArguments"))
-			optSegmenterArguments = config.getList("segmenterArguments", new LinkedList<String>()).toArray(new String[0]);
+			optSegmenterArguments = parseParameters(config, "segmenterArguments");
 
 		if(config.containsKey("usePosTagger"))
 			optPOSTagger = config.getBoolean("usePosTagger", true);		
 		if(config.containsKey("posTagger"))
 			optPOSTaggerCls = getClassFromConfig(config, "posTagger");		
 		if(config.containsKey("posTaggerArguments"))
-			optPOSTaggerArguments = config.getList("posTaggerArguments", new LinkedList<String>()).toArray(new String[0]);
+			optPOSTaggerArguments = parseParameters(config, "posTaggerArguments");
 
 		if(config.containsKey("useLemmatizer"))
 			optLemmatizer = config.getBoolean("useLemmatizer", true);
 		if(config.containsKey("lemmatizer"))
 			optLemmatizerCls = getClassFromConfig(config, "lemmatizer");
 		if(config.containsKey("lemmatizerArguments"))
-			optLemmatizerArguments = config.getList("lemmatizerArguments", new LinkedList<String>()).toArray(new String[0]);
+			optLemmatizerArguments = parseParameters(config, "lemmatizerArguments");
 
 		if(config.containsKey("useChunker"))
 			optChunker = config.getBoolean("useChunker", true);
 		if(config.containsKey("chunker"))
 			optChunkerCls = getClassFromConfig(config, "chunker");
 		if(config.containsKey("chunkerArguments"))
-			optChunkerArguments = config.getList("chunkerArguments", new LinkedList<String>()).toArray(new String[0]);
+			optChunkerArguments = parseParameters(config, "chunkerArguments");
 
 		if(config.containsKey("useMorphTagger"))
 			optMorphTagger = config.getBoolean("useMorphTagger", true);
 		if(config.containsKey("morphTagger"))
 			optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
 		if(config.containsKey("morphTaggerArguments"))
-			optMorphTaggerArguments = config.getList("morphTaggerArguments", new LinkedList<String>()).toArray(new String[0]);
+			optMorphTaggerArguments = parseParameters(config, "morphTaggerArguments");
 
 		if(config.containsKey("useDependencyParser"))
-			optDependencyParser &= config.getBoolean("useDependencyParser", true);
+			optDependencyParser = config.getBoolean("useDependencyParser", true);
 		if(config.containsKey("dependencyParser"))
 			optDependencyParserCls = getClassFromConfig(config, "dependencyParser");
 		if(config.containsKey("dependencyParserArguments"))
-			optDependencyParserArguments = config.getList("dependencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
+			optDependencyParserArguments = parseParameters(config, "dependencyParserArguments");
 
 		if(config.containsKey("useConstituencyParser"))
-			optConstituencyParser &= config.getBoolean("useConstituencyParser", true);
+			optConstituencyParser = config.getBoolean("useConstituencyParser", true);
 		if(config.containsKey("constituencyParser"))
 			optConstituencyParserCls = getClassFromConfig(config, "constituencyParser");
 		if(config.containsKey("constituencyParserArguments"))
-			optConstituencyParserArguments = config.getList("constituencyParserArguments", new LinkedList<String>()).toArray(new String[0]);
+			optConstituencyParserArguments = parseParameters(config, "constituencyParserArguments");
 
 		if(config.containsKey("useNER"))
 			optNER = config.getBoolean("useNER", true);
 		if(config.containsKey("ner"))
 			optNERCls = getClassFromConfig(config, "ner");
 		if(config.containsKey("nerArguments"))
-			optNERArguments = config.getList("nerArguments", new LinkedList<String>()).toArray(new String[0]);
+			optNERArguments = parseParameters(config, "nerArguments");
 
 		if(config.containsKey("useSRL"))
 			optSRL = config.getBoolean("useSRL", true);
 		if(config.containsKey("srl"))
 			optSRLCls = getClassFromConfig(config, "srl");
 		if(config.containsKey("srlArguments"))
-			optSRLArguments = config.getList("srlArguments", new LinkedList<String>()).toArray(new String[0]);
+			optSRLArguments = parseParameters(config, "srlArguments");
 
 		if(config.containsKey("splitParagraphOnSingleLineBreak"))
 			optParagraphSingleLineBreak = config.getBoolean("splitParagraphOnSingleLineBreak", false);
@@ -249,6 +251,49 @@ public class RunPipeline {
 
 		if(config.containsKey("language"))
 			optLanguage = config.getString("language");
+	}
+
+	/**
+	 * Parses a parameter string that can be found in the .properties files.
+	 * The parameterString is of the format parameterName1,parameterType1,parameterValue2,parameterName2,parameterType2,parameterValue2
+	 * @param config 
+	 * 
+	 * @param parametersString
+	 * @return Mapped paramaterString to an Object[] array that can be inputted to UIMA components
+	 */
+	private static Object[] parseParameters(Configuration config, String parameterName) throws ConfigurationException {
+		
+		LinkedList<Object> parameters = new LinkedList<>();
+		List<Object> parameterList = config.getList(parameterName);
+		
+		
+		
+		if(parameterList.size()%3 != 0) {
+			throw new ConfigurationException("Parameter String must be a multiple of 3 in the format: name, type, value. "+parameterName);
+		}
+		
+		for(int i=0;i<parameterList.size(); i+=3) {
+			String name = (String) parameterList.get(i+0);
+			String type = ((String)parameterList.get(i+1)).toLowerCase();
+			String value = (String)parameterList.get(i+2);
+			
+			Object obj;
+			
+			switch(type) {
+				case "bool":
+				case "boolean": obj = Boolean.valueOf(value); break;
+				
+				case "int":
+				case "integer": obj = Integer.valueOf(value); break;
+				
+				default: obj = value;
+			}
+			
+			parameters.add(name);
+			parameters.add(obj);
+		}
+		
+		return parameters.toArray(new Object[0]);
 	}
 
 	@SuppressWarnings("static-access")
@@ -406,7 +451,7 @@ public class RunPipeline {
 					ParagraphSplitter.PARAM_SPLIT_PATTERN, (optParagraphSingleLineBreak) ? ParagraphSplitter.SINGLE_LINE_BREAKS_PATTERN : ParagraphSplitter.DOUBLE_LINE_BREAKS_PATTERN);	
 
 			AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls,
-					(Object[])optSegmenterArguments);	
+					optSegmenterArguments);	
 
 			AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 					PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
@@ -415,26 +460,25 @@ public class RunPipeline {
 					PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[\"\"]");
 
 			AnalysisEngineDescription posTagger = createEngineDescription(optPOSTaggerCls,
-					(Object[])optPOSTaggerArguments);	     
+					optPOSTaggerArguments);	     
 
 			AnalysisEngineDescription lemma = createEngineDescription(optLemmatizerCls,
-					(Object[])optLemmatizerArguments);	
+					optLemmatizerArguments);	
 
 			AnalysisEngineDescription chunker = createEngineDescription(optChunkerCls,
-					(Object[])optChunkerArguments);	
+					optChunkerArguments);	
 
 			AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls,
-					(Object[])optMorphTaggerArguments);	 
+					optMorphTaggerArguments);	 
 
-			AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls,
-					(Object[])optDependencyParserArguments); 	
+			AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls,					
+					optDependencyParserArguments); 	
 
-			AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls,
-					(Object[])optConstituencyParserArguments);
-
-
+			AnalysisEngineDescription constituencyParser = createEngineDescription(optConstituencyParserCls,					
+					optConstituencyParserArguments);
+			
 			AnalysisEngineDescription ner = createEngineDescription(optNERCls,
-					(Object[])optNERArguments); 
+					optNERArguments); 
 
 			AnalysisEngineDescription directSpeech =createEngineDescription(
 					DirectSpeechAnnotator.class,
@@ -442,7 +486,7 @@ public class RunPipeline {
 					);
 
 			AnalysisEngineDescription srl = createEngineDescription(optSRLCls,
-					(Object[])optSRLArguments); //Requires DKPro 1.8.0
+					optSRLArguments); //Requires DKPro 1.8.0
 
 			AnalysisEngineDescription writer = createEngineDescription(
 					DARIAHWriter.class,
@@ -453,6 +497,7 @@ public class RunPipeline {
 					);
 
 
+			
 
 			AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
 
@@ -462,19 +507,19 @@ public class RunPipeline {
 			SimplePipeline.runPipeline(reader, 
 					paragraph,
 					(optSegmenter) ? seg : noOp, 
-							frenchQuotesSeg,
-							quotesSeg,
-							(optPOSTagger) ? posTagger : noOp, 
-									(optLemmatizer) ? lemma : noOp,
-											(optChunker) ? chunker : noOp,
-													(optMorphTagger) ? morph : noOp,
-															directSpeech,
-															(optDependencyParser) ? depParser : noOp,
-																	(optConstituencyParser) ? constituencyParser : noOp,
-																			(optNER) ? ner : noOp,
-																					(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
-																							writer
-																							//				,annWriter
+					frenchQuotesSeg,
+					quotesSeg,
+					(optPOSTagger) ? posTagger : noOp, 
+					(optLemmatizer) ? lemma : noOp,
+					(optChunker) ? chunker : noOp,
+					(optMorphTagger) ? morph : noOp,
+					directSpeech,
+					(optDependencyParser) ? depParser : noOp,
+					(optConstituencyParser) ? constituencyParser : noOp,
+					(optNER) ? ner : noOp,
+					(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
+					writer
+					,annWriter
 					);
 
 			Date enddate = new Date();
