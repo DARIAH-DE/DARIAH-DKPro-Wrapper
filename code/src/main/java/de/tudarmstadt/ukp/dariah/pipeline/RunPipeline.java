@@ -519,9 +519,11 @@ public class RunPipeline {
 					(optNER) ? ner : noOp,
 					(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 					writer
-					,annWriter
+//					,annWriter
 					);
 
+			
+			
 			Date enddate = new Date();
 			double duration = (enddate.getTime() - startDate.getTime()) / (1000*60.0);
 
