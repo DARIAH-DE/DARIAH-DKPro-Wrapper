@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
     
-:version:  0.3.4
+:version:  0.3.5
 
 = DARIAH-DKPro-Wrapper v{version}
 :Author: DARIAH2 - Cluster 5, Use Case 1 Team
 :toc-title: User Guide
-
-
+:toc:
 
 This is a short user guide for the current version v{version} of the DARIAH-DKPro-Wrapper.
 
@@ -47,14 +46,11 @@ You can change the language by specifying the language parameter for the pipelin
 +java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -language en -input file.txt -output folder+
 ****
 
-== Run a light version
-In case you do not need all the annotation components, you can run the pipeline with the light-configuration:
+== Run the full pipeline
+By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling is disabled.
 
-****
-+java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config light.properties -language en -input file.txt -output folder+
-****
+If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
 
-The `light.properties` disabels memory intensive compontents like parsing or semantic role labeling. The only enabled components are: POS-tagger, Lemmatizer, Chunker, MorphologyTagger and NER.
 
 == Write your own config files
 
@@ -76,35 +72,28 @@ You can split your config file into different parts and pass them all to the pip
 +java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder+
 ****
 
-*Note:* The system always uses the default_[langcode].properties as a basic configuration file. All further config files are added on top of this file.
+*Note:* The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.
 
 
-In case you like to use the _light_-version and also want to change the POS-tagger, you can run the pipeline in the following way:
+In case you like to use the _full_-version and also want to change the POS-tagger, you can run the pipeline in the following way:
 ****
-+java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config light.properties,myPOSTagger.properties -language en -input file.txt -output folder+
++java -Xmx4g -jar de.tudarmstadt.ukp.dariah.pipeline-{version}-standalone.jar -config myFullVersion.properties,myPOSTagger.properties -language en -input file.txt -output folder+
 ****
 
 In `myPOSTagger.properties` you just add the configuration for the different POS-tagger.
 
 *Note:* The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].
 
-
-== Structure of default.properties
-
-The `default_[languagecode].properties` files contain two important lines:
+=== Understanding the Argument Parameter
+Most components can be equipped with arguments so specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the `default.properties` you can find the following line:
 
 ----
-language = fr
-# ...
-include = default.properties
+constituencyParserArguments = writeDependency,boolean,false
 ----
 
+Here we specify the argument *writeDependency* with the boolean value *false*. As type you can use _boolean_, _integer_, and _string_.
 
-The `language` parameter configures the pipeline for a certain langauge, in this case for French (fr). The last line of the file is a special command, the `include` command. Using this command, all configuration parameters from the default.properties are loaded. It is important, that the include command is *at the end* of the file. 
 
-The idea behind this is that you have a parent file, in most cases the `default.properties`. This parent files gives the basic configuration of the pipeline. The child files, for example `default_fr.properties', only change certain properties, for example the language, that certain components can't be used or that other components for example as segmenter should be used.
-
-When writing your own properties-files, you do not need to use the include command. The `default_[languagecode].properties` is always loaded and the config files you specify with the _config_ parameter are loaded on top.
 
 == Using Treetagger
 
@@ -136,9 +125,9 @@ Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro r
 After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
 ----
 posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
-posTaggerArguments = executablePath,C:/tree-tagger/bin/tree-tagger.exe,\
-	modelLocation,C:/tree-tagger/lib/german-utf8.par,\
-	modelEncoding,utf-8
+posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
+	modelLocation,string,C:/tree-tagger/lib/german-utf8.par,\
+	modelEncoding,string,utf-8
 
 # Treetagger adds lemmas, no need for an additional lemmatizer
 useLemmatizer = false 

@@ -140,6 +140,10 @@ public class RunPipeline {
 		System.out.println("Morphology Tagging: "+optMorphTagger);
 		System.out.println("Morphology Tagging: "+optMorphTaggerCls);
 		printIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
+		
+		System.out.println("Named Entity Recognition: "+optNER);		
+		System.out.println("Named Entity Recognition: "+optNERCls);
+		printIfNotEmpty("Named Entity Recognition: ", optNERArguments);
 
 		System.out.println("Dependency Parsing: "+optDependencyParser);
 		System.out.println("Dependency Parsing: "+optDependencyParserCls);
@@ -148,10 +152,6 @@ public class RunPipeline {
 		System.out.println("Constituency Parsing: "+optConstituencyParser);
 		System.out.println("Constituency Parsing: "+optConstituencyParserCls);
 		printIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
-
-		System.out.println("Named Entity Recognition: "+optNER);		
-		System.out.println("Named Entity Recognition: "+optNERCls);
-		printIfNotEmpty("Named Entity Recognition: ", optNERArguments);
 
 		System.out.println("Semantic Role Labeling: "+optSRL);		
 		System.out.println("Semantic Role Labeling: "+optSRLCls);
