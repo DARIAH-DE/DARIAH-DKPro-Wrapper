@@ -1,0 +1,5 @@
+asciidoc -n user-guide.adoc
+ - Compiles the user guide to html
+
+mvn package
+ - Run it in code folder to create the jar for the release
