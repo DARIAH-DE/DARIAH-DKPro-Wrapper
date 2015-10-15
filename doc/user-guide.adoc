@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
     
-:version:  0.3.5
+:version:  0.3.6
 
 = DARIAH-DKPro-Wrapper v{version}
 :Author: DARIAH2 - Cluster 5, Use Case 1 Team

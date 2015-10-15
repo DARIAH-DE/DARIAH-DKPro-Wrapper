@@ -256,12 +256,12 @@ extends JCasFileWriter_ImplBase
 			maxPredArguments = Math.max(maxPredArguments, row.args.length);
 		}
 		
-		aOut.printf("%s\n",StringUtils.join(getHeader(maxPredArguments), "\t"));
+		aOut.printf("%s\n",StringUtils.join(getHeader(maxPredArguments), "\t").trim());
 		
 		
 		for (Row row : ctokens.values()) {
 			String[] output = getData(ctokens, maxPredArguments, row);					
-			aOut.printf("%s\n",StringUtils.join(output, "\t"));
+			aOut.printf("%s\n",StringUtils.join(output, "\t").trim());
 		}    
 			
 		
