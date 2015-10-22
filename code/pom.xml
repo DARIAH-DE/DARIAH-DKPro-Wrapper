@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
-	<version>0.3.6</version>
+	<version>0.4.0</version>
 	<distributionManagement>
 		<repository>
 			<id>dariah.nexus.snapshots</id>
@@ -33,9 +33,14 @@
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.io.text-asl
-  		</artifactId>
-  		<version>1.8.0-SNAPSHOT</version>
-		</dependency>
+  			</artifactId>
+  			<version>1.8.0-SNAPSHOT</version>
+		</dependency>	
+		<dependency>
+		    <groupId>org.jooq</groupId>
+		    <artifactId>joox</artifactId>
+		    <version>1.3.0</version>
+		</dependency>	
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>

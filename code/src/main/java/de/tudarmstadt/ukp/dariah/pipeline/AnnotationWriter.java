@@ -15,6 +15,7 @@ import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.util.JCasUtil;
 
 import de.tudarmstadt.ukp.dariah.type.DirectSpeech;
+import de.tudarmstadt.ukp.dariah.type.Section;
 import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceChain;
 import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceLink;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
@@ -113,15 +114,17 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 			}
 
 			if(a instanceof Dependency) {
-				value = ((Dependency) a).getDependencyType() + " - " + ((Dependency) a).getGovernor().getCoveredText();
-				
-			} else {
-				continue;
-			}
+				value = ((Dependency) a).getDependencyType() + " - " + ((Dependency) a).getGovernor().getCoveredText();				
+			} 
 			
 			if(a instanceof Constituent) {
-				value = ((Constituent) a).getConstituentType();
-				
+				value = ((Constituent) a).getConstituentType();				
+			}
+			
+			if(a instanceof Section) {
+				value = ((Section) a).getValue();	
+			} else {
+				continue;
 			}
 
 			
