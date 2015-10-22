@@ -73,11 +73,17 @@ import java.util.logging.StreamHandler;
 
 
 public class RunPipeline {
+	
+	private enum ReaderType {
+		Text, XML
+	}
 
 	private static String optLanguage = "en";
 	private static String optInput;
 	private static String optOutput;
 	private static String optStartQuote;
+	private static ReaderType optReader = ReaderType.Text;
+	
 	private static boolean optParagraphSingleLineBreak = false;
 
 	private static boolean optSegmenter = true;
@@ -123,6 +129,7 @@ public class RunPipeline {
 		System.out.println("Config: "+StringUtils.join(configFileNames, ", "));
 
 		System.out.println("Language: "+optLanguage);
+		System.out.println("Reader: "+optReader);
 		System.out.println("Start Quote: "+optStartQuote);
 		System.out.println("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
 
@@ -329,6 +336,12 @@ public class RunPipeline {
 				.withDescription("Config file")
 				.create("config");
 		options.addOption(configFile);
+		
+		Option reader = OptionBuilder.withArgName("reader")
+				.hasArg()
+				.withDescription("Either text (default) or xml")
+				.create("reader");
+		options.addOption(reader);
 
 
 
@@ -354,6 +367,20 @@ public class RunPipeline {
 		}
 		if(cmd.hasOption(lang.getOpt())) {
 			optLanguage = cmd.getOptionValue(lang.getOpt());
+		}
+		
+		if(cmd.hasOption(reader.getOpt())) {
+			String readerParam = cmd.getOptionValue(reader.getOpt()).toLowerCase();
+			
+			if(readerParam.equals("text") || readerParam.equals("txt") || readerParam.equals("textreader") || readerParam.equals("txtreader") ) {
+				optReader = ReaderType.Text;
+			} else if(readerParam.equals("xml") || readerParam.equals("xmlreader")){
+				optReader = ReaderType.XML;
+			} else {
+				System.out.println("The reader parameter is unknown: "+optReader);
+				System.out.println("Valid argument values are: text, xml");
+				return false;
+			}
 		}
 
 
@@ -447,15 +474,21 @@ public class RunPipeline {
 		printConfiguration(configFiles.toArray(new String[0])); 
 
 		try {
-			CollectionReaderDescription reader = createReaderDescription(
-					TextReaderWithInfo.class,
-					TextReaderWithInfo.PARAM_SOURCE_LOCATION, optInput,
-					TextReaderWithInfo.PARAM_LANGUAGE, optLanguage);
+			CollectionReaderDescription reader;
 			
-			CollectionReaderDescription xmlReader = createReaderDescription(
-					XmlReader.class,
-					XmlReader.PARAM_SOURCE_LOCATION, optInput,
-					XmlReader.PARAM_LANGUAGE, optLanguage);
+			if(optReader == ReaderType.XML) {
+				reader = createReaderDescription(
+						XmlReader.class,
+						XmlReader.PARAM_SOURCE_LOCATION, optInput,
+						XmlReader.PARAM_LANGUAGE, optLanguage);
+			} else {
+				reader = createReaderDescription(
+						TextReaderWithInfo.class,
+						TextReaderWithInfo.PARAM_SOURCE_LOCATION, optInput,
+						TextReaderWithInfo.PARAM_LANGUAGE, optLanguage);
+			}
+			
+		
 
 
 			AnalysisEngineDescription paragraph = createEngineDescription(ParagraphSplitter.class,
@@ -516,8 +549,7 @@ public class RunPipeline {
 			System.out.println("\nStart running the pipeline (this may take a while)...");
 
 			SimplePipeline.runPipeline(
-//					reader,
-					xmlReader, //reader, 
+					reader,					
 					paragraph,
 					(optSegmenter) ? seg : noOp, 
 					frenchQuotesSeg,
