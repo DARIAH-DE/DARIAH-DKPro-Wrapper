@@ -1,4 +1,4 @@
-package de.tudarmstadt.ukp.dariah.pipeline;
+package de.tudarmstadt.ukp.dariah.annotator;
 
 import java.util.ArrayList;
 import java.util.HashMap;

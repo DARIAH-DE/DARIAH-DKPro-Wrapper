@@ -16,7 +16,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tudarmstadt.ukp.dariah.pipeline;
+package de.tudarmstadt.ukp.dariah.IO;
 
 import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.apache.uima.fit.util.JCasUtil.select;
@@ -59,6 +59,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 import de.tudarmstadt.ukp.dkpro.core.io.penntree.PennTreeNode;
 import de.tudarmstadt.ukp.dkpro.core.io.penntree.PennTreeUtils;
 import de.tudarmstadt.ukp.dariah.type.DirectSpeech;
+import de.tudarmstadt.ukp.dariah.type.Section;
 
 /**
  * @author Nils Reimers
@@ -129,6 +130,7 @@ extends JCasFileWriter_ImplBase
 		Map<Token, Collection<NamedEntity>> neCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, NamedEntity.class);
 		Map<Token, Collection<Chunk>> chunksCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, Chunk.class);
 		
+		Map<Token, Collection<Section>> sectionCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, Section.class);
 		Map<Token, Collection<DirectSpeech>> directSpeechCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, DirectSpeech.class);
 
 		Map<Token, Collection<SemanticPredicate>> predIdx = JCasUtil.indexCovered(aJCas, Token.class,
@@ -168,6 +170,7 @@ extends JCasFileWriter_ImplBase
 	            
 				for (int i = 0; i < tokens.size(); i++) {
 					Row row = new Row();
+					
 					row.paragraphId = paragraphId;
 					row.sentenceId = sentenceId;
 					row.tokenId = tokenId;
@@ -181,13 +184,18 @@ extends JCasFileWriter_ImplBase
 					if (useFeats) {
 						row.morphology = morphology.get(i);
 					}
+					
+					// Section ID
+					Collection<Section> section = sectionCoveringMap.get(row.token);
+					if(section.size() > 0)
+						row.sectionId = section.toArray(new Section[0])[0].getValue();
 
 					// Named entities
 					Collection<NamedEntity> ne = neCoveringMap.get(row.token);
 					if(ne.size() > 0)
 						row.ne = ne.toArray(new NamedEntity[0])[0];
 					
-					// Named entities
+					// Chunk
 					Collection<Chunk> chunks = chunksCoveringMap.get(row.token);
 					if(chunks.size() > 0)
 						row.chunk = chunks.toArray(new Chunk[0])[0];
@@ -231,16 +239,6 @@ extends JCasFileWriter_ImplBase
 	                    }
 	                }
 	            }
-	            
-
-				
-	            
-//
-//				// Write sentence 
-//				for (Row row : ctokens.values()) {
-//					String[] output = getData(ctokens, row);					
-//					aOut.printf("%s\n",StringUtils.join(output, "\t"));
-//				}           
 	            
 				sentenceId++;
 			}

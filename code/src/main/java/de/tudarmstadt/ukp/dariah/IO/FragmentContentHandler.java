@@ -1,4 +1,4 @@
-package de.tudarmstadt.ukp.dariah.xml;
+package de.tudarmstadt.ukp.dariah.IO;
 
 import java.util.HashMap;
 import java.util.LinkedList;

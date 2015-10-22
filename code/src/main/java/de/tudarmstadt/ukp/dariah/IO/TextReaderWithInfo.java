@@ -1,4 +1,4 @@
-package de.tudarmstadt.ukp.dariah.pipeline;
+package de.tudarmstadt.ukp.dariah.IO;
 
 import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
 

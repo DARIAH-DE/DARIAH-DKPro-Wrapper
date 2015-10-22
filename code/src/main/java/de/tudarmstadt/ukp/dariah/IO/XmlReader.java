@@ -15,17 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package de.tudarmstadt.ukp.dariah.xml;
+package de.tudarmstadt.ukp.dariah.IO;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import javax.xml.stream.XMLStreamException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.cas.CAS;
@@ -38,6 +37,8 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
 import de.tudarmstadt.ukp.dariah.type.Section;
 import de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData;
@@ -45,16 +46,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 
 
 
-import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 
-
-import javax.xml.parsers.*;
-
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-
-import java.util.*;
-import java.io.*;
 
 
 @TypeCapability(
@@ -177,9 +169,10 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 		}
 
 		try {
-			
 			// parse the xml file
 			File xmlFile = xmlFiles.get(currentParsedFile);
+			
+			System.out.println("Process file: "+xmlFile.getName());
 			
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 	        SAXParser sp = spf.newSAXParser();
@@ -207,6 +200,12 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 	        
 	        jcas.setDocumentText(docText.toString().trim());
 	        jcas.setDocumentLanguage(language);
+	        
+	        DocumentMetaData docMetaData = DocumentMetaData.create(aCAS);
+            docMetaData.setDocumentTitle(xmlFile.getName());
+            docMetaData.setDocumentId(xmlFile.getAbsolutePath());
+            docMetaData.setDocumentBaseUri("file:"+xmlFile.getParentFile().getAbsolutePath());
+            docMetaData.setDocumentUri("file:"+xmlFile.getAbsolutePath());
 			
 			currentParsedFile++;	
 		} catch (Exception e) {

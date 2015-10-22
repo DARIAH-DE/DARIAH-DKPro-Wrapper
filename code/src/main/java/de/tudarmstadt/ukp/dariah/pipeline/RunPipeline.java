@@ -26,6 +26,11 @@ import org.apache.uima.fit.component.NoOpAnnotator;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import de.tudarmstadt.ukp.dariah.IO.AnnotationWriter;
+import de.tudarmstadt.ukp.dariah.IO.DARIAHWriter;
+import de.tudarmstadt.ukp.dariah.IO.TextReaderWithInfo;
+import de.tudarmstadt.ukp.dariah.IO.XmlReader;
+import de.tudarmstadt.ukp.dariah.annotator.DirectSpeechAnnotator;
 import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
@@ -446,6 +451,12 @@ public class RunPipeline {
 					TextReaderWithInfo.class,
 					TextReaderWithInfo.PARAM_SOURCE_LOCATION, optInput,
 					TextReaderWithInfo.PARAM_LANGUAGE, optLanguage);
+			
+			CollectionReaderDescription xmlReader = createReaderDescription(
+					XmlReader.class,
+					XmlReader.PARAM_SOURCE_LOCATION, optInput,
+					XmlReader.PARAM_LANGUAGE, optLanguage);
+
 
 			AnalysisEngineDescription paragraph = createEngineDescription(ParagraphSplitter.class,
 					ParagraphSplitter.PARAM_SPLIT_PATTERN, (optParagraphSingleLineBreak) ? ParagraphSplitter.SINGLE_LINE_BREAKS_PATTERN : ParagraphSplitter.DOUBLE_LINE_BREAKS_PATTERN);	
@@ -504,7 +515,9 @@ public class RunPipeline {
 
 			System.out.println("\nStart running the pipeline (this may take a while)...");
 
-			SimplePipeline.runPipeline(reader, 
+			SimplePipeline.runPipeline(
+//					reader,
+					xmlReader, //reader, 
 					paragraph,
 					(optSegmenter) ? seg : noOp, 
 					frenchQuotesSeg,
