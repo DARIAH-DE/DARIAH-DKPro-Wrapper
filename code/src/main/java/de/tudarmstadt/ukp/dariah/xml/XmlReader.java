@@ -46,7 +46,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 
 
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
-import static org.joox.JOOX.*;
+
 
 import javax.xml.parsers.*;
 
