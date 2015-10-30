@@ -208,7 +208,7 @@
 						<artifactId>maven-shade-plugin</artifactId>
 						<configuration>
 							<!-- Prevent huge shaded artifacts from being deployed to Artifactory -->
-							<outputFile>${project.build.directory}/${artifactId}-${version}-standalone.jar</outputFile>
+							<outputFile>${project.build.directory}/wrapper-${version}.jar</outputFile>
 						</configuration>
 					</plugin>
 				</plugins>
