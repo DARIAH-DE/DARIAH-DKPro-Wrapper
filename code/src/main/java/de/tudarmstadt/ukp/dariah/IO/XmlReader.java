@@ -49,20 +49,20 @@ import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 
 
 
+
+
+/**
+ * Reads in xml files. The xpath to each element is stored in a special annotation.
+ * @author Nils Reimers
+ *
+ */
 @TypeCapability(
         outputs={
                 "de.tudarmstadt.ukp.dkpro.core.api.structure.type.Field",
                 "de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData"})
-
 public class XmlReader extends CasCollectionReader_ImplBase {
 
-	/**
-	 * Location from which the input is read.
-	 */
-	public static final String PARAM_SOURCE_LOCATION = ComponentParameters.PARAM_SOURCE_LOCATION;
-	@ConfigurationParameter(name=PARAM_SOURCE_LOCATION, mandatory=true)
-	private String inputPath;
-
+	
 	/**
 	 * Set this as the language of the produced documents.
 	 */
@@ -70,91 +70,7 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 	@ConfigurationParameter(name=PARAM_LANGUAGE, mandatory=false)
 	private String language;
 
-	/**
-	 * optional, tags those should be worked on (if empty, then all tags
-	 * except those ExcludeTags will be worked on)
-	 * 
-	 * @NOTE: Currently not implemented
-	 */
-//	public static final String PARAM_INCLUDE_TAG = "IncludeTag";
-//	@ConfigurationParameter(name=PARAM_INCLUDE_TAG, mandatory=true, defaultValue={})
-//	private Set<String> includeTags;
 
-	/**
-	 * optional, tags those should not be worked on. Out them should no
-	 * text be extracted and also no Annotations be produced.
-	 * 
-	 *  @NOTE: Currently not implemented
-	 */
-//	public static final String PARAM_EXCLUDE_TAG = "ExcludeTag";
-//	@ConfigurationParameter(name=PARAM_EXCLUDE_TAG, mandatory=true, defaultValue={})
-//	private Set<String> excludeTags;
-
-	/**
-	 * tag which contains the docId
-	 * 
-	 *  @NOTE: Currently not implemented
-	 */
-//	public static final String PARAM_DOC_ID_TAG = "DocIdTag";
-//	@ConfigurationParameter(name=PARAM_DOC_ID_TAG, mandatory=false)
-//	private String docIdTag;
-
-	/**
-	 * The collection ID to set in the {@link DocumentMetaData}.
-	 * 
-	 *  @NOTE: Currently not implemented
-	 */
-//	public static final String PARAM_COLLECTION_ID = "collectionId";
-//	@ConfigurationParameter(name=PARAM_COLLECTION_ID, mandatory=false)
-//	private String collectionId;
-
-
-
-	// mandatory, list of xml files to be readed in
-	private final ArrayList<File> xmlFiles = new ArrayList<File>();
-
-	// current be parsed file index
-	private int currentParsedFile;
-
-
-
-	@Override
-	public void initialize(UimaContext aContext)
-		throws ResourceInitializationException
-	{
-		super.initialize(aContext);
-
-		// mandatory, directory where that those be parsed XML files are
-		File inPath = new File(inputPath);
-		// get all xml files from the input directory (ignore the
-		// subdirectories)
-		if (inPath.isDirectory()) {
-			File[] files = inPath.listFiles();
-			for (File file : files) {
-				if (file.isFile() && (file.toString().endsWith(".xml") || file.toString().endsWith(".sgml"))) {
-					xmlFiles.add(file);
-				}
-			}
-			Collections.sort(xmlFiles);
-		} else if(inPath.isFile() && inPath.exists()) {
-			xmlFiles.add(inPath);
-		}
-		else {
-			throw new ResourceInitializationException("Invalid path", new Object[] {inputPath});
-		}
-
-		
-		currentParsedFile = 0;
-
-//		if (docIdTag != null && docIdTag.contains("/@")) {
-//			int split = docIdTag.indexOf("/@");
-//			docIdElementLocalName = docIdTag.substring(0, split);
-//			docIdAttributeName = docIdTag.substring(split+2);
-//		}
-//		else {
-//			docIdElementLocalName = docIdTag;
-//		}
-	}
 
 	@Override
 	public void getNext(CAS aCAS)
@@ -170,7 +86,7 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 
 		try {
 			// parse the xml file
-			File xmlFile = xmlFiles.get(currentParsedFile);
+			File xmlFile = GlobalFileStorage.getInstance().poll();
 			
 			System.out.println("Process file: "+xmlFile.getName());
 			
@@ -206,10 +122,9 @@ public class XmlReader extends CasCollectionReader_ImplBase {
             docMetaData.setDocumentId(xmlFile.getAbsolutePath());
             docMetaData.setDocumentBaseUri("file:"+xmlFile.getParentFile().getAbsolutePath());
             docMetaData.setDocumentUri("file:"+xmlFile.getAbsolutePath());
-			
-			currentParsedFile++;	
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			throw new CollectionException(e);
 		}
 
@@ -218,28 +133,14 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 	@Override
 	public Progress[] getProgress()
 	{
-		return new Progress[] { new ProgressImpl(currentParsedFile, xmlFiles
-				.size(), Progress.ENTITIES) };
+		return null;
 	}
 
 	@Override
 	public boolean hasNext()
-		throws IOException, CollectionException
-	{
-
-		if (currentParsedFile >= 0 && currentParsedFile < xmlFiles.size()) {
-			// There are additional files to parse
-			return true;
-		}
+		throws IOException, CollectionException {
 		
-		return false;		
-	}
-
-	@Override
-	public void close()
-		throws IOException
-	{
-		// Nothing to do
+		return !GlobalFileStorage.getInstance().isEmpty();		
 	}
 
 	

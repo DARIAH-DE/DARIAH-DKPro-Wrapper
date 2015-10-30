@@ -17,6 +17,7 @@ import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.FileSystem;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tools.ant.DirectoryScanner;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -28,6 +29,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import de.tudarmstadt.ukp.dariah.IO.AnnotationWriter;
 import de.tudarmstadt.ukp.dariah.IO.DARIAHWriter;
+import de.tudarmstadt.ukp.dariah.IO.GlobalFileStorage;
 import de.tudarmstadt.ukp.dariah.IO.TextReaderWithInfo;
 import de.tudarmstadt.ukp.dariah.IO.XmlReader;
 import de.tudarmstadt.ukp.dariah.annotator.DirectSpeechAnnotator;
@@ -472,19 +474,27 @@ public class RunPipeline {
 		}
 
 		printConfiguration(configFiles.toArray(new String[0])); 
+	
+		
 
 		try {
+			
+			// Read in the input files
+			String defaultFileExtension = (optReader == ReaderType.XML) ? ".xml" : ".txt";
+			
+			GlobalFileStorage.getInstance().readFilePaths(optInput, defaultFileExtension);	
+			
+			System.out.println("Process "+GlobalFileStorage.getInstance().size()+" files");
+			
 			CollectionReaderDescription reader;
 			
 			if(optReader == ReaderType.XML) {
 				reader = createReaderDescription(
 						XmlReader.class,
-						XmlReader.PARAM_SOURCE_LOCATION, optInput,
 						XmlReader.PARAM_LANGUAGE, optLanguage);
 			} else {
 				reader = createReaderDescription(
-						TextReaderWithInfo.class,
-						TextReaderWithInfo.PARAM_SOURCE_LOCATION, optInput,
+						TextReaderWithInfo.class,						
 						TextReaderWithInfo.PARAM_LANGUAGE, optLanguage);
 			}
 			
@@ -548,24 +558,30 @@ public class RunPipeline {
 
 			System.out.println("\nStart running the pipeline (this may take a while)...");
 
-			SimplePipeline.runPipeline(
-					reader,					
-					paragraph,
-					(optSegmenter) ? seg : noOp, 
-					frenchQuotesSeg,
-					quotesSeg,
-					(optPOSTagger) ? posTagger : noOp, 
-					(optLemmatizer) ? lemma : noOp,
-					(optChunker) ? chunker : noOp,
-					(optMorphTagger) ? morph : noOp,
-					directSpeech,
-					(optDependencyParser) ? depParser : noOp,
-					(optConstituencyParser) ? constituencyParser : noOp,
-					(optNER) ? ner : noOp,
-					(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
-					writer
-//					,annWriter
-					);
+			while(!GlobalFileStorage.getInstance().isEmpty()) {
+				try {
+				SimplePipeline.runPipeline(
+						reader,					
+						paragraph,
+						(optSegmenter) ? seg : noOp, 
+						frenchQuotesSeg,
+						quotesSeg,
+						(optPOSTagger) ? posTagger : noOp, 
+						(optLemmatizer) ? lemma : noOp,
+						(optChunker) ? chunker : noOp,
+						(optMorphTagger) ? morph : noOp,
+						directSpeech,
+						(optDependencyParser) ? depParser : noOp,
+						(optConstituencyParser) ? constituencyParser : noOp,
+						(optNER) ? ner : noOp,
+						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
+						writer
+	//					,annWriter
+						);
+				} catch (OutOfMemoryError e) {
+					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());
+				}
+			}
 
 			
 			
