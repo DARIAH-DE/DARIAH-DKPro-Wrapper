@@ -109,6 +109,7 @@ extends JCasFileWriter_ImplBase
 		
 		PrintWriter out = null;
 		try {
+			
 			out = new PrintWriter(new OutputStreamWriter(getOutputStream(aJCas, filenameSuffix), encoding));
 			convert(aJCas, out);
 		}
