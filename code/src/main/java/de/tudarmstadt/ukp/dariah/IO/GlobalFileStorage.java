@@ -28,9 +28,11 @@ public class GlobalFileStorage {
 	
 	/**
 	 * Reads a path and stores internally all file path
+	 * @param b 
+	 * @param optOutput 
 	 * @throws FileNotFoundException 
 	 **/
-	public void readFilePaths(String sourceLocation, String fileExtentsion) throws FileNotFoundException {
+	public void readFilePaths(String sourceLocation, String fileExtentsion, String outputLocation, boolean skipExistentFiles) throws FileNotFoundException {
 	
 		if(sourceLocation.contains("*")) {
 			int asterisk = sourceLocation.indexOf('*');
@@ -56,6 +58,10 @@ public class GlobalFileStorage {
 			scanner.scan();
 			
 			for(String file : scanner.getIncludedFiles()) {
+				if(skipExistentFiles && this.fileExists(file, outputLocation)) {
+					continue;
+				}
+				
 				this.push(new File(sourcePath+file));
 			}			
 		} else {
@@ -63,12 +69,17 @@ public class GlobalFileStorage {
 			File inputPath = new File(sourceLocation);
 			
 			if(inputPath.isFile()) {
-				this.push(inputPath);
+				if(!skipExistentFiles || !this.fileExists(inputPath.getName(), outputLocation)) {					
+					this.push(inputPath);
+				}
 			} else if(inputPath.isDirectory()) {
 				
 				File[] files = inputPath.listFiles();
 				for (File file : files) {
 					if (file.isFile() && (file.toString().endsWith(fileExtentsion))) {
+						if(skipExistentFiles && this.fileExists(file.getName(), outputLocation)) {
+							continue;
+						}
 						this.push(file);
 					}
 				}
@@ -79,6 +90,11 @@ public class GlobalFileStorage {
 		
 	}
 	
+	private boolean fileExists(String filename, String outputLocation) {
+		File f = new File(outputLocation, filename+".csv");
+		return f.exists();
+	}
+
 	private LinkedList<File> files = new LinkedList<>();	
 	public boolean isEmpty() {
 		return files.isEmpty();		

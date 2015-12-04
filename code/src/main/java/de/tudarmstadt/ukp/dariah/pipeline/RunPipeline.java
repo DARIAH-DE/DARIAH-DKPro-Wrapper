@@ -124,6 +124,8 @@ public class RunPipeline {
 	private static Class<? extends AnalysisComponent> optSRLCls;
 	private static Object[] optSRLArguments;
 
+	
+	private static boolean optResume = false;
 
 	private static void printConfiguration(String[] configFileNames) {
 		System.out.println("Input: "+optInput);
@@ -344,6 +346,10 @@ public class RunPipeline {
 				.withDescription("Either text (default) or xml")
 				.create("reader");
 		options.addOption(reader);
+		
+		Option resume = OptionBuilder.withDescription("Already proccessed files will be skipped").create("resume");
+		options.addOption(resume);
+
 
 
 
@@ -383,6 +389,10 @@ public class RunPipeline {
 				System.out.println("Valid argument values are: text, xml");
 				return false;
 			}
+		}
+		
+		if(cmd.hasOption(resume.getOpt())) {
+			optResume = true;
 		}
 
 
@@ -482,7 +492,7 @@ public class RunPipeline {
 			// Read in the input files
 			String defaultFileExtension = (optReader == ReaderType.XML) ? ".xml" : ".txt";
 			
-			GlobalFileStorage.getInstance().readFilePaths(optInput, defaultFileExtension);	
+			GlobalFileStorage.getInstance().readFilePaths(optInput, defaultFileExtension, optOutput, optResume);	
 			
 			System.out.println("Process "+GlobalFileStorage.getInstance().size()+" files");
 			
