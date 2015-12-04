@@ -347,7 +347,7 @@ public class RunPipeline {
 				.create("reader");
 		options.addOption(reader);
 		
-		Option resume = OptionBuilder.withDescription("Already proccessed files will be skipped").create("resume");
+		Option resume = OptionBuilder.withDescription("Already processed files will be skipped").create("resume");
 		options.addOption(resume);
 
 
