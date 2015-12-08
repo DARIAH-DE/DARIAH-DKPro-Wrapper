@@ -1,8 +1,6 @@
 NLP Based Analysis of Literary Texts (M 5.2.3)
 ==============================================
 
-Erstellt von Steffen Pielström, zuletzt geändert von Nils Reimers am Okt 30, 2015
-
 The following tutorial describes how to analyze texts, by first
 *link:#RunningthePipeline[generating linguistic annotations]* with a simple, single java program that bundles
 the abilities of several state-of-the-art NLP (Natural Language
