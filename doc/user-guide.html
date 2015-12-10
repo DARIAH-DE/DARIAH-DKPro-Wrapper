@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.6" />
-<title>DARIAH-DKPro-Wrapper v0.4.0</title>
+<title>DARIAH-DKPro-Wrapper v0.4.1</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -735,7 +735,7 @@ asciidoc.install(2);
 </head>
 <body class="article">
 <div id="header">
-<h1>DARIAH-DKPro-Wrapper v0.4.0</h1>
+<h1>DARIAH-DKPro-Wrapper v0.4.1</h1>
 <span id="author">DARIAH2 - Cluster 5, Use Case 1 Team</span><br />
 <div id="toc">
   <div id="toctitle">User Guide</div>
@@ -745,11 +745,11 @@ asciidoc.install(2);
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>This is a short user guide for the current version v0.4.0 of the DARIAH-DKPro-Wrapper.</p></div>
+<div class="paragraph"><p>This is a short user guide for the current version v0.4.1 of the DARIAH-DKPro-Wrapper.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_system_requirements">1. System Requirements</h2>
+<h2 id="_system_requirements">System Requirements</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>To run the pipeline properly, a system equipped with and able to handle at least 4 GB RAM is recommended. The following operating systems have been tested:</p></div>
 <div class="ulist"><div class="title">Systems:</div><ul>
@@ -774,92 +774,109 @@ Windows 7/8
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_pipeline">2. Running the pipeline</h2>
+<h2 id="_running_the_pipeline">Running the pipeline</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>After downloading and unzipping the files, execute in your command line the following code:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar wrapper-0.4.0.jar -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.1.jar -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>You can change the language by specifying the language parameter for the pipeline. Support for the following languages are include in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). To run the pipeline for English, execute the following command:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar  wrapper-0.4.0.jar -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar  ddw-0.4.1.jar -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_run_the_full_pipeline">3. Run the full pipeline</h2>
+<h2 id="_run_the_full_pipeline">Run the full pipeline</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling is disabled.</p></div>
+<div class="paragraph"><p>By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are <strong>disabled</strong>.</p></div>
 <div class="paragraph"><p>If you like to use them, feel free to enable them in the <tt>default.properties</tt> or create a new <tt>.properties</tt>-File and pass the path to this file via the <tt>config</tt>-parameter.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_file_reader">4. File Reader</h2>
+<h2 id="_programm_parameters">Programm Parameters</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Run <tt>java -jar  ddw-0.4.1.jar -help</tt>  to get an overview of the possible command line arguments:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt> -config &lt;path&gt;     Config file
+ -help              print this message
+ -input &lt;path&gt;      Input path
+ -language &lt;lang&gt;   Language code for input file (default: en)
+ -output &lt;path&gt;     Output path
+ -reader &lt;reader&gt;   Either text (default) or xml
+ -resume            Already processed files will be skipped</tt></pre>
+</div></div>
+<div class="paragraph"><p>The pipeline supports a resume function. By adding the <tt>-resume</tt> argument to the exection of the pipeline, all files that were previously processed and have an according <tt>.csv</tt>-file in the output folder will be skipped.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_file_reader">File Reader</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>You can process either single files or also all files inside a directory. Patterns can be used to select specific files that should be processed.</p></div>
 <div class="sect2">
-<h3 id="_xml_reader">4.1. XML Reader</h3>
+<h3 id="_text_reader_amp_xml_reader">Text Reader &amp; XML Reader</h3>
 <div class="paragraph"><p>The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the <tt>-reader</tt> parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar  wrapper-0.4.0.jar -language en -reader xml -input file.xml -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar  ddw-0.4.1.jar -language en -reader xml -input file.xml -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>The XML reader skips XML tags and processes only text which is inside the XML tags. The xpath to each tag is conserved and stored in the column <strong>SectionId</strong> in the ouput format.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_reading_directories">4.2. Reading Directories</h3>
+<h3 id="_reading_directories">Reading Directories</h3>
 <div class="paragraph"><p>You can also specify for the <strong>-input</strong> argument a directory instead of a file. If you run the pipeline in the following way:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar  wrapper-0.4.0.jar -language en -input folder/With/Files/ -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar  ddw-0.4.1.jar -language en -input folder/With/Files/ -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>the pipeline will process all files with a <em>.txt</em> extension for the Text-reader. For the XML-reader, it will process all files with a <em>.xml</em> extension.</p></div>
 <div class="paragraph"><p>You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only <em>.xmi</em> with the XML reader, you must start the pipeline in the following way:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar  wrapper-0.4.0.jar -language en -reader xml -input "folder/With/Files/*.xmi" -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar  ddw-0.4.1.jar -language en -reader xml -input "folder/With/Files/*.xmi" -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p><strong>Note:</strong> If you use patterns (i.e. paths containing an *), you must set it into quotes to prevent shell globbing.</p></div>
 <div class="paragraph"><p>To read all files in all subfolders, you can use a pattern like this:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar  wrapper-0.4.0.jar -language en -input "folder/With/Subfolders/<strong>*/</strong>.txt" -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar  ddw-0.4.1.jar -language en -input "folder/With/Subfolders/**/*.txt" -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>This will read in all <em>.txt</em> files in all subfolders. Note that the subfolder path will not be maintained in the output folder.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_write_your_own_config_files">5. Write your own config files</h2>
+<h2 id="_write_your_own_config_files">Write your own config files</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The pipeline can be configurated via properties-files that are stored in the <tt>configs</tt> folder. In this folder you find a <tt>default.properties</tt>, the most basic configuration file. For the different supported languages, you can find further properties-files, for example <tt>default_de.properties</tt> for German, <tt>default_es.properties</tt> for English and so on.</p></div>
 <div class="paragraph"><p>If you like to write your own config file, just create your own <tt>.properties</tt> file. You can run the pipeline with your <tt>.properties</tt>-file by setting the command argument.</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar wrapper-0.4.0.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.1.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>In case you store your <tt>myconfigfile.properties</tt> in the <tt>configs</tt> folder, you can run the pipeline via:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar wrapper-0.4.0.jar -config myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.1.jar -config myconfigfile.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar wrapper-0.4.0.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.1.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p><strong>Note:</strong> The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.</p></div>
 <div class="paragraph"><p>In case you like to use the <em>full</em>-version and also want to change the POS-tagger, you can run the pipeline in the following way:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar wrapper-0.4.0.jar -config myFullVersion.properties,myPOSTagger.properties -language en -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.1.jar -config myFullVersion.properties,myPOSTagger.properties -language en -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>In <tt>myPOSTagger.properties</tt> you just add the configuration for the different POS-tagger.</p></div>
 <div class="paragraph"><p><strong>Note:</strong> The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].</p></div>
 <div class="sect2">
-<h3 id="_understanding_the_argument_parameter">5.1. Understanding the Argument Parameter</h3>
+<h3 id="_understanding_the_argument_parameter">Understanding the Argument Parameter</h3>
 <div class="paragraph"><p>Most components can be equipped with arguments so specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the <tt>default.properties</tt> you can find the following line:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -870,11 +887,11 @@ Windows 7/8
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_treetagger">6. Using Treetagger</h2>
+<h2 id="_using_treetagger">Using Treetagger</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.</p></div>
 <div class="sect2">
-<h3 id="_treetagger_installation_for_linux">6.1. TreeTagger Installation for Linux</h3>
+<h3 id="_treetagger_installation_for_linux">TreeTagger Installation for Linux</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -918,7 +935,7 @@ Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetag
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_treetagger_installation_for_windows_7">6.2. TreeTagger Installation for Windows 7</h3>
+<h3 id="_treetagger_installation_for_windows_7">TreeTagger Installation for Windows 7</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -972,7 +989,7 @@ In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PAT
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_of_the_pipeline">6.3. Configuration of the pipeline</h3>
+<h3 id="_configuration_of_the_pipeline">Configuration of the pipeline</h3>
 <div class="paragraph"><p>After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the <em>configs</em> folder <em>treetagger-example.properties</em>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -987,7 +1004,7 @@ useLemmatizer = false</tt></pre>
 <div class="paragraph"><p>Change the paths for the parameter <em>executablePath</em> and <em>modelLocation</em> to the correct paths on your machine. You can then use Treetagger in your pipeline using the <tt>-config</tt> argument:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar wrapper-0.4.0.jar -config treetagger-example.properties -language de -input file.txt -output folder</tt></p></div>
+<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.1.jar -config treetagger-example.properties -language de -input file.txt -output folder</tt></p></div>
 </div></div>
 <div class="paragraph"><p>Check the output of the pipeline that Treetagger is used. The output of your pipeline should look something like this:</p></div>
 <div class="listingblock">
@@ -1003,7 +1020,7 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-30 12:38:15 CET
+Last updated 2015-12-04 11:55:05 CET
 </div>
 </div>
 </body>
