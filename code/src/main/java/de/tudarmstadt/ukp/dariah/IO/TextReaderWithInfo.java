@@ -72,8 +72,8 @@ public class TextReaderWithInfo extends CasCollectionReader_ImplBase {
 	        
 	        DocumentMetaData docMetaData = DocumentMetaData.create(aCAS);
             docMetaData.setDocumentTitle(file.getName());
-            docMetaData.setDocumentId(file.getAbsolutePath());
-            docMetaData.setDocumentBaseUri("file:"+file.getParentFile().getAbsolutePath());
+            docMetaData.setDocumentId(file.getAbsolutePath());            
+            docMetaData.setDocumentBaseUri("file:"+file.getAbsoluteFile().getParentFile().getAbsolutePath());            
             docMetaData.setDocumentUri("file:"+file.getAbsolutePath());
 		} catch(Exception e) {
 			throw new CollectionException(e);
