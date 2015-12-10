@@ -1,0 +1,1817 @@
+NLP Based Analysis of Literary Texts (M 5.2.3)
+==============================================
+
+The following tutorial describes how to analyze texts, by first
+*link:#RunningthePipeline[generating linguistic annotations]* with a simple, single java program that bundles
+the abilities of several state-of-the-art NLP (Natural Language
+Processing) tools, and then accessing the annotations provided in a
+*link:#OutputFormat[standardized output format]* for complex
+*link:#TopicModelinginPython[empirical analyses of text style and content]* in a scripting language. The
+workflows are based on a tool pipeline packaged from
+the **link:http://dkpro.org[DKPro]** framework for
+natural language processing into a single file, thus providing
+convenient access to many important DKPro features even for users with
+virtually no work experience with the framework. The example recipes
+further below describe how to use the pipeline's output for advanced
+analytic procedures.
+
+* link:#SettingupthePipeline[Setting up the Pipeline]
+** link:#SystemRequirements[System Requirements]
+** link:#JavaInstallation[Java Installation]
+** link:#PipelineDownload[Pipeline Download]
+* link:#RunningthePipeline[Running the Pipeline]
+** link:#UsingtheCommandLine[Using the Command Line]
+** link:#ProcessingaTextfile[Processing a Textfile]
+** link:#CommandLineOptions[Command Line Options]
+*** link:#Help[Help]
+*** link:#Language[Language]
+*** link:#InputFolders[Input Folders]
+** link:#Troubleshooting[Troubleshooting]
+* link:#AvailableComponents[Available Components]
+** link:#Segmentation[Segmentation]
+** link:#Part-of-SpeechTagging[Part-of-Speech Tagging]
+** link:#Lemmatization[Lemmatization]
+** link:#ConstituencyandDependencyParsing[Constituency and Dependency Parsing]
+** link:#NamedEntityRecognition[Named Entity Recognition]
+** link:#SemanticRoleLabeling[Semantic Role Labeling]
+* link:#ConfiguringthePipeline[Configuring the Pipeline]
+** link:#ConfigurationFile[ConfigurationFile]
+** link:#Buildingyourown[Building your own]
+* link:#OutputFormat[Output Format]
+** link:#Specification[Specification]
+** link:#ReadingtheOutput[Reading the Output]
+*** link:#R[R]
+*** link:#Python[Python]
+** link:#FurtherExamples[Further Examples]
+** link:#API[API]
+* link:#StylometricAnalysiswiththeStyloPackageinR[Example Recipe: Stylometric Analysis with the "Stylo" Package in R]
+** link:#ExampleCorpus[Example Corpus]
+** link:#PreparingDescriptiveVocabularyandPart-of-SpeechTags[Preparing Descriptive Vocabulary and Part-of-Speech Tags]
+** link:#UsingStylo[Using Stylo]
+* link:#TopicModelinginPython[Example Recipe: Topic Modeling in Python]
+** link:#ExampleCorpus.1[Example Corpus]
+** link:#SettinguptheEnvironment[Setting up the Environment]
+** link:#ConfigurationSection[Configuration Section]
+** link:#PreparingtheData[Preparing the Data]
+** link:#FittingtheModel[Fitting the Model]
+** link:#VisualizationOptions[Visualization Options]
+*** link:#Interactive[Interactive]
+*** link:#Heatmap[Heatmap]
+*** link:#Network[Network]
+* link:#StylometricClassificationinPython[Example Recipe: Stylometric Classification in Python]
+** link:#ExampleCorpus.2[Example Corpus]
+** link:#SettinguptheEnvironment.1[Setting up the Environment]
+** link:#FeatureSelection[Feature Selection]
+** link:#PreparingtheData.1[Preparing the Data]
+** link:#TrainingandEvaluatingtheClassifier[Training and Evaluating the Classifier]
+** link:#PredictionusingtheClassifier[Prediction using the Classifier]
+* link:#AboutthisTutorial[About this Tutorial]
+
+[[SettingupthePipeline]]
+Setting up the Pipeline
+~~~~~~~~~~~~~~~~~~~~~~~
+
+[[SystemRequirements]]
+System Requirements
+^^^^^^^^^^^^^^^^^^^
+
+To run the pipeline properly, a system equipped with and able to handle
+at least 4 GB RAM is recommended. The following operating systems have
+been tested:
+
+* Mac OS X
+
+* Linux (Ubuntu 14.04)
+
+* Windows 7/8
+
+Furthermore, the pipeline depends on a *internet connection* when
+running to download the models for the current configuration. It does
+not work offline!
+
+[[JavaInstallation]]
+Java Installation
+^^^^^^^^^^^^^^^^^
+
+The following step installs the base system requirements needed to run
+DKPro Core pipelines on your machine. This needs to be performed only
+once. Download and install the latest Java SE Development Kit (requires
+at least Java 1.8) from
+the link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Oracle
+Java Site], then follow the
+link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[installation
+instructions] for your operating system.
+
+[[PipelineDownload]]
+Pipeline Download
+^^^^^^^^^^^^^^^^^
+
+When the Java environment is prepared, you
+can link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[download the
+latest
+binary]. Select
+the file named dariah-dkpro-wrapper-x.y.z.zip and unpack it somewhere
+easily accessible. As a next step we need to navigate to this folder
+using the command line.
+
+[[RunningthePipeline]]
+**Running the Pipeline**
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[UsingtheCommandLine]]
+Using the Command Line  +
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The DKPro pipeline does not have a graphical user
+interface link:http://en.wikipedia.org/wiki/Graphical_user_interface[(GUI)].
+Therefore you have to use the pipeline (both setting up and processing
+data) with the command prompt. In all versions of the **Windows**
+operating system, pressing the Windows key + "R" should launch the
+command prompt. Otherwise, the command prompt can be launched
+
+* in Windows 7 by clicking on the "Start"-button, type "command" in the
+search box and click on "Command Prompt"
+* in Windows 8 with a right-click on the “Start”-button, choosing “run",
+and typing “cmd” in the search box. Alternatively type "cmd" in the
+"Search".
+
+Navigate to the directory that contains the DKPro-pipeline. For example,
+if you are using windows and keeping your pipeline in folder named
+"DKPro" on drive "D:", by typing,
+
+----
+cd D:\DKPro
+----
+
+and press enter.
+
+[[ProcessingaTextfile]]
+Processing a Textfile
+^^^^^^^^^^^^^^^^^^^^^
+
+Now you can process a text file. How to test when you don't have any
+data? We've prepared a demonstration text
+link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt?version=1&modificationDate=1434979988305&api=v2[[1\]] that
+can be downloaded and processed via the pipeline. You can compare your
+output with this file link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&modificationDate=1434960896211&api=v2[[2\]].
+If you receive an identical output DKPro pipeline works fine on your
+computer. There are also a plenty of free texts available
+from link:http://www.zeno.org/[Zeno.org] or link:http://www.deutschestextarchiv.de/[Deutsches
+Textarchiv].
+
+To process data type the following command in the command prompt
+
+----
+java -Xmx4g -jar nameOfThePipeline.jar -input pathForTextfile.txt -output pathForOutputfolder
+----
+
+and press Enter.
+
+For example:
+
+----
+java -Xmx4g -jar wrapper-0.4.0.jar -input C:\goethe.txt -output D:\DKPro\Workspace
+----
+
+
+If your input and/or output file are located in the current director you
+can type "." instead of the full input- and/or output-path. For example:
+
+----
+java -Xmx4g -jar wrapper-0.4.0.jar -input .\goethe.txt -output .
+----
+
+The pipeline will process your data and save the output as
+a **.csv-File** in the specified folder.  If 
+
+----
+File written, DONE 
+----
+
+is shown on your command prompt everything has worked well. To see final
+results check the output-file in your specified output folder. +
+ +
+**Important Note:** Depending on the configuration of your system and
+the size of the input file processing **may take some time**, e.g. even
+a test file of 630 words may easily take 1-2 minutes, even if 4 GB RAM
+are allocated to the task.
+
+[[CommandLineOptions]]
+Command Line Options +
+^^^^^^^^^^^^^^^^^^^^^^
+
+[[Help]]
+Help
+++++
+
+The pipeline provides a help function that can be accessed on the
+command line with the "-help" option.
+
+----
+java -Xmx4g -jar wrapper-0.4.0.jar -help
+----
+
+[[Language]]
+Language
+++++++++
+
+In order for the pipeline to function correctly, the language of the
+target text needs to be specified using the "-language" switch.
+Currently, the pipeline ships with default configurations for German,
+English, French, and Spanish. An example command would look like this:
+
+
+----
+java-Xmx4g -jar wrapper-0.4.0.jar -language de -input C:\goethe.txt -output .
+----
+
+[[InputFolders]]
+Input Folders
++++++++++++++
+
+When you want to process a collection of texts rather than just a single
+file, you can do that by providing a path to the "-input" option and
+adding a __wildcard __to it. The asterisk __*__ stands for every file
+contained in the folder. For example
+
+
+----
+java-Xmx4g -jar wrapper-0.4.0.jar -language de -input "C:\Romane\*" -output .
+----
+
+Under **Linux** and **OSX** the input path and wildcard need to be put
+inside quotation marks, such as this
+
+----
+java -Xmx4g -jar wrapper-0.4.0.jar -language de -input "/home/xy/Romane/*" -output .
+----
+
+[[Troubleshooting]]
+Troubleshooting
+^^^^^^^^^^^^^^^
+
+If there is no output in your output folder and your command prompt
+shows
+
+----
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space or The specified size exceeds the maximum representable size.Error: Could not create the Java Virtual Machine
+----
+
+you need to **check the size of virtual memory**. Depending on the
+maximum size of your RAM you should allocate 4GB or 6GB. The
+flag **Xms** specifies the the initial memory allocation pool for a Java
+Virtual Machine (JVM). After adapting Windows' virtual memory type the
+following in the command prompt:
+
+----
+java –Xms -jar nameOfThePipeline.jar -input nameOfTheTextfile.txt -output OutputFolder
+----
+
+and press enter.
+
+For example, if you allocated 4GB then type:
+
+----
+java -Xms4g -jar wrapper-0.4.0.jar -input goethe.txt -output D:\DKPro\Workspace
+----
+
+
+**Note:** Allocating too much virtual memory can slow down your system -
+4GB or 6GB should be enough for most processing operations.
+
+[[AvailableComponents]]
+**Available Components**  +
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As mentioned above, the pipeline contains a number of components
+
+[[Segmentation]]
+Segmentation
+^^^^^^^^^^^^
+
+Segmentation is the task of dividing running text into units like
+sentences and words.
+
+* Word segmentation, also called tokenization, is the process of finding
+word boundaries - in its simplest form, by using the blanks in-between
+words as delimiters. However, there are languages that do not support
+this, such as Chinese or Japanese.
+* Sentence segmentation is the process of splitting text based on
+sentence limiting punctuation e.g. periods, question marks etc. Note
+that, the periods are sometimes not the markers of sentence boundaries
+but the markers of abbreviations.
+* Besides, there are many other different segmentations on the basis of
+different purposes such as discourse segmentation (separating a document
+into a linear sequence of subtopics), Paragraph segmentation (which
+automatically break the text up into paragraphs) an so forth.
+
+[[Part-of-SpeechTagging]]
+Part-of-Speech Tagging
+^^^^^^^^^^^^^^^^^^^^^^
+
+Labeling every word and punctuation mark (token) in a text corpus with a
+predefined set of part-of-speech tags (standardized abbreviations) or
+other syntactic class marker, is called Part of Speech Tagging. Usually
+the output of a POS-Tagger will look like this (showing also DKPro's
+CPOS column - a universal coarse grained tag set designed for the
+interoperability of components in different languages):
+
+[cols=",,",options="header",]
+|========================
+|Token |CPOS |POS
+|Auf |PP |APPR
+|einmal |ADV |ADV
+|schien |V |VVFIN
+|die |ART |ART
+|Sonne |NN |NN
+|durchzudringen |V |VVIZU
+|========================
+
+Most tagging algorithms fall into one of two classes: rule-based taggers
+and probabilistic or stochastic taggers taggers. Rule-based taggers
+generally involve a large database of hand-written disambiguation rules.
+Stochastic taggers generally resolve tagging ambiguities by using a
+training corpus to compute the probability of a given word having a
+given tag in a given context. Additionally there is an approach to
+tagging called the transformation-based tagger, or the Brill tagger,
+which shares features of both above tagging architectures.
+
+[[Lemmatization]]
+Lemmatization
+^^^^^^^^^^^^^
+
+Mapping all different inflected word forms to one lemma is called
+lemmatization. It is related to stemming, an approach that tries to
+recognize derivational parts of a word to cut them off, leaving the stem
+as a result. In both cases, an amount of words are grouped together in a
+specific way. In stemming, the words are reduced to its stem. In
+lemmatization they are reduced to their common base lemma. The
+difference is, that a found stem would include every word containing the
+stem, but no other related words, as is the case with irregular verbs.
+Furthermore, the stem does not have to be a legit word, as long as it
+constitutes the common base morpheme. On the other hand, a lemma will
+most likely be the infinitive form of a verb or unmodified version of
+the word in question. Looking back to the example of stemming: Stemming
+of the words __gone__, __going__, and _goes_ will not include the
+related term __went__, which would be the case after lemmatization.
+
+[[ConstituencyandDependencyParsing]]
+Constituency and Dependency Parsing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Parsing is the main task behind breaking down a text into its more basic
+pieces and structures. A parser will take some input text and find
+specific structures, according to the preset rules, or syntax. Every
+conversion from one text-structure to another relies on parsing. If an
+algorithm takes a text and produces an output that contains the words
+with their corresponding part of speech (POS) tags, we can say, that the
+algorithm parsed the text finding words and adding POS information.
+Parsing is therefore the root of many kinds of linguistic analyses
+producing many sorts of structured output. 
+
+The idea of constituency is that groups of words may behave as a single
+unit or phrase, called a constituent such as __the house__, or __a
+well-weathered three-story structure__. The task of constituency parsing
+is to automatically find those words, which form the constituents. The
+final tree structure consists of final and non-final nodes. The final
+nodes are the words of the text that was parsed. The non-final nodes
+define the type of the phrase represented below the node.
+
+In contrast, the notion of dependency foregrounds the words themselves
+and displays them as connected to each other by direct links. The
+structural center of the sentence is the verb to which every other word
+is (in)directly connected. Compared with the constituency form of
+representation, a dependency tree can be described as flat. The lack of
+phrase structure makes dependency grammars a good match for languages
+with free word order, such as Czech and Turkish.
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/Wearetryingtounderstandthedifference_%282%29.jpg?version=1&modificationDate=1437060128891&api=v2[image]
+
+link:https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg[Dependency
+vs. constituency] by
+link:https://commons.wikimedia.org/w/index.php?title=User:Tjo3ya&action=edit&redlink=1[Tjo3ya]
+(link:https://creativecommons.org/licenses/by-sa/3.0/[CC BY-SA 3.0]) 
+
+[[NamedEntityRecognition]]
+Named Entity Recognition
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Named entity recognition (NER) is a pre-processing step in most
+information extraction tasks. Named entity stands for the text block,
+which refers a name. NER describes the task of finding all names in one
+text and categorising them based on their different types, such as
+persons, organizations or locations.
+
+[[SemanticRoleLabeling]]
+Semantic Role Labeling
+^^^^^^^^^^^^^^^^^^^^^^
+
+Semantic role labeling (SRL, also: thematic role labeling, case role
+assignment) refers to a parsing approach that aims towards detecting all
+arguments of a verb. Ideally, it is able to assign appropriate semantic
+roles to its arguments (such as __agent, patient, __or __instrument__),
+thus preparing for a semantic interpretation of the sentence.
+
+[[ConfiguringthePipeline]]
+*Configuring the Pipeline*
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[ConfigurationFile]]
+Configuration File 
+^^^^^^^^^^^^^^^^^^^
+
+The pipeline allows users to select components specifically suited to
+their demands by means of a configuration file, as described in the
+official link:https://rawgit.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/user-guide.html#_write_your_own_config_files[installation
+and user guide]. In addition to the language specific configuration
+files, it also includes a
+link:https://rawgit.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/user-guide.html#_run_a_light_version[light
+version] which omits the computationally expensive components.
+
+[[Buildingyourown]]
+Building your own
+^^^^^^^^^^^^^^^^^
+
+For creating your own pipeline the latest version of Java SDK (1.8 or
+higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
+and the DKPro Core ASL 1.8.0 or higher have to be installed on your
+computer. For further information
+see link:http://dkpro.github.io/dkpro-core/pages/java-intro.html[First
+Programming Steps with DKPro Core].
+
+Some of the analysis components can be run with different models. For
+processing you can choose the component and the model that suits your
+interests the most
+from link:http://dkpro.github.io/dkpro-core/releases/1.7.0/components.html[this
+list]. For example, if you want to classify entities such as the names
+of persons, locations, expressions of times, organisations and so on
+there are two selectable components. StanfordNamedEntityRecognizer and
+OpenNlpNameFinder both are suitable for Named Entity Recognition. But if
+you are working with a German text StanfordNamedEntityRecognizer would
+be the better choice as you see in
+the link:http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html[list
+of models].
+
+[[OutputFormat]]
+*Output Format* +
+~~~~~~~~~~~~~~~~~
+
+[[Specification]]
+Specification  +
+^^^^^^^^^^^^^^^^
+
+Example
+(from link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&modificationDate=1434960896211&api=v2[EffiBriestKurz.txt.csv]):
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png?version=1&modificationDate=1434537870562&api=v2[image]
+
+[[ReadingtheOutput]]
+Reading the Output
+^^^^^^^^^^^^^^^^^^
+
+[[R]]
+R
++
+
+In R, a simple reader can be written as follows:
+
+[source, r]
+----
+df = read.table("./data/Effi_Briest_Short.txt.csv", # or whatever file you want to read
+                header = T,                         # first line as headers
+                fill = T)                           # fill empty cells to avoid errors
+----
+
+[[Python]]
+Python
+++++++
+
+In Python, you can use the following code to ingest the output file.
+
+[source, python]
+----
+import pandas as pd
+
+import csv
+
+df = pd.read_csv("EffiBriestKurz.txt.csv", sep="\t", quoting=csv.QUOTE_NONE)
+----
+
+[[FurtherExamples]]
+Further Examples
+^^^^^^^^^^^^^^^^
+
+You can also specify a subset of columns to use. Columns are addressed
+using their column names.
+
+[source, python]
+----
+columns_input = ['SentenceId', 'TokenId', 'Token', 'CPOS']
+
+df = df[columns_input]                                     # use only the selected columns
+----
+
+Use the pandas.DataFrame.groupby() method to easily access file
+contents. The following example shows how to retrieve a sentence.
+
+[source, python]
+----
+sentences = df.groupby('SentenceId')                        # sort by sentence id
+
+sent = sentences.get_group(10)                              # get sentence no. 10, returns a smaller dataframe
+----
+
+Using the same method, you can filter the entire file for a specific
+part-of-speech.
+
+[source, python]
+----
+tags = df.groupby('CPOS')                                   # sort by CPOS values
+
+adj = tags.get_group('ADJ')                                 # get all adjectives
+----
+
+Filtering for a specific value can also be done within a sentence.
+
+[source, python]
+----
+nn = sent[sent['CPOS'] == 'NN']                             # get nouns from the sentence
+----
+
+You can use link:http://pandas-docs.github.io/pandas-docs-travis/groupby.html[GroupBy]-objects
+to process the entire file, e.g. in portions of sentences.
+
+[source, python]
+----
+for sent_id, sent in sentences:                             # iterate through sentences
+
+    for tok_id, tok, pos in zip(sent['TokenId'], sent['Token'], sent['CPOS']):  # go through each token in the sentence
+
+        print(tok_id, tok, pos)
+----
+
+[[API]]
+API
+^^^
+
+In addition to the examples above, an API (application program
+interface) will be provided, containing helper functions that simplify
+the retrieval of (combinations of) of features. 
+
+[[StylometricAnalysiswiththeStyloPackageinR]]
+Example Recipe: Stylometric Analysis with the "Stylo" Package in R
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this recipe, we will demonstrate how to use the NLP pipeline's output
+to explore different stylometrical aspects in a set of example texts
+using Stylo.
+The **link:https://sites.google.com/site/computationalstylistics/stylo[Stylo]**
+package is a popular tool written in R that provides a graphical
+interface to several functions for stylometrical analysis. Usually,
+Stylo takes a folder containing plain or xml text files as input. The
+user is then free to choose among different stylometrical procedures,
+e.g. PCA, and Burrows' Delta, and different kinds of features to
+analyze. Currently (in June 2015) available features are single words,
+word n-grams and character n-grams. In this recipe, it will be
+demonstrated how to use the output of our NLP pipeline to build
+sophisticated features for analysis in Stylo. In this example, two
+different feature types will replace the original words of the texts:
+the descriptive vocabulary, i.e. the adjectives and adverbs, and the
+abstract sentence structures in terms of n-grams of part-of-speech
+tags. 
+
+[[ExampleCorpus]]
+Example Corpus
+++++++++++++++
+
+The
+link:https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&modificationDate=1442405820574&api=v2[example
+set] is a small collection of English short stories (the "small" and
+"short" aspects hopefully improving processing time in a way suitable
+for an example tutorial) written between 1889 and 1936 by four different
+authors: Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft and Robert
+E. Howard. The texts are all public domain and available
+on link:https://www.gutenberg.org/[Project Gutenberg], headers and metadata
+were removed from the plain text files before processing.
+
+[[PreparingDescriptiveVocabularyandPart-of-SpeechTags]]
+*Preparing Descriptive Vocabulary and Part-of-Speech Tags*
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+After running the NLP processing pipeline, the next step is to read out
+the relevant information from the CSV-files and store it in a form
+digestible for Stylo. Stylo processes input files from a folder named
+"corpus" in the working directory located within the current working
+directory.
+
+The first thing to do is to set R's *working directory* to your current
+working folder, i.e. the one where the CSV files are to be found. In R,
+the working directory can be changed using the "setwd()" command in the
+R console, like in
+
+[source, r]
+----
+setwd("~/DKPro/")
+----
+
+If you are uncertain about your current working directory, you can
+compute it by typing
+
+[source, r]
+----
+getwd()
+----
+
+
+The following R-code will *extract the desired features* from the
+CSV-files and store them in a Stylo-accessible way.
+
+[source, r]
+----
+# Extract file names
+files = list.files(pattern = "*.csv")
+ 
+# Create directories
+dir.create("dv/")
+dir.create("pos/")
+dir.create("dv/corpus/")
+dir.create("pos/corpus/")
+ 
+for(file in files)
+{
+  # Read file
+  df = read.table(file, header = T, fill = T)
+ 
+  # Prepare filename
+  shortfile = sub(".csv", "", file)
+ 
+  # Write Adjectives and Adverbes to analyse the author's inventaar of descriptive vocabulary
+  dv = df$Lemma[df$CPOS == "ADJ" | df$CPOS == "ADV"]
+  filename = paste("./dv/corpus/", shortfile, sep = "")
+  write(paste(dv, collapse = " "), file = filename)
+ 
+  # Write POS tags to compare sentence structure
+  filename = paste("./pos/corpus/", shortfile, sep = "")
+  write(paste(df$CPOS, collapse=" "), file = filename)
+}
+----
+
+[[UsingStylo]]
+Using Stylo
++++++++++++
+
+If you have not *installed* the Stylo package yet, do that with the
+following command into the R console:
+
+[source, r]
+----
+install.packages("stylo")
+----
+
+Next, you can *load the package* with:
+
+[source, r]
+----
+library(stylo)
+----
+
+The workflow requires you at this point to decide on the particular
+analysis, either the descriptive vocabulary or the part-of-speech tag,
+you intend to start with. As Stylo only accepts a single "corpus" folder
+as input, you will have to do these separately. The order, however,
+depends on your preference (or curiosity) only. If you want to analyze
+the **descriptive vocabulary**, type:
+
+[source, r]
+----
+setwd("./dv/")
+----
+
+For working with **part-of-speech tags**, type:
+
+[source, r]
+----
+setwd("./pos/")
+----
+
+Once one of the folders is chosen, you can *start Stylo* by typing
+
+[source, r]
+----
+stylo()
+----
+
+into the R console. The interface will appear:
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/Stylo.png?version=1&modificationDate=1434987160559&api=v2[image]
+
+You can now, for example, run a cluster analysis in Stylo. Doing that
+with the **unprocessed texts**, yields the following result:
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/words_fig_01.png?version=1&modificationDate=1435065739646&api=v2[image]
+
+The authors are clearly separated, the British authors Doyle and Kipling
+are grouped together on one branch, the two Americans on the other.
+
+Now, you can change into the folder with the **descriptive vocabulary**,
+and try the same procedure. With the example data set, we get the
+following result:
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/dv_fig_01.png?version=1&modificationDate=1435066010540&api=v2[image]
+
+While text from the same authors still clustering together, it seems
+that, in contrary to their overall stylistic profile, Howard and Kipling
+are more similar to each other, than to the other investigated writers
+in terms of their preferred use of adjectives and adverbs.
+
+Now, when changing into the folder containing the *part-of-speech* tags,
+it is important for gaining useful results to go to the "Features" tab
+in the Stylo interface and choose n-grams instead of single words as
+features. Our example data set, yields the following output, when using
+trigrams as features:
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/pos_01.png?version=2&modificationDate=1435066645691&api=v2[image]
+
+Interpreting the frequency trigrams of part-of-speech tags an
+approximation for the preference of certain sentence structures, three
+of the authors in the test set appear to be quite consistent in their
+individual syntax preferences, whereas the three texts the from Rudyard
+Kipling in our sample display a remarkable variability.
+
+[[TopicModelinginPython]]
+*Example Recipe: Topic Modeling in Python*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Topic modeling refers to a family of computational techniques that can
+be used to discover the main themes in a set of texts by statistically
+analyzing patterns of word usage. The term is often used synonymously
+with link:https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation[LDA] (see
+Blei's
+link:https://www.cs.princeton.edu/~blei/papers/Blei2012.pdf[introductory
+paper]), which is also the variant we will be working with in this
+tutorial. There have been written numerous introductions to topic
+modeling for humanists (e.g. link:https://de.dariah.eu/tatom/index.html[[1\]]
+link:http://programminghistorian.org/lessons/topic-modeling-and-mallet[[2\]] link:http://mcburton.net/blog/joy-of-tm[[3\]]), which provide another level of
+detail regarding its technical and epistemic properties. Here it should
+just be pointed out that it is a
+link:https://en.wikipedia.org/wiki/Bag-of-words_model[bag-of-words] approach
+purely based on word frequencies, which is unsupervised (it doesn't have
+to be trained on any domain-specific dataset) and thus also works with
+literary and historical texts out of the box. However, as the algorithm
+was devised with summarising news articles and other short text types in
+mind, its functioning is rather sensitive to text length. Also,
+depending on the research question, a rigorous selection process has
+shown to be fruitful, e.g. if you are not explicitly looking for the
+appearance of literary characters in certain semantic contexts, topics
+may become more informative when named entities are being excluded from
+the model.
+
+We are using the link:https://radimrehurek.com/gensim[Gensim] package for
+Python, but of course there are other well known LDA implementations,
+notably link:http://mallet.cs.umass.edu/[Mallett] for Java
+and link:http://cran.r-project.org/web/packages/topicmodels/index.html[topicmodels] for
+R. 
+
+You can find the complete, ready-to-run scripts for this recipe
+link:https://github.com/stefanpernes/dariah-nlp-tutorial[here].
+
+[[ExampleCorpus.1]]
+Example Corpus
+++++++++++++++
+
+Any plain text or collection of texts can be used as input for topic
+modeling, however, this recipe is based on the pipeline's CSV output for
+an improved feature selection process, e.g. controlling what should be
+included or excluded from the model. We will use the
+same link:https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&modificationDate=1442405820574&api=v2[collection
+of English short stories] as in the last recipe, featuring works by
+Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft, and Robert E.
+Howard. 
+
+[[SettinguptheEnvironment]]
+Setting up the Environment
+++++++++++++++++++++++++++
+
+The following code is designed to run with Python 3, which is
+recommended for its
+built-in link:https://en.wikipedia.org/wiki/Unicode[Unicode] capabilities and
+various other improvements. Assuming that you have Python (and its
+package manager __pip__) installed, issuing the following command at the
+command line will download and install the packages needed for this
+recipe:
+
+[source, python]
+----
+pip3 install gensim pandas numpy pyLDAvis
+----
+
+*Note:* pyLDAvis is currently not available under Windows (as of
+10/2015)
+
+Also needed for this recipe is the widely used visualization
+package __matplotlib__ for which installation directions are a bit
+different on each platform. If you are on a Debian based Linux system
+such as Ubuntu, you can use
+
+[source, python]
+----
+sudo apt-get install python-matplotlib
+----
+
+If you are on OS X you can just use _pip_
+
+[source, python]
+----
+pip3 install matplotlib
+----
+
+For installation on Windows (and other Linux systems), please have a
+look at matplotlib's
+link:http://matplotlib.org/users/installing.html[official documentation].
+
+Now, for actually running this recipe, the most simplistic way would be
+to just start _python_ and enter the code line by line, but it is highly
+recommended to look into
+http://ipython.org/notebook.html[IPython/Jupyter] notebooks, if you like
+to work interactively. Most of the time however, you will want to put
+the code into a text file and make it a script that can be interpreted
+by Python. When naming the script, use the file extension _.py_ - e.g.
+_lda.py_ - and enter the following as its first line:
+
+[source, python]
+----
+#!/usr/bin/env python
+----
+
+This takes care of finding the Python interpreter. Furthermore, on Unix
+systems the script needs to be made executable by typing __chmod +x
+lda.py__ on the command line. On Windows systems everything should be
+handled automatically as of Python version 3.3.
+
+If the following statements run without error, everything is installed
+correctly:
+
+[source, python]
+----
+from gensim.corpora import MmCorpus, Dictionary
+from gensim.models import LdaMulticore
+import pandas as pd
+import numpy as np
+import os
+import sys
+import csv
+----
+
+These should be placed right after the first line, or, when working
+interactively, they are the first lines of the script.
+
+**Note:** The model specified here is its parallelized version that uses
+all CPU cores to speed up training. For the single core version, just
+replace 'LdaMulticore' with 'LdaModel'.
+
+[[ConfigurationSection]]
+Configuration Section
++++++++++++++++++++++
+
+The following statements are so called 'constants' that reside in the
+global variable space of the script, being accessible to all functions
+and other sub-entities. This can be viewed as a configuration section,
+which we will use to set parameters for pre-processing and modeling.
+
+[source, python]
+----
+# input
+columns = ['ParagraphId', 'TokenId', 'Lemma', 'CPOS', 'NamedEntity']   # columns to read from csv file
+pos_tags = ['ADJ', 'NN']                        # parts-of-speech to include into the model
+ 
+# stopwords
+stopwordlist = "stopwords.txt"                  # path to text file, e.g. stopwords.txt in the same directory as the script
+ 
+# document size (in words)
+#doc_size = 1000000 # set to arbitrarily large value to use original doc size
+doc_size = 1000                                 # the document size for LDA commonly ranges from 500-2000 words
+doc_split = 0                                   # uses the pipeline's ParagraphId to split text into documents, overrides doc_size - 1: on, 0: off 
+ 
+# model parameters, cf. https://radimrehurek.com/gensim/models/ldamodel.html
+no_of_topics = 20                               # no. of topics to be generated
+no_of_passes = 200                              # no. of lda iterations - usually, the more the better, but increases computing time
+ 
+eval = 1                                        # perplexity estimation every n chunks - the smaller the better, but increases computing time
+chunk = 10                                      # documents to process at once
+ 
+alpha = "symmetric" # "symmetric", "asymmetric", "auto", or array (default: a symmetric 1.0/num_topics prior)
+                                                # affects sparsity of the document-topic (theta) distribution
+
+
+# custom alpha may increase topic coherence, but may also produce more topics with zero probability
+#alpha = np.array([ 0.02, 0.02, 0.02, 0.03, 0.03, 0.03, 0.04, 0.04, 0.04, 0.05,
+# 0.05, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02])
+
+eta = None                                      # can be a number (int/float), an array, or None
+                                                # affects topic-word (lambda) distribution - not necessarily beneficial to topic coherence
+----
+
+**Note:** Here, we are using the CPOS column, which takes its values
+from DKPro's universal coarse-grained tag set (consisting of 13
+tags: __ADJ, ADV, ART, CARD, CONJ, N (NP, NN), O, PP, PR, V, PUNC__).
+Alternatively, you can always use the POS column for a more fine grained
+selection. Currently the pipeline
+includes link:https://code.google.com/p/mate-tools[MatePosTagger], which
+produces output based on e.g.
+the link:http://www.clips.ua.ac.be/pages/mbsp-tags[Penn Tree Bank] tag set
+for English
+and link:http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html[STTS] for
+German. More information about DKPro components and the tag sets they
+are trained on can be
+found link:http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html[here].
+
+[[PreparingtheData]]
+Preparing the Data
+++++++++++++++++++
+
+As in many other machine learning applications, the amount of code
+needed to clean the data and to bring it into a form that can be
+processed far exceeds the actual modeling code (when using some kind of
+framework as it is the case here). What keeps the following code rather
+short, are the properties of the pipeline output format which make it
+easy to filter for feature combinations. As noted before - although in
+principle topic modeling works with completely unrestricted text - we
+want to be able to select certain word forms (based on their POS-tags)
+and match other restrictions (e.g. not to include named entities).
+Another thing we want to control is the size of text segments that get
+passed over to LDA as "documents" - as you experiment with different
+sizes you will notice that documents which are too large (novels as a
+whole) or too small (short scenes) both produce rather meaningless
+topics. A document size between 500 - 2000 words should yield acceptable
+results. Apart from producing arbitrary text segments of fixed size, we
+can also use the pipeline's ParagraphId feature, which can be set to
+count paragraphs using a string pattern.
+
+[source, python]
+----
+def preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
+    docs = []
+    doc_labels = []
+    stopwords = ""
+ 
+    print("reading files ...\n")
+ 
+    try:
+        with open(stopwordlist, 'r') as f: stopwords = f.read()
+    except OSError:
+        pass
+    stopwords = sorted(set(stopwords.split("\n")))
+ 
+    for file in os.listdir(path=path):
+        if not file.startswith("."):
+            filepath = path+"/"+file
+            print(filepath)
+ 
+            df = pd.read_csv(filepath, sep="\t", quoting=csv.QUOTE_NONE)
+            df = df[columns]
+            df = df.groupby('CPOS')
+ 
+            doc = pd.DataFrame()
+            for p in pos_tags:                          # collect only the specified parts-of-speech
+                doc = doc.append(df.get_group(p))
+ 
+
+
+            """
+
+ df = df.groupby('NamedEntity') # add named entities to stopword list
+
+ names = df.get_group('B-PER')['Lemma'].values.astype(str)
+
+ names += df.get_group('I-PER')['Lemma'].values.astype(str)
+
+ """
+
+ 
+            names = df.get_group('NP')['Lemma'].values.astype(str)
+            stopwords += names.tolist()
+ 
+            # construct documents
+            if doc_split:                               # size according to paragraph id
+                doc = doc.groupby('ParagraphId')
+                for para_id, para in doc:
+                    docs.append(para['Lemma'].values.astype(str))
+                    doc_labels.append(file.split(".")[0]+" #"+str(para_id))     # use filename + doc id as plot label
+            else:                                       # size according to doc_size
+                doc = doc.sort(columns='TokenId')
+                i = 1
+                while(doc_size < doc.shape[0]):
+                    docs.append(doc[:doc_size]['Lemma'].values.astype(str))
+                    doc_labels.append(file.split(".")[0]+" #"+str(i))
+                    doc = doc.drop(doc.index[:doc_size])        # drop doc_size rows
+                    i += 1
+                docs.append(doc['Lemma'].values.astype(str))    # add the rest
+                doc_labels.append(file.split(".")[0]+" #"+str(i))
+ 
+    #for doc in docs: print(str(len(doc))) # display resulting doc sizes
+    #print(stopwords)
+ 
+    print("\nnormalizing and vectorizing ...\n")        # cf. https://radimrehurek.com/gensim/tut1.html
+ 
+    texts = [[word for word in doc if word not in stopwords] for doc in docs]       # remove stopwords
+ 
+    all_tokens = sum(texts, [])                                                     # remove words that appear only once
+    tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
+    texts = [[word for word in text if word not in tokens_once] for text in texts]
+ 
+    dictionary = Dictionary(texts)                      # vectorize
+    corpus = [dictionary.doc2bow(text) for text in texts]
+ 
+    return dictionary, corpus, doc_labels
+----
+
+It might be the case that filtering out named entities using information
+from the NamedEntity column still leaves too many unwanted names in the
+model. That can happen because NER components differ in performance for
+different languages and different types of text. An independently
+developed NER component trained on German 19th century novels will be
+included in a later version of the pipeline to address use cases like
+this. In the meanwhile, and as a more generic approach, you can also try
+filtering all proper nouns (NP).
+
+[source, python]
+----
+df = df.groupby('CPOS')
+
+names = df.get_group('NP')['Lemma'].values.astype(str)
+
+stopwords += names.tolist()
+----
+
+[[FittingtheModel]]
+Fitting the Model
++++++++++++++++++
+
+Next, we can put it all together. The following is the script's entry
+point, which is usually placed at the bottom of every Python script. It
+checks for a command line argument, which should be a path. That path
+gets handed over to the preprocessing() function, which loads file after
+file and performs feature selection as well as vectorization of the
+data. The resulting dictionary and corpus objects are then used to
+create a LdaMulticore() model. Afterwards, the topics are displayed.
+
+[source, python]
+----
+if len(sys.argv) < 2:
+    print("usage: {0} [folder containing csv files]\n"
+          "parameters are set inside the script.".format(sys.argv[0]))
+    sys.exit(1)
+ 
+path = sys.argv[1]
+foldername = path.split("/")[-1]
+ 
+dictionary, corpus, doc_labels = preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist)
+
+print("fitting the model ...\n")
+ 
+model = LdaMulticore(corpus=corpus, id2word=dictionary, num_topics=no_of_topics, passes=no_of_passes,
+                 eval_every=eval, chunksize=chunk, alpha=alpha, eta=eta)
+ 
+print(model, "\n")
+ 
+topics = model.show_topics(num_topics=no_of_topics)
+ 
+for item, i in zip(topics, enumerate(topics)):
+    print("topic #"+str(i[0])+": "+item+"\n")
+----
+
+For the example corpus this produces the following topics (shows the top
+10 terms for each topic, the order of topics is random by default):
+
+----
+topic #0: 0.012*instant + 0.011*universe + 0.010*mad + 0.008*way + 0.008*everyone + 0.007*ship + 0.007*whilst + 0.007*other + 0.007*poor + 0.007*moment
+topic #1: 0.008*world + 0.007*horror + 0.006*years + 0.006*body + 0.006*other + 0.006*terrible + 0.004*woman + 0.004*tree + 0.004*family + 0.004*baronet
+topic #2: 0.009*corridor + 0.009*foot + 0.009*hand + 0.008*woman + 0.007*eyes + 0.007*lover + 0.007*floor + 0.006*chamber + 0.006*shape + 0.006*estate
+topic #3: 0.012*point + 0.012*foot + 0.011*specimen + 0.011*inch + 0.009*print + 0.008*tube + 0.008*vegetable + 0.008*animal + 0.008*camp + 0.008*diameter
+topic #4: 0.012*other + 0.012*way + 0.012*face + 0.010*case + 0.010*last + 0.010*eyes + 0.009*hand + 0.009*moor + 0.007*nothing + 0.006*anything
+topic #5: 0.013*arms + 0.008*shape + 0.006*human + 0.005*tree + 0.005*lip + 0.005*neck + 0.005*face + 0.005*loam + 0.005*pave + 0.005*preferable
+topic #6: 0.000*incoherent + 0.000*reality + 0.000*riches + 0.000*fearful + 0.000*neighbor + 0.000*oriental + 0.000*liking + 0.000*tentacle + 0.000*prize-fighter + 0.000*bristle
+topic #7: 0.016*eyes + 0.012*poor + 0.011*anything + 0.010*hot + 0.009*punkah + 0.009*chap + 0.009*cooly + 0.008*face + 0.008*native + 0.006*sort
+topic #8: 0.017*stain + 0.015*chemical + 0.012*test + 0.009*file + 0.009*rooms + 0.008*wagonette + 0.007*text + 0.007*eccentric + 0.007*fare + 0.006*misfortune
+topic #9: 0.017*buffalo + 0.016*foot + 0.015*child + 0.015*herd + 0.014*things + 0.013*branch + 0.011*boy + 0.010*eyes + 0.010*moon + 0.009*skin
+topic #10: 0.000*incoherent + 0.000*reality + 0.000*riches + 0.000*fearful + 0.000*neighbor + 0.000*oriental + 0.000*liking + 0.000*tentacle + 0.000*prize-fighter + 0.000*bristle
+topic #11: 0.017*eyes + 0.013*tree + 0.013*foot + 0.009*hand + 0.008*cliff + 0.008*fire + 0.007*hands + 0.007*shoulder + 0.007*figure + 0.007*ruin
+topic #12: 0.026*things + 0.020*dretful + 0.017*home + 0.016*while + 0.013*fine + 0.011*legs + 0.010*round + 0.010*afraid + 0.009*loud + 0.008*bit
+topic #13: 0.000*incoherent + 0.000*reality + 0.000*riches + 0.000*fearful + 0.000*neighbor + 0.000*oriental + 0.000*liking + 0.000*tentacle + 0.000*prize-fighter + 0.000*bristle
+topic #14: 0.013*desert + 0.008*palm + 0.008*human + 0.007*hand + 0.006*hut + 0.006*other + 0.006*lamp + 0.005*shadow + 0.005*eyes + 0.005*foot
+topic #15: 0.009*case + 0.009*other + 0.008*family + 0.006*cellar + 0.005*manuscript + 0.005*record + 0.005*account + 0.005*much + 0.005*years + 0.005*interest
+topic #16: 0.015*wind + 0.015*plane + 0.013*camp + 0.012*snow + 0.010*wireless + 0.010*world + 0.009*other + 0.009*antarctic + 0.008*whole + 0.008*seal
+topic #17: 0.000*incoherent + 0.000*reality + 0.000*riches + 0.000*fearful + 0.000*neighbor + 0.000*oriental + 0.000*liking + 0.000*tentacle + 0.000*prize-fighter + 0.000*bristle
+topic #18: 0.011*foot + 0.009*base + 0.008*plane + 0.008*world + 0.008*camp + 0.007*crew + 0.007*trip + 0.007*peak + 0.007*years + 0.006*unknown
+topic #19: 0.003*cleanliness + 0.003*hawk-like + 0.003*luncheon + 0.000*readiness + 0.000*channels + 0.000*brigade + 0.000*enthusiast + 0.000*exactness + 0.000*edition + 0.000*politics
+----
+
+When you put everything together and do a test run, you will notice that
+producing an LDA model can take quite some time - if you have a lot of
+text to process, that might be something to do over night. Furthermore,
+as LDA is a generative and probabilistic model, its output is slightly
+different each time it is run (though, with a high number of iterations
+- see
+*link:#ConfigurationSection[configuration section]* - results should be pretty stable).
+
+*Note:* The configuration options implemented and discussed in this
+recipe will most likely *have to be adjusted* for use with another set
+of texts - be sure to experiment with different numbers of topics,
+iterations, document sizes, parts-of-speech to include, and if you're
+feeling adventurous, also try different settings for the LDA
+hyperparameters - _alpha_ and __eta__.
+
+**Note:** If you want to know more about what's happening under the
+hood, append the following to the import statements at the beginning of
+the file. Beware that Gensim's logging produces a lot of detailed
+output.
+
+----
+import logging
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+----
+
+Finally, you can save calculated models to disk and load them
+afterwards, e.g. for experimenting with different visualizations. This
+last part of the script saves the model, corpus, and dictionary objects
+using Gensim's
+https://radimrehurek.com/gensim/models/ldamodel.html#gensim.models.ldamodel.LdaModel.save[save()]
+function, as well as document labels and the topics themselves as text
+files.
+
+[source, python]
+----
+print("saving ...\n")
+ 
+if not os.path.exists("out"): os.makedirs("out")
+ 
+with open("out/"+foldername+"_doclabels.txt", "w") as f:
+    for item in doc_labels: f.write(item+"\n")
+ 
+with open("out/"+foldername+"_topics.txt", "w") as f:
+    for item, i in zip(topics, enumerate(topics)):
+        f.write("topic #"+str(i[0])+": "+item+"\n")
+ 
+dictionary.save("out/"+foldername+".dict")
+MmCorpus.serialize("out/"+foldername+".mm", corpus)
+model.save("out/"+foldername+".lda")
+----
+
+[[VisualizationOptions]]
+Visualization Options
++++++++++++++++++++++
+
+Each of the following visualizations is generated by its own Python
+script that is able to draw on contents and metadata of the LDA model
+using the save files generated by __lda.py. __The scripts expect a path
+to the generated model **.lda **file and that it is in the same
+directory as the other save files.
+
+[[Interactive]]
+*Interactive*
+
+**[link:https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_interactive.py[Source]]** This
+piece of code produces an interactive visualization of what the model
+has learned from the data. You can explore our example model by
+downloading
+link:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.html?version=1&modificationDate=1443696896209&api=v2[this
+HTML file] and opening it in a browser. The figure in the left column
+shows a projection of the inter-topic distances onto two dimensions, the
+barchart on the right shows the most useful terms for interpreting
+selected topic based on the 'relevance metric' slider. Basically, it
+allows for an interactive reranking and thus exploration of all terms
+connected to the topic, also those, which the model might have placed at
+the bottom. Another thing is that terms can be selected and in turn show
+how they are distributed on the map. The visualization package pyLDAvis
+has been described in
+http://nlp.stanford.edu/events/illvi2014/papers/sievert-illvi2014.pdf[this
+paper].
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png?version=1&modificationDate=1443696593537&api=v2[image]
+
+* +
+*
+
+[[Heatmap]]
+*Heatmap*
+
+**[link:https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_heatmap.py[Source]] **The
+heatmap option displays the kind of information that is probably most
+useful to literary scholars. Going beyond pure exploration, this
+visualization can be used to show thematic developments over a set of
+texts as well as a single text, akin to a dynamic topic model. What also
+becomes apparent here, is that some topics correlate highly with a
+specific author or group of authors, while other topics correlate highly
+with a specific text or group of texts. All in all, this displays two of
+LDA's properties - its use as a distant reading tool that aims to get at
+text meaning, and its use as a provider of data that can be further used
+in computational analysis, such as document classification or authorship
+attribution. To get a feel for this visualization you can try
+e.g. building a number of models with varying document size
+(see link:#ConfigurationSection[configuration
+section] in __lda.py__) - smaller document sizes 'zoom in' on the
+thematic development inside texts, while larger ones 'zoom out', up
+until there is only one row per document to display.
+
+*image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&modificationDate=1443688101001&api=v2[image] +
+*
+
+[[Network]]
+*Network*
+
+**[link:https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_network.py[Source]]** For
+a more artistic presentation of a topic model, consider the following
+network graph that can be generated using a snippet from
+link:http://nbviewer.ipython.org/github/sgsinclair/alta/blob/master/ipynb/ArtOfLiteraryTextAnalysis.ipynb[The
+Art of Literary Text Analysis] by Stéfan Sinclair & Geoffrey Rockwell,
+namely the
+link:http://nbviewer.ipython.org/github/sgsinclair/alta/blob/master/ipynb/TopicModelling.ipynb#Graphing-Topic-Terms[Graphing
+Topic Terms] function, which produces the following graph:
+
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_network.png?version=2&modificationDate=1443698376913&api=v2[image]
+
+The graph shows the top 30 terms for each topic. Terms that are only
+connected to one topic are placed on the outside, while the terms that
+appear in more than one topic distribute themselves on the inside. In
+contrast to the interactive map example above, the topography of this
+network graph is not based on a distance measure but a product of the
+layout algorithm.
+
+*Note:* You might want to try out various settings, depending on how
+many nodes you need to fit on the canvas. For this visualization the
+settings **k=0.060,** *iterations=30* were passed to the
+*nx.spring_layout()* function.
+
+[[StylometricClassificationinPython]]
+**Example Recipe: Stylometric Classification in Python** 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this recipe, we will show how to implement a cross-genre stylometric
+classification system similar to the one proposed by van Halteren et al.
+in
+__link:http://www.sfs.uni-tuebingen.de/~hbaayen/publications/VanHalterenEtAlJQL.pdf[New
+Machine Learning Methods Demonstrate the Existence of a Human
+Stylome]__. In short, the authors propose a set of features and a
+classification algorithm based on the idea that everyone's individual
+language form can be classified in terms of a 'stylome', as much as it
+can be for experienced writers. While we employ an ordinary _Random
+Forest Classifier_ instead of the author's own _Weighted Probability
+Distribution Voting_ algorithm, we can show how to build a pairwise
+classification system that works genre-independently with an accuracy of
+around 0.70 using only the feature set.
+
+You can find the complete, ready-to-run Python script
+on link:https://github.com/stefanpernes/dariah-nlp-tutorial[Github].
+
+[[ExampleCorpus.2]]
+Example Corpus
+++++++++++++++
+
+The original corpus used in the paper is controlled for various factors
+and designed to make the classification task as hard as possible in
+order to substantiate the human stylome hypothesis. It consists of 72
+Dutch texts by 8 authors, having roughly the same age and educational
+background. And it includes different text types: Each author was asked
+to produce three argumentative non-­fiction texts, three descriptive
+non-­fiction texts, and three fiction texts, each approximately 1,5
+pages long. This led to a corpus controlled for register, genre and
+topic of the texts. It is suitable for training 72 models (for each
+possible pair of authors, based on eight texts each) and deriving a
+combined classification score.
+
+Since we don't have such a fine tuned corpus at hand, we decided to
+recreate part of it using freely available texts from
+link:http://gutenberg.spiegel.de[Project Gutenberg]. The example corpus
+provided here, consists of texts by two writers from roughly the same
+period, link:https://en.wikipedia.org/wiki/Heinrich_von_Kleist[Heinrich von
+Kleist] (1777–1811) and
+link:https://en.wikipedia.org/wiki/Franz_Grillparzer[Franz Grillparzer]
+(1791–1872). As it is the case for the original setup, this collection
+includes three prose texts, three plays, and three poems for each
+author. The filenames reflect their respective text types (although this
+information is not needed for the classification experiment) and
+indicate whether a longer text has been truncated ("Anfang").
+Additionally, some poems had to be concatenated in order to arrive at a
+minimum text length of 300 words (labelled "Gedichte"). You can
+**link:https://wiki.de.dariah.eu/download/attachments/40213783/grillparzer-kleist.zip?version=1&modificationDate=1436871578064&api=v2[get
+the example corpus here]**.
+
+[[SettinguptheEnvironment.1]]
+Setting up the Environment
+++++++++++++++++++++++++++
+
+Assuming you have Python installed, issuing the following command at the
+command line will download and install the packages needed for this
+recipe:
+
+[source, python]
+----
+pip3 install pandas scikit-learn
+----
+
+Have a look at the link:#SettinguptheEnvironment[previous recipe setup] for more detailed instructions. Now we can use the
+following import statements:
+
+[source, python]
+----
+import pandas as pd
+import numpy as np
+import os, sys
+from collections import Counter
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.preprocessing import Imputer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.cross_validation import cross_val_score, ShuffleSplit
+----
+
+[[FeatureSelection]]
+Feature Selection
++++++++++++++++++
+
+The author's approach to measuring a human stylome rests on the idea
+that any individual form can be classified as long as one looks for a
+large enough number of traits, consisting of both, vocabulary as well as
+syntactic features. This is also what the feature set in van Halteren et
+al. reflects:
+
+----
+   1. Current token
+   2. Previous token
+   3. Next token
+   4. Concatenation of the wordclass tags of these three tokens (as
+       assigned by an automatic WOTANlite tagger (van Halteren et al.., 2001)
+   5. Concatenation of
+       a. length of the sentence (in 7 classes: 1, 2, 3, 4, 5-10,11-20 or 21+
+           tokens)
+       b. position in the sentence (in 3 classes: first three tokens, last
+           three tokens, other)
+   6. Concatenation of
+       a. part of speech of the current token, i.e. the initial part of the
+           wordclass tag
+       b. frequency of the current token in the text (in 5 classes: 1, 2-5,
+           6-10,11-20 or 21+)
+       c. number of blocks (consisting of 1/7th of the text) in which the
+           current token is found (in 4 classes: 1, 2-3,4-6,7)
+       d. distance in sentences to the previous occurrence of the current token
+           (in 7 classes: NONE, SAME, 1, 2-3,4-7,8-15,16+)
+----
+
+Taken as a software specification this should prove a worthy test for
+the practicability of the CSV format. It translates into the following
+_featureselect()_ function plus smaller functions to help with the
+calculation of specified classes:
+
+[source, python]
+----
+def wordcount(wordlist):
+    dict = {}
+    for word in wordlist:
+        if word not in dict: dict[word] = 1
+        else: dict[word] += 1
+    return dict
+ 
+def token_in_textblock(text, token):        # returns number of blocks (consisting of 1/7th of the text)
+    blocks = []                             # in which the current token is found, in 4 classes: 1, 2-3,4-6,7
+    block_size = len(text)/7
+    last = no_of_blocks = 0
+ 
+    while last < len(text):
+        blocks.append(text[int(last):int(last + block_size)])
+        last += block_size
+ 
+    for block in blocks:
+        if token in block: no_of_blocks += 1
+ 
+    if no_of_blocks == 1: occur_class = 1
+    elif 2 <= no_of_blocks <= 3: occur_class = 2
+    elif 4 <= no_of_blocks <= 6: occur_class = 3
+    else: occur_class = 4
+ 
+    return occur_class
+ 
+def distance_to_previous(curr_tok_id, curr_sent_id, occurrences):
+    # returns distance in sentences to the previous occurrence
+    # of the current token (in 7 classes: NONE, SAME, 1, 2-3,4-7,8-15,16+
+ 
+    occurrences = occurrences.reset_index()                             # add new index from 0 .. len(occurrences.index)
+ 
+    current_key = occurrences[occurrences['TokenId'] == curr_tok_id].index[0]   # get row corresponding to curr_tok_id + its new index value
+ 
+    if current_key > 0:                                                 # there is more than one && its not the first occurrence
+        prev_sent_id = int(occurrences.iloc[current_key-1, 1])          # get previous sentence id based on that index
+ 
+        dist = curr_sent_id - prev_sent_id
+ 
+        if dist == 0: d_class = 2
+        elif dist == 1: d_class = 3
+        elif 2 <= dist <= 3: d_class = 4
+        elif 4 <= dist <= 7: d_class = 5
+        elif 8 <= dist <= 15: d_class = 6
+        elif 16 <= dist: d_class = 7
+    else:
+        d_class = 1
+ 
+    return d_class
+ 
+
+
+def featureselect(text):
+    columns = ['SentenceId', 'TokenId', 'Token', 'CPOS']
+    columns_features = ['CurrToken', 'PrevToken', 'NextToken', 'TokenTags', 'LengthPosition', 'TagFreqOccur']
+ 
+    csv = pd.read_csv(text, sep="\t")
+    df = csv[columns]                               # create copy containing only the specified columns
+ 
+    sent_max = df["SentenceId"].max()               # number of sentences in the text
+    token_max = df["TokenId"].max()                 # number of tokens in the text
+ 
+    text = list(df["Token"])
+    word_freq = wordcount(text)                     # word frequencies
+ 
+    features = pd.DataFrame(columns=columns_features, index=range(token_max+1))       # dataframe to hold the results
+ 
+    for sent_id in range(sent_max+1):               # iterate through sentences
+        sentence = df[df['SentenceId'] == sent_id]  # return rows corresponding to sent_id
+ 
+        s_len = len(sentence.index)                 # length of the sentence
+        if s_len == 1: s_class = 1                  # in 7 classes: 1, 2, 3, 4, 5-10,11-20 or 21+ tokens
+        elif s_len == 2: s_class = 2
+        elif s_len == 3: s_class = 3
+        elif s_len == 4: s_class = 4
+        elif 5 <= s_len <= 10: s_class = 5
+        elif 11 <= s_len <= 20: s_class = 6
+        elif 21 <= s_len: s_class = 7
+ 
+        tok_count = 1
+        for row in sentence.iterrows():
+            tok_id = row[0]                         # row/dataframe index is the same as TokenId
+ 
+            features.iat[tok_id, 0] = current_tok = row[1].get("Token")             # save current token
+            tokentags = current_pos = row[1].get("CPOS")                            # get current pos tag
+ 
+            if tok_id > 0:
+                features.iat[tok_id, 1] = df.iloc[tok_id-1, 2]                      # save previous token
+                tokentags += "-" + df.iloc[tok_id-1, 3]                             # get previous pos tag
+            else:
+                tokentags += "-NaN"
+ 
+            if tok_id < token_max:
+                features.iat[tok_id, 2] = df.iloc[tok_id+1, 2]                      # save next token
+                tokentags += "-" + df.iloc[tok_id+1, 3]                             # get next pos tag
+            else:
+                tokentags += "-NaN"
+ 
+            features.iat[tok_id, 3] = tokentags                         # save pos tags
+ 
+            if tok_count <= 3: t_class = 1                              # position in the sentence
+            elif (s_len-3) < tok_count <= s_len: t_class = 2            # in 3 classes: first three tokens, last three tokens, other
+            else: t_class = 3
+ 
+            features.iat[tok_id, 4] = str(s_class) + "-" + str(t_class) # save sentence length + token position
+ 
+            tok_freq = word_freq[current_tok]                           # frequency of the current token in the text
+            if tok_freq == 1: f_class = 1                               # in 5 classes: 1, 2-5, 6-10,11-20 or 21+
+            elif 2 <= tok_freq <= 5: f_class = 2
+            elif 6 <= tok_freq <= 10: f_class = 3
+            elif 11 <= tok_freq <= 20: f_class = 4
+            elif 21 <= tok_freq: f_class = 5
+ 
+            block_occur = token_in_textblock(text, current_tok)
+ 
+            occurrences = df[df['Token'] == current_tok]                # new dataframe containing all of curr_token's occurrences
+            previous_distance = distance_to_previous(tok_id, sent_id, occurrences)
+ 
+            features.iat[tok_id, 5] = current_pos + "-" + str(f_class) + "-" + str(block_occur) + "-" + str(previous_distance)
+ 
+            tok_count += 1
+ 
+    return features
+----
+
+The output is a DataFrame that looks like this:
+
+----
+           CurrToken       PrevToken       NextToken     TokenTags LengthPosition TagFreqOccur
+0                Den             NaN     Mittelgrund    ART-NaN-NN            6-1    ART-2-1-1
+1        Mittelgrund             Den          bilden      NN-ART-V            6-1     NN-1-1-1
+2             bilden     Mittelgrund          Säulen       V-NN-NN            6-1      V-1-1-1
+3             Säulen          bilden             mit       NN-V-PP            6-3     NN-1-1-1
+4                mit          Säulen          weiten     PP-NN-ADJ            6-3     PP-3-3-1
+5             weiten             mit  Zwischenräumen     ADJ-PP-NN            6-3    ADJ-1-1-1
+6     Zwischenräumen          weiten               ,   NN-ADJ-PUNC            6-3     NN-1-1-1
+7                  ,  Zwischenräumen             das   PUNC-NN-ART            6-3   PUNC-5-4-1
+8                das               ,        Peristyl   ART-PUNC-NN            6-3    ART-3-3-1
+9           Peristyl             das     bezeichnend    NN-ART-ADJ            6-2     NN-1-1-1
+10       bezeichnend        Peristyl               .   ADJ-NN-PUNC            6-2    ADJ-1-1-1
+11                 .     bezeichnend              Im   PUNC-ADJ-PP            6-2   PUNC-5-4-1
+12                Im               .    Hintergrunde    PP-PUNC-NN            6-1     PP-2-2-1
+13      Hintergrunde              Im             der     NN-PP-ART            6-1     NN-1-1-1
+14               der    Hintergrunde          Tempel     ART-NN-NN            6-1    ART-5-4-1
+15            Tempel             der               ,   NN-ART-PUNC            6-3     NN-3-3-1
+16                 ,          Tempel              zu    PUNC-NN-PP            6-3   PUNC-5-4-3
+17                zu               ,             dem    PP-PUNC-PR            6-3     PP-4-4-1
+18               dem              zu         mehrere      PR-PP-PR            6-3     PR-3-3-1
+19           mehrere             dem          Stufen      PR-PR-NN            6-3     PR-2-2-1
+20            Stufen         mehrere     emporführen       NN-PR-V            6-2     NN-2-1-1
+21       emporführen          Stufen               .     V-NN-PUNC            6-2      V-1-1-1
+22                 .     emporführen            Nach     PUNC-V-PP            6-2   PUNC-5-4-3
+23              Nach               .           vorne   PP-PUNC-ADV            6-1     PP-2-2-1
+24             vorne            Nach               ,   ADV-PP-PUNC            6-1    ADV-1-1-1
+25                 ,           vorne          rechts  PUNC-ADV-ADV            6-1   PUNC-5-4-3
+26            rechts               ,             die  ADV-PUNC-ART            6-3    ADV-1-1-1
+27               die          rechts          Statue    ART-ADV-NN            6-3    ART-5-4-1
+28            Statue             die           Amors     NN-ART-NP            6-3     NN-1-1-1
+29             Amors          Statue               ,    NP-NN-PUNC            6-3     NP-1-1-1
+...              ...             ...             ...           ...            ...          ...
+----
+
+[[PreparingtheData.1]]
+Preparing the Data
+++++++++++++++++++
+
+What we need to do now, is to gather this information in bulk and
+convert it into a form suitable for training, respectively testing a
+classifier. In order to achieve this, we write a function that loops
+over all CSV files in a directory and feeds them into _featureselect()_
+one by one. For each document, the resulting feature table gets trimmed
+down to _n_ randomly selected observations (rows) and appended to a big
+DataFrame, which will become the input matrix __X__  for the
+classification task. Simultaneously we build up a vector __y__, holding
+the corresponding author label for each observation. Next, the big
+DataFrame needs to be vectorized, e.g. converted from strings into
+numbers by use of a dictionary. This takes every distinct entry in the
+table and turns it into a column filled with 0's and occasional 1's for
+each time the encoded value shows up in a row. As one can imagine, the
+outcome is a table where the data is scattered among a lot of zeros,
+also called a __sparse matrix__. For the classifier__ __to accept the
+data, we also need to make sure the matrix doesn't contain missing
+values and use an imputer function that replaces NaN's by the median of
+their respective rows.
+
+[source, python]
+----
+def preprocessing(path, n):
+    feats = []
+    y = []
+ 
+    print("processing files and randomly selecting {0} features each ...\n".format(n))
+ 
+    for file in os.listdir(path=path):
+        if not file.startswith("."):
+            author = file.split("-")[0].replace("%20", " ")
+            filepath = path+"/"+file
+            print(filepath)
+ 
+            for i in range(n): y.append(author)                     # add n labels to y
+ 
+            with open(filepath, "r") as f:
+                feat = featureselect(f)                             # perform feature selection
+                rows = np.random.choice(feat.index.values, n)       # randomly select n observations
+                feat_rand = feat.ix[rows]
+ 
+                feats.append(feat_rand)
+                f.close()
+ 
+    data = pd.concat(feats, ignore_index=True)                      # merge into one dataframe
+ 
+    print("\ndimensions of X: {0}".format(data.shape))
+    print("dimensions of y: {0}\n".format(len(y)))
+ 
+    print("vectorizing ...\n")
+ 
+    vec = DictVectorizer(sparse=False)
+    X = vec.fit_transform(data.T.to_dict().values())
+    print("dimensions of X after vectorization: {0}\n".format(X.shape))
+ 
+    imp = Imputer(missing_values='NaN', strategy='median', axis=0)    # replace NaN
+    X = imp.fit_transform(X)
+ 
+    return X, y, vec
+----
+
+[[TrainingandEvaluatingtheClassifier]]
+Training and Evaluating the Classifier
+++++++++++++++++++++++++++++++++++++++
+
+Now, we can put it all together - first we check for two arguments,
+a folder containing CSV files for training and one file for testing the
+classifier. The folder gets passed on to the preprocessing() function,
+which returns the input matrix __X__, the label vector __y__, plus - as
+prerequisite for the prediction step later on - the dictionary used to
+vectorize __X__. Next,
+the link:http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html[RandomForestClassifier]
+can be trained by providing the data and a number of parameters, here we
+use the number of trees in the model and the number of allowed
+concurrent processing threads. As specified in van Halteren et al., each
+model should be _"___trained on a collection of 11200 (2 authors x 8
+training texts x 700 observations) feature vectors".__ The 8 training
+texts are part of a set of 9 texts for each author and comprise 3
+different genres (see the
+link:#ExampleCorpus.2[corpus
+description]).__ __The number of observations can be traced back to
+properties of the originally used algorithm, but it is also a sensible
+default value for this adaption of the experiment.
+
+Following training, an evaluation of the model using the
+scikit-learn link:http://scikit-learn.org/stable/modules/classes.html#module-sklearn.cross_validation[cross
+validation function] is performed. It is set up to use five randomly
+shuffled train and test sets in order to calculate a mean accuracy for
+the classifier.
+
+[source, python]
+----
+n_obs = 700                                                         # no. of observations to select
+n_trees = 30                                                        # no. of estimators in RandomForestClassifier
+ 
+if len(sys.argv) < 3:
+    print("usage: {0} [folder containing csv files for training] [csv file for testing]".format(sys.argv[0]))
+    sys.exit(1)
+ 
+# do feature selection, normalization, and vectorization
+X, y, vec = preprocessing(sys.argv[1], n_obs)
+ 
+# model training
+print("training classifier ...\n")
+clf = RandomForestClassifier(n_estimators=n_trees, n_jobs=-1).fit(X, y) # -1 sets n_jobs to the number of CPU cores
+print(clf)
+ 
+# evaluation
+print("\nperforming cross validation (n_iter=5, test_size=0.125) ...")
+cv = ShuffleSplit(X.shape[0], n_iter=5, test_size=0.125, random_state=4)
+scores = cross_val_score(clf, X, y, cv=cv, n_jobs=-1)
+print(scores)
+print("mean accuracy: %0.2f (+/- %0.2f)\n" % (scores.mean(), scores.std() * 2))
+----
+
+*Output:*
+
+----
+processing files and randomly selecting 700 features each ...
+
+train/Grillparzer%20-%20Das%20goldene%20Vließ%20(Anfang)%20(Drama).txt.csv
+train/Grillparzer%20-%20Das%20Kloster%20bei%20Sendomir%20(Anfang)%20(Prosa).txt.csv
+train/Grillparzer%20-%20Der%20arme%20Spielmann%20(Anfang)%20(Prosa).txt.csv
+train/Grillparzer%20-%20Der%20Traum%20ein%20Leben%20(Anfang)%20(Drama).txt.csv
+train/Grillparzer%20-%20Ein%20Erlebnis%20(Prosa).txt.csv
+train/Grillparzer%20-%20Gedichte%201%20(Lyrik).txt.csv
+train/Grillparzer%20-%20Gedichte%202%20(Lyrik).txt.csv
+train/Grillparzer%20-%20Gedichte%203%20(Lyrik).txt.csv
+train/von%20Kleist%20-%20Amphitryon%20(Anfang)%20(Drama).txt.csv
+train/von%20Kleist%20-%20An%20Wilhelmine%20(Lyrik).txt.csv
+train/von%20Kleist%20-%20Das%20Bettelweib%20von%20Locarno%20(Prosa).txt.csv
+train/von%20Kleist%20-%20Das%20Erdbeben%20in%20Chili%20(Prosa).txt.csv
+train/von%20Kleist%20-%20Das%20Käthchen%20von%20Heilbronn%20(Anfang)%20(Drama).txt.csv
+train/von%20Kleist%20-%20Der%20Welt%20Lauf%20(Lyrik).txt.csv
+train/von%20Kleist%20-%20Der%20zerbrochne%20Krug%20(Anfang)%20(Drama).txt.csv
+train/von%20Kleist%20-%20Die%20beiden%20Tauben%20(Lyrik).txt.csv
+
+dimensions of X: (11200, 6)
+dimensions of y: 11200
+
+vectorizing ...
+
+dimensions of X after vectorization: (11200, 9692)
+
+training classifier ...
+
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=None, max_features='auto', max_leaf_nodes=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=30, n_jobs=-1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+
+performing cross validation (n_iter=5, test_size=0.125) ...
+[ 0.76214286  0.75928571  0.76714286  0.75142857  0.75785714]
+mean accuracy: 0.76 (+/- 0.01)
+----
+
+[[PredictionusingtheClassifier]]
+Prediction using the Classifier
++++++++++++++++++++++++++++++++
+
+Finally, we can use the trained classifier object to predict which
+author the text can be attributed to. The test text - which should be
+the 9th text from one author's set and was not included in training the
+model - is sent through the same pre-processing steps as the other texts
+before. What matters here, is that we use the original classifier
+and __DictVectorizer__ objects to vectorize and classify the test text.
+
+**Note:** You can also decouple the prediction from the training part by
+using an already trained classifier object.
+See link:http://scikit-learn.org/stable/modules/model_persistence.html[model
+persistence].
+
+[source, python]
+----
+print("predicting author for {0} ...\n".format(sys.argv[2]))
+ 
+# feature selection and preprocessing for testfile
+with open(sys.argv[2], "r") as f:
+    feat = featureselect(f)                             # perform feature selection
+    rows = np.random.choice(feat.index.values, n_obs)       # randomly select n observations
+    feat = feat.ix[rows]
+ 
+print("dimensions of X_test: {0}".format(feat.shape))
+ 
+X_test = vec.transform(feat.T.to_dict().values())       # vec must be the same DictVectorizer object as generated by preprocessing()
+ 
+print("dimensions of X_test after vectorization: {0}\n".format(X_test.shape))
+ 
+imp = Imputer(missing_values='NaN', strategy='median', axis=0)    # replace NaN
+X_test = imp.fit_transform(X_test)
+ 
+# prediction
+y_pred = clf.predict(X_test)
+ 
+c = Counter(y_pred)
+c_key = list(c.keys())
+c_val = list(c.values())
+print(c_key[0], c_val[0]/(sum(c.values())/100), "% - ",
+      c_key[1], c_val[1]/(sum(c.values())/100), "%")
+----
+
+*Output:*
+
+----
+predicting author for test/von%20Kleist%20-%20Der%20Findling%20(Prosa).txt.csv ...
+
+dimensions of X_test: (700, 6)
+dimensions of X_test after vectorization: (672, 9692)
+
+von Kleist  77.52976190476191 % -  Grillparzer  22.470238095238095 %
+----
+
+**Note:** During vectorization, Python raises a warning because
+observations which cannot be found in the dictionary, have to be
+dropped. This is in fact how it should behave and if you want to
+suppress those warnings, you can append the following to the import
+statements:
+
+[source, python]
+----
+import warnings
+warnings.filterwarnings("ignore")
+----
+
+*Discussion:*
+
+To wrap up, in this recipe we built a genre-independent
+2-author-classifier using only the feature set from van Halteren et
+al.'s paper. While we did use neither the original algorithm, nor had a
+similarly controlled corpus at our disposal, the classifier displays an
+accuracy of around 0.70. Further tests will be needed to assess its
+cross-genre properties and accuracy in different settings. Furthermore,
+to really recreate the paper's experimental setup, one would need to
+train classifiers for all possible pairs in a set of 8 authors and
+derive a combined classification score from that. All in all it is an
+encouraging start, though - the features as specified in the paper seem
+to be rather robust to different text types and might in fact show, that
+an individually measurable human stylome in writing exists. Apart from
+this experimental setting and prototypical authorship attribution
+problem, another possible application for such a high granularity
+classifier in the context of literary studies could be to measure
+stylistic differences within and in-between one author's works (e.g. in
+order to reveal differences in narrators or focalizations).
+
+We really encourage trying out different classifiers and parameters for
+this task. We have tried most which are included with scikit-learn and
+found that apart from Random Forests, the
+http://scikit-learn.org/stable/modules/tree.html[Decision Tree] and the
+http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html[Gaussian
+Naive Bayes] classifier perform pretty well. Let us know if you find
+other models and/or interesting parameter settings to work with and we
+will list them here.
+
+[[AboutthisTutorial]]
+About this Tutorial
+~~~~~~~~~~~~~~~~~~~
+
+Contact:
+https://dev2.dariah.eu/wiki/display/publicde/Cluster+5%3A+Big+Data+in+den+Geisteswissenschaften#Partner[DARIAH-DE
+Cluster 5 - Big Data in the Humanities]
+
+Comments are welcome, as are reports of bugs and typos.
+
+We would like to acknowledge the following individuals for their
+contributions to the continuing development of the tutorial:
+
+* Steffen Pielström
+* Stefan Pernes
+* Nils Reimers
+* Sina Bock
+* Philip Dürholt
+* Keli Du
+
+All materials are published under
+a link:http://creativecommons.org/licenses/by/4.0/[Creative Commons
+Attribution 4.0 International] license (CC-BY 4.0).
+
+These tutorials have been developed with support from
+the link:http://de.dariah.eu/[DARIAH-DE] initiative, the German branch
+of link:http://dariah.eu/[DARIAH-EU], the European Digital Research
+Infrastructure for the Arts and Humanities consortium. Funding has been
+provided by the German Federal Ministry for Research and Education
+(BMBF) under the identifier 01UG1110J.
+
+image:https://wiki.de.dariah.eu/download/thumbnails/40213783/DARIAH-DE-Logo.png?version=1&modificationDate=1436164753763&api=v2[image]image:https://wiki.de.dariah.eu/download/thumbnails/40213783/BMBF-Logo.png?version=1&modificationDate=1436164772540&api=v2[image]

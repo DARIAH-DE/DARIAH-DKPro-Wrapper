@@ -9,6 +9,16 @@
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
 	<version>0.4.1</version>
+	<repositories>
+		<repository>
+			<id>ukp-snapshots</id>
+			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots</url>
+	    </repository>
+		<repository>
+			<id>ukp-releases</id>
+			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases</url>
+	    </repository>
+	</repositories>
 	<distributionManagement>
 		<repository>
 			<id>dariah.nexus.snapshots</id>
@@ -35,6 +45,12 @@
   			de.tudarmstadt.ukp.dkpro.core.io.text-asl
   			</artifactId>
   			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>			
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -42,6 +58,12 @@
   			de.tudarmstadt.ukp.dkpro.core.tokit-asl
   		</artifactId>
   		<version>1.8.0-SNAPSHOT</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>uimafit-core</artifactId>
+				<groupId>org.apache.uima</groupId>
+			</exclusion>
+		</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -49,6 +71,12 @@
   			de.tudarmstadt.ukp.dkpro.core.opennlp-asl
   		</artifactId>
   		<version>1.8.0-SNAPSHOT</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>uimafit-core</artifactId>
+				<groupId>org.apache.uima</groupId>
+			</exclusion>
+		</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -56,6 +84,12 @@
   			de.tudarmstadt.ukp.dkpro.core.matetools-gpl
   		</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -63,6 +97,12 @@
   			de.tudarmstadt.ukp.dkpro.core.io.conll-asl
   		</artifactId>
   		<version>1.8.0-SNAPSHOT</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>uimafit-core</artifactId>
+				<groupId>org.apache.uima</groupId>
+			</exclusion>
+		</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -70,6 +110,12 @@
   			de.tudarmstadt.ukp.dkpro.core.api.parameter-asl
   		</artifactId>
   		<version>1.8.0-SNAPSHOT</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>uimafit-core</artifactId>
+				<groupId>org.apache.uima</groupId>
+			</exclusion>
+		</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -77,6 +123,12 @@
 				de.tudarmstadt.ukp.dkpro.core.io.tei-asl
 			</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -88,6 +140,10 @@
 				<exclusion>		
 					<groupId>edu.stanford.nlp</groupId>
 					<artifactId>stanford-corenlp</artifactId>		
+				</exclusion>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
 				</exclusion>
 			</exclusions>	
 		</dependency>
@@ -107,6 +163,12 @@
 				de.tudarmstadt.ukp.dkpro.core.treetagger-asl
 			</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -119,6 +181,12 @@
 				de.tudarmstadt.ukp.dkpro.core.clearnlp-asl
 			</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -126,12 +194,24 @@
 				de.tudarmstadt.ukp.dkpro.core.sfst-gpl
 			</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.maltparser-asl
 			</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -139,6 +219,12 @@
 				de.tudarmstadt.ukp.dkpro.core.berkeleyparser-gpl
 			</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>uimafit-core</artifactId>
+					<groupId>org.apache.uima</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>
