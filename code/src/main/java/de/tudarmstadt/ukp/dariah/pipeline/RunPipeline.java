@@ -425,7 +425,7 @@ public class RunPipeline {
 		PrintStream ps;
 		try {
 			ps = new PrintStream("error.log");
-			//System.setErr(ps);
+			System.setErr(ps);
 		} catch (FileNotFoundException e) {
 			System.out.println("Errors cannot be redirected");
 		}
