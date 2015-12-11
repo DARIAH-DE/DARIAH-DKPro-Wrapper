@@ -22,6 +22,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
 import de.tudarmstadt.ukp.dkpro.core.api.metadata.type.DocumentMetaData;
 import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Lemma;
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Paragraph;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Stem;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
@@ -90,6 +91,8 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 		for (Annotation a : JCasUtil.select(jcas, Annotation.class)) {
 			String value = "";
 			
+			if(!(a instanceof Sentence || a instanceof Paragraph))
+				continue;
 	
 			// If the annotation is a lemma, find out what the lemmatized form is
 			if (a instanceof Token)  {
@@ -123,10 +126,7 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 			
 			if(a instanceof Section) {
 				value = ((Section) a).getValue();	
-			} else {
-				continue;
-			}
-
+			} 
 			
 			if(a instanceof CoreferenceLink) {
 				

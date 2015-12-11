@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright 2014
- * Ubiquitous Knowledge Processing (UKP) Lab and FG Language Technology
+ * Copyright 2015
+ * Ubiquitous Knowledge Processing (UKP) Lab 
  * Technische Universität Darmstadt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
@@ -144,7 +145,22 @@ extends JCasFileWriter_ImplBase
         
         HashMap<Token, Row> ctokens = new LinkedHashMap<Token, Row>();
         
+        
+        Collection<Paragraph> paragraphs = select(aJCas, Paragraph.class);
+        Collection<Sentence> sentences = select(aJCas, Sentence.class);
+        TreeSet<Integer> sentenceEnds = new TreeSet<>();
+        
+        for(Sentence sentence : sentences) {
+        	sentenceEnds.add(sentence.getEnd());
+        }
+        
+        for(Paragraph paragraph : paragraphs) {
+        	sentenceEnds.add(paragraph.getEnd());
+        }
+        
 		for(Paragraph para : select(aJCas, Paragraph.class)) {
+			
+			
 			for (Sentence sentence : selectCovered(Sentence.class, para)) {
 
 				// Tokens
