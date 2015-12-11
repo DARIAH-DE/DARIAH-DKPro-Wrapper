@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright 2015
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package de.tudarmstadt.ukp.dariah.pipeline;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.*;
@@ -33,6 +50,7 @@ import de.tudarmstadt.ukp.dariah.IO.GlobalFileStorage;
 import de.tudarmstadt.ukp.dariah.IO.TextReaderWithInfo;
 import de.tudarmstadt.ukp.dariah.IO.XmlReader;
 import de.tudarmstadt.ukp.dariah.annotator.DirectSpeechAnnotator;
+import de.tudarmstadt.ukp.dariah.annotator.ParagraphSentenceAnnotator;
 import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
@@ -407,7 +425,7 @@ public class RunPipeline {
 		PrintStream ps;
 		try {
 			ps = new PrintStream("error.log");
-			System.setErr(ps);
+			//System.setErr(ps);
 		} catch (FileNotFoundException e) {
 			System.out.println("Errors cannot be redirected");
 		}
@@ -516,6 +534,8 @@ public class RunPipeline {
 
 			AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls,
 					optSegmenterArguments);	
+			
+			AnalysisEngineDescription paragraphSentenceAnnotator = createEngineDescription(ParagraphSentenceAnnotator.class);
 
 			AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 					PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
@@ -575,6 +595,7 @@ public class RunPipeline {
 						reader,					
 						paragraph,
 						(optSegmenter) ? seg : noOp, 
+						paragraphSentenceAnnotator,
 						frenchQuotesSeg,
 						quotesSeg,
 						(optPOSTagger) ? posTagger : noOp, 
@@ -587,7 +608,7 @@ public class RunPipeline {
 						(optNER) ? ner : noOp,
 						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 						writer
-	//					,annWriter
+//						,annWriter
 						);
 				} catch (OutOfMemoryError e) {
 					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());
