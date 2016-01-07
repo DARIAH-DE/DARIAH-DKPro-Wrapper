@@ -8,15 +8,7 @@
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
-	<version>0.4.2</version>
-	<distributionManagement>
-		<repository>
-			<id>dariah.nexus.snapshots</id>
-			<layout>default</layout>
-			<name>DARIAH Maven Repository</name>
-			<url>http://dev.dariah.eu/nexus/content/repositories/snapshots/</url>
-		</repository>
-	</distributionManagement>
+	<version>0.4.3-SNAPSHOT</version>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -94,7 +86,7 @@
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
-			<version>3.5.1</version>
+			<version>3.5.2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-configuration</groupId>
@@ -139,6 +131,20 @@
 				de.tudarmstadt.ukp.dkpro.core.berkeleyparser-gpl
 			</artifactId>
 			<version>1.8.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>
+				de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-coref-en-default
+			</artifactId>
+			<version>20150420.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>
+				de.tudarmstadt.ukp.dkpro.core.stanfordnlp-upstream-coref-en-default
+			</artifactId>
+			<version>20150420</version>
 		</dependency>
 	</dependencies>
 	<build>

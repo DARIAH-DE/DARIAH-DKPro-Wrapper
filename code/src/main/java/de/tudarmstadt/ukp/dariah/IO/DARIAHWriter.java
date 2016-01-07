@@ -60,6 +60,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.dependency.Dependency;
 import de.tudarmstadt.ukp.dkpro.core.io.penntree.PennTreeNode;
 import de.tudarmstadt.ukp.dkpro.core.io.penntree.PennTreeUtils;
 import de.tudarmstadt.ukp.dariah.type.DirectSpeech;
+import de.tudarmstadt.ukp.dariah.type.Hyphenation;
 import de.tudarmstadt.ukp.dariah.type.Section;
 
 /**
@@ -96,6 +97,10 @@ extends JCasFileWriter_ImplBase
 	public static final String PARAM_WRITE_MORPH = "writeMorph";
 	@ConfigurationParameter(name = PARAM_WRITE_MORPH, mandatory = true, defaultValue = "true")
 	private boolean writeMorph;
+	
+	public static final String PARAM_WRITE_HYPHENATION = "writeHyphenation";
+	@ConfigurationParameter(name = PARAM_WRITE_MORPH, mandatory = true, defaultValue = "true")
+	private boolean writeHyphenation;
 
 	public static final String PARAM_WRITE_LEMMA = ComponentParameters.PARAM_WRITE_LEMMA;
 	@ConfigurationParameter(name = PARAM_WRITE_LEMMA, mandatory = true, defaultValue = "true")
@@ -166,9 +171,13 @@ extends JCasFileWriter_ImplBase
 				// Tokens
 				List<Token> tokens = selectCovered(Token.class, sentence);
 
-				// Check if we should try to include the FEATS in output
-				List<Morpheme> morphology = selectCovered(Morpheme.class, sentence);
-				boolean useFeats = tokens.size() == morphology.size();
+				// Check if we should try to include the morphology in output
+				List<Morpheme> morphologies = selectCovered(Morpheme.class, sentence);
+				boolean useMorphology = tokens.size() == morphologies.size();
+				
+				// Check if we should try to include the morphology in output
+				List<Hyphenation> hyphenations = selectCovered(Hyphenation.class, sentence);
+				boolean useHyphenation = tokens.size() == hyphenations.size();
 				
 				//Parsing information
 				String[] parseFragments = null;
@@ -198,8 +207,12 @@ extends JCasFileWriter_ImplBase
 						row.parseFragment = parseFragments[i];
 					}
 					
-					if (useFeats) {
-						row.morphology = morphology.get(i);
+					if (useMorphology) {
+						row.morphology = morphologies.get(i);
+					}
+					
+					if(useHyphenation) {
+						row.hyphenation = hyphenations.get(i);
 					}
 					
 					// Section ID
@@ -323,6 +336,11 @@ extends JCasFileWriter_ImplBase
 			morphology = row.morphology.getMorphTag();
 		}
 		
+		String hyphenation = UNUSED;
+		if (writeHyphenation && (row.hyphenation != null)) {
+			hyphenation = row.hyphenation.getValue();
+		}
+		
 		String chunk = UNUSED;
 		if(row.chunk != null) {
 			chunk = row.chunk.getChunkValue(); //Remove IOB tagging from Stanford Tagger
@@ -397,6 +415,7 @@ extends JCasFileWriter_ImplBase
 				pos, 
 				chunk,
 				morphology, 
+				hyphenation,
 				head, 
 				deprel,
 				ne,
@@ -424,6 +443,7 @@ extends JCasFileWriter_ImplBase
 				"POS",
 				"Chunk",
 				"Morphology",
+				"Hyphenation",
 				"DependencyHead",
 				"DependencyRelation",
 				"NamedEntity",
@@ -482,6 +502,7 @@ extends JCasFileWriter_ImplBase
 		Token token;
 		Chunk chunk;
 		Morpheme morphology;
+		Hyphenation hyphenation;
 		Dependency deprel;
 		NamedEntity ne;
 		DirectSpeech directSpeech;

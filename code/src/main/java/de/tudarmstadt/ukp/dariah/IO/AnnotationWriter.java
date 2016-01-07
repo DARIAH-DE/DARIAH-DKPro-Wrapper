@@ -15,6 +15,7 @@ import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.util.JCasUtil;
 
 import de.tudarmstadt.ukp.dariah.type.DirectSpeech;
+import de.tudarmstadt.ukp.dariah.type.Hyphenation;
 import de.tudarmstadt.ukp.dariah.type.Section;
 import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceChain;
 import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceLink;
@@ -73,6 +74,8 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 		sb.append("-- Annotations --");
 		sb.append(LF);
 		
+		Collection<CoreferenceLink> links = JCasUtil.select(jcas,  CoreferenceLink.class);
+		
 		for (CoreferenceChain a : JCasUtil.select(jcas, CoreferenceChain.class)) {
 			CoreferenceLink link = a.getFirst();
 			
@@ -87,12 +90,12 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 		}
 		
 	
+	
 		
 		for (Annotation a : JCasUtil.select(jcas, Annotation.class)) {
 			String value = "";
 			
-			if(!(a instanceof Sentence || a instanceof Paragraph))
-				continue;
+			
 	
 			// If the annotation is a lemma, find out what the lemmatized form is
 			if (a instanceof Token)  {
@@ -127,6 +130,10 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 			if(a instanceof Section) {
 				value = ((Section) a).getValue();	
 			} 
+			
+			if(a instanceof Hyphenation) {
+				value = ((Hyphenation)a).getValue();
+			}
 			
 			if(a instanceof CoreferenceLink) {
 				

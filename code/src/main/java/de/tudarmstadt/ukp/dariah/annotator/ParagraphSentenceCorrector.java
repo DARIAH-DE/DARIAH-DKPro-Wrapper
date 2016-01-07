@@ -36,7 +36,7 @@ import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
  * @author Nils Reimers
  *
  */
-public class ParagraphSentenceAnnotator extends JCasAnnotator_ImplBase {
+public class ParagraphSentenceCorrector extends JCasAnnotator_ImplBase {
 
 	@Override
 	public void process(JCas jCas) throws AnalysisEngineProcessException {

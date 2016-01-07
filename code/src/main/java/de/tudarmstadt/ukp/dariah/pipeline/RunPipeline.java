@@ -50,7 +50,8 @@ import de.tudarmstadt.ukp.dariah.IO.GlobalFileStorage;
 import de.tudarmstadt.ukp.dariah.IO.TextReaderWithInfo;
 import de.tudarmstadt.ukp.dariah.IO.XmlReader;
 import de.tudarmstadt.ukp.dariah.annotator.DirectSpeechAnnotator;
-import de.tudarmstadt.ukp.dariah.annotator.ParagraphSentenceAnnotator;
+import de.tudarmstadt.ukp.dariah.annotator.HyphenationAnnotator;
+import de.tudarmstadt.ukp.dariah.annotator.ParagraphSentenceCorrector;
 import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
 import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
@@ -63,6 +64,7 @@ import de.tudarmstadt.ukp.dkpro.core.matetools.MatePosTagger;
 import de.tudarmstadt.ukp.dkpro.core.matetools.MateSemanticRoleLabeler;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordCoreferenceResolver;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.ParagraphSplitter;
@@ -125,7 +127,11 @@ public class RunPipeline {
 	private static boolean optMorphTagger = true;
 	private static Class<? extends AnalysisComponent> optMorphTaggerCls;
 	private static Object[] optMorphTaggerArguments;
-
+	
+	private static boolean optHyphenation = true;
+	private static Class<? extends AnalysisComponent> optHyphenationCls;
+	private static Object[] optHyphenationArguments;
+	
 	private static boolean optDependencyParser = true;
 	private static Class<? extends AnalysisComponent> optDependencyParserCls;
 	private static Object[] optDependencyParserArguments;
@@ -141,6 +147,12 @@ public class RunPipeline {
 	private static boolean optSRL = true;
 	private static Class<? extends AnalysisComponent> optSRLCls;
 	private static Object[] optSRLArguments;
+	
+	private static boolean optCoref = true;
+	private static Class<? extends AnalysisComponent> optCorefCls;
+	private static Object[] optCorefArguments;
+	
+	
 
 	
 	private static boolean optResume = false;
@@ -175,9 +187,13 @@ public class RunPipeline {
 		System.out.println("Morphology Tagging: "+optMorphTaggerCls);
 		printIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
 		
+		System.out.println("Hyphenation Algorithm: "+optHyphenation);
+		System.out.println("Hyphenation Algorithm: "+optHyphenationCls);
+		printIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
+		
 		System.out.println("Named Entity Recognition: "+optNER);		
 		System.out.println("Named Entity Recognition: "+optNERCls);
-		printIfNotEmpty("Named Entity Recognition: ", optNERArguments);
+		printIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
 
 		System.out.println("Dependency Parsing: "+optDependencyParser);
 		System.out.println("Dependency Parsing: "+optDependencyParserCls);
@@ -189,7 +205,11 @@ public class RunPipeline {
 
 		System.out.println("Semantic Role Labeling: "+optSRL);		
 		System.out.println("Semantic Role Labeling: "+optSRLCls);
-		printIfNotEmpty("Semantic Role Labelingr: ", optSRLArguments);
+		printIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
+		
+		System.out.println("Coreference Resolver: "+optCoref);		
+		System.out.println("Coreference Resolver: "+optCorefCls);
+		printIfNotEmpty("Coreference Resolver: ", optCorefArguments);
 
 	}
 
@@ -249,6 +269,13 @@ public class RunPipeline {
 			optMorphTaggerCls = getClassFromConfig(config, "morphTagger");
 		if(config.containsKey("morphTaggerArguments"))
 			optMorphTaggerArguments = parseParameters(config, "morphTaggerArguments");
+		
+		if(config.containsKey("useHyphenation"))
+			optHyphenation = config.getBoolean("useHyphenation", true);
+		if(config.containsKey("hyphenationAlgorithm"))
+			optHyphenationCls = getClassFromConfig(config, "hyphenationAlgorithm");
+		if(config.containsKey("hyphenationArguments"))
+			optHyphenationArguments = parseParameters(config, "hyphenationArguments");
 
 		if(config.containsKey("useDependencyParser"))
 			optDependencyParser = config.getBoolean("useDependencyParser", true);
@@ -277,6 +304,13 @@ public class RunPipeline {
 			optSRLCls = getClassFromConfig(config, "srl");
 		if(config.containsKey("srlArguments"))
 			optSRLArguments = parseParameters(config, "srlArguments");
+		
+		if(config.containsKey("useCoref"))
+			optCoref = config.getBoolean("useCoref", true);
+		if(config.containsKey("coref"))
+			optCorefCls = getClassFromConfig(config, "coref");
+		if(config.containsKey("corefArguments"))
+			optCorefArguments = parseParameters(config, "corefArguments");
 
 		if(config.containsKey("splitParagraphOnSingleLineBreak"))
 			optParagraphSingleLineBreak = config.getBoolean("splitParagraphOnSingleLineBreak", false);
@@ -425,7 +459,7 @@ public class RunPipeline {
 		PrintStream ps;
 		try {
 			ps = new PrintStream("error.log");
-			System.setErr(ps);
+			//System.setErr(ps);
 		} catch (FileNotFoundException e) {
 			System.out.println("Errors cannot be redirected");
 		}
@@ -535,7 +569,7 @@ public class RunPipeline {
 			AnalysisEngineDescription seg = createEngineDescription(optSegmenterCls,
 					optSegmenterArguments);	
 			
-			AnalysisEngineDescription paragraphSentenceAnnotator = createEngineDescription(ParagraphSentenceAnnotator.class);
+			AnalysisEngineDescription paragraphSentenceCorrector = createEngineDescription(ParagraphSentenceCorrector.class);
 
 			AnalysisEngineDescription frenchQuotesSeg = createEngineDescription(PatternBasedTokenSegmenter.class,
 					PatternBasedTokenSegmenter.PARAM_PATTERNS, "+|[»«]");
@@ -554,6 +588,9 @@ public class RunPipeline {
 
 			AnalysisEngineDescription morph = createEngineDescription(optMorphTaggerCls,
 					optMorphTaggerArguments);	 
+			
+			AnalysisEngineDescription hyphenation = createEngineDescription(optHyphenationCls,
+					optHyphenationArguments);
 
 			AnalysisEngineDescription depParser = createEngineDescription(optDependencyParserCls,					
 					optDependencyParserArguments); 	
@@ -570,8 +607,12 @@ public class RunPipeline {
 					);
 
 			AnalysisEngineDescription srl = createEngineDescription(optSRLCls,
-					optSRLArguments); //Requires DKPro 1.8.0
-
+					optSRLArguments); //Requires DKPro 1.8.0	
+			
+			AnalysisEngineDescription coref = createEngineDescription(optCorefCls,
+					optCorefArguments); //StanfordCoreferenceResolver.PARAM_POSTPROCESSING, true
+			
+			
 			AnalysisEngineDescription writer = createEngineDescription(
 					DARIAHWriter.class,
 					DARIAHWriter.PARAM_TARGET_LOCATION, optOutput,
@@ -595,20 +636,22 @@ public class RunPipeline {
 						reader,					
 						paragraph,
 						(optSegmenter) ? seg : noOp, 
-						paragraphSentenceAnnotator,
+						paragraphSentenceCorrector,
 						frenchQuotesSeg,
 						quotesSeg,
 						(optPOSTagger) ? posTagger : noOp, 
 						(optLemmatizer) ? lemma : noOp,
 						(optChunker) ? chunker : noOp,
 						(optMorphTagger) ? morph : noOp,
+						(optHyphenation) ? hyphenation : noOp,
 						directSpeech,
 						(optDependencyParser) ? depParser : noOp,
 						(optConstituencyParser) ? constituencyParser : noOp,
 						(optNER) ? ner : noOp,
-						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
+						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0*/
+						(optCoref) ? coref : noOp,
 						writer
-//						,annWriter
+						,annWriter
 						);
 				} catch (OutOfMemoryError e) {
 					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());
