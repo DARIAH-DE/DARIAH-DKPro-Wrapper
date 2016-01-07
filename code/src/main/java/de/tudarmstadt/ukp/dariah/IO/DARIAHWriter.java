@@ -43,6 +43,8 @@ import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
 
+import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceChain;
+import de.tudarmstadt.ukp.dkpro.core.api.coref.type.CoreferenceLink;
 import de.tudarmstadt.ukp.dkpro.core.api.io.JCasFileWriter_ImplBase;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.morph.Morpheme;
 import de.tudarmstadt.ukp.dkpro.core.api.lexmorph.type.pos.POS;
@@ -145,8 +147,26 @@ extends JCasFileWriter_ImplBase
 		
 		Map<SemanticPredicate, Collection<Token>> pred2TokenIdx = JCasUtil.indexCovering(aJCas, SemanticPredicate.class, Token.class);
 		
-        Map<SemanticArgument, Collection<Token>> argIdx = JCasUtil.indexCovered(aJCas,
-                SemanticArgument.class, Token.class);
+        Map<SemanticArgument, Collection<Token>> argIdx = JCasUtil.indexCovered(aJCas, SemanticArgument.class, Token.class);
+        
+        
+        //Coreference
+        Map<Token, Collection<CoreferenceLink>> corefLinksCoveringMap = JCasUtil.indexCovered(aJCas, Token.class, CoreferenceLink.class);
+        HashMap<CoreferenceLink, CoreferenceChain> linkToChainMap = new HashMap<>();
+        HashMap<CoreferenceChain, Integer> corefChainToIntMap = new HashMap<>();
+        
+        int corefChainId = 0;
+        for (CoreferenceChain chain : JCasUtil.select(aJCas, CoreferenceChain.class)) {
+        	corefChainToIntMap.put(chain, corefChainId);
+        	
+        	CoreferenceLink link = chain.getFirst();
+			while(link != null) {
+				linkToChainMap.put(link, chain);
+				link = link.getNext();
+			}
+			corefChainId++;			
+		}
+        
         
         HashMap<Token, Row> ctokens = new LinkedHashMap<Token, Row>();
         
@@ -234,6 +254,32 @@ extends JCasFileWriter_ImplBase
 					Collection<DirectSpeech> ds = directSpeechCoveringMap.get(row.token);
 					if(ds.size() > 0)
 						row.directSpeech = ds.toArray(new DirectSpeech[0])[0];
+					
+					//Coref
+					Collection<CoreferenceLink> corefLinks = corefLinksCoveringMap.get(row.token);
+					row.corefChains = UNUSED;
+					if(corefLinks.size() > 0) {
+						
+						
+						int[] chainIds = new int[corefLinks.size()];
+						
+						int k=0;
+						for(CoreferenceLink link : corefLinks) {
+							CoreferenceChain chain = linkToChainMap.get(link);
+							int chainId = corefChainToIntMap.get(chain);
+							
+							chainIds[k++] = chainId;
+							//chainIds.append(chainId+",");
+						}
+						Arrays.sort(chainIds); 
+						 
+						StringBuilder chainIdsStr = new StringBuilder();
+						for(int chainId : chainIds) {
+							chainIdsStr.append(chainId+",");
+						}
+						
+						row.corefChains = chainIdsStr.substring(0, chainIdsStr.length()-1);
+					}
 					
 					//Predicate
 	                Collection<SemanticPredicate> predsForToken = predIdx.get(row.token);
@@ -373,6 +419,10 @@ extends JCasFileWriter_ImplBase
 		if(row.directSpeech != null){
 			quoteMarker = "1";
 		}
+		
+	
+		
+		
 
 		
 		String parseFragment = UNUSED;
@@ -420,6 +470,7 @@ extends JCasFileWriter_ImplBase
 				deprel,
 				ne,
 				quoteMarker,
+				row.corefChains,
 				parseFragment,				
 				pred,
 				semanticArgumentIndex,
@@ -448,6 +499,7 @@ extends JCasFileWriter_ImplBase
 				"DependencyRelation",
 				"NamedEntity",
 				"QuoteMarker",
+				"CoreferenceChainIds",
 				"SyntaxTree",
 				"Predicate",
 				"SemanticArgumentIndex"
@@ -507,6 +559,7 @@ extends JCasFileWriter_ImplBase
 		NamedEntity ne;
 		DirectSpeech directSpeech;
 		String parseFragment;
+		String corefChains;
 		SemanticPredicate pred;
 		int semanticArgIndex;
 		SemanticArgument[] args;

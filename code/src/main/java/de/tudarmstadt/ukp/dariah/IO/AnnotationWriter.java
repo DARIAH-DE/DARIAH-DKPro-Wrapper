@@ -79,12 +79,12 @@ public class AnnotationWriter extends JCasConsumer_ImplBase {
 		for (CoreferenceChain a : JCasUtil.select(jcas, CoreferenceChain.class)) {
 			CoreferenceLink link = a.getFirst();
 			
-			sb.append(LF+LF+"CoreferenceChain:"+LF);
+			sb.append(LF+LF+"CoreferenceChain:"+a.getTypeIndexID()+LF);
 			while(link != null) {
-				sb.append(link.getCoveredText()+LF);
-				
+				sb.append(link.getCoveredText()+LF);			
 				
 				link = link.getNext();
+				
 			}
 			sb.append(LF);
 		}
