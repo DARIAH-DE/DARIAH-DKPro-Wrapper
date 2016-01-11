@@ -2,6 +2,10 @@
 
 package net.davidashen.text;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
 import net.davidashen.util.*;
 
 /** 
@@ -31,7 +35,7 @@ public class Hyphenator {
   @param in hyphenation table
   @throws java.io.IOException
 	 */
-	public void loadTable(java.io.InputStream in) throws java.io.IOException {
+	public void loadTable(java.io.BufferedReader in) throws java.io.IOException {
 		int[] codelist=new int[256]; {for(int i=0;i!=256;++i) codelist[i]=i;}
 		loadTable(in,codelist);
 	}
@@ -41,7 +45,7 @@ public class Hyphenator {
   @param codelist an array of 256 elements. maps one-byte codes to UTF codes
   @throws java.io.IOException
 	 */
-	public void loadTable(java.io.InputStream in,int[] codelist) throws java.io.IOException {
+	public void loadTable(java.io.BufferedReader in,int[] codelist) throws java.io.IOException {
 		exceptions=new Hashtable();
 		entrytab=new List[256]; for(int i=0;i!=256;++i) entrytab[i]=new List();
 		Scanner s=new Scanner(in,codelist,eh);
@@ -130,6 +134,13 @@ public class Hyphenator {
 							}
 							int[] newvalues=new int[length];
 							System.arraycopy(values,2,newvalues,0,length); /* save 12 bytes; senseless */
+							
+							// No hyphens in the first two chars or the last two.
+							newvalues[0] =  newvalues[newvalues.length-1] = 0;
+							if(newvalues.length > 1) {
+								//newvalues[1] = 0;
+								newvalues[newvalues.length-2] = 0;
+							}
 							values=newvalues;
 						}
 
@@ -169,7 +180,7 @@ public class Hyphenator {
 	private static class Scanner {
 		final static short  EOF=0, LBRAC=1, RBRAC=2, PATTERNS=3, EXCEPTIONS=4, PATTERN=5;
 		char[] pattern=new char[0]; int patlen;
-		private java.io.InputStream in; private int[] codelist;
+		private java.io.BufferedReader in; private int[] codelist;
 		private ErrorHandler eh;
 		private int cc='\n',cc1=-1, prevlno=-1, lno=0, cno=0;
 
@@ -335,7 +346,7 @@ public class Hyphenator {
 			acctab.put(new Integer(cp2i('s','s')),new Integer(0xdf));
 		}
 
-		Scanner(java.io.InputStream in,int[] codelist,ErrorHandler eh) throws java.io.IOException {
+		Scanner(java.io.BufferedReader in,int[] codelist,ErrorHandler eh) throws java.io.IOException {
 			this.codelist=codelist; this.in=in;  this.eh=eh;
 			read();
 		}
@@ -571,73 +582,7 @@ public class Hyphenator {
 		exceptions.put(new String(s.pattern,0,jch),values);
 	}
 
-	/** simple command-line invocation -- serves as example */
-	public static void main(String[] args) {
-		Hyphenator hyphenator=new Hyphenator();
-		hyphenator.setErrorHandler(new ErrorHandler() {
-			public void debug(String guard,String s) {}
-			public void info(String s) {System.err.println(s);}
-			public void warning(String s) {System.err.println("WARNING: "+s);}
-			public void error(String s) {System.err.println("ERROR: "+s);}
-			public void exception(String s,Exception e) {System.err.println("ERROR: "+s); e.printStackTrace(); }
-			public boolean isDebugged(String guard) {return false;}
-		});
-		if(args.length!=2&&args.length!=3) {
-			System.err.println("call: java net.davidashen.text.Hyphenator word table.tex [codes.txt]");
-			System.exit(1);
-		}
-		java.io.InputStream table=null;
-		try {
-			table=new java.io.BufferedInputStream(new java.io.FileInputStream(args[1]));
-		} catch(java.io.IOException e) {
-			System.err.println("cannot open hyphenation table "+args[1]+": "+e.toString());
-			System.exit(1);
-		}
-		int[] codelist=new int[256];
-		for(int i=0;i!=256;++i) codelist[i]=i;
-		if(args.length==3) {
-			java.io.BufferedReader codes=null;
-			try {
-				codes=new java.io.BufferedReader(new java.io.FileReader(args[2]));
-			} catch(java.io.IOException e) {
-				System.err.println("cannot open code list"+args[2]+": "+e.toString());
-				System.exit(1);
-			}
-			try {
-				String line;
-				while((line=codes.readLine())!=null) {
-					java.util.StringTokenizer tokenizer=new java.util.StringTokenizer(line);
-					String token;
-					if(tokenizer.hasMoreTokens()) { // skip empty lines
-						token=tokenizer.nextToken();
-						if(!token.startsWith("%")) { // lines starting with % are comments
-							int key=Integer.decode(token).intValue(), value=key;
-							if(tokenizer.hasMoreTokens()) {
-								token=tokenizer.nextToken();
-								value=Integer.decode(token).intValue();
-							}
-							codelist[key]=value;
-						}
-					}
-				}
-				codes.close();
-			} catch(java.io.IOException e) {
-				System.err.println("error reading code list: "+e.toString());
-				System.exit(1);
-			}
-		}
 
-		try {
-			hyphenator.loadTable(table,codelist);
-			table.close();
-		} catch(java.io.IOException e) {
-			System.err.println("error loading hyphenation table: "+e.toString());
-			System.exit(1);
-		}
-		String softHyphen = hyphenator.hyphenate(args[0]);
-
-		System.out.println(args[0]+" -> "+softHyphen);
-	}
 }
 
 /* 
