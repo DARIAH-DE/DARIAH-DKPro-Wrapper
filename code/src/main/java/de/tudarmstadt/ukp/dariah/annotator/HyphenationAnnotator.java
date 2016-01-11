@@ -18,11 +18,14 @@
 
 package de.tudarmstadt.ukp.dariah.annotator;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import net.davidashen.text.Hyphenator;
+import net.davidashen.util.ErrorHandler;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -66,6 +69,15 @@ public class HyphenationAnnotator extends JCasAnnotator_ImplBase{
 	protected void initHyphenator(String language) {
 		this.hyphenator=new Hyphenator();
 		
+		hyphenator.setErrorHandler(new ErrorHandler() {
+			public void debug(String guard,String s) {}
+			public void info(String s) {System.err.println(s);}
+			public void warning(String s) {System.err.println("WARNING: "+s);}
+			public void error(String s) {System.err.println("ERROR: "+s);}
+			public void exception(String s,Exception e) {System.err.println("ERROR: "+s); e.printStackTrace(); }
+			public boolean isDebugged(String guard) {return false;}
+		});
+		
 		if(hyphenTable == null) {
 			hyphenTable = "configs/hyphenation/hyph-"+language+".tex";
 			
@@ -79,9 +91,12 @@ public class HyphenationAnnotator extends JCasAnnotator_ImplBase{
 			}
 		}
 		
-		InputStream table=null;
+		BufferedReader table=null;
 		try {
-			table=new java.io.BufferedInputStream(new FileInputStream(hyphenTable));
+			table = new BufferedReader(
+					   new InputStreamReader(
+			                      new FileInputStream(hyphenTable), "UTF8"));
+//			table=new java.io.BufferedInputStream(new FileInputStream(hyphenTable));
 		} catch(java.io.IOException e) {
 			System.err.println("cannot open hyphenation table "+hyphenTable+": "+e.toString());
 			System.exit(1);
@@ -139,7 +154,7 @@ public class HyphenationAnnotator extends JCasAnnotator_ImplBase{
 		
 		if(hyphenator != null) {		
 			for(Token t : JCasUtil.select(jCas, Token.class)) {
-				String softHyphen = hyphenator.hyphenate(t.getCoveredText());
+				String softHyphen = hyphenator.hyphenate(t.getCoveredText().trim());
 				
 				Hyphenation hyphens = new Hyphenation(jCas);
 				hyphens.setValue(softHyphen);
