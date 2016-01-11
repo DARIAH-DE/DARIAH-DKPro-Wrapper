@@ -459,7 +459,7 @@ public class RunPipeline {
 		PrintStream ps;
 		try {
 			ps = new PrintStream("error.log");
-			//System.setErr(ps);
+			System.setErr(ps);
 		} catch (FileNotFoundException e) {
 			System.out.println("Errors cannot be redirected");
 		}
@@ -648,10 +648,10 @@ public class RunPipeline {
 						(optDependencyParser) ? depParser : noOp,
 						(optConstituencyParser) ? constituencyParser : noOp,
 						(optNER) ? ner : noOp,
-						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0*/
+						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 						(optCoref) ? coref : noOp,
 						writer
-						,annWriter
+//						,annWriter
 						);
 				} catch (OutOfMemoryError e) {
 					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());

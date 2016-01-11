@@ -26,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -151,20 +152,24 @@ extends JCasFileWriter_ImplBase
         
         
         //Coreference
-        Map<Token, Collection<CoreferenceLink>> corefLinksCoveringMap = JCasUtil.indexCovered(aJCas, Token.class, CoreferenceLink.class);
+        Map<Token, Collection<CoreferenceLink>> corefLinksCoveringMap = JCasUtil.indexCovering(aJCas, Token.class, CoreferenceLink.class);
         HashMap<CoreferenceLink, CoreferenceChain> linkToChainMap = new HashMap<>();
         HashMap<CoreferenceChain, Integer> corefChainToIntMap = new HashMap<>();
         
         int corefChainId = 0;
         for (CoreferenceChain chain : JCasUtil.select(aJCas, CoreferenceChain.class)) {
-        	corefChainToIntMap.put(chain, corefChainId);
         	
         	CoreferenceLink link = chain.getFirst();
+        	int count = 0;
 			while(link != null) {
 				linkToChainMap.put(link, chain);
 				link = link.getNext();
+				count++;
 			}
-			corefChainId++;			
+			if(count > 0) {
+	        	corefChainToIntMap.put(chain, corefChainId);
+				corefChainId++;			
+			}
 		}
         
         
@@ -261,20 +266,35 @@ extends JCasFileWriter_ImplBase
 					if(corefLinks.size() > 0) {
 						
 						
-						int[] chainIds = new int[corefLinks.size()];
+						String[] chainIds = new String[corefLinks.size()];
+//						StringBuilder chainIdsStr = new StringBuilder();
 						
 						int k=0;
 						for(CoreferenceLink link : corefLinks) {
 							CoreferenceChain chain = linkToChainMap.get(link);
 							int chainId = corefChainToIntMap.get(chain);
 							
-							chainIds[k++] = chainId;
-							//chainIds.append(chainId+",");
+							//chainIds[k++] = chainId;
+							
+							String BIOMarker = "I";
+							if(link.getCoveredText().substring(0, row.token.getCoveredText().length()).equals(row.token.getCoveredText())) {
+								BIOMarker = "B";
+							}
+							chainIds[k++] = BIOMarker+"-"+chainId;
 						}
-						Arrays.sort(chainIds); 
+						
+						//Sort without the BIO marker
+						Arrays.sort(chainIds, new Comparator<String>() {
+						    public int compare(String idx1, String idx2) {
+						    	Integer id1 = new Integer(idx1.substring(2));
+						    	Integer id2 = new Integer(idx2.substring(2));
+						    	
+						        return Integer.compare(id1, id2);
+						    }
+						});
 						 
 						StringBuilder chainIdsStr = new StringBuilder();
-						for(int chainId : chainIds) {
+						for(String chainId : chainIds) {
 							chainIdsStr.append(chainId+",");
 						}
 						
