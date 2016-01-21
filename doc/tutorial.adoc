@@ -599,7 +599,7 @@ TreeTagger Installation for Windows 7
 Configuration of the pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+After downloading the correct executable and correct model (available in Bulgarian, Danish, Estonian, Finnish, Galician, Latin, Mongolian, Polish, Russian, Slovakian and Swahili), we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
 ----
 posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
