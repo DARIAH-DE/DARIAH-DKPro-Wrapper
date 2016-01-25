@@ -61,6 +61,7 @@ analytic procedures.
 * link:#UsingTreeTagger[Using TreeTagger]
 ** link:#TreeTaggerInstallationforLinux[TreeTagger Installation for Linux]
 ** link:#TreeTaggerInstallationforWindows7[TreeTagger Installation for Windows 7]
+** link:#TreeTaggerInstallationforOSX[TreeTagger Installation for OS X]
 ** link:#Configurationofthepipeline[Configuration of the pipeline]
 * link:#OutputFormat[Output Format]
 ** link:#Specification[Specification]
@@ -246,7 +247,7 @@ The pipeline supports a resume function. By adding the `-resume` argument to the
 Language
 ++++++++
 
-You can change the language by specifying the language parameter for the pipeline. Support for the following languages are include in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). To run the pipeline for English, execute the following command:
+You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#UsingTreeTagger[TreeTagger] first. To run the pipeline for English, execute the following command:
 
 ****
 +java -Xmx4g -jar  ddw-{version}.jar -language en -input file.txt -output folder+
@@ -530,7 +531,7 @@ In `myPOSTagger.properties` you just add the configuration for the different POS
 Understanding the Argument Parameter
 ++++++++++++++++++++++++++++++++++++
 
-Most components can be equipped with arguments so specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the `default.properties` you can find the following line:
+Most components can be equipped with arguments to specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the `default.properties` you can find the following line:
 
 ----
 constituencyParserArguments = writeDependency,boolean,false
@@ -572,28 +573,42 @@ Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro r
 TreeTagger Installation for Linux
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
- * Go to the TreeTagger website
-    * From the download section, download the correct tagger package, i.e. PC-Linux
-        ** Extract the .gz archive
-        ** Copy the tree-tagger-linux-3.2/bin/tree-tagger file and place it in the same folder as the script treetagger.jy 
-    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-        ** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz)
-        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
+* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
+* From the download section, download the correct tagger package, i.e. PC-Linux
+** Extract the .gz archive
+** Copy the tree-tagger-linux-3.2/bin/tree-tagger file and place it in the same folder as the script treetagger.jy 
+* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
+** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz)
+** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
 
 
 [[TreeTaggerInstallationforWindows7]]
 TreeTagger Installation for Windows 7
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    * Ensure that you have a program to unzip .gz files. For example you can use 7zip or WinRar or many others.
-    * Go to the TreeTagger website
-    * In the Windows section, you find the download link for the tree-tagger-windows-3.2.zip file.
-        ** Extract the zip-archive
-        ** Copy the tree-tagger-windows-3.2/bin/tree-tagger.exe to your folder with with the treetagger.jy script 
-    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-        ** Unzip the file (e.g. by using 7zip)
-        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
-    * In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PATH, "tree-tagger", change the value tree-tagger to tree-tagger.exe 
+* Ensure that you have a program to unzip .gz files. For example you can use 7zip or WinRar or many others.
+* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
+* In the Windows section, you find the download link for the tree-tagger-windows-3.2.zip file.
+** Extract the zip-archive
+** Copy the tree-tagger-windows-3.2/bin/tree-tagger.exe to your folder with the treetagger.jy script 
+* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
+** Unzip the file (e.g. by using 7zip)
+** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
+* In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PATH, "tree-tagger", change the value tree-tagger to tree-tagger.exe 
+    
+
+[[TreeTaggerInstallationforOSX]]
+TreeTagger Installation for OS X
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
+* Download the tree-tagger-MacOSX-3.2-intel.tar file
+** Extract the archive
+** Copy the tree-tagger-MacOSX-3.2.intel/bin/tree-tagger file to your folder with the treetagger.jy script
+* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
+** OS X should unzip the .gz-file automatically, otherwise double-click its icon
+** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin
+
 
 [[Configurationofthepipeline]]
 Configuration of the pipeline
