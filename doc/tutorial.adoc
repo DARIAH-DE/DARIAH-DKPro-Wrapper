@@ -59,9 +59,7 @@ analytic procedures.
 *** link:#UnderstandingtheArgumentParameter[Understanding the Argument Parameter]
 ** link:#Buildingyourown[Building your own]
 * link:#UsingTreeTagger[Using TreeTagger]
-** link:#TreeTaggerInstallationforLinux[TreeTagger Installation for Linux]
-** link:#TreeTaggerInstallationforWindows7[TreeTagger Installation for Windows 7]
-** link:#TreeTaggerInstallationforOSX[TreeTagger Installation for OS X]
+** link:#TreeTaggerInstallation[TreeTagger Installation]
 ** link:#Configurationofthepipeline[Configuration of the pipeline]
 * link:#OutputFormat[Output Format]
 ** link:#Specification[Specification]
@@ -105,9 +103,9 @@ To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
 been tested:
 
-* Mac OS X
+* Mac OS X (10.10, 10.11)
 
-* Linux (Ubuntu 14.04)
+* Linux (Ubuntu 14.04, 15.10)
 
 * Windows 7/8
 
@@ -121,10 +119,9 @@ Java Installation
 
 The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
-once. Download and install the latest Java SE Development Kit (requires
-at least Java 1.8) from
-the link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Oracle
-Java Site], then follow the
+once. Download and install the latest Java SE Runtime Environmet (at least Java 1.8) from
+the link:http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle
+Java Site], then follow the
 link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[installation
 instructions] for your operating system. You can check your current Java version by running `java -version` in your command line.
 
@@ -569,52 +566,24 @@ Using TreeTagger
 
 Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro. 
 
-[[TreeTaggerInstallationforLinux]]
-TreeTagger Installation for Linux
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[[TreeTaggerInstallation]]
+TreeTagger Installation
+^^^^^^^^^^^^^^^^^^^^^^^
 
 * Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
-* From the download section, download the correct tagger package, i.e. PC-Linux
-** Extract the .gz archive
-** Copy the tree-tagger-linux-3.2/bin/tree-tagger file and place it in the same folder as the script treetagger.jy 
+* From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
+** Extract the .tar.gz as the case may be .zip archive
+** Copy the tree-tagger/bin/tree-tagger file to a random place on your hard drive into the folder _bin_, e.g. C:/tree-tagger/bin
 * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz)
-** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
-
-
-[[TreeTaggerInstallationforWindows7]]
-TreeTagger Installation for Windows 7
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* Ensure that you have a program to unzip .gz files. For example you can use 7zip or WinRar or many others.
-* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
-* In the Windows section, you find the download link for the tree-tagger-windows-3.2.zip file.
-** Extract the zip-archive
-** Copy the tree-tagger-windows-3.2/bin/tree-tagger.exe to your folder with the treetagger.jy script 
-* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-** Unzip the file (e.g. by using 7zip)
-** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
-* In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PATH, "tree-tagger", change the value tree-tagger to tree-tagger.exe 
-    
-
-[[TreeTaggerInstallationforOSX]]
-TreeTagger Installation for OS X
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
-* Download the tree-tagger-MacOSX-3.2-intel.tar file
-** Extract the archive
-** Copy the tree-tagger-MacOSX-3.2.intel/bin/tree-tagger file to your folder with the treetagger.jy script
-* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-** OS X should unzip the .gz-file automatically, otherwise double-click its icon
-** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin
+** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz or alternatively use a program like 7zip or WinRar)
+** Copy the extracted file english-utf8.par into the folder _lib_ in your recently created directory _tree-tagger_, e.g. C:/tree-tagger/lib
 
 
 [[Configurationofthepipeline]]
 Configuration of the pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
 ----
 posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
@@ -630,7 +599,7 @@ Change the paths for the parameter _executablePath_ and _modelLocation_ to the c
 +java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language de -input file.txt -output folder+
 ****
 
-Check the output of the pipeline that Treetagger is used. The output of your pipeline should look something like this:
+Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:
 ----
 POS-Tagger: true
 POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
