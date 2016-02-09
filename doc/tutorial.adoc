@@ -850,7 +850,7 @@ setwd("./pos/")
 
 Once one of the folders is chosen, you can *start Stylo* by typing
 
-[source, r]
+[source, python]
 ----
 stylo()
 ----
