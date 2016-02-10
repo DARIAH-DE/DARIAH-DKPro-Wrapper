@@ -9,6 +9,16 @@
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
 	<version>0.4.4-SNAPSHOT</version>
+	<repositories>
+		<repository>
+			<id>ukp-snapshots</id>
+			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots</url>
+	    </repository>
+		<repository>
+			<id>ukp-releases</id>
+			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases</url>
+	    </repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
