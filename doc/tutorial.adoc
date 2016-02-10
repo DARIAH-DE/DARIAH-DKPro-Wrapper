@@ -713,9 +713,10 @@ In addition to the examples above, an API (application program
 interface) will be provided, containing helper functions that simplify
 the retrieval of (combinations of) of features. 
 
+
 [[ReadabilityMeasuresinR]]
 Example Recipe: Calculate Readability Measures in R
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works strait forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
 
 [source, python]
