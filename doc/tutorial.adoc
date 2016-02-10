@@ -68,6 +68,7 @@ analytic procedures.
 *** link:#Python[Python]
 ** link:#FurtherExamples[Further Examples]
 ** link:#API[API]
+* link:#ReadabilityMeasuresinR[Example Recipe: Calculate Readability Measures in R]
 * link:#StylometricAnalysiswiththeStyloPackageinR[Example Recipe: Stylometric Analysis with the "Stylo" Package in R]
 ** link:#ExampleCorpus[Example Corpus]
 ** link:#PreparingDescriptiveVocabularyandPart-of-SpeechTags[Preparing Descriptive Vocabulary and Part-of-Speech Tags]
@@ -711,6 +712,92 @@ API
 In addition to the examples above, an API (application program
 interface) will be provided, containing helper functions that simplify
 the retrieval of (combinations of) of features. 
+
+[[ReadabilityMeasuresinR]]
+Example Recipe: Calculate Readability Measures in R
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works strait forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
+
+[source, python]
+----
+df = read.table("PathToFile", header = T, fill = T)
+----
+
+To compute, for example, the *type token ratio* (TTR) of the text, we take the column containing the tokens that can be addressed as 'df$Token'. We remove the punctuation by subsetting that vector formulating a logical condition that refers to the column containing the part-of-speech tags (df$Token[df$CPOS != "PUNC"]). The function unique() and length() allow us to generate a vector of unique types, and to measure the lengths of vectors.
+
+[source, python]
+----
+types = length(unique(df$Token[df$CPOS != "PUNC"]))
+tokens = length(df$Token[df$CPOS != "PUNC"])
+TTR = types / tokens
+----
+
+Now, that we have computed the TTR, we can advance to slightly more complicated calculations in the same manner. Readability measures, a widely used class of linguistic metrics, are a simple means to estimate the difficulty of reading a text, e.g. to choose a suitable text for a reading exercise at school. We can easily calculate the such measures too. In this recipe we want to calculate both the so-called 'Automated Readability Index' or *ARI* and the *LIX* readability index from the output data frame in R. The ARI is calculated from the number of characters, the number of words, and the number of sentences. For computing the LIX we need the number of words, the number of periods, and the number of words longer than six characters.
+
+The easiest step is to extract the *number of sentences*: The only thing you need to do is to find the highest sentence ID number using the function max() on the column containing the sentence IDs (df$sentenceId).
+
+[source, python]
+----
+sentences = max(df$SentenceId, na.rm = T)
+----
+
+To compute the *number of words*, we simply take the length of the Token column in the data frame (df$Token), again excluding all entries the POS-tagger has identified as punctuation symbols.
+
+[source, python]
+----
+words = length(df$Token[df$CPOS != "PUNC"])
+----
+
+The *number of periods* requires a somewhat more complicated excluding condition. Our POS tag set only marks punctuation in general, the LIX Readability Index specifically defines full stop period, colon, exclamation mark and question mark as periods. Hence, we want to exclude comma and semicolon from the selection. We will once more rely on the function length() to count elements. This time, we want to count only the elements tagged as punctuation (dfCPOS == "PUNC") and to exclude commas and semicolons.
+
+[source, python]
+----
+periods = length(df$CPOS[df$CPOS == "PUNC" & df$Token != "," & df$Token != ";"])
+----
+
+To calculate the remaining features, we begin by counting the *characters in each word*. The words themselves can be found in the column 'df$Token'. The function nchar() counts the characters in a string. The function lapply() can be used to apply nchar() upon each single element of df$Token. nchar() Can only be applied on character strings. To ensure that df$Token is of that type and has not accidentally interpreted as a factor when the data frame was loaded, we use the function as.character(), that can transform a factor into a vector of strings.
+
+[source, python]
+----
+word_length = lapply(as.character(df$Token), nchar)
+----
+
+As lapply() returns a list, we must convert the results into vector format (with unlist()), then we can get rid of the punctuation tokens.
+
+[source, python]
+----
+word_length = unlist(word_length)
+word_length = word_length[df$CPOS != "PUNC"]
+----
+
+Now that we have a vector at hand that contains the length of every single word in the text as a number, we can simply sum it up to calculate *text length in characters*.
+
+[source, python]
+----
+characters = sum(word_length)
+----
+
+And we can now compute the number *long words*, i.e. the number of words longer than six characters.
+
+[source, python]
+----
+longwords = length(word_length[word_length > 6])
+----
+
+Now all necessary features have been computed and stored in variables. To *calculate the ARI* for the text, we just need to put the feature values into the ARI formula,
+
+[source, python]
+----
+ARI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43
+----
+
+and into another formula for *calculating the LIX*.
+
+[source, python]
+----
+LIX = (words / periods) + (100 * longwords / words)
+----
+
 
 [[StylometricAnalysiswiththeStyloPackageinR]]
 Example Recipe: Stylometric Analysis with the "Stylo" Package in R
