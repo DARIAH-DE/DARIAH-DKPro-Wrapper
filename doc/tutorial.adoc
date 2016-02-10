@@ -628,7 +628,7 @@ Reading the Output
 
 In R, a simple reader can be written as follows:
 
-[source, python]
+[source, r]
 ----
 df = read.table("./data/Effi_Briest_Short.txt.csv", # or whatever file you want to read
                 header = T,                         # first line as headers
@@ -719,14 +719,14 @@ Example Recipe: Calculate Readability Measures in R
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works strait forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
 
-[source, python]
+[source, r]
 ----
 df = read.table("PathToFile", header = T, fill = T)
 ----
 
 To compute, for example, the *type token ratio* (TTR) of the text, we take the column containing the tokens that can be addressed as 'df$Token'. We remove the punctuation by subsetting that vector formulating a logical condition that refers to the column containing the part-of-speech tags (df$Token[df$CPOS != "PUNC"]). The function unique() and length() allow us to generate a vector of unique types, and to measure the lengths of vectors.
 
-[source, python]
+[source, r]
 ----
 types = length(unique(df$Token[df$CPOS != "PUNC"]))
 tokens = length(df$Token[df$CPOS != "PUNC"])
@@ -737,35 +737,35 @@ Now, that we have computed the TTR, we can advance to slightly more complicated 
 
 The easiest step is to extract the *number of sentences*: The only thing you need to do is to find the highest sentence ID number using the function max() on the column containing the sentence IDs (df$sentenceId).
 
-[source, python]
+[source, r]
 ----
 sentences = max(df$SentenceId, na.rm = T)
 ----
 
 To compute the *number of words*, we simply take the length of the Token column in the data frame (df$Token), again excluding all entries the POS-tagger has identified as punctuation symbols.
 
-[source, python]
+[source, r]
 ----
 words = length(df$Token[df$CPOS != "PUNC"])
 ----
 
 The *number of periods* requires a somewhat more complicated excluding condition. Our POS tag set only marks punctuation in general, the LIX Readability Index specifically defines full stop period, colon, exclamation mark and question mark as periods. Hence, we want to exclude comma and semicolon from the selection. We will once more rely on the function length() to count elements. This time, we want to count only the elements tagged as punctuation (dfCPOS == "PUNC") and to exclude commas and semicolons.
 
-[source, python]
+[source, r]
 ----
 periods = length(df$CPOS[df$CPOS == "PUNC" & df$Token != "," & df$Token != ";"])
 ----
 
 To calculate the remaining features, we begin by counting the *characters in each word*. The words themselves can be found in the column 'df$Token'. The function nchar() counts the characters in a string. The function lapply() can be used to apply nchar() upon each single element of df$Token. nchar() Can only be applied on character strings. To ensure that df$Token is of that type and has not accidentally interpreted as a factor when the data frame was loaded, we use the function as.character(), that can transform a factor into a vector of strings.
 
-[source, python]
+[source, r]
 ----
 word_length = lapply(as.character(df$Token), nchar)
 ----
 
 As lapply() returns a list, we must convert the results into vector format (with unlist()), then we can get rid of the punctuation tokens.
 
-[source, python]
+[source, r]
 ----
 word_length = unlist(word_length)
 word_length = word_length[df$CPOS != "PUNC"]
@@ -773,28 +773,28 @@ word_length = word_length[df$CPOS != "PUNC"]
 
 Now that we have a vector at hand that contains the length of every single word in the text as a number, we can simply sum it up to calculate *text length in characters*.
 
-[source, python]
+[source, r]
 ----
 characters = sum(word_length)
 ----
 
 And we can now compute the number *long words*, i.e. the number of words longer than six characters.
 
-[source, python]
+[source, r]
 ----
 longwords = length(word_length[word_length > 6])
 ----
 
 Now all necessary features have been computed and stored in variables. To *calculate the ARI* for the text, we just need to put the feature values into the ARI formula,
 
-[source, python]
+[source, r]
 ----
 ARI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43
 ----
 
 and into another formula for *calculating the LIX*.
 
-[source, python]
+[source, r]
 ----
 LIX = (words / periods) + (100 * longwords / words)
 ----
@@ -851,7 +851,7 @@ working folder, i.e. the one where the CSV files are to be found. In R,
 the working directory can be changed using the "setwd()" command in the
 R console, like in
 
-[source, python]
+[source, r]
 ----
 setwd("~/DKPro/")
 ----
@@ -859,7 +859,7 @@ setwd("~/DKPro/")
 If you are uncertain about your current working directory, you can
 compute it by typing
 
-[source, python]
+[source, r]
 ----
 getwd()
 ----
@@ -868,7 +868,7 @@ getwd()
 The following R-code will *extract the desired features* from the
 CSV-files and store them in a Stylo-accessible way.
 
-[source, python]
+[source, r]
 ----
 # Extract file names
 files = list.files(pattern = "*.csv")
@@ -905,14 +905,14 @@ Using Stylo
 If you have not *installed* the Stylo package yet, do that with the
 following command into the R console:
 
-[source, python]
+[source, r]
 ----
 install.packages("stylo")
 ----
 
 Next, you can *load the package* with:
 
-[source, python]
+[source, r]
 ----
 library(stylo)
 ----
@@ -924,21 +924,21 @@ as input, you will have to do these separately. The order, however,
 depends on your preference (or curiosity) only. If you want to analyze
 the **descriptive vocabulary**, type:
 
-[source, python]
+[source, r]
 ----
 setwd("./dv/")
 ----
 
 For working with **part-of-speech tags**, type:
 
-[source, python]
+[source, r]
 ----
 setwd("./pos/")
 ----
 
 Once one of the folders is chosen, you can *start Stylo* by typing
 
-[source, python]
+[source, r]
 ----
 stylo()
 ----
