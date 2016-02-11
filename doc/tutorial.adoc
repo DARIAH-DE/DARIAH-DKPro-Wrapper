@@ -132,7 +132,7 @@ Pipeline Download
 
 When the Java environment is prepared, you
 can link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[download the latest binary]. Select
-the file named dariah-dkpro-wrapper-x.y.z.zip and unpack it somewhere
+the file named dariah-dkpro-wrapper-{version}.zip and unpack it somewhere
 easily accessible. As a next step we need to navigate to this folder
 using the command line.
 
@@ -262,7 +262,7 @@ contained in the folder. For example
 
 
 ****
-+java-Xmx4g -jar ddw-{version}.jar -language de -input "C:\Romane\*" -output .+
++java -Xmx4g -jar ddw-{version}.jar -language de -input "C:\Romane\*" -output .+
 ****
 
 Under **Linux** and **OSX** the input path and wildcard need to be put
@@ -545,20 +545,20 @@ For creating your own pipeline the latest version of Java SDK (1.8 or
 higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
 and the DKPro Core ASL 1.8.0 or higher have to be installed on your
 computer. For further information
-see link:http://dkpro.github.io/dkpro-core/pages/java-intro.html[First
+see link:https://dkpro.github.io/dkpro-core/pages/java-intro/[First
 Programming Steps with DKPro Core].
 
 Some of the analysis components can be run with different models. For
 processing you can choose the component and the model that suits your
 interests the most
-from link:http://dkpro.github.io/dkpro-core/releases/1.7.0/components.html[this
+from link:https://dkpro.github.io/dkpro-core/releases/1.7.0/components/[this
 list]. For example, if you want to classify entities such as the names
 of persons, locations, expressions of times, organisations and so on
 there are two selectable components. StanfordNamedEntityRecognizer and
 OpenNlpNameFinder both are suitable for Named Entity Recognition. But if
 you are working with a German text StanfordNamedEntityRecognizer would
 be the better choice as you see in
-the link:http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html[list
+the link:https://dkpro.github.io/dkpro-core/releases/1.7.0/models/[list
 of models].
 
 [[UsingTreeTagger]]
@@ -574,7 +574,7 @@ TreeTagger Installation
 * Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
 * From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
 ** Extract the .tar.gz as the case may be .zip archive
-** Copy the tree-tagger/bin/tree-tagger file to a random place on your hard drive into the folder _bin_, e.g. C:/tree-tagger/bin
+** Copy the tree-tagger/bin/tree-tagger file to any place on your hard drive into the folder _bin_, e.g. C:/tree-tagger/bin
 * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
 ** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz or alternatively use a program like 7zip or WinRar)
 ** Copy the extracted file english-utf8.par into the folder _lib_ in your recently created directory _tree-tagger_, e.g. C:/tree-tagger/lib
@@ -1165,7 +1165,7 @@ for English
 and link:http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html[STTS] for
 German. More information about DKPro components and the tag sets they
 are trained on can be
-found link:http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html[here].
+found link:https://dkpro.github.io/dkpro-core/releases/1.7.0/models/[here].
 
 [[PreparingtheData]]
 Preparing the Data
@@ -1368,6 +1368,7 @@ hood, append the following to the import statements at the beginning of
 the file. Beware that Gensim's logging produces a lot of detailed
 output.
 
+[source, python]
 ----
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -1431,9 +1432,6 @@ paper].
 
 image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png?version=1&modificationDate=1443696593537&api=v2[image]
 
-* +
-*
-
 [[Heatmap]]
 *Heatmap*
 
@@ -1455,8 +1453,8 @@ section] in __lda.py__) - smaller document sizes 'zoom in' on the
 thematic development inside texts, while larger ones 'zoom out', up
 until there is only one row per document to display.
 
-*image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&modificationDate=1443688101001&api=v2[image] +
-*
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&modificationDate=1443688101001&api=v2[image] +
+
 
 [[Network]]
 *Network*
@@ -1503,7 +1501,7 @@ classification system that works genre-independently with an accuracy of
 around 0.70 using only the feature set.
 
 You can find the complete, ready-to-run Python script
-on link:https://github.com/stefanpernes/dariah-nlp-tutorial[Github].
+on link:https://github.com/stefanpernes/dariah-nlp-tutorial[GitHub].
 
 [[ExampleCorpus.2]]
 Example Corpus
