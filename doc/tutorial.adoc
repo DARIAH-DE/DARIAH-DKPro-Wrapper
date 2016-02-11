@@ -120,7 +120,7 @@ Java Installation
 
 The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
-once. Download and install the latest Java SE Runtime Environmet (at least Java 1.8) from
+once. Download and install the latest Java SE Runtime Environment (at least Java 1.8) from
 the link:http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle
 Java Site], then follow the
 link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[installation
@@ -196,7 +196,7 @@ For example:
 ****
 
 
-If your input and/or output file are located in the current director you
+If your input and/or output file are located in the current directory you
 can type "." instead of the full input- and/or output-path. For example:
 
 ****
