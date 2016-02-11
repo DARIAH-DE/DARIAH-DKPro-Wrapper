@@ -1,17 +1,17 @@
 // Copyright 2015
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 // http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-    
+
 :version:  0.4.3
 
 NLP Based Analysis of Literary Texts (M 5.2.3)
@@ -59,8 +59,7 @@ analytic procedures.
 *** link:#UnderstandingtheArgumentParameter[Understanding the Argument Parameter]
 ** link:#Buildingyourown[Building your own]
 * link:#UsingTreeTagger[Using TreeTagger]
-** link:#TreeTaggerInstallationforLinux[TreeTagger Installation for Linux]
-** link:#TreeTaggerInstallationforWindows7[TreeTagger Installation for Windows 7]
+** link:#TreeTaggerInstallation[TreeTagger Installation]
 ** link:#Configurationofthepipeline[Configuration of the pipeline]
 * link:#OutputFormat[Output Format]
 ** link:#Specification[Specification]
@@ -69,6 +68,7 @@ analytic procedures.
 *** link:#Python[Python]
 ** link:#FurtherExamples[Further Examples]
 ** link:#API[API]
+* link:#ReadabilityMeasuresinR[Example Recipe: Calculate Readability Measures in R]
 * link:#StylometricAnalysiswiththeStyloPackageinR[Example Recipe: Stylometric Analysis with the "Stylo" Package in R]
 ** link:#ExampleCorpus[Example Corpus]
 ** link:#PreparingDescriptiveVocabularyandPart-of-SpeechTags[Preparing Descriptive Vocabulary and Part-of-Speech Tags]
@@ -104,15 +104,15 @@ To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
 been tested:
 
-* Mac OS X
+* Mac OS X (10.10, 10.11)
 
-* Linux (Ubuntu 14.04)
+* Linux (Ubuntu 14.04, 15.10)
 
 * Windows 7/8
 
 Furthermore, the pipeline depends on a *internet connection* when
-running to download the models for the current configuration. It does
-not work offline!
+running to download the models for the current configuration. *It does
+not work offline!*
 
 [[JavaInstallation]]
 Java Installation
@@ -120,10 +120,9 @@ Java Installation
 
 The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
-once. Download and install the latest Java SE Development Kit (requires
-at least Java 1.8) from
-the link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Oracle
-Java Site], then follow the
+once. Download and install the latest Java SE Runtime Environment (at least Java 1.8) from
+the link:http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle
+Java Site], then follow the
 link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[installation
 instructions] for your operating system. You can check your current Java version by running `java -version` in your command line.
 
@@ -133,7 +132,7 @@ Pipeline Download
 
 When the Java environment is prepared, you
 can link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[download the latest binary]. Select
-the file named dariah-dkpro-wrapper-x.y.z.zip and unpack it somewhere
+the file named dariah-dkpro-wrapper-{version}.zip and unpack it somewhere
 easily accessible. As a next step we need to navigate to this folder
 using the command line.
 
@@ -179,7 +178,7 @@ can be downloaded and processed via the pipeline. You can compare your
 output with this file link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&modificationDate=1434960896211&api=v2[[2\]].
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
-from link:http://www.zeno.org/[Zeno.org] or link:http://www.deutschestextarchiv.de/[Deutsches
+from link:http://textgridrep.org/[TextGrid Repository] or link:http://www.deutschestextarchiv.de/[Deutsches
 Textarchiv].
 
 To process data type the following command in the command prompt
@@ -197,7 +196,7 @@ For example:
 ****
 
 
-If your input and/or output file are located in the current director you
+If your input and/or output file are located in the current directory you
 can type "." instead of the full input- and/or output-path. For example:
 
 ****
@@ -246,7 +245,7 @@ The pipeline supports a resume function. By adding the `-resume` argument to the
 Language
 ++++++++
 
-You can change the language by specifying the language parameter for the pipeline. Support for the following languages are include in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). To run the pipeline for English, execute the following command:
+You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#UsingTreeTagger[TreeTagger] first. To run the pipeline for English, execute the following command:
 
 ****
 +java -Xmx4g -jar  ddw-{version}.jar -language en -input file.txt -output folder+
@@ -263,7 +262,7 @@ contained in the folder. For example
 
 
 ****
-+java-Xmx4g -jar ddw-{version}.jar -language de -input "C:\Romane\*" -output .+
++java -Xmx4g -jar ddw-{version}.jar -language de -input "C:\Romane\*" -output .+
 ****
 
 Under **Linux** and **OSX** the input path and wildcard need to be put
@@ -530,7 +529,7 @@ In `myPOSTagger.properties` you just add the configuration for the different POS
 Understanding the Argument Parameter
 ++++++++++++++++++++++++++++++++++++
 
-Most components can be equipped with arguments so specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the `default.properties` you can find the following line:
+Most components can be equipped with arguments to specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the `default.properties` you can find the following line:
 
 ----
 constituencyParserArguments = writeDependency,boolean,false
@@ -546,60 +545,46 @@ For creating your own pipeline the latest version of Java SDK (1.8 or
 higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
 and the DKPro Core ASL 1.8.0 or higher have to be installed on your
 computer. For further information
-see link:http://dkpro.github.io/dkpro-core/pages/java-intro.html[First
+see link:https://dkpro.github.io/dkpro-core/pages/java-intro/[First
 Programming Steps with DKPro Core].
 
 Some of the analysis components can be run with different models. For
 processing you can choose the component and the model that suits your
 interests the most
-from link:http://dkpro.github.io/dkpro-core/releases/1.7.0/components.html[this
+from link:https://dkpro.github.io/dkpro-core/releases/1.7.0/components/[this
 list]. For example, if you want to classify entities such as the names
 of persons, locations, expressions of times, organisations and so on
 there are two selectable components. StanfordNamedEntityRecognizer and
 OpenNlpNameFinder both are suitable for Named Entity Recognition. But if
 you are working with a German text StanfordNamedEntityRecognizer would
 be the better choice as you see in
-the link:http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html[list
+the link:https://dkpro.github.io/dkpro-core/releases/1.7.0/models/[list
 of models].
 
 [[UsingTreeTagger]]
 Using TreeTagger
 ~~~~~~~~~~~~~~~~
 
-Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro. 
+Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.
 
-[[TreeTaggerInstallationforLinux]]
-TreeTagger Installation for Linux
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[[TreeTaggerInstallation]]
+TreeTagger Installation
+^^^^^^^^^^^^^^^^^^^^^^^
 
- * Go to the TreeTagger website
-    * From the download section, download the correct tagger package, i.e. PC-Linux
-        ** Extract the .gz archive
-        ** Copy the tree-tagger-linux-3.2/bin/tree-tagger file and place it in the same folder as the script treetagger.jy 
-    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-        ** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz)
-        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
+* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
+* From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
+** Extract the .tar.gz as the case may be .zip archive
+** Copy the tree-tagger/bin/tree-tagger file to any place on your hard drive into the folder _bin_, e.g. C:/tree-tagger/bin
+* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
+** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz or alternatively use a program like 7zip or WinRar)
+** Copy the extracted file english-utf8.par into the folder _lib_ in your recently created directory _tree-tagger_, e.g. C:/tree-tagger/lib
 
-
-[[TreeTaggerInstallationforWindows7]]
-TreeTagger Installation for Windows 7
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    * Ensure that you have a program to unzip .gz files. For example you can use 7zip or WinRar or many others.
-    * Go to the TreeTagger website
-    * In the Windows section, you find the download link for the tree-tagger-windows-3.2.zip file.
-        ** Extract the zip-archive
-        ** Copy the tree-tagger-windows-3.2/bin/tree-tagger.exe to your folder with with the treetagger.jy script 
-    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-        ** Unzip the file (e.g. by using 7zip)
-        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
-    * In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PATH, "tree-tagger", change the value tree-tagger to tree-tagger.exe 
 
 [[Configurationofthepipeline]]
 Configuration of the pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
 ----
 posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
@@ -607,7 +592,7 @@ posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
 	modelEncoding,string,utf-8
 
 # Treetagger adds lemmas, no need for an additional lemmatizer
-useLemmatizer = false 
+useLemmatizer = false
 ----
 
 Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use Treetagger in your pipeline using the `-config` argument:
@@ -615,7 +600,7 @@ Change the paths for the parameter _executablePath_ and _modelLocation_ to the c
 +java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language de -input file.txt -output folder+
 ****
 
-Check the output of the pipeline that Treetagger is used. The output of your pipeline should look something like this:
+Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:
 ----
 POS-Tagger: true
 POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
@@ -643,7 +628,7 @@ Reading the Output
 
 In R, a simple reader can be written as follows:
 
-[source, python]
+[source, r]
 ----
 df = read.table("./data/Effi_Briest_Short.txt.csv", # or whatever file you want to read
                 header = T,                         # first line as headers
@@ -728,6 +713,93 @@ In addition to the examples above, an API (application program
 interface) will be provided, containing helper functions that simplify
 the retrieval of (combinations of) of features. 
 
+
+[[ReadabilityMeasuresinR]]
+Example Recipe: Calculate Readability Measures in R
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works strait forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
+
+[source, r]
+----
+df = read.table("PathToFile", header = T, fill = T)
+----
+
+To compute, for example, the *type token ratio* (TTR) of the text, we take the column containing the tokens that can be addressed as 'df$Token'. We remove the punctuation by subsetting that vector formulating a logical condition that refers to the column containing the part-of-speech tags (df$Token[df$CPOS != "PUNC"]). The function unique() and length() allow us to generate a vector of unique types, and to measure the lengths of vectors.
+
+[source, r]
+----
+types = length(unique(df$Token[df$CPOS != "PUNC"]))
+tokens = length(df$Token[df$CPOS != "PUNC"])
+TTR = types / tokens
+----
+
+Now, that we have computed the TTR, we can advance to slightly more complicated calculations in the same manner. Readability measures, a widely used class of linguistic metrics, are a simple means to estimate the difficulty of reading a text, e.g. to choose a suitable text for a reading exercise at school. We can easily calculate the such measures too. In this recipe we want to calculate both the so-called 'Automated Readability Index' or *ARI* and the *LIX* readability index from the output data frame in R. The ARI is calculated from the number of characters, the number of words, and the number of sentences. For computing the LIX we need the number of words, the number of periods, and the number of words longer than six characters.
+
+The easiest step is to extract the *number of sentences*: The only thing you need to do is to find the highest sentence ID number using the function max() on the column containing the sentence IDs (df$sentenceId).
+
+[source, r]
+----
+sentences = max(df$SentenceId, na.rm = T)
+----
+
+To compute the *number of words*, we simply take the length of the Token column in the data frame (df$Token), again excluding all entries the POS-tagger has identified as punctuation symbols.
+
+[source, r]
+----
+words = length(df$Token[df$CPOS != "PUNC"])
+----
+
+The *number of periods* requires a somewhat more complicated excluding condition. Our POS tag set only marks punctuation in general, the LIX Readability Index specifically defines full stop period, colon, exclamation mark and question mark as periods. Hence, we want to exclude comma and semicolon from the selection. We will once more rely on the function length() to count elements. This time, we want to count only the elements tagged as punctuation (dfCPOS == "PUNC") and to exclude commas and semicolons.
+
+[source, r]
+----
+periods = length(df$CPOS[df$CPOS == "PUNC" & df$Token != "," & df$Token != ";"])
+----
+
+To calculate the remaining features, we begin by counting the *characters in each word*. The words themselves can be found in the column 'df$Token'. The function nchar() counts the characters in a string. The function lapply() can be used to apply nchar() upon each single element of df$Token. nchar() Can only be applied on character strings. To ensure that df$Token is of that type and has not accidentally interpreted as a factor when the data frame was loaded, we use the function as.character(), that can transform a factor into a vector of strings.
+
+[source, r]
+----
+word_length = lapply(as.character(df$Token), nchar)
+----
+
+As lapply() returns a list, we must convert the results into vector format (with unlist()), then we can get rid of the punctuation tokens.
+
+[source, r]
+----
+word_length = unlist(word_length)
+word_length = word_length[df$CPOS != "PUNC"]
+----
+
+Now that we have a vector at hand that contains the length of every single word in the text as a number, we can simply sum it up to calculate *text length in characters*.
+
+[source, r]
+----
+characters = sum(word_length)
+----
+
+And we can now compute the number *long words*, i.e. the number of words longer than six characters.
+
+[source, r]
+----
+longwords = length(word_length[word_length > 6])
+----
+
+Now all necessary features have been computed and stored in variables. To *calculate the ARI* for the text, we just need to put the feature values into the ARI formula,
+
+[source, r]
+----
+ARI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43
+----
+
+and into another formula for *calculating the LIX*.
+
+[source, r]
+----
+LIX = (words / periods) + (100 * longwords / words)
+----
+
+
 [[StylometricAnalysiswiththeStyloPackageinR]]
 Example Recipe: Stylometric Analysis with the "Stylo" Package in R
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -779,7 +851,7 @@ working folder, i.e. the one where the CSV files are to be found. In R,
 the working directory can be changed using the "setwd()" command in the
 R console, like in
 
-[source, python]
+[source, r]
 ----
 setwd("~/DKPro/")
 ----
@@ -787,7 +859,7 @@ setwd("~/DKPro/")
 If you are uncertain about your current working directory, you can
 compute it by typing
 
-[source, python]
+[source, r]
 ----
 getwd()
 ----
@@ -796,7 +868,7 @@ getwd()
 The following R-code will *extract the desired features* from the
 CSV-files and store them in a Stylo-accessible way.
 
-[source, python]
+[source, r]
 ----
 # Extract file names
 files = list.files(pattern = "*.csv")
@@ -833,14 +905,14 @@ Using Stylo
 If you have not *installed* the Stylo package yet, do that with the
 following command into the R console:
 
-[source, python]
+[source, r]
 ----
 install.packages("stylo")
 ----
 
 Next, you can *load the package* with:
 
-[source, python]
+[source, r]
 ----
 library(stylo)
 ----
@@ -852,21 +924,21 @@ as input, you will have to do these separately. The order, however,
 depends on your preference (or curiosity) only. If you want to analyze
 the **descriptive vocabulary**, type:
 
-[source, python]
+[source, r]
 ----
 setwd("./dv/")
 ----
 
 For working with **part-of-speech tags**, type:
 
-[source, python]
+[source, r]
 ----
 setwd("./pos/")
 ----
 
 Once one of the folders is chosen, you can *start Stylo* by typing
 
-[source, python]
+[source, r]
 ----
 stylo()
 ----
@@ -1093,7 +1165,7 @@ for English
 and link:http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html[STTS] for
 German. More information about DKPro components and the tag sets they
 are trained on can be
-found link:http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html[here].
+found link:https://dkpro.github.io/dkpro-core/releases/1.7.0/models/[here].
 
 [[PreparingtheData]]
 Preparing the Data
@@ -1296,6 +1368,7 @@ hood, append the following to the import statements at the beginning of
 the file. Beware that Gensim's logging produces a lot of detailed
 output.
 
+[source, python]
 ----
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -1359,9 +1432,6 @@ paper].
 
 image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png?version=1&modificationDate=1443696593537&api=v2[image]
 
-* +
-*
-
 [[Heatmap]]
 *Heatmap*
 
@@ -1383,8 +1453,8 @@ section] in __lda.py__) - smaller document sizes 'zoom in' on the
 thematic development inside texts, while larger ones 'zoom out', up
 until there is only one row per document to display.
 
-*image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&modificationDate=1443688101001&api=v2[image] +
-*
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&modificationDate=1443688101001&api=v2[image] +
+
 
 [[Network]]
 *Network*
@@ -1431,7 +1501,7 @@ classification system that works genre-independently with an accuracy of
 around 0.70 using only the feature set.
 
 You can find the complete, ready-to-run Python script
-on link:https://github.com/stefanpernes/dariah-nlp-tutorial[Github].
+on link:https://github.com/stefanpernes/dariah-nlp-tutorial[GitHub].
 
 [[ExampleCorpus.2]]
 Example Corpus
