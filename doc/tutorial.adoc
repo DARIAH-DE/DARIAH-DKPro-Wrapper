@@ -111,8 +111,8 @@ been tested:
 * Windows 7/8
 
 Furthermore, the pipeline depends on a *internet connection* when
-running to download the models for the current configuration. It does
-not work offline!
+running to download the models for the current configuration. *It does
+not work offline!*
 
 [[JavaInstallation]]
 Java Installation
