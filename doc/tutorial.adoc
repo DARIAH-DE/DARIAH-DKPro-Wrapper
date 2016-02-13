@@ -108,9 +108,9 @@ been tested:
 
 * Linux (Ubuntu 14.04, 15.10)
 
-* Windows 7/8
+* Windows 7/8/10
 
-Furthermore, the pipeline depends on a *internet connection* when
+Furthermore, the pipeline depends on an *internet connection* when
 running to download the models for the current configuration. *It does
 not work offline!*
 
@@ -156,6 +156,7 @@ search box and click on "Command Prompt"
 * in Windows 8 with a right-click on the “Start”-button, choosing “run",
 and typing “cmd” in the search box. Alternatively type "cmd" in the
 "Search".
+* in Windows 10 by typing "cmd.exe" into the search box on the taskbar and selecting the first option.
 
 Navigate to the directory that contains the DKPro-pipeline. For example,
 if you are using windows and keeping your pipeline in folder named
@@ -166,6 +167,9 @@ cd D:\DKPro
 ----
 
 and press enter.
+
+Alternatively the directory can be accessed instantly by holding Shift + right-clicking the folder
+needed and selecting "Open command window here".
 
 [[ProcessingaTextfile]]
 Processing a Textfile
@@ -239,7 +243,7 @@ command line with the "-help" option. Run +java -jar  ddw-{version}.jar -help+ t
  -resume            Already processed files will be skipped
 ----
 
-The pipeline supports a resume function. By adding the `-resume` argument to the exection of the pipeline, all files that were previously processed and have an according `.csv`-file in the output folder will be skipped.
+The pipeline supports a resume function. By adding the `-resume` argument to the execution of the pipeline, all files that were previously processed and have an according `.csv`-file in the output folder will be skipped.
 
 [[Language]]
 Language
@@ -292,7 +296,7 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space or The 
 
 you need to **check the size of virtual memory**. Depending on the
 maximum size of your RAM you should allocate 4GB or 6GB. The
-flag **Xms** specifies the the initial memory allocation pool for a Java
+flag **Xms** specifies the initial memory allocation pool for a Java
 Virtual Machine (JVM). After adapting Windows' virtual memory type the
 following in the command prompt:
 
@@ -346,7 +350,7 @@ You can speficy also patterns to read in only certain files or files with certai
 +java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input "folder/With/Files/*.xmi" -output folder+
 ****
 
-*Note:* If you use patterns (i.e. paths containing an *), you must set it into quotes to prevent shell globbing.
+*Note:* If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.
 
 To read all files in all subfolders, you can use a pattern like this:
 ****
@@ -387,7 +391,7 @@ Part-of-Speech Tagging
 
 Labeling every word and punctuation mark (token) in a text corpus with a
 predefined set of part-of-speech tags (standardized abbreviations) or
-other syntactic class marker, is called Part of Speech Tagging. Usually
+other syntactic class markers, is called Part of Speech Tagging. Usually
 the output of a POS-Tagger will look like this (showing also DKPro's
 CPOS column - a universal coarse grained tag set designed for the
 interoperability of components in different languages):
@@ -404,7 +408,7 @@ interoperability of components in different languages):
 |========================
 
 Most tagging algorithms fall into one of two classes: rule-based taggers
-and probabilistic or stochastic taggers taggers. Rule-based taggers
+and probabilistic or stochastic taggers. Rule-based taggers
 generally involve a large database of hand-written disambiguation rules.
 Stochastic taggers generally resolve tagging ambiguities by using a
 training corpus to compute the probability of a given word having a
@@ -1047,8 +1051,9 @@ recipe:
 pip3 install gensim pandas numpy pyLDAvis
 ----
 
+*Note:* In case pip install produces an error, try its predecessor __easy_install__. Not recommended on OS X, though, as the command defaults to the 2.7 Python installation that is shipped with OS X.
 *Note:* pyLDAvis is currently not available under Windows (as of
-10/2015)
+02/2016)
 
 Also needed for this recipe is the widely used visualization
 package __matplotlib__ for which installation directions are a bit
@@ -1217,20 +1222,7 @@ def preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
             for p in pos_tags:                          # collect only the specified parts-of-speech
                 doc = doc.append(df.get_group(p))
  
-
-
-            """
-
- df = df.groupby('NamedEntity') # add named entities to stopword list
-
- names = df.get_group('B-PER')['Lemma'].values.astype(str)
-
- names += df.get_group('I-PER')['Lemma'].values.astype(str)
-
- """
-
- 
-            names = df.get_group('NP')['Lemma'].values.astype(str)
+            names = df.get_group('NP')['Lemma'].values.astype(str)  # add proper nouns to stopword list
             stopwords += names.tolist()
  
             # construct documents
@@ -1249,9 +1241,6 @@ def preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
                     i += 1
                 docs.append(doc['Lemma'].values.astype(str))    # add the rest
                 doc_labels.append(file.split(".")[0]+" #"+str(i))
- 
-    #for doc in docs: print(str(len(doc))) # display resulting doc sizes
-    #print(stopwords)
  
     print("\nnormalizing and vectorizing ...\n")        # cf. https://radimrehurek.com/gensim/tut1.html
  
@@ -1273,8 +1262,21 @@ model. That can happen because NER components differ in performance for
 different languages and different types of text. An independently
 developed NER component trained on German 19th century novels will be
 included in a later version of the pipeline to address use cases like
-this. In the meanwhile, and as a more generic approach, you can also try
-filtering all proper nouns (NP).
+this. The following lines will add all named entities to the stopword list.
+
+[source, python]
+----
+df = df.groupby('NamedEntity')
+
+names = df.get_group('B-PER')['Lemma'].values.astype(str)
+
+names += df.get_group('I-PER')['Lemma'].values.astype(str)
+
+stopwords += names.tolist()
+----
+
+In the meanwhile, and as a more generic approach, we filter
+out all proper nouns (NP).
 
 [source, python]
 ----
