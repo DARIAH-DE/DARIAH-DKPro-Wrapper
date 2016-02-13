@@ -108,7 +108,7 @@ been tested:
 
 * Linux (Ubuntu 14.04, 15.10)
 
-* Windows 7/8
+* Windows 7/8/10
 
 Furthermore, the pipeline depends on a *internet connection* when
 running to download the models for the current configuration. It does
@@ -1047,8 +1047,9 @@ recipe:
 pip3 install gensim pandas numpy pyLDAvis
 ----
 
+*Note:* In case pip install produces an error, try its predecessor __easy_install__. Not recommended on OS X, though, as the command defaults to the 2.7 Python installation that is shipped with OS X.
 *Note:* pyLDAvis is currently not available under Windows (as of
-10/2015)
+02/2016)
 
 Also needed for this recipe is the widely used visualization
 package __matplotlib__ for which installation directions are a bit
@@ -1217,20 +1218,7 @@ def preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
             for p in pos_tags:                          # collect only the specified parts-of-speech
                 doc = doc.append(df.get_group(p))
  
-
-
-            """
-
- df = df.groupby('NamedEntity') # add named entities to stopword list
-
- names = df.get_group('B-PER')['Lemma'].values.astype(str)
-
- names += df.get_group('I-PER')['Lemma'].values.astype(str)
-
- """
-
- 
-            names = df.get_group('NP')['Lemma'].values.astype(str)
+            names = df.get_group('NP')['Lemma'].values.astype(str)  # add proper nouns to stopword list
             stopwords += names.tolist()
  
             # construct documents
@@ -1249,9 +1237,6 @@ def preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
                     i += 1
                 docs.append(doc['Lemma'].values.astype(str))    # add the rest
                 doc_labels.append(file.split(".")[0]+" #"+str(i))
- 
-    #for doc in docs: print(str(len(doc))) # display resulting doc sizes
-    #print(stopwords)
  
     print("\nnormalizing and vectorizing ...\n")        # cf. https://radimrehurek.com/gensim/tut1.html
  
@@ -1273,8 +1258,21 @@ model. That can happen because NER components differ in performance for
 different languages and different types of text. An independently
 developed NER component trained on German 19th century novels will be
 included in a later version of the pipeline to address use cases like
-this. In the meanwhile, and as a more generic approach, you can also try
-filtering all proper nouns (NP).
+this. The following lines will add all named entities to the stopword list.
+
+[source, python]
+----
+df = df.groupby('NamedEntity')
+
+names = df.get_group('B-PER')['Lemma'].values.astype(str)
+
+names += df.get_group('I-PER')['Lemma'].values.astype(str)
+
+stopwords += names.tolist()
+----
+
+In the meanwhile, and as a more generic approach, we filter
+out all proper nouns (NP).
 
 [source, python]
 ----
