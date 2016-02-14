@@ -132,7 +132,7 @@ Pipeline Download
 
 When the Java environment is prepared, you
 can link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[download the latest binary]. Select
-the file named dariah-dkpro-wrapper-{version}.zip and unpack it somewhere
+the file named dariah-dkpro-wrapper-{version}.zip and unpack it somewhere
 easily accessible. As a next step we need to navigate to this folder
 using the command line.
 
@@ -162,9 +162,9 @@ Navigate to the directory that contains the DKPro-pipeline. For example,
 if you are using windows and keeping your pipeline in folder named
 "DKPro" on drive "D:", by typing,
 
-----
-cd D:\DKPro
-----
+****
++cd D:\DKPro+
+****
 
 and press enter.
 
@@ -269,7 +269,7 @@ contained in the folder. For example
 +java -Xmx4g -jar ddw-{version}.jar -language de -input "C:\Romane\*" -output .+
 ****
 
-Under **Linux** and **OSX** the input path and wildcard need to be put
+Under **Linux** and **OS X** the input path and wildcard need to be put
 inside quotation marks, such as this
 
 ****
@@ -291,7 +291,7 @@ If there is no output in your output folder and your command prompt
 shows
 
 ----
-Exception in thread "main" java.lang.OutOfMemoryError: Java heap space or The specified size exceeds the maximum representable size.Error: Could not create the Java Virtual Machine
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space or The specified size exceeds the maximum representable size. Error: Could not create the Java Virtual Machine
 ----
 
 you need to **check the size of virtual memory**. Depending on the
@@ -300,9 +300,9 @@ flag **Xms** specifies the initial memory allocation pool for a Java
 Virtual Machine (JVM). After adapting Windows' virtual memory type the
 following in the command prompt:
 
-----
-java –Xms -jar nameOfThePipeline.jar -input nameOfTheTextfile.txt -output OutputFolder
-----
+****
++java –Xms -jar ddw-{version}.jar -input file.txt -output folder+
+****
 
 and press enter.
 
@@ -332,13 +332,14 @@ The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XM
 +java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input file.xml -output folder+
 ****
 
-The XML reader skips XML tags and processes only text which is inside the XML tags. The xpath to each tag is conserved and stored in the column *SectionId* in the output format.
+The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column *SectionId* in the output format.
 
 [[ReadingDirectories]]
 Reading Directories
 ^^^^^^^^^^^^^^^^^^^
 
 You can also specify for the *-input* argument a directory instead of a file. If you run the pipeline in the following way:
+
 ****
 +java -Xmx4g -jar  ddw-{version}.jar -language en -input folder/With/Files/ -output folder+
 ****
@@ -346,6 +347,7 @@ You can also specify for the *-input* argument a directory instead of a file. If
 the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
 
 You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.xmi_ with the XML reader, you must start the pipeline in the following way:
+
 ****
 +java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input "folder/With/Files/*.xmi" -output folder+
 ****
@@ -378,7 +380,7 @@ words as delimiters. However, there are languages that do not support
 this, such as Chinese or Japanese.
 * Sentence segmentation is the process of splitting text based on
 sentence limiting punctuation e.g. periods, question marks etc. Note
-that, the periods are sometimes not the markers of sentence boundaries
+that the periods are sometimes not the markers of sentence boundaries
 but the markers of abbreviations.
 * Besides, there are many other different segmentations on the basis of
 different purposes such as discourse segmentation (separating a document
@@ -500,9 +502,30 @@ thus preparing for a semantic interpretation of the sentence.
 Write your own config file 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_es.properties` for English and so on.
+The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_en.properties` for English and so on.
 
-If you like to write your own config file, just create your own `.properties` file. You can run the pipeline with your `.properties`-file by setting the command argument.
+If you like to write your own config file, just create your own `.properties` file. You have a range of possibilities to modify the pipeline for your purpose as you can see link:https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/index.html[here]. 
+
+For clarification have a look at line 3 to 13 in `default.properties`:
+
+----
+###################################
+# Segmentation
+###################################
+useSegmenter = true # line 6
+segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
+
+# Possible values for segmenter:
+# - de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter
+# - de.tudarmstadt.ukp.dkpro.core.clearnlp.ClearNlpSegmenter
+# - de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter (default)
+# - de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter
+----
+
+The component link:#Segmentation[Segmentation] is set to boolean true by default (line 6). If you want to disable Segmentation set `useSegmenter` to `false`. To use another toolkit than OpenNlpSegmenter (line 7), change the value of `segmenter` e.g. to `de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter` for the StanfordSegmenter. A more specific modification with argument parameters is explained link:#UnderstandingtheArgumentParameter[further below].
+
+You can run the pipeline with your `.properties`-file by setting the command argument.
+
 ****
 +java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder+
 ****
@@ -513,6 +536,7 @@ In case you store your `myconfigfile.properties` in the `configs` folder, you ca
 ****
 
 You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:
+
 ****
 +java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder+
 ****
@@ -527,19 +551,26 @@ In case you like to use the _full_-version and also want to change the POS-tagge
 
 In `myPOSTagger.properties` you just add the configuration for the different POS-tagger.
 
-*Note:* The properties-files must use the ISO-8859-1 encoding. If you like to include UTF-8 characters, you must encode them using \u[HEXCode].
+*Note:* The properties-files must use the link:https://en.wikipedia.org/wiki/ISO/IEC_8859-1[ISO-8859-1] encoding. If you like to include link:https://en.wikipedia.org/wiki/UTF-8[UTF-8] characters, you must encode them using \u[HEXCode].
 
 [[UnderstandingtheArgumentParameter]]
 Understanding the Argument Parameter
 ++++++++++++++++++++++++++++++++++++
 
-Most components can be equipped with arguments to specifcy for example the model that should be used. Arguments are passed to the pipeline in a 3 tuple format. In the `default.properties` you can find the following line:
+A parameter is a special variable, consisting one or more arguments, provided to the subroutine. Most components of the DKPro pipeline can be equipped with arguments to specify for example the model that should be used. A list of possible arguments is available link:https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/constant-values.html[here] in the column *Constant Field* or rather *Value*. Arguments are passed to the pipeline in a 3 tuple format:
+
+* The first tuple corresponds to the value of the Constant Field, e.g. writeDependency.
+* The second tuple declares the data type of the following tuple, e.g. boolean. As type you can use _boolean_, _integer_, and _string_.
+* The third tuple has to be a concrete data type value, e.g. false.
+
+In the `default.properties` you can find the following line:
 
 ----
 constituencyParserArguments = writeDependency,boolean,false
 ----
 
-Here we specify the argument *writeDependency* with the boolean value *false*. As type you can use _boolean_, _integer_, and _string_.
+Here we specify the argument *writeDependency* with the boolean value *false*. This suggests, that no dependency annotations will be created.
+
 
 [[Buildingyourown]]
 Building your own
@@ -575,13 +606,14 @@ Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro r
 TreeTagger Installation
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-* Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
-* From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
-** Extract the .tar.gz as the case may be .zip archive
-** Copy the tree-tagger/bin/tree-tagger file to any place on your hard drive into the folder _bin_, e.g. C:/tree-tagger/bin
-* From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz or alternatively use a program like 7zip or WinRar)
-** Copy the extracted file english-utf8.par into the folder _lib_ in your recently created directory _tree-tagger_, e.g. C:/tree-tagger/lib
+. Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
+. From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
+.. Extract the .tar.gz as the case may be .zip archive
+.. Create a new directory `tree-tagger` containing two folders `bin` and `lib` on your hard drive, e.g. `C:/tree-tagger/bin` and `C:/tree-tagger/lib`
+.. Copy the `tree-tagger/bin/tree-tagger` file *from the previously downloaded archive* to your recently created directory `tree-tagger` into the folder `bin`
+. From the parameter file section, download the correct model. For the example below download Latin parameter file (latin-par-linux-3.2-utf8.bin.gz)
+.. Unzip the file (e.g. `gunzip latin-par-linux-3.2-utf8.bin.gz` or alternatively use a program like 7zip or WinRar)
+.. Copy the extracted file latin.par into the folder `lib` in your created directory `tree-tagger`
 
 
 [[Configurationofthepipeline]]
@@ -589,17 +621,19 @@ Configuration of the pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+
 ----
 posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
-	modelLocation,string,C:/tree-tagger/lib/german-utf8.par,\
+	modelLocation,string,C:/tree-tagger/lib/latin.par,\
 	modelEncoding,string,utf-8
 
 # Treetagger adds lemmas, no need for an additional lemmatizer
 useLemmatizer = false
 ----
 
-Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use Treetagger in your pipeline using the `-config` argument:
+Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use TreeTagger in your pipeline using the `-config` argument:
+
 ****
 +java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language de -input file.txt -output folder+
 ****
@@ -608,7 +642,7 @@ Check the output of the pipeline that TreeTagger is used. The output of your pip
 ----
 POS-Tagger: true
 POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
-POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/german-utf8.par, modelEncoding, utf-8
+POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/latin.par, modelEncoding, utf-8
 ----
 
 [[OutputFormat]]
@@ -721,7 +755,7 @@ the retrieval of (combinations of) of features. 
 [[ReadabilityMeasuresinR]]
 Example Recipe: Calculate Readability Measures in R
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works strait forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
+Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works straight forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
 
 [source, r]
 ----
