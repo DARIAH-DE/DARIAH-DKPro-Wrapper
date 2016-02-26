@@ -1,5 +1,5 @@
 # DARIAH-DKPro-Wrapper
-Wrapper for DKPro to extract lingustic information from books.
+Wrapper for DKPro-Core to extract lingustic information from books.
 
 You can download the latest version from the *release*-section: 
 https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases
