@@ -385,7 +385,7 @@ but the markers of abbreviations.
 * Besides, there are many other different segmentations on the basis of
 different purposes such as discourse segmentation (separating a document
 into a linear sequence of subtopics), Paragraph segmentation (which
-automatically break the text up into paragraphs) an so forth.
+automatically break the text up into paragraphs) and so forth.
 
 [[Part-of-SpeechTagging]]
 Part-of-Speech Tagging
@@ -481,7 +481,7 @@ Named Entity Recognition
 Named entity recognition (NER) is a pre-processing step in most
 information extraction tasks. Named entity stands for the text block,
 which refers a name. NER describes the task of finding all names in one
-text and categorising them based on their different types, such as
+text and categorizing them based on their different types, such as
 persons, organizations or locations.
 
 [[SemanticRoleLabeling]]
@@ -588,7 +588,7 @@ processing you can choose the component and the model that suits your
 interests the most
 from link:https://dkpro.github.io/dkpro-core/releases/1.7.0/components/[this
 list]. For example, if you want to classify entities such as the names
-of persons, locations, expressions of times, organisations and so on
+of persons, locations, expressions of times, organizations and so on
 there are two selectable components. StanfordNamedEntityRecognizer and
 OpenNlpNameFinder both are suitable for Named Entity Recognition. But if
 you are working with a German text StanfordNamedEntityRecognizer would
@@ -1038,7 +1038,7 @@ link:https://en.wikipedia.org/wiki/Bag-of-words_model[bag-of-words] approach
 purely based on word frequencies, which is unsupervised (it doesn't have
 to be trained on any domain-specific dataset) and thus also works with
 literary and historical texts out of the box. However, as the algorithm
-was devised with summarising news articles and other short text types in
+was devised with summarizing news articles and other short text types in
 mind, its functioning is rather sensitive to text length. Also,
 depending on the research question, a rigorous selection process has
 shown to be fruitful, e.g. if you are not explicitly looking for the
