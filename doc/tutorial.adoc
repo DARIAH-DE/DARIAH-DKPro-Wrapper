@@ -44,7 +44,6 @@ analytic procedures.
 ** link:#Language[Language]
 ** link:#CommandLineOptions[Command Line Options]
 *** link:#Help[Help]
-** link:#Runthefullpipeline[Run the full pipeline]
 ** link:#Troubleshooting[Troubleshooting]
 * link:#AvailableComponents[Available Components]
 ** link:#Segmentation[Segmentation]
@@ -54,6 +53,7 @@ analytic procedures.
 ** link:#NamedEntityRecognition[Named Entity Recognition]
 ** link:#SemanticRoleLabeling[Semantic Role Labeling]
 * link:#ConfiguringthePipeline[Configuring the Pipeline]
+** link:#Runthefullpipeline[Run the full pipeline]
 ** link:#Writeyourownconfigfile[Write your own config file]
 *** link:#UnderstandingtheArgumentParameter[Understanding the Argument Parameter]
 ** link:#Buildingyourown[Building your own]
@@ -303,13 +303,6 @@ command line with the "-help" option. Run +java -jar  ddw-{version}.jar -help+ t
 The pipeline supports a resume function. By adding the `-resume` argument to the execution of the pipeline, all files that were previously processed and have an according `.csv`-file in the output folder will be skipped.
 
 
-[[Runthefullpipeline]]
-Run the full pipeline
-^^^^^^^^^^^^^^^^^^^^^
-By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
-
-If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
-
 [[Troubleshooting]]
 Troubleshooting
 ^^^^^^^^^^^^^^^
@@ -480,6 +473,13 @@ thus preparing for a semantic interpretation of the sentence.
 [[ConfiguringthePipeline]]
 *Configuring the Pipeline*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[Runthefullpipeline]]
+Run the full pipeline
+^^^^^^^^^^^^^^^^^^^^^
+By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
+
+If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
 
 [[Writeyourownconfigfile]]
 Write your own config file 
