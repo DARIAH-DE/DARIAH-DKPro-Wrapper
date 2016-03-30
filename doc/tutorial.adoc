@@ -38,15 +38,13 @@ analytic procedures.
 * link:#RunningthePipeline[Running the Pipeline]
 ** link:#UsingtheCommandLine[Using the Command Line]
 ** link:#ProcessingaTextfile[Processing a Textfile]
+** link:#FileReader[File Reader]
+*** link:#TextReaderXMLReader[Text Reader & XML Reader]
+*** link:#ReadingDirectories[Reading Directories]
+** link:#Language[Language]
 ** link:#CommandLineOptions[Command Line Options]
 *** link:#Help[Help]
-*** link:#Language[Language]
-*** link:#InputFolders[Input Folders]
-** link:#Runthefullpipeline[Run the full pipeline]
 ** link:#Troubleshooting[Troubleshooting]
-* link:#FileReader[File Reader]
-** link:#TextReaderXMLReader[Text Reader & XML Reader]
-** link:#ReadingDirectories[Reading Directories]
 * link:#AvailableComponents[Available Components]
 ** link:#Segmentation[Segmentation]
 ** link:#Part-of-SpeechTagging[Part-of-Speech Tagging]
@@ -55,6 +53,7 @@ analytic procedures.
 ** link:#NamedEntityRecognition[Named Entity Recognition]
 ** link:#SemanticRoleLabeling[Semantic Role Labeling]
 * link:#ConfiguringthePipeline[Configuring the Pipeline]
+** link:#Runthefullpipeline[Run the full pipeline]
 ** link:#Writeyourownconfigfile[Write your own config file]
 *** link:#UnderstandingtheArgumentParameter[Understanding the Argument Parameter]
 ** link:#Buildingyourown[Building your own]
@@ -183,7 +182,7 @@ output with this file link:https://wiki.de.dariah.eu/download/attachments/402137
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
 from link:http://textgridrep.org/[TextGrid Repository] or link:http://www.deutschestextarchiv.de/[Deutsches
-Textarchiv].
+Textarchiv]. *If you do not specify the `-language` parameter, the pipeline is prepared to analyze English input.* For more details see link:#Language[further below].
 
 To process data type the following command in the command prompt
 
@@ -196,7 +195,7 @@ and press Enter.
 For example:
 
 ****
-+java -Xmx4g -jar ddw-{version}.jar -input C:\goethe.txt -output D:\DKPro\Workspace+
++java -Xmx4g -jar ddw-{version}.jar -language de -input C:\EffiBriestKurz.txt -output D:\DKPro\Workspace+
 ****
 
 
@@ -204,7 +203,7 @@ If your input and/or output file are located in the current directory you
 can type "." instead of the full input- and/or output-path. For example:
 
 ****
-+java -Xmx4g -jar ddw-{version}.jar -input .\goethe.txt -output .+
++java -Xmx4g -jar ddw-{version}.jar -language de -input .\EffiBriestKurz.txt -output .+
 ****
 
 The pipeline will process your data and save the output as
@@ -221,6 +220,64 @@ results check the output-file in your specified output folder. +
 the size of the input file processing **may take some time**, e.g. even
 a test file of 630 words may easily take 1-2 minutes, even if 4 GB RAM
 are allocated to the task.
+
+[[FileReader]]
+File Reader
+~~~~~~~~~~~
+
+You can process either single files or also all files inside a directory. Patterns can be used to select specific files that should be processed.
+
+[[TextReaderXMLReader]]
+Text Reader & XML Reader
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the `-reader` parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:
+
+****
++java -Xmx4g -jar  ddw-{version}.jar -reader xml -input file.xml -output folder+
+****
+
+The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column *SectionId* in the output format.
+
+
+[[ReadingDirectories]]
+Reading Directories
+^^^^^^^^^^^^^^^^^^^
+
+In case you want to process a collection of texts rather than just a single file, you can do that by providing a path to the `-input` option. If you run the pipeline in the following way:
+
+****
++java -Xmx4g -jar  ddw-{version}.jar -input folder/With/Files/ -output folder+
+****
+
+the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
+
+You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.xmi_ with the XML reader, you must start the pipeline in the following way:
+
+****
++java -Xmx4g -jar  ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder+
+****
+
+*Note:* If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.
+
+To read all files in all subfolders, you can use a pattern like this:
+****
++java -Xmx4g -jar  ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -output folder+
+****
+
+This will read in all _.txt_ files in all subfolders. Note that the subfolder path will not be maintained in the output folder.
+
+
+[[Language]]
+Language
+++++++++
+
+You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#UsingTreeTagger[TreeTagger] first. To run the pipeline for German, execute the following command:
+
+****
++java -Xmx4g -jar  ddw-{version}.jar -language de -input file.txt -output folder+
+****
+
 
 [[CommandLineOptions]]
 Command Line Options +
@@ -245,43 +302,6 @@ command line with the "-help" option. Run +java -jar  ddw-{version}.jar -help+ t
 
 The pipeline supports a resume function. By adding the `-resume` argument to the execution of the pipeline, all files that were previously processed and have an according `.csv`-file in the output folder will be skipped.
 
-[[Language]]
-Language
-++++++++
-
-You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#UsingTreeTagger[TreeTagger] first. To run the pipeline for English, execute the following command:
-
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -input file.txt -output folder+
-****
-
-[[InputFolders]]
-Input Folders
-+++++++++++++
-
-When you want to process a collection of texts rather than just a single
-file, you can do that by providing a path to the "-input" option and
-adding a __wildcard __to it. The asterisk __*__ stands for every file
-contained in the folder. For example
-
-
-****
-+java -Xmx4g -jar ddw-{version}.jar -language de -input "C:\Romane\*" -output .+
-****
-
-Under **Linux** and **OS X** the input path and wildcard need to be put
-inside quotation marks, such as this
-
-****
-+java -Xmx4g -jar ddw-{version}.jar -language de -input "/home/xy/Romane/*" -output .+
-****
-
-[[Runthefullpipeline]]
-Run the full pipeline
-^^^^^^^^^^^^^^^^^^^^^
-By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
-
-If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
 
 [[Troubleshooting]]
 Troubleshooting
@@ -309,57 +329,13 @@ and press enter.
 For example, if you allocated 4GB then type:
 
 ****
-+java -Xms4g -jar ddw-{version}.jar -input goethe.txt -output D:\DKPro\Workspace+
++java -Xms4g -jar ddw-{version}.jar -input EffiBriestKurz.txt -output D:\DKPro\Workspace+
 ****
 
 
 **Note:** Allocating too much virtual memory can slow down your system -
 4GB or 6GB should be enough for most processing operations.
 
-[[FileReader]]
-File Reader
-~~~~~~~~~~~
-
-You can process either single files or also all files inside a directory. Patterns can be used to select specific files that should be processed.
-
-[[TextReaderXMLReader]]
-Text Reader & XML Reader
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the `-reader` parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:
-
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input file.xml -output folder+
-****
-
-The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column *SectionId* in the output format.
-
-[[ReadingDirectories]]
-Reading Directories
-^^^^^^^^^^^^^^^^^^^
-
-You can also specify for the *-input* argument a directory instead of a file. If you run the pipeline in the following way:
-
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -input folder/With/Files/ -output folder+
-****
-
-the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
-
-You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.xmi_ with the XML reader, you must start the pipeline in the following way:
-
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input "folder/With/Files/*.xmi" -output folder+
-****
-
-*Note:* If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.
-
-To read all files in all subfolders, you can use a pattern like this:
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -input "folder/With/Subfolders/\**/*.txt" -output folder+
-****
-
-This will read in all _.txt_ files in all subfolders. Note that the subfolder path will not be maintained in the output folder.
 
 [[AvailableComponents]]
 **Available Components**  +
@@ -498,6 +474,13 @@ thus preparing for a semantic interpretation of the sentence.
 *Configuring the Pipeline*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[[Runthefullpipeline]]
+Run the full pipeline
+^^^^^^^^^^^^^^^^^^^^^
+By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
+
+If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
+
 [[Writeyourownconfigfile]]
 Write your own config file 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -527,18 +510,18 @@ The component link:#Segmentation[Segmentation] is set to boolean true by default
 You can run the pipeline with your `.properties`-file by setting the command argument.
 
 ****
-+java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder+
++java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder+
 ****
 
 In case you store your `myconfigfile.properties` in the `configs` folder, you can run the pipeline via:
 ****
-+java -Xmx4g -jar ddw-{version}.jar -config myconfigfile.properties -language en -input file.txt -output folder+
++java -Xmx4g -jar ddw-{version}.jar -config myconfigfile.properties -input file.txt -output folder+
 ****
 
 You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:
 
 ****
-+java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder+
++java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder+
 ****
 
 *Note:* The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.
@@ -546,7 +529,7 @@ You can split your config file into different parts and pass them all to the pip
 
 In case you like to use the _full_-version and also want to change the POS-tagger, you can run the pipeline in the following way:
 ****
-+java -Xmx4g -jar ddw-{version}.jar -config myFullVersion.properties,myPOSTagger.properties -language en -input file.txt -output folder+
++java -Xmx4g -jar ddw-{version}.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder+
 ****
 
 In `myPOSTagger.properties` you just add the configuration for the different POS-tagger.
@@ -635,7 +618,7 @@ useLemmatizer = false
 Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use TreeTagger in your pipeline using the `-config` argument:
 
 ****
-+java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language de -input file.txt -output folder+
++java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language la -input file.txt -output folder+
 ****
 
 Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:
@@ -668,7 +651,7 @@ In R, a simple reader can be written as follows:
 
 [source, r]
 ----
-df = read.table("./data/Effi_Briest_Short.txt.csv", # or whatever file you want to read
+df = read.table("./data/EffiBriestKurz.txt.csv",    # or whatever file you want to read
                 header = T,                         # first line as headers
                 fill = T)                           # fill empty cells to avoid errors
 ----

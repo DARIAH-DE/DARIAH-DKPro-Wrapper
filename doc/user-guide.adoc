@@ -25,34 +25,35 @@ This is a short user guide for the current version v{version} of the DARIAH-DKPr
 To run the pipeline properly, a system equipped with and able to handle at least 4 GB RAM is recommended. The following operating systems have been tested:
 
 .Systems:
-* Mac OS X
-* Linux (Ubuntu 14.04)
-* Windows 7/8
+* Mac OS X (10.10, 10.11)
+* Linux (Ubuntu 14.04, 15.10)
+* Windows 7/8/10
 
-Furthermore, the  pipeline depends on a internet connection when running to download the models for the current configuration. It does not work off line!
+Furthermore, the  pipeline depends on a *internet connection* when running to download the models for the current configuration. *It does not work off line!*
 
-The pipeline requires required *Java 1.8* or higher. You can download Java from the http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle website]. You can check your current Java version by running `java -version` in your command line.
+The pipeline requires *Java 1.8* or higher. You can download Java from the http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle website]. You can check your current Java version by running `java -version` in your command line.
 
 == Running the pipeline
 
 After downloading and unzipping the files, execute in your command line the following code:
-****
-+java -Xmx4g -jar ddw-{version}.jar -input file.txt -output folder+
-****
 
-You can change the language by specifying the language parameter for the pipeline. Support for the following languages are include in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). To run the pipeline for English, execute the following command:
 
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -input file.txt -output folder+
-****
+`java -Xmx4g -jar ddw-{version}.jar -input file.txt -output folder`
+
+
+If you do not specify the `-language` parameter, the pipeline is prepared to analyze English input. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#TreeTagger[TreeTagger] first. To run the pipeline for German, execute the following command:
+
+
+`java -Xmx4g -jar  ddw-{version}.jar -language de -input file.txt -output folder`
+
 
 == Run the full pipeline
 By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
 
 If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
 
-== Programm Parameters
-Run +java -jar  ddw-{version}.jar -help+  to get an overview of the possible command line arguments:
+== Program Parameters
+Run `java -jar  ddw-{version}.jar -help`  to get an overview of the possible command line arguments:
 
 
 ----
@@ -75,64 +76,70 @@ You can process either single files or also all files inside a directory. Patter
 
 The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the `-reader` parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:
 
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input file.xml -output folder+
-****
 
-The XML reader skips XML tags and processes only text which is inside the XML tags. The xpath to each tag is conserved and stored in the column *SectionId* in the ouput format.
+`java -Xmx4g -jar  ddw-{version}.jar -reader xml -input file.xml -output folder`
+
+
+The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column *SectionId* in the ouput format.
 
 === Reading Directories
 
 You can also specify for the *-input* argument a directory instead of a file. If you run the pipeline in the following way:
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -input folder/With/Files/ -output folder+
-****
+
+
+`java -Xmx4g -jar  ddw-{version}.jar -input folder/With/Files/ -output folder`
+
 
 the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
 
 You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.xmi_ with the XML reader, you must start the pipeline in the following way:
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -reader xml -input "folder/With/Files/*.xmi" -output folder+
-****
+
+
+`java -Xmx4g -jar  ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder`
+
 
 *Note:* If you use patterns (i.e. paths containing an *), you must set it into quotes to prevent shell globbing.
 
 To read all files in all subfolders, you can use a pattern like this:
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language en -input "folder/With/Subfolders/\**/*.txt" -output folder+
-****
+
+
+`java -Xmx4g -jar  ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -output folder`
+
 
 This will read in all _.txt_ files in all subfolders. Note that the subfolder path will not be maintained in the output folder.
 
 
-
 == Write your own config files
 
-The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_es.properties` for English and so on.
+The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_en.properties` for English and so on.
 
 
 If you like to write your own config file, just create your own `.properties` file. You can run the pipeline with your `.properties`-file by setting the command argument.
-****
-+java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -language en -input file.txt -output folder+
-****
+
+
+`java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder`
+
 
 In case you store your `myconfigfile.properties` in the `configs` folder, you can run the pipeline via:
-****
-+java -Xmx4g -jar ddw-{version}.jar -config myconfigfile.properties -language en -input file.txt -output folder+
-****
+
+
+`java -Xmx4g -jar ddw-{version}.jar -config myconfigfile.properties -input file.txt -output folder`
+
 
 You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:
-****
-+java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -language en -input file.txt -output folder+
-****
+
+
+`java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder`
+
 
 *Note:* The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.
 
 
 In case you like to use the _full_-version and also want to change the POS-tagger, you can run the pipeline in the following way:
-****
-+java -Xmx4g -jar ddw-{version}.jar -config myFullVersion.properties,myPOSTagger.properties -language en -input file.txt -output folder+
-****
+
+
+`java -Xmx4g -jar ddw-{version}.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder`
+
 
 In `myPOSTagger.properties` you just add the configuration for the different POS-tagger.
 
@@ -148,54 +155,44 @@ constituencyParserArguments = writeDependency,boolean,false
 Here we specify the argument *writeDependency* with the boolean value *false*. As type you can use _boolean_, _integer_, and _string_.
 
 
-
-== Using Treetagger
+== [[TreeTagger]]Using TreeTagger
 
 Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro. 
 
-=== TreeTagger Installation for Linux
+=== TreeTagger Installation
 
-    * Go to the TreeTagger website
-    * From the download section, download the correct tagger package, i.e. PC-Linux
-        ** Extract the .gz archive
-        ** Copy the tree-tagger-linux-3.2/bin/tree-tagger file and place it in the same folder as the script treetagger.jy 
-    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-        ** Unzip the file (e.g. gunzip english-par-linux-3.2-utf8.bin.gz)
-        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
-
-=== TreeTagger Installation for Windows 7
-
-    * Ensure that you have a program to unzip .gz files. For example you can use 7zip or WinRar or many others.
-    * Go to the TreeTagger website
-    * In the Windows section, you find the download link for the tree-tagger-windows-3.2.zip file.
-        ** Extract the zip-archive
-        ** Copy the tree-tagger-windows-3.2/bin/tree-tagger.exe to your folder with with the treetagger.jy script 
-    * From the parameter file section, download the correct model. For the example below download English parameter file (english-par-linux-3.2-utf8.bin.gz)
-        ** Unzip the file (e.g. by using 7zip)
-        ** Copy the file english-par-linux-3.2-utf8.bin into the same folder as the treetagger.jy script. Ensure that the name for the model is english-par-linux-3.2-utf8.bin 
-    * In the script below, you find a line TreeTaggerPosLemmaTT4J.PARAM_EXECUTABLE_PATH, "tree-tagger", change the value tree-tagger to tree-tagger.exe 
+. Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
+. From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
+.. Extract the .tar.gz as the case may be .zip archive
+.. Create a new directory `tree-tagger` containing two folders `bin` and `lib` on your hard drive, e.g. `C:/tree-tagger/bin` and `C:/tree-tagger/lib`
+.. Copy the `tree-tagger/bin/tree-tagger` file *from the previously downloaded archive* to your recently created directory `tree-tagger` into the folder `bin`
+. From the parameter file section, download the correct model. For the example below download Latin parameter file (latin-par-linux-3.2-utf8.bin.gz)
+.. Unzip the file (e.g. `gunzip latin-par-linux-3.2-utf8.bin.gz` or alternatively use a program like 7zip or WinRar)
+.. Copy the extracted file latin.par into the folder `lib` in your created directory `tree-tagger`
 
 === Configuration of the pipeline
-After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use Treetagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
+
 ----
 posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
-	modelLocation,string,C:/tree-tagger/lib/german-utf8.par,\
+	modelLocation,string,C:/tree-tagger/lib/latin.par,\
 	modelEncoding,string,utf-8
 
 # Treetagger adds lemmas, no need for an additional lemmatizer
-useLemmatizer = false 
+useLemmatizer = false
 ----
 
-Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use Treetagger in your pipeline using the `-config` argument:
-****
-+java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language de -input file.txt -output folder+
-****
+Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use TreeTagger in your pipeline using the `-config` argument:
 
-Check the output of the pipeline that Treetagger is used. The output of your pipeline should look something like this:
+
+`java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language la -input file.txt -output folder`
+
+
+Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:
 ----
 POS-Tagger: true
 POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
-POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/german-utf8.par, modelEncoding, utf-8
+POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/latin.par, modelEncoding, utf-8
 ----
 
