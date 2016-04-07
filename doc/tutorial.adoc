@@ -2440,6 +2440,9 @@ contributions to the continuing development of the tutorial:
 * Sina Bock
 * Philip Dürholt
 * Keli Du
+* Michael Huber
+* Severin Simmler
+* Thora Hagen
 
 All materials are published under
 a link:http://creativecommons.org/licenses/by/4.0/[Creative Commons
