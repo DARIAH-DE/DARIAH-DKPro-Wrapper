@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.6" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
 <title>NLP Based Analysis of Literary Texts (M 5.2.3)</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -87,9 +87,15 @@ ul, ol, li > p {
 ul > li     { color: #aaa; }
 ul > li > * { color: black; }
 
-pre {
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
   padding: 0;
   margin: 0;
+}
+pre {
+  white-space: pre-wrap;
 }
 
 #author {
@@ -219,7 +225,7 @@ div.exampleblock > div.content {
 }
 
 div.imageblock div.content { padding-left: 0; }
-span.image img { border-style: none; }
+span.image img { border-style: none; vertical-align: text-bottom; }
 a.image:visited { color: white; }
 
 dl {
@@ -349,7 +355,7 @@ div.colist td img {
   margin-bottom: 0.1em;
 }
 
-div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -407,17 +413,13 @@ span.underline { text-decoration: underline; }
 span.overline { text-decoration: overline; }
 span.line-through { text-decoration: line-through; }
 
+div.unbreakable { page-break-inside: avoid; }
+
 
 /*
  * xhtml11 specific
  *
  * */
-
-tt {
-  font-family: monospace;
-  font-size: inherit;
-  color: navy;
-}
 
 div.tableblock {
   margin-top: 1.0em;
@@ -451,12 +453,6 @@ div.tableblock > table[frame="vsides"] {
  * html5 specific
  *
  * */
-
-.monospaced {
-  font-family: monospace;
-  font-size: inherit;
-  color: navy;
-}
 
 table.tableblock {
   margin-top: 1.0em;
@@ -537,6 +533,8 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
+
+
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -581,7 +579,7 @@ toc: function (toclevels) {
 
   function tocEntries(el, toclevels) {
     var result = new Array;
-    var re = new RegExp('[hH]([2-'+(toclevels+1)+'])');
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
     // Function that scans the DOM tree for header elements (the DOM2
     // nodeIterator API would be a better technique but not supported by all
     // browsers).
@@ -610,7 +608,7 @@ toc: function (toclevels) {
   var i;
   for (i = 0; i < toc.childNodes.length; i++) {
     var entry = toc.childNodes[i];
-    if (entry.nodeName == 'div'
+    if (entry.nodeName.toLowerCase() == 'div'
      && entry.getAttribute("class")
      && entry.getAttribute("class").match(/^toclevel/))
       tocEntriesToRemove.push(entry);
@@ -656,7 +654,7 @@ footnotes: function () {
   var entriesToRemove = [];
   for (i = 0; i < noteholder.childNodes.length; i++) {
     var entry = noteholder.childNodes[i];
-    if (entry.nodeName == 'div' && entry.getAttribute("class") == "footnote")
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
       entriesToRemove.push(entry);
   }
   for (i = 0; i < entriesToRemove.length; i++) {
@@ -793,13 +791,20 @@ analytic procedures.</p></div>
 </li>
 <li>
 <p>
-<a href="#CommandLineOptions">Command Line Options</a>
+<a href="#FileReader">File Reader</a>
 </p>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="#Help">Help</a>
+<a href="#TextReaderXMLReader">Text Reader &amp; XML Reader</a>
 </p>
+</li>
+<li>
+<p>
+<a href="#ReadingDirectories">Reading Directories</a>
+</p>
+</li>
+</ul></div>
 </li>
 <li>
 <p>
@@ -808,7 +813,12 @@ analytic procedures.</p></div>
 </li>
 <li>
 <p>
-<a href="#InputFolders">Input Folders</a>
+<a href="#CommandLineOptions">Command Line Options</a>
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="#Help">Help</a>
 </p>
 </li>
 </ul></div>
@@ -864,12 +874,41 @@ analytic procedures.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="#ConfigurationFile">ConfigurationFile</a>
+<a href="#Runthefullpipeline">Run the full pipeline</a>
 </p>
 </li>
 <li>
 <p>
+<a href="#Writeyourownconfigfile">Write your own config file</a>
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="#UnderstandingtheArgumentParameter">Understanding the Argument Parameter</a>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
 <a href="#Buildingyourown">Building your own</a>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<a href="#UsingTreeTagger">Using TreeTagger</a>
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="#TreeTaggerInstallation">TreeTagger Installation</a>
+</p>
+</li>
+<li>
+<p>
+<a href="#Configurationofthepipeline">Configuration of the pipeline</a>
 </p>
 </li>
 </ul></div>
@@ -912,6 +951,11 @@ analytic procedures.</p></div>
 </p>
 </li>
 </ul></div>
+</li>
+<li>
+<p>
+<a href="#ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</a>
+</p>
 </li>
 <li>
 <p>
@@ -1028,6 +1072,28 @@ analytic procedures.</p></div>
 </li>
 <li>
 <p>
+<a href="#NetworkVisualizationinPython">Example Recipe: Network Visualization in Python</a>
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="#SettinguptheEnvironment.2">Setting up the Environment</a>
+</p>
+</li>
+<li>
+<p>
+<a href="#CrawlingWikipedia">Crawling Wikipedia</a>
+</p>
+</li>
+<li>
+<p>
+<a href="#UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to visualize networks</a>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
 <a href="#AboutthisTutorial">About this Tutorial</a>
 </p>
 </li>
@@ -1044,40 +1110,39 @@ been tested:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Mac OS X
+Mac OS X (10.10, 10.11)
 </p>
 </li>
 <li>
 <p>
-Linux (Ubuntu 14.04)
+Linux (Ubuntu 14.04, 15.10)
 </p>
 </li>
 <li>
 <p>
-Windows 7/8
+Windows 7/8/10
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Furthermore, the pipeline depends on a <strong>internet connection</strong> when
-running to download the models for the current configuration. It does
-not work offline!</p></div>
+<div class="paragraph"><p>Furthermore, the pipeline depends on an <strong>internet connection</strong> when
+running to download the models for the current configuration. <strong>It does
+not work offline!</strong></p></div>
 </div>
 <div class="sect3">
 <h4 id="JavaInstallation">Java Installation</h4>
 <div class="paragraph"><p>The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
-once. Download and install the latest Java SE Development Kit (requires
-at least Java 1.8) from
-the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Oracle
-Java Site</a>, then follow the
+once. Download and install the latest Java SE Runtime Environment (at least Java 1.8) from
+the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">Oracle
+Java Site</a>, then follow the
 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html">installation
-instructions</a> for your operating system.</p></div>
+instructions</a> for your operating system. You can check your current Java version by running <code>java -version</code> in your command line.</p></div>
 </div>
 <div class="sect3">
 <h4 id="PipelineDownload">Pipeline Download</h4>
 <div class="paragraph"><p>When the Java environment is prepared, you
 can <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper">download the latest binary</a>. Select
-the file named dariah-dkpro-wrapper-x.y.z.zip and unpack it somewhere
+the file named dariah-dkpro-wrapper-0.4.4.zip and unpack it somewhere
 easily accessible. As a next step we need to navigate to this folder
 using the command line.</p></div>
 </div>
@@ -1106,49 +1171,56 @@ and typing “cmd” in the search box. Alternatively type "cmd" in the
 "Search".
 </p>
 </li>
+<li>
+<p>
+in Windows 10 by typing "cmd.exe" into the search box on the taskbar and selecting the first option.
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Navigate to the directory that contains the DKPro-pipeline. For example,
 if you are using windows and keeping your pipeline in folder named
 "DKPro" on drive "D:", by typing,</p></div>
-<div class="listingblock">
+<div class="sidebarblock">
 <div class="content">
-<pre><tt>cd D:\DKPro</tt></pre>
+<div class="paragraph"><p><code>cd D:\DKPro</code></p></div>
 </div></div>
 <div class="paragraph"><p>and press enter.</p></div>
+<div class="paragraph"><p>Alternatively the directory can be accessed instantly by holding Shift + right-clicking the folder
+needed and selecting "Open command window here".</p></div>
 </div>
 <div class="sect3">
 <h4 id="ProcessingaTextfile">Processing a Textfile</h4>
 <div class="paragraph"><p>Now you can process a text file. How to test when you don&#8217;t have any
 data? We&#8217;ve prepared a demonstration text
-<a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt?version=1&amp;modificationDate=1434979988305&amp;api=v2">[1\</a>] that
+<a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt?version=1&amp;modificationDate=1434979988305&amp;api=v2">[1]</a> that
 can be downloaded and processed via the pipeline. You can compare your
-output with this file <a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&amp;modificationDate=1434960896211&amp;api=v2">[2\</a>].
+output with this file <a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&amp;modificationDate=1434960896211&amp;api=v2">[2]</a>.
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
-from <a href="http://www.zeno.org/">Zeno.org</a> or <a href="http://www.deutschestextarchiv.de/">Deutsches
-Textarchiv</a>.</p></div>
+from <a href="http://textgridrep.org/">TextGrid Repository</a> or <a href="http://www.deutschestextarchiv.de/">Deutsches
+Textarchiv</a>. <strong>If you do not specify the <code>-language</code> parameter, the pipeline is prepared to analyze English input.</strong> For more details see <a href="#Language">further below</a>.</p></div>
 <div class="paragraph"><p>To process data type the following command in the command prompt</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar nameOfThePipeline.jar -input pathForTextfile.txt -output pathForOutputfolder</tt></p></div>
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -input file.txt -output folder</code></p></div>
 </div></div>
 <div class="paragraph"><p>and press Enter.</p></div>
 <div class="paragraph"><p>For example:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.3.jar -input C:\goethe.txt -output D:\DKPro\Workspace</tt></p></div>
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -language de -input C:\EffiBriestKurz.txt -output D:\DKPro\Workspace</code></p></div>
 </div></div>
-<div class="paragraph"><p>If your input and/or output file are located in the current director you
+<div class="paragraph"><p>If your input and/or output file are located in the current directory you
 can type "." instead of the full input- and/or output-path. For example:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.3.jar -input .\goethe.txt -output .</tt></p></div>
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -language de -input .\EffiBriestKurz.txt -output .</code></p></div>
 </div></div>
 <div class="paragraph"><p>The pipeline will process your data and save the output as
 a <strong>.csv-File</strong> in the specified folder.  If </p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>File written, DONE </tt></pre>
+<pre><code>File written, DONE </code></pre>
 </div></div>
 <div class="paragraph"><p>is shown on your command prompt everything has worked well. To see final
 results check the output-file in your specified output folder.<br />
@@ -1158,44 +1230,65 @@ the size of the input file processing <strong>may take some time</strong>, e.g. 
 a test file of 630 words may easily take 1-2 minutes, even if 4 GB RAM
 are allocated to the task.</p></div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="FileReader">File Reader</h3>
+<div class="paragraph"><p>You can process either single files or also all files inside a directory. Patterns can be used to select specific files that should be processed.</p></div>
+<div class="sect3">
+<h4 id="TextReaderXMLReader">Text Reader &amp; XML Reader</h4>
+<div class="paragraph"><p>The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the <code>-reader</code> parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar  ddw-0.4.4.jar -reader xml -input file.xml -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column <strong>SectionId</strong> in the output format.</p></div>
+</div>
+<div class="sect3">
+<h4 id="ReadingDirectories">Reading Directories</h4>
+<div class="paragraph"><p>In case you want to process a collection of texts rather than just a single file, you can do that by providing a path to the <code>-input</code> option. If you run the pipeline in the following way:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar  ddw-0.4.4.jar -input folder/With/Files/ -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>the pipeline will process all files with a <em>.txt</em> extension for the Text-reader. For the XML-reader, it will process all files with a <em>.xml</em> extension.</p></div>
+<div class="paragraph"><p>You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only <em>.xmi</em> with the XML reader, you must start the pipeline in the following way:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar  ddw-0.4.4.jar -reader xml -input "folder/With/Files/*.xmi" -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p><strong>Note:</strong> If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.</p></div>
+<div class="paragraph"><p>To read all files in all subfolders, you can use a pattern like this:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar  ddw-0.4.4.jar -input "folder/With/Subfolders/**/*.txt" -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>This will read in all <em>.txt</em> files in all subfolders. Note that the subfolder path will not be maintained in the output folder.</p></div>
+<div class="sect4">
+<h5 id="Language">Language</h5>
+<div class="paragraph"><p>You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install <a href="#UsingTreeTagger">TreeTagger</a> first. To run the pipeline for German, execute the following command:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar  ddw-0.4.4.jar -language de -input file.txt -output folder</code></p></div>
+</div></div>
+</div>
+</div>
 <div class="sect3">
 <h4 id="CommandLineOptions">Command Line Options<br /></h4>
 <div class="sect4">
 <h5 id="Help">Help</h5>
 <div class="paragraph"><p>The pipeline provides a help function that can be accessed on the
-command line with the "-help" option.</p></div>
-<div class="sidebarblock">
+command line with the "-help" option. Run <code>java -jar  ddw-0.4.4.jar -help</code> to get an overview of the possible command line arguments:</p></div>
+<div class="listingblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.3.jar -help</tt></p></div>
+<pre><code> -config &lt;path&gt;     Config file
+ -help              print this message
+ -input &lt;path&gt;      Input path
+ -language &lt;lang&gt;   Language code for input file (default: en)
+ -output &lt;path&gt;     Output path
+ -reader &lt;reader&gt;   Either text (default) or xml
+ -resume            Already processed files will be skipped</code></pre>
 </div></div>
-</div>
-<div class="sect4">
-<h5 id="Language">Language</h5>
-<div class="paragraph"><p>In order for the pipeline to function correctly, the language of the
-target text needs to be specified using the "-language" switch.
-Currently, the pipeline ships with default configurations for German,
-English, French, and Spanish. An example command would look like this:</p></div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph"><p><tt>java-Xmx4g -jar ddw-0.4.3.jar -language de -input C:\goethe.txt -output .</tt></p></div>
-</div></div>
-</div>
-<div class="sect4">
-<h5 id="InputFolders">Input Folders</h5>
-<div class="paragraph"><p>When you want to process a collection of texts rather than just a single
-file, you can do that by providing a path to the "-input" option and
-adding a <em>wildcard </em>to it. The asterisk <em>*</em> stands for every file
-contained in the folder. For example</p></div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph"><p><tt>java-Xmx4g -jar ddw-0.4.3.jar -language de -input "C:\Romane\*" -output .</tt></p></div>
-</div></div>
-<div class="paragraph"><p>Under <strong>Linux</strong> and <strong>OSX</strong> the input path and wildcard need to be put
-inside quotation marks, such as this</p></div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph"><p><tt>java -Xmx4g -jar ddw-0.4.3.jar -language de -input "/home/xy/Romane/*" -output .</tt></p></div>
-</div></div>
+<div class="paragraph"><p>The pipeline supports a resume function. By adding the <code>-resume</code> argument to the execution of the pipeline, all files that were previously processed and have an according <code>.csv</code>-file in the output folder will be skipped.</p></div>
 </div>
 </div>
 <div class="sect3">
@@ -1204,22 +1297,22 @@ inside quotation marks, such as this</p></div>
 shows</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space or The specified size exceeds the maximum representable size.Error: Could not create the Java Virtual Machine</tt></pre>
+<pre><code>Exception in thread "main" java.lang.OutOfMemoryError: Java heap space or The specified size exceeds the maximum representable size. Error: Could not create the Java Virtual Machine</code></pre>
 </div></div>
 <div class="paragraph"><p>you need to <strong>check the size of virtual memory</strong>. Depending on the
 maximum size of your RAM you should allocate 4GB or 6GB. The
-flag <strong>Xms</strong> specifies the the initial memory allocation pool for a Java
+flag <strong>Xms</strong> specifies the initial memory allocation pool for a Java
 Virtual Machine (JVM). After adapting Windows' virtual memory type the
 following in the command prompt:</p></div>
-<div class="listingblock">
+<div class="sidebarblock">
 <div class="content">
-<pre><tt>java –Xms -jar nameOfThePipeline.jar -input nameOfTheTextfile.txt -output OutputFolder</tt></pre>
+<div class="paragraph"><p><code>java –Xms -jar ddw-0.4.4.jar -input file.txt -output folder</code></p></div>
 </div></div>
 <div class="paragraph"><p>and press enter.</p></div>
 <div class="paragraph"><p>For example, if you allocated 4GB then type:</p></div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph"><p><tt>java -Xms4g -jar ddw-0.4.3.jar -input goethe.txt -output D:\DKPro\Workspace</tt></p></div>
+<div class="paragraph"><p><code>java -Xms4g -jar ddw-0.4.4.jar -input EffiBriestKurz.txt -output D:\DKPro\Workspace</code></p></div>
 </div></div>
 <div class="paragraph"><p><strong>Note:</strong> Allocating too much virtual memory can slow down your system -
 4GB or 6GB should be enough for most processing operations.</p></div>
@@ -1245,7 +1338,7 @@ this, such as Chinese or Japanese.
 <p>
 Sentence segmentation is the process of splitting text based on
 sentence limiting punctuation e.g. periods, question marks etc. Note
-that, the periods are sometimes not the markers of sentence boundaries
+that the periods are sometimes not the markers of sentence boundaries
 but the markers of abbreviations.
 </p>
 </li>
@@ -1254,7 +1347,7 @@ but the markers of abbreviations.
 Besides, there are many other different segmentations on the basis of
 different purposes such as discourse segmentation (separating a document
 into a linear sequence of subtopics), Paragraph segmentation (which
-automatically break the text up into paragraphs) an so forth.
+automatically break the text up into paragraphs) and so forth.
 </p>
 </li>
 </ul></div>
@@ -1263,7 +1356,7 @@ automatically break the text up into paragraphs) an so forth.
 <h4 id="Part-of-SpeechTagging">Part-of-Speech Tagging</h4>
 <div class="paragraph"><p>Labeling every word and punctuation mark (token) in a text corpus with a
 predefined set of part-of-speech tags (standardized abbreviations) or
-other syntactic class marker, is called Part of Speech Tagging. Usually
+other syntactic class markers, is called Part of Speech Tagging. Usually
 the output of a POS-Tagger will look like this (showing also DKPro&#8217;s
 CPOS column - a universal coarse grained tag set designed for the
 interoperability of components in different languages):</p></div>
@@ -1317,7 +1410,7 @@ cellspacing="0" cellpadding="4">
 </table>
 </div>
 <div class="paragraph"><p>Most tagging algorithms fall into one of two classes: rule-based taggers
-and probabilistic or stochastic taggers taggers. Rule-based taggers
+and probabilistic or stochastic taggers. Rule-based taggers
 generally involve a large database of hand-written disambiguation rules.
 Stochastic taggers generally resolve tagging ambiguities by using a
 training corpus to compute the probability of a given word having a
@@ -1380,7 +1473,7 @@ vs. constituency</a> by
 <div class="paragraph"><p>Named entity recognition (NER) is a pre-processing step in most
 information extraction tasks. Named entity stands for the text block,
 which refers a name. NER describes the task of finding all names in one
-text and categorising them based on their different types, such as
+text and categorizing them based on their different types, such as
 persons, organizations or locations.</p></div>
 </div>
 <div class="sect3">
@@ -1395,14 +1488,80 @@ thus preparing for a semantic interpretation of the sentence.</p></div>
 <div class="sect2">
 <h3 id="ConfiguringthePipeline"><strong>Configuring the Pipeline</strong></h3>
 <div class="sect3">
-<h4 id="ConfigurationFile">Configuration File </h4>
-<div class="paragraph"><p>The pipeline allows users to select components specifically suited to
-their demands by means of a configuration file, as described in the
-official <a href="https://rawgit.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/user-guide.html#_write_your_own_config_files">installation
-and user guide</a>. In addition to the language specific configuration
-files, it also includes a
-<a href="https://rawgit.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/user-guide.html#_run_a_light_version">light
-version</a> which omits the computationally expensive components.</p></div>
+<h4 id="Runthefullpipeline">Run the full pipeline</h4>
+<div class="paragraph"><p>By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are <strong>disabled</strong>.</p></div>
+<div class="paragraph"><p>If you like to use them, feel free to enable them in the <code>default.properties</code> or create a new <code>.properties</code>-File and pass the path to this file via the <code>config</code>-parameter.</p></div>
+</div>
+<div class="sect3">
+<h4 id="Writeyourownconfigfile">Write your own config file </h4>
+<div class="paragraph"><p>The pipeline can be configurated via properties-files that are stored in the <code>configs</code> folder. In this folder you find a <code>default.properties</code>, the most basic configuration file. For the different supported languages, you can find further properties-files, for example <code>default_de.properties</code> for German, <code>default_en.properties</code> for English and so on.</p></div>
+<div class="paragraph"><p>If you like to write your own config file, just create your own <code>.properties</code> file. You have a range of possibilities to modify the pipeline for your purpose as you can see <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/index.html">here</a>.</p></div>
+<div class="paragraph"><p>For clarification have a look at line 3 to 13 in <code>default.properties</code>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>###################################
+# Segmentation
+###################################
+useSegmenter = true # line 6
+segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
+
+# Possible values for segmenter:
+# - de.tudarmstadt.ukp.dkpro.core.tokit.BreakIteratorSegmenter
+# - de.tudarmstadt.ukp.dkpro.core.clearnlp.ClearNlpSegmenter
+# - de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter (default)
+# - de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter</code></pre>
+</div></div>
+<div class="paragraph"><p>The component <a href="#Segmentation">Segmentation</a> is set to boolean true by default (line 6). If you want to disable Segmentation set <code>useSegmenter</code> to <code>false</code>. To use another toolkit than OpenNlpSegmenter (line 7), change the value of <code>segmenter</code> e.g. to <code>de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter</code> for the StanfordSegmenter. A more specific modification with argument parameters is explained <a href="#UnderstandingtheArgumentParameter">further below</a>.</p></div>
+<div class="paragraph"><p>You can run the pipeline with your <code>.properties</code>-file by setting the command argument.</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>In case you store your <code>myconfigfile.properties</code> in the <code>configs</code> folder, you can run the pipeline via:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -config myconfigfile.properties -input file.txt -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p><strong>Note:</strong> The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.</p></div>
+<div class="paragraph"><p>In case you like to use the <em>full</em>-version and also want to change the POS-tagger, you can run the pipeline in the following way:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>In <code>myPOSTagger.properties</code> you just add the configuration for the different POS-tagger.</p></div>
+<div class="paragraph"><p><strong>Note:</strong> The properties-files must use the <a href="https://en.wikipedia.org/wiki/ISO/IEC_8859-1">ISO-8859-1</a> encoding. If you like to include <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a> characters, you must encode them using \u[HEXCode].</p></div>
+<div class="sect4">
+<h5 id="UnderstandingtheArgumentParameter">Understanding the Argument Parameter</h5>
+<div class="paragraph"><p>A parameter is a special variable, consisting one or more arguments, provided to the subroutine. Most components of the DKPro pipeline can be equipped with arguments to specify for example the model that should be used. A list of possible arguments is available <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/constant-values.html">here</a> in the column <strong>Constant Field</strong> or rather <strong>Value</strong>. Arguments are passed to the pipeline in a 3 tuple format:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+The first tuple corresponds to the value of the Constant Field, e.g. writeDependency.
+</p>
+</li>
+<li>
+<p>
+The second tuple declares the data type of the following tuple, e.g. boolean. As type you can use <em>boolean</em>, <em>integer</em>, and <em>string</em>.
+</p>
+</li>
+<li>
+<p>
+The third tuple has to be a concrete data type value, e.g. false.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>In the <code>default.properties</code> you can find the following line:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>constituencyParserArguments = writeDependency,boolean,false</code></pre>
+</div></div>
+<div class="paragraph"><p>Here we specify the argument <strong>writeDependency</strong> with the boolean value <strong>false</strong>. This suggests, that no dependency annotations will be created.</p></div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="Buildingyourown">Building your own</h4>
@@ -1410,20 +1569,99 @@ version</a> which omits the computationally expensive components.</p></div>
 higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
 and the DKPro Core ASL 1.8.0 or higher have to be installed on your
 computer. For further information
-see <a href="http://dkpro.github.io/dkpro-core/pages/java-intro.html">First
+see <a href="https://dkpro.github.io/dkpro-core/pages/java-intro/">First
 Programming Steps with DKPro Core</a>.</p></div>
 <div class="paragraph"><p>Some of the analysis components can be run with different models. For
 processing you can choose the component and the model that suits your
 interests the most
-from <a href="http://dkpro.github.io/dkpro-core/releases/1.7.0/components.html">this
+from <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/components/">this
 list</a>. For example, if you want to classify entities such as the names
-of persons, locations, expressions of times, organisations and so on
+of persons, locations, expressions of times, organizations and so on
 there are two selectable components. StanfordNamedEntityRecognizer and
 OpenNlpNameFinder both are suitable for Named Entity Recognition. But if
 you are working with a German text StanfordNamedEntityRecognizer would
 be the better choice as you see in
-the <a href="http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html">list
+the <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/models/">list
 of models</a>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="UsingTreeTagger">Using TreeTagger</h3>
+<div class="paragraph"><p>Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.</p></div>
+<div class="sect3">
+<h4 id="TreeTaggerInstallation">TreeTagger Installation</h4>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Go to the <a href="http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/">TreeTagger website</a>
+</p>
+</li>
+<li>
+<p>
+From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
+</p>
+<div class="olist loweralpha"><ol class="loweralpha">
+<li>
+<p>
+Extract the .tar.gz as the case may be .zip archive
+</p>
+</li>
+<li>
+<p>
+Create a new directory <code>tree-tagger</code> containing two folders <code>bin</code> and <code>lib</code> on your hard drive, e.g. <code>C:/tree-tagger/bin</code> and <code>C:/tree-tagger/lib</code>
+</p>
+</li>
+<li>
+<p>
+Copy the <code>tree-tagger/bin/tree-tagger</code> file <strong>from the previously downloaded archive</strong> to your recently created directory <code>tree-tagger</code> into the folder <code>bin</code>
+</p>
+</li>
+</ol></div>
+</li>
+<li>
+<p>
+From the parameter file section, download the correct model. For the example below download Latin parameter file (latin-par-linux-3.2-utf8.bin.gz)
+</p>
+<div class="olist loweralpha"><ol class="loweralpha">
+<li>
+<p>
+Unzip the file (e.g. <code>gunzip latin-par-linux-3.2-utf8.bin.gz</code> or alternatively use a program like 7zip or WinRar)
+</p>
+</li>
+<li>
+<p>
+Copy the extracted file latin.par into the folder <code>lib</code> in your created directory <code>tree-tagger</code>
+</p>
+</li>
+</ol></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3">
+<h4 id="Configurationofthepipeline">Configuration of the pipeline</h4>
+<div class="paragraph"><p>After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the <em>configs</em> folder <em>treetagger-example.properties</em>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>posTagger =  de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
+posTaggerArguments = executablePath,string,C:/tree-tagger/bin/tree-tagger.exe,\
+        modelLocation,string,C:/tree-tagger/lib/latin.par,\
+        modelEncoding,string,utf-8
+
+# Treetagger adds lemmas, no need for an additional lemmatizer
+useLemmatizer = false</code></pre>
+</div></div>
+<div class="paragraph"><p>Change the paths for the parameter <em>executablePath</em> and <em>modelLocation</em> to the correct paths on your machine. You can then use TreeTagger in your pipeline using the <code>-config</code> argument:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p><code>java -Xmx4g -jar ddw-0.4.4.jar -config treetagger-example.properties -language la -input file.txt -output folder</code></p></div>
+</div></div>
+<div class="paragraph"><p>Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>POS-Tagger: true
+POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
+POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/latin.par, modelEncoding, utf-8</code></pre>
+</div></div>
 </div>
 </div>
 <div class="sect2">
@@ -1440,18 +1678,18 @@ of models</a>.</p></div>
 <h4 id="ReadingtheOutput">Reading the Output</h4>
 <div class="paragraph" id="R"><p>In R, a simple reader can be written as follows:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>df <span style="color: #990000">=</span> read<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">table</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"./data/Effi_Briest_Short.txt.csv"</span><span style="color: #990000">,</span> <span style="font-style: italic"><span style="color: #9A1900"># or whatever file you want to read</span></span>
-                header <span style="color: #990000">=</span> T<span style="color: #990000">,</span>                         <span style="font-style: italic"><span style="color: #9A1900"># first line as headers</span></span>
-                fill <span style="color: #990000">=</span> T<span style="color: #990000">)</span>                           <span style="font-style: italic"><span style="color: #9A1900"># fill empty cells to avoid errors</span></span></tt></pre></div></div>
+<pre><tt>df = read.table(<span style="color: #FF0000">"./data/EffiBriestKurz.txt.csv"</span>,    <span style="font-style: italic"><span style="color: #9A1900"># or whatever file you want to read</span></span>
+                header = T,                         <span style="font-style: italic"><span style="color: #9A1900"># first line as headers</span></span>
+                fill = T)                           <span style="font-style: italic"><span style="color: #9A1900"># fill empty cells to avoid errors</span></span></tt></pre></div></div>
 <div class="sect4">
 <h5 id="Python">Python</h5>
 <div class="paragraph"><p>In Python, you can use the following code to ingest the output file.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1467,7 +1705,7 @@ df <span style="color: #990000">=</span> pd<span style="color: #990000">.</span>
 <div class="paragraph"><p>You can also specify a subset of columns to use. Columns are addressed
 using their column names.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1477,7 +1715,7 @@ df <span style="color: #990000">=</span> df<span style="color: #990000">[</span>
 <div class="paragraph"><p>Use the pandas.DataFrame.groupby() method to easily access file
 contents. The following example shows how to retrieve a sentence.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1487,7 +1725,7 @@ sent <span style="color: #990000">=</span> sentences<span style="color: #990000"
 <div class="paragraph"><p>Using the same method, you can filter the entire file for a specific
 part-of-speech.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1496,7 +1734,7 @@ http://www.gnu.org/software/src-highlite -->
 adj <span style="color: #990000">=</span> tags<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get_group</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'ADJ'</span><span style="color: #990000">)</span>                                 <span style="font-style: italic"><span style="color: #9A1900"># get all adjectives</span></span></tt></pre></div></div>
 <div class="paragraph"><p>Filtering for a specific value can also be done within a sentence.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1504,7 +1742,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>You can use <a href="http://pandas-docs.github.io/pandas-docs-travis/groupby.html">GroupBy</a>-objects
 to process the entire file, e.g. in portions of sentences.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1520,6 +1758,90 @@ http://www.gnu.org/software/src-highlite -->
 interface) will be provided, containing helper functions that simplify
 the retrieval of (combinations of) of features. </p></div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</h3>
+<div class="paragraph"><p>Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works straight forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>df = read.table(<span style="color: #FF0000">"PathToFile"</span>, header = T, fill = T)</tt></pre></div></div>
+<div class="paragraph"><p>To compute, for example, the <strong>type token ratio</strong> (TTR) of the text, we take the column containing the tokens that can be addressed as <em>df$Token</em>. We remove the punctuation by subsetting that vector formulating a logical condition that refers to the column containing the part-of-speech tags (df$Token[df$CPOS != "PUNC"]). The function unique() and length() allow us to generate a vector of unique types, and to measure the lengths of vectors.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>types = length(unique(df$Token[df$CPOS != <span style="color: #FF0000">"PUNC"</span>]))
+tokens = length(df$Token[df$CPOS != <span style="color: #FF0000">"PUNC"</span>])
+TTR = types / tokens</tt></pre></div></div>
+<div class="paragraph"><p>Now, that we have computed the TTR, we can advance to slightly more complicated calculations in the same manner. Readability measures, a widely used class of linguistic metrics, are a simple means to estimate the difficulty of reading a text, e.g. to choose a suitable text for a reading exercise at school. We can easily calculate the such measures too. In this recipe we want to calculate both the so-called <em>Automated Readability Index</em> or <strong>ARI</strong> and the <strong>LIX</strong> readability index from the output data frame in R. The ARI is calculated from the number of characters, the number of words, and the number of sentences. For computing the LIX we need the number of words, the number of periods, and the number of words longer than six characters.</p></div>
+<div class="paragraph"><p>The easiest step is to extract the <strong>number of sentences</strong>: The only thing you need to do is to find the highest sentence ID number using the function max() on the column containing the sentence IDs (df$sentenceId).</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>sentences = max(df$SentenceId, na.rm = T)</tt></pre></div></div>
+<div class="paragraph"><p>To compute the <strong>number of words</strong>, we simply take the length of the Token column in the data frame (df$Token), again excluding all entries the POS-tagger has identified as punctuation symbols.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>words = length(df$Token[df$CPOS != <span style="color: #FF0000">"PUNC"</span>])</tt></pre></div></div>
+<div class="paragraph"><p>The <strong>number of periods</strong> requires a somewhat more complicated excluding condition. Our POS tag set only marks punctuation in general, the LIX Readability Index specifically defines full stop period, colon, exclamation mark and question mark as periods. Hence, we want to exclude comma and semicolon from the selection. We will once more rely on the function length() to count elements. This time, we want to count only the elements tagged as punctuation (dfCPOS == "PUNC") and to exclude commas and semicolons.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>periods = length(df$CPOS[df$CPOS == <span style="color: #FF0000">"PUNC"</span> &amp; df$Token != <span style="color: #FF0000">","</span> &amp; df$Token != <span style="color: #FF0000">";"</span>])</tt></pre></div></div>
+<div class="paragraph"><p>To calculate the remaining features, we begin by counting the <strong>characters in each word</strong>. The words themselves can be found in the column <em>df$Token</em>. The function nchar() counts the characters in a string. The function lapply() can be used to apply nchar() upon each single element of df$Token. nchar() Can only be applied on character strings. To ensure that df$Token is of that type and has not accidentally interpreted as a factor when the data frame was loaded, we use the function as.character(), that can transform a factor into a vector of strings.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>word_length = lapply(as.character(df$Token), nchar)</tt></pre></div></div>
+<div class="paragraph"><p>As lapply() returns a list, we must convert the results into vector format (with unlist()), then we can get rid of the punctuation tokens.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>word_length = unlist(word_length)
+word_length = word_length[df$CPOS != <span style="color: #FF0000">"PUNC"</span>]</tt></pre></div></div>
+<div class="paragraph"><p>Now that we have a vector at hand that contains the length of every single word in the text as a number, we can simply sum it up to calculate <strong>text length in characters</strong>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>characters = sum(word_length)</tt></pre></div></div>
+<div class="paragraph"><p>And we can now compute the number <strong>long words</strong>, i.e. the number of words longer than six characters.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>longwords = length(word_length[word_length &gt; 6])</tt></pre></div></div>
+<div class="paragraph"><p>Now all necessary features have been computed and stored in variables. To <strong>calculate the ARI</strong> for the text, we just need to put the feature values into the ARI formula,</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>ARI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43</tt></pre></div></div>
+<div class="paragraph"><p>and into another formula for <strong>calculating the LIX</strong>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>LIX = (words / periods) + (100 * longwords / words)</tt></pre></div></div>
 </div>
 <div class="sect2">
 <h3 id="StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</h3>
@@ -1564,70 +1886,70 @@ working folder, i.e. the one where the CSV files are to be found. In R,
 the working directory can be changed using the "setwd()" command in the
 R console, like in</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">setwd</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"~/DKPro/"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt>setwd(<span style="color: #FF0000">"~/DKPro/"</span>)</tt></pre></div></div>
 <div class="paragraph"><p>If you are uncertain about your current working directory, you can
 compute it by typing</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">getwd</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<pre><tt>getwd()</tt></pre></div></div>
 <div class="paragraph"><p>The following R-code will <strong>extract the desired features</strong> from the
 CSV-files and store them in a Stylo-accessible way.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt><span style="font-style: italic"><span style="color: #9A1900"># Extract file names</span></span>
-files <span style="color: #990000">=</span> list<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">files</span></span><span style="color: #990000">(</span>pattern <span style="color: #990000">=</span> <span style="color: #FF0000">"*.csv"</span><span style="color: #990000">)</span>
+files = list.files(pattern = <span style="color: #FF0000">"*.csv"</span>)
  
 <span style="font-style: italic"><span style="color: #9A1900"># Create directories</span></span>
-dir<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">create</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"dv/"</span><span style="color: #990000">)</span>
-dir<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">create</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"pos/"</span><span style="color: #990000">)</span>
-dir<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">create</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"dv/corpus/"</span><span style="color: #990000">)</span>
-dir<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">create</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"pos/corpus/"</span><span style="color: #990000">)</span>
+dir.create(<span style="color: #FF0000">"dv/"</span>)
+dir.create(<span style="color: #FF0000">"pos/"</span>)
+dir.create(<span style="color: #FF0000">"dv/corpus/"</span>)
+dir.create(<span style="color: #FF0000">"pos/corpus/"</span>)
  
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span><span style="color: #990000">(</span>file <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> files<span style="color: #990000">)</span>
-<span style="color: #990000">{</span>
+<span style="font-weight: bold"><span style="color: #0000FF">for</span></span>(file in files)
+{
   <span style="font-style: italic"><span style="color: #9A1900"># Read file</span></span>
-  df <span style="color: #990000">=</span> read<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">table</span></span><span style="color: #990000">(</span>file<span style="color: #990000">,</span> header <span style="color: #990000">=</span> T<span style="color: #990000">,</span> fill <span style="color: #990000">=</span> T<span style="color: #990000">)</span>
+  df = read.table(file, header = T, fill = T)
  
   <span style="font-style: italic"><span style="color: #9A1900"># Prepare filename</span></span>
-  shortfile <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">sub</span></span><span style="color: #990000">(</span><span style="color: #FF0000">".csv"</span><span style="color: #990000">,</span> <span style="color: #FF0000">""</span><span style="color: #990000">,</span> file<span style="color: #990000">)</span>
+  shortfile = sub(<span style="color: #FF0000">".csv"</span>, <span style="color: #FF0000">""</span>, file)
  
   <span style="font-style: italic"><span style="color: #9A1900"># Write Adjectives and Adverbes to analyse the author's inventaar of descriptive vocabulary</span></span>
-  dv <span style="color: #990000">=</span> df$Lemma<span style="color: #990000">[</span>df$CPOS <span style="color: #990000">==</span> <span style="color: #FF0000">"ADJ"</span> <span style="color: #990000">|</span> df$CPOS <span style="color: #990000">==</span> <span style="color: #FF0000">"ADV"</span><span style="color: #990000">]</span>
-  filename <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">paste</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"./dv/corpus/"</span><span style="color: #990000">,</span> shortfile<span style="color: #990000">,</span> sep <span style="color: #990000">=</span> <span style="color: #FF0000">""</span><span style="color: #990000">)</span>
-  <span style="font-weight: bold"><span style="color: #000000">write</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">paste</span></span><span style="color: #990000">(</span>dv<span style="color: #990000">,</span> collapse <span style="color: #990000">=</span> <span style="color: #FF0000">" "</span><span style="color: #990000">),</span> file <span style="color: #990000">=</span> filename<span style="color: #990000">)</span>
+  dv = df$Lemma[df$CPOS == <span style="color: #FF0000">"ADJ"</span> | df$CPOS == <span style="color: #FF0000">"ADV"</span>]
+  filename = paste(<span style="color: #FF0000">"./dv/corpus/"</span>, shortfile, sep = <span style="color: #FF0000">""</span>)
+  write(paste(dv, collapse = <span style="color: #FF0000">" "</span>), file = filename)
  
   <span style="font-style: italic"><span style="color: #9A1900"># Write POS tags to compare sentence structure</span></span>
-  filename <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">paste</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"./pos/corpus/"</span><span style="color: #990000">,</span> shortfile<span style="color: #990000">,</span> sep <span style="color: #990000">=</span> <span style="color: #FF0000">""</span><span style="color: #990000">)</span>
-  <span style="font-weight: bold"><span style="color: #000000">write</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">paste</span></span><span style="color: #990000">(</span>df$CPOS<span style="color: #990000">,</span> collapse<span style="color: #990000">=</span><span style="color: #FF0000">" "</span><span style="color: #990000">),</span> file <span style="color: #990000">=</span> filename<span style="color: #990000">)</span>
-<span style="color: #990000">}</span></tt></pre></div></div>
+  filename = paste(<span style="color: #FF0000">"./pos/corpus/"</span>, shortfile, sep = <span style="color: #FF0000">""</span>)
+  write(paste(df$CPOS, collapse=<span style="color: #FF0000">" "</span>), file = filename)
+}</tt></pre></div></div>
 </div>
 <div class="sect4">
 <h5 id="UsingStylo">Using Stylo</h5>
 <div class="paragraph"><p>If you have not <strong>installed</strong> the Stylo package yet, do that with the
 following command into the R console:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>install<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">packages</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"stylo"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt>install.packages(<span style="color: #FF0000">"stylo"</span>)</tt></pre></div></div>
 <div class="paragraph"><p>Next, you can <strong>load the package</strong> with:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">library</span></span><span style="color: #990000">(</span>stylo<span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt>library(stylo)</tt></pre></div></div>
 <div class="paragraph"><p>The workflow requires you at this point to decide on the particular
 analysis, either the descriptive vocabulary or the part-of-speech tag,
 you intend to start with. As Stylo only accepts a single "corpus" folder
@@ -1635,25 +1957,25 @@ as input, you will have to do these separately. The order, however,
 depends on your preference (or curiosity) only. If you want to analyze
 the <strong>descriptive vocabulary</strong>, type:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">setwd</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"./dv/"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt>setwd(<span style="color: #FF0000">"./dv/"</span>)</tt></pre></div></div>
 <div class="paragraph"><p>For working with <strong>part-of-speech tags</strong>, type:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">setwd</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"./pos/"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<pre><tt>setwd(<span style="color: #FF0000">"./pos/"</span>)</tt></pre></div></div>
 <div class="paragraph"><p>Once one of the folders is chosen, you can <strong>start Stylo</strong> by typing</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000000">stylo</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<pre><tt>stylo()</tt></pre></div></div>
 <div class="paragraph"><p>into the R console. The interface will appear:</p></div>
 <div class="paragraph"><p><span class="image">
 <img src="https://wiki.de.dariah.eu/download/attachments/40213783/Stylo.png?version=1&amp;modificationDate=1434987160559&amp;api=v2" alt="image" />
@@ -1700,15 +2022,15 @@ Blei&#8217;s
 <a href="https://www.cs.princeton.edu/~blei/papers/Blei2012.pdf">introductory
 paper</a>), which is also the variant we will be working with in this
 tutorial. There have been written numerous introductions to topic
-modeling for humanists (e.g. <a href="https://de.dariah.eu/tatom/index.html">[1\</a>]
-<a href="http://programminghistorian.org/lessons/topic-modeling-and-mallet">[2\</a>] <a href="http://mcburton.net/blog/joy-of-tm">[3\</a>]), which provide another level of
+modeling for humanists (e.g. <a href="https://de.dariah.eu/tatom/index.html">[1]</a>
+<a href="http://programminghistorian.org/lessons/topic-modeling-and-mallet">[2]</a> <a href="http://mcburton.net/blog/joy-of-tm">[3]</a>), which provide another level of
 detail regarding its technical and epistemic properties. Here it should
 just be pointed out that it is a
 <a href="https://en.wikipedia.org/wiki/Bag-of-words_model">bag-of-words</a> approach
 purely based on word frequencies, which is unsupervised (it doesn&#8217;t have
 to be trained on any domain-specific dataset) and thus also works with
 literary and historical texts out of the box. However, as the algorithm
-was devised with summarising news articles and other short text types in
+was devised with summarizing news articles and other short text types in
 mind, its functioning is rather sensitive to text length. Also,
 depending on the research question, a rigorous selection process has
 shown to be fruitful, e.g. if you are not explicitly looking for the
@@ -1743,26 +2065,27 @@ package manager <em>pip</em>) installed, issuing the following command at the
 command line will download and install the packages needed for this
 recipe:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>pip3 install gensim pandas numpy pyLDAvis</tt></pre></div></div>
-<div class="paragraph"><p><strong>Note:</strong> pyLDAvis is currently not available under Windows (as of
-10/2015)</p></div>
+<div class="paragraph"><p><strong>Note:</strong> In case pip install produces an error, try its predecessor <em>easy_install</em>. Not recommended on OS X, though, as the command defaults to the 2.7 Python installation that is shipped with OS X.
+<strong>Note:</strong> pyLDAvis is currently not available under Windows (as of
+02/2016)</p></div>
 <div class="paragraph"><p>Also needed for this recipe is the widely used visualization
 package <em>matplotlib</em> for which installation directions are a bit
 different on each platform. If you are on a Debian based Linux system
 such as Ubuntu, you can use</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt>sudo apt<span style="color: #990000">-</span>get install python<span style="color: #990000">-</span>matplotlib</tt></pre></div></div>
 <div class="paragraph"><p>If you are on OS X you can just use <em>pip</em></p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1779,7 +2102,7 @@ the code into a text file and make it a script that can be interpreted
 by Python. When naming the script, use the file extension <em>.py</em> - e.g.
 <em>lda.py</em> - and enter the following as its first line:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1791,7 +2114,7 @@ handled automatically as of Python version 3.3.</p></div>
 <div class="paragraph"><p>If the following statements run without error, everything is installed
 correctly:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1815,7 +2138,7 @@ global variable space of the script, being accessible to all functions
 and other sub-entities. This can be viewed as a configuration section,
 which we will use to set parameters for pre-processing and modeling.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1860,7 +2183,7 @@ for English
 and <a href="http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html">STTS</a> for
 German. More information about DKPro components and the tag sets they
 are trained on can be
-found <a href="http://dkpro.github.io/dkpro-core/releases/1.7.0/models.html">here</a>.</p></div>
+found <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/models/">here</a>.</p></div>
 </div>
 <div class="sect4">
 <h5 id="PreparingtheData">Preparing the Data</h5>
@@ -1882,7 +2205,7 @@ results. Apart from producing arbitrary text segments of fixed size, we
 can also use the pipeline&#8217;s ParagraphId feature, which can be set to
 count paragraphs using a string pattern.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1912,20 +2235,7 @@ http://www.gnu.org/software/src-highlite -->
             <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> p <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> pos_tags<span style="color: #990000">:</span>                          <span style="font-style: italic"><span style="color: #9A1900"># collect only the specified parts-of-speech</span></span>
                 doc <span style="color: #990000">=</span> doc<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">append</span></span><span style="color: #990000">(</span>df<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get_group</span></span><span style="color: #990000">(</span>p<span style="color: #990000">))</span>
  
-
-
-<span style="font-style: italic"><span style="color: #9A1900">            """</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900"> df = df.groupby('NamedEntity') # add named entities to stopword list</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900"> names = df.get_group('B-PER')['Lemma'].values.astype(str)</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900"> names += df.get_group('I-PER')['Lemma'].values.astype(str)</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900"> """</span></span>
-
- 
-            names <span style="color: #990000">=</span> df<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get_group</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'NP'</span><span style="color: #990000">)[</span><span style="color: #FF0000">'Lemma'</span><span style="color: #990000">].</span>values<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">astype</span></span><span style="color: #990000">(</span>str<span style="color: #990000">)</span>
+            names <span style="color: #990000">=</span> df<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get_group</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'NP'</span><span style="color: #990000">)[</span><span style="color: #FF0000">'Lemma'</span><span style="color: #990000">].</span>values<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">astype</span></span><span style="color: #990000">(</span>str<span style="color: #990000">)</span>  <span style="font-style: italic"><span style="color: #9A1900"># add proper nouns to stopword list</span></span>
             stopwords <span style="color: #990000">+=</span> names<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">tolist</span></span><span style="color: #990000">()</span>
  
             <span style="font-style: italic"><span style="color: #9A1900"># construct documents</span></span>
@@ -1945,9 +2255,6 @@ http://www.gnu.org/software/src-highlite -->
                 docs<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">append</span></span><span style="color: #990000">(</span>doc<span style="color: #990000">[</span><span style="color: #FF0000">'Lemma'</span><span style="color: #990000">].</span>values<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">astype</span></span><span style="color: #990000">(</span>str<span style="color: #990000">))</span>    <span style="font-style: italic"><span style="color: #9A1900"># add the rest</span></span>
                 doc_labels<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">append</span></span><span style="color: #990000">(</span>file<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">split</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"."</span><span style="color: #990000">)[</span><span style="color: #993399">0</span><span style="color: #990000">]+</span><span style="color: #FF0000">" #"</span><span style="color: #990000">+</span><span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>i<span style="color: #990000">))</span>
  
-    <span style="font-style: italic"><span style="color: #9A1900">#for doc in docs: print(str(len(doc))) # display resulting doc sizes</span></span>
-    <span style="font-style: italic"><span style="color: #9A1900">#print(stopwords)</span></span>
- 
     <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"\nnormalizing and vectorizing ...\n"</span><span style="color: #990000">)</span>        <span style="font-style: italic"><span style="color: #9A1900"># cf. https://radimrehurek.com/gensim/tut1.html</span></span>
  
     texts <span style="color: #990000">=</span> <span style="color: #990000">[[</span>word <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> word <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> doc <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> word <span style="font-weight: bold"><span style="color: #0000FF">not</span></span> <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> stopwords<span style="color: #990000">]</span> <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> doc <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> docs<span style="color: #990000">]</span>       <span style="font-style: italic"><span style="color: #9A1900"># remove stopwords</span></span>
@@ -1966,10 +2273,23 @@ model. That can happen because NER components differ in performance for
 different languages and different types of text. An independently
 developed NER component trained on German 19th century novels will be
 included in a later version of the pipeline to address use cases like
-this. In the meanwhile, and as a more generic approach, you can also try
-filtering all proper nouns (NP).</p></div>
+this. The following lines will add all named entities to the stopword list.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>df <span style="color: #990000">=</span> df<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">groupby</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'NamedEntity'</span><span style="color: #990000">)</span>
+
+names <span style="color: #990000">=</span> df<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get_group</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'B-PER'</span><span style="color: #990000">)[</span><span style="color: #FF0000">'Lemma'</span><span style="color: #990000">].</span>values<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">astype</span></span><span style="color: #990000">(</span>str<span style="color: #990000">)</span>
+
+names <span style="color: #990000">+=</span> df<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get_group</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'I-PER'</span><span style="color: #990000">)[</span><span style="color: #FF0000">'Lemma'</span><span style="color: #990000">].</span>values<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">astype</span></span><span style="color: #990000">(</span>str<span style="color: #990000">)</span>
+
+stopwords <span style="color: #990000">+=</span> names<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">tolist</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<div class="paragraph"><p>In the meanwhile, and as a more generic approach, we filter
+out all proper nouns (NP).</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1989,7 +2309,7 @@ file and performs feature selection as well as vectorization of the
 data. The resulting dictionary and corpus objects are then used to
 create a LdaMulticore() model. Afterwards, the topics are displayed.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2018,7 +2338,7 @@ topics <span style="color: #990000">=</span> model<span style="color: #990000">.
 10 terms for each topic, the order of topics is random by default):</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>topic #0: 0.012*instant + 0.011*universe + 0.010*mad + 0.008*way + 0.008*everyone + 0.007*ship + 0.007*whilst + 0.007*other + 0.007*poor + 0.007*moment
+<pre><code>topic #0: 0.012*instant + 0.011*universe + 0.010*mad + 0.008*way + 0.008*everyone + 0.007*ship + 0.007*whilst + 0.007*other + 0.007*poor + 0.007*moment
 topic #1: 0.008*world + 0.007*horror + 0.006*years + 0.006*body + 0.006*other + 0.006*terrible + 0.004*woman + 0.004*tree + 0.004*family + 0.004*baronet
 topic #2: 0.009*corridor + 0.009*foot + 0.009*hand + 0.008*woman + 0.007*eyes + 0.007*lover + 0.007*floor + 0.006*chamber + 0.006*shape + 0.006*estate
 topic #3: 0.012*point + 0.012*foot + 0.011*specimen + 0.011*inch + 0.009*print + 0.008*tube + 0.008*vegetable + 0.008*animal + 0.008*camp + 0.008*diameter
@@ -2037,7 +2357,7 @@ topic #15: 0.009*case + 0.009*other + 0.008*family + 0.006*cellar + 0.005*manusc
 topic #16: 0.015*wind + 0.015*plane + 0.013*camp + 0.012*snow + 0.010*wireless + 0.010*world + 0.009*other + 0.009*antarctic + 0.008*whole + 0.008*seal
 topic #17: 0.000*incoherent + 0.000*reality + 0.000*riches + 0.000*fearful + 0.000*neighbor + 0.000*oriental + 0.000*liking + 0.000*tentacle + 0.000*prize-fighter + 0.000*bristle
 topic #18: 0.011*foot + 0.009*base + 0.008*plane + 0.008*world + 0.008*camp + 0.007*crew + 0.007*trip + 0.007*peak + 0.007*years + 0.006*unknown
-topic #19: 0.003*cleanliness + 0.003*hawk-like + 0.003*luncheon + 0.000*readiness + 0.000*channels + 0.000*brigade + 0.000*enthusiast + 0.000*exactness + 0.000*edition + 0.000*politics</tt></pre>
+topic #19: 0.003*cleanliness + 0.003*hawk-like + 0.003*luncheon + 0.000*readiness + 0.000*channels + 0.000*brigade + 0.000*enthusiast + 0.000*exactness + 0.000*edition + 0.000*politics</code></pre>
 </div></div>
 <div class="paragraph"><p>When you put everything together and do a test run, you will notice that
 producing an LDA model can take quite some time - if you have a lot of
@@ -2057,10 +2377,12 @@ hood, append the following to the import statements at the beginning of
 the file. Beware that Gensim&#8217;s logging produces a lot of detailed
 output.</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><tt>import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)</tt></pre>
-</div></div>
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> logging
+logging<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">basicConfig</span></span><span style="color: #990000">(</span>format<span style="color: #990000">=</span><span style="color: #FF0000">'%(asctime)s : %(levelname)s : %(message)s'</span><span style="color: #990000">,</span> level<span style="color: #990000">=</span>logging<span style="color: #990000">.</span>INFO<span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>Finally, you can save calculated models to disk and load them
 afterwards, e.g. for experimenting with different visualizations. This
 last part of the script saves the model, corpus, and dictionary objects
@@ -2069,7 +2391,7 @@ using Gensim&#8217;s
 function, as well as document labels and the topics themselves as text
 files.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2115,14 +2437,6 @@ paper</a>.</p></div>
 <div class="paragraph"><p><span class="image">
 <img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png?version=1&amp;modificationDate=1443696593537&amp;api=v2" alt="image" />
 </span></p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-+
-*
-</p>
-</li>
-</ul></div>
 <div class="paragraph" id="Heatmap"><p><strong>Heatmap</strong></p></div>
 <div class="paragraph"><p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_heatmap.py">Source</a>] </strong>The
 heatmap option displays the kind of information that is probably most
@@ -2141,10 +2455,9 @@ e.g. building a number of models with varying document size
 section</a> in <em>lda.py</em>) - smaller document sizes <em>zoom in</em> on the
 thematic development inside texts, while larger ones <em>zoom out</em>, up
 until there is only one row per document to display.</p></div>
-<div class="paragraph"><p>*<span class="image">
+<div class="paragraph"><p><span class="image">
 <img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&amp;modificationDate=1443688101001&amp;api=v2" alt="image" />
-</span><br />
-*</p></div>
+</span><br /></p></div>
 <div class="paragraph" id="Network"><p><strong>Network</strong></p></div>
 <div class="paragraph"><p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_network.py">Source</a>]</strong> For
 a more artistic presentation of a topic model, consider the following
@@ -2185,7 +2498,7 @@ Distribution Voting</em> algorithm, we can show how to build a pairwise
 classification system that works genre-independently with an accuracy of
 around 0.70 using only the feature set.</p></div>
 <div class="paragraph"><p>You can find the complete, ready-to-run Python script
-on <a href="https://github.com/stefanpernes/dariah-nlp-tutorial">Github</a>.</p></div>
+on <a href="https://github.com/stefanpernes/dariah-nlp-tutorial">GitHub</a>.</p></div>
 <div class="sect4">
 <h5 id="ExampleCorpus.2">Example Corpus</h5>
 <div class="paragraph"><p>The original corpus used in the paper is controlled for various factors
@@ -2222,7 +2535,7 @@ the example corpus here</a></strong>.</p></div>
 command line will download and install the packages needed for this
 recipe:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2230,7 +2543,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>Have a look at the <a href="#SettinguptheEnvironment">previous recipe setup</a> for more detailed instructions. Now we can use the
 following import statements:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2252,7 +2565,7 @@ syntactic features. This is also what the feature set in van Halteren et
 al. reflects:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>   1. Current token
+<pre><code>   1. Current token
    2. Previous token
    3. Next token
    4. Concatenation of the wordclass tags of these three tokens (as
@@ -2270,14 +2583,14 @@ al. reflects:</p></div>
        c. number of blocks (consisting of 1/7th of the text) in which the
            current token is found (in 4 classes: 1, 2-3,4-6,7)
        d. distance in sentences to the previous occurrence of the current token
-           (in 7 classes: NONE, SAME, 1, 2-3,4-7,8-15,16+)</tt></pre>
+           (in 7 classes: NONE, SAME, 1, 2-3,4-7,8-15,16+)</code></pre>
 </div></div>
 <div class="paragraph"><p>Taken as a software specification this should prove a worthy test for
 the practicability of the CSV format. It translates into the following
 <em>featureselect()</em> function plus smaller functions to help with the
 calculation of specified classes:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2407,7 +2720,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>The output is a DataFrame that looks like this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>           CurrToken       PrevToken       NextToken     TokenTags LengthPosition TagFreqOccur
+<pre><code>           CurrToken       PrevToken       NextToken     TokenTags LengthPosition TagFreqOccur
 0                Den             NaN     Mittelgrund    ART-NaN-NN            6-1    ART-2-1-1
 1        Mittelgrund             Den          bilden      NN-ART-V            6-1     NN-1-1-1
 2             bilden     Mittelgrund          Säulen       V-NN-NN            6-1      V-1-1-1
@@ -2438,7 +2751,7 @@ http://www.gnu.org/software/src-highlite -->
 27               die          rechts          Statue    ART-ADV-NN            6-3    ART-5-4-1
 28            Statue             die           Amors     NN-ART-NP            6-3     NN-1-1-1
 29             Amors          Statue               ,    NP-NN-PUNC            6-3     NP-1-1-1
-...              ...             ...             ...           ...            ...          ...</tt></pre>
+...              ...             ...             ...           ...            ...          ...</code></pre>
 </div></div>
 </div>
 <div class="sect4">
@@ -2462,7 +2775,7 @@ data, we also need to make sure the matrix doesn&#8217;t contain missing
 values and use an imputer function that replaces NaN&#8217;s by the median of
 their respective rows.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2530,7 +2843,7 @@ validation function</a> is performed. It is set up to use five randomly
 shuffled train and test sets in order to calculate a mean accuracy for
 the classifier.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2558,7 +2871,7 @@ scores <span style="color: #990000">=</span> <span style="font-weight: bold"><sp
 <div class="paragraph"><p><strong>Output:</strong></p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>processing files and randomly selecting 700 features each ...
+<pre><code>processing files and randomly selecting 700 features each ...
 
 train/Grillparzer%20-%20Das%20goldene%20Vließ%20(Anfang)%20(Drama).txt.csv
 train/Grillparzer%20-%20Das%20Kloster%20bei%20Sendomir%20(Anfang)%20(Prosa).txt.csv
@@ -2595,7 +2908,7 @@ RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
 
 performing cross validation (n_iter=5, test_size=0.125) ...
 [ 0.76214286  0.75928571  0.76714286  0.75142857  0.75785714]
-mean accuracy: 0.76 (+/- 0.01)</tt></pre>
+mean accuracy: 0.76 (+/- 0.01)</code></pre>
 </div></div>
 </div>
 <div class="sect4">
@@ -2611,7 +2924,7 @@ using an already trained classifier object.
 See <a href="http://scikit-learn.org/stable/modules/model_persistence.html">model
 persistence</a>.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2643,12 +2956,12 @@ c_val <span style="color: #990000">=</span> <span style="font-weight: bold"><spa
 <div class="paragraph"><p><strong>Output:</strong></p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>predicting author for test/von%20Kleist%20-%20Der%20Findling%20(Prosa).txt.csv ...
+<pre><code>predicting author for test/von%20Kleist%20-%20Der%20Findling%20(Prosa).txt.csv ...
 
 dimensions of X_test: (700, 6)
 dimensions of X_test after vectorization: (672, 9692)
 
-von Kleist  77.52976190476191 % -  Grillparzer  22.470238095238095 %</tt></pre>
+von Kleist  77.52976190476191 % -  Grillparzer  22.470238095238095 %</code></pre>
 </div></div>
 <div class="paragraph"><p><strong>Note:</strong> During vectorization, Python raises a warning because
 observations which cannot be found in the dictionary, have to be
@@ -2656,7 +2969,7 @@ dropped. This is in fact how it should behave and if you want to
 suppress those warnings, you can append the following to the import
 statements:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.5
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -2688,6 +3001,347 @@ found that apart from Random Forests, the
 Naive Bayes</a> classifier perform pretty well. Let us know if you find
 other models and/or interesting parameter settings to work with and we
 will list them here.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="NetworkVisualizationinPython"><strong>Example Recipe: Network Visualization in Python</strong></h3>
+<div class="paragraph"><p>The following example attempts to show how to create a simple social network visualization of German poets by using text files extracted from Wikipedia. The <a href="https://pypi.python.org/pypi/wikipedia">Wikipedia API</a> for Python is used to scrape the content from Wikipedia as <strong>plain text</strong>. With the help of the <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases">DARIAH-DKPro-Wrapper</a> we gain access to the <a href="https://en.wikipedia.org/wiki/Named-entity_recognition">Named Entities</a> (NE) in each file, compare them using basic Python programming and finally visualize them with the Python <a href="https://networkx.github.io">NetworkX</a> and <a href="http://matplotlib.org">matplotlib</a> packages.
+The basic assumption is that a connection between two authors exists if there is a certain amount of overlap in the Named Entities we extracted from their Wikipedia articles.
+Every author is represented by a node, a connection between two authors by an edge which is created when the number of overlaps passes a certain threshold.</p></div>
+<div class="paragraph"><p>You can find the ready-to-run scripts for this recipe <a href="https://github.com/severinsimmler/DARIAH-Network-Visualization">here</a>.</p></div>
+<div class="sect4">
+<h5 id="SettinguptheEnvironment.2">Setting up the Environment</h5>
+<div class="paragraph"><p>As explained in the <a href="#SettinguptheEnvironment">example above</a> you have to install three packages to realize this recipe.
+Issue the following command in the command line to download and install the needed packages:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>pip3 install wikipedia
+pip3 install networkx</code></pre>
+</div></div>
+<div class="paragraph"><p>Also make sure the package <em>matplotlib</em> is installed.</p></div>
+</div>
+<div class="sect4">
+<h5 id="CrawlingWikipedia">Part 1: Crawling Wikipedia</h5>
+<div class="paragraph"><p>The first part of the recipe is designed for interactive use. It is recommended to copy the following code into a text file and interpret it with Python through the command prompt. For more clearness the whole script is divided into small parts with explanations on what is going on in the single parts.
+Use the following <code>import</code> statements in your first script after the first line:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> wikipedia
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> re</tt></pre></div></div>
+<div class="paragraph"><p>In the following part we will create a new text file including a list of authors:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">create_authors</span></span><span style="color: #990000">(</span>working_directory<span style="color: #990000">,</span> wiki_page<span style="color: #990000">,</span> wiki_section<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """Gathers names from Wikipedia"""</span></span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"\nCreating authors.txt ..."</span><span style="color: #990000">)</span>
+    with <span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">(</span>working_directory <span style="color: #990000">+</span> <span style="color: #FF0000">"/authors.txt"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"w"</span><span style="color: #990000">,</span> encoding<span style="color: #990000">=</span><span style="color: #FF0000">'utf-8'</span><span style="color: #990000">)</span> as authors<span style="color: #990000">:</span>
+        full_content <span style="color: #990000">=</span> wikipedia<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">page</span></span><span style="color: #990000">(</span>wiki_page<span style="color: #990000">)</span>
+        selected_content <span style="color: #990000">=</span> full_content<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">section</span></span><span style="color: #990000">(</span>wiki_section<span style="color: #990000">)</span>
+        only_name <span style="color: #990000">=</span> re<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">sub</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"[ \t\r\n\f]+[\(\[].*?[\]\)]"</span><span style="color: #990000">,</span><span style="color: #FF0000">""</span><span style="color: #990000">,</span> selected_content<span style="color: #990000">)</span>  <span style="font-style: italic"><span style="color: #9A1900"># erases characters after full name</span></span>
+        authors<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">write</span></span><span style="color: #990000">(</span>only_name<span style="color: #990000">)</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span>only_name<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="paragraph"><p>As Wikipedia happens to consist of living documents we provide a snapshot of a list of authors: <a href="https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/doc/author.txt">author.txt</a></p></div>
+<div class="paragraph"><p>Alternatively, you can create your own list of authors (make sure you use the exact name used by Wikipedia).</p></div>
+</div>
+<div class="sect4">
+<h5 id="_output">Output:</h5>
+<div class="listingblock">
+<div class="content">
+<pre><code>Creating authors.txt ...
+Dietmar von Aist
+Friedrich von Hausen
+Heinrich von Rugge
+Heinrich von Veldeke
+Herger
+Der von Kürenberg
+Meinloh von Sevelingen
+Rudolf von Fenis
+Spervogel</code></pre>
+</div></div>
+<div class="paragraph"><p>To crawl the Wikipedia database with your determined authors list, add the following code to your script:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">crawl_wikipedia</span></span><span style="color: #990000">(</span>authors_file<span style="color: #990000">,</span> output_directory<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """Crawls Wikipedia with authors.txt"""</span></span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"\nCrawling Wikipedia ..."</span><span style="color: #990000">)</span>
+    with <span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">(</span>authors_file<span style="color: #990000">,</span> <span style="color: #FF0000">"r"</span><span style="color: #990000">,</span> encoding<span style="color: #990000">=</span><span style="color: #FF0000">"utf-8"</span><span style="color: #990000">)</span> as authors<span style="color: #990000">:</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> author <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> authors<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">read</span></span><span style="color: #990000">().</span><span style="font-weight: bold"><span style="color: #000000">splitlines</span></span><span style="color: #990000">():</span>
+            <span style="font-weight: bold"><span style="color: #0000FF">try</span></span><span style="color: #990000">:</span>
+                page_title <span style="color: #990000">=</span> wikipedia<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">page</span></span><span style="color: #990000">(</span>author<span style="color: #990000">)</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> page_title<span style="color: #990000">:</span>
+                    with <span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">(</span>output_directory <span style="color: #990000">+</span> <span style="color: #FF0000">"/"</span> <span style="color: #990000">+</span> author <span style="color: #990000">+</span> <span style="color: #FF0000">".txt"</span><span style="color: #990000">,</span> <span style="color: #FF0000">"w"</span><span style="color: #990000">,</span> encoding<span style="color: #990000">=</span><span style="color: #FF0000">'utf-8'</span><span style="color: #990000">)</span> as new_author<span style="color: #990000">:</span>
+                        new_author<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">write</span></span><span style="color: #990000">(</span>page_title<span style="color: #990000">.</span>content<span style="color: #990000">)</span>
+                        <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span>author <span style="color: #990000">+</span> <span style="color: #FF0000">": saved"</span><span style="color: #990000">)</span>
+
+                <span style="font-weight: bold"><span style="color: #0000FF">else</span></span><span style="color: #990000">:</span>
+                    <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Error: Cannot create variable for wikipedia.page"</span><span style="color: #990000">)</span>
+
+            <span style="font-weight: bold"><span style="color: #0000FF">except</span></span> wikipedia<span style="color: #990000">.</span>exceptions<span style="color: #990000">.</span>DisambiguationError<span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">pass</span></span>
+            <span style="font-weight: bold"><span style="color: #0000FF">except</span></span> wikipedia<span style="color: #990000">.</span>exceptions<span style="color: #990000">.</span>HTTPTimeoutError<span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">pass</span></span>
+            <span style="font-weight: bold"><span style="color: #0000FF">except</span></span> wikipedia<span style="color: #990000">.</span>exceptions<span style="color: #990000">.</span>RedirectError<span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">pass</span></span>
+            <span style="font-weight: bold"><span style="color: #0000FF">except</span></span> wikipedia<span style="color: #990000">.</span>exceptions<span style="color: #990000">.</span>PageError<span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">pass</span></span></tt></pre></div></div>
+</div>
+<div class="sect4">
+<h5 id="_output_2">Output:</h5>
+<div class="listingblock">
+<div class="content">
+<pre><code>Crawling Wikipedia ...
+Dietmar von Aist: saved
+Friedrich von Hausen: saved
+Heinrich von Rugge: saved
+Heinrich von Veldeke: saved
+Herger: saved
+Der von Kürenberg: saved
+Meinloh von Sevelingen: saved
+Rudolf von Fenis: saved
+Spervogel: saved</code></pre>
+</div></div>
+<div class="paragraph"><p>Finally we are putting everything together. In case you have worked with the <code>create_authors</code> function use the following <code>main()</code> part:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>working_directory<span style="color: #990000">,</span> output_directory<span style="color: #990000">,</span> wiki_page<span style="color: #990000">,</span> wiki_section<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param working_directory: e.g. /users/networks</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param output_directory: e.g. /users/networks/wikis</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param wiki_page: e.g. "Liste deutschsprachiger Lyriker"</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param wiki_section: e.g. "12. Jahrhundert"</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    """</span></span>
+
+    wikipedia<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">set_lang</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"de"</span><span style="color: #990000">)</span>    <span style="font-style: italic"><span style="color: #9A1900"># change language</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">create_authors</span></span><span style="color: #990000">(</span>working_directory<span style="color: #990000">,</span> wiki_page<span style="color: #990000">,</span> wiki_section<span style="color: #990000">)</span>
+    <span style="font-weight: bold"><span style="color: #000000">crawl_wikipedia</span></span><span style="color: #990000">(</span>sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">1</span><span style="color: #990000">]</span> <span style="color: #990000">+</span> <span style="color: #FF0000">"/authors.txt"</span><span style="color: #990000">,</span> output_directory<span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> __name__ <span style="color: #990000">==</span> <span style="color: #FF0000">"__main__"</span><span style="color: #990000">:</span>
+    <span style="font-weight: bold"><span style="color: #000080">import</span></span> sys
+    <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">1</span><span style="color: #990000">],</span> sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">2</span><span style="color: #990000">],</span> sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">3</span><span style="color: #990000">],</span> sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">4</span><span style="color: #990000">])</span></tt></pre></div></div>
+<div class="paragraph"><p>To run the script type the following command in your command line:</p></div>
+<div class="paragraph"><p><code>python3 script workingdirectory outputdirectory "wikipage" "wikisection"</code></p></div>
+<div class="paragraph"><p>and press Enter.</p></div>
+<div class="paragraph"><p>For example:</p></div>
+<div class="paragraph"><p><code>python3 /users/networks/crawler.py /users/networks /users/networks/wikis "Liste deutschsprachiger Lyriker" "12. Jahrhundert"</code></p></div>
+<div class="paragraph"><p>In case you already had a text file like <em>authors.txt</em> use the following <code>main()</code> part:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>authors_file<span style="color: #990000">,</span> output_directory<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param authors_file: e.g. /users/networks/my_own_file.txt</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param output_directory: e.g. /users/networks/wikis</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    """</span></span>
+
+    wikipedia<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">set_lang</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"de"</span><span style="color: #990000">)</span>    <span style="font-style: italic"><span style="color: #9A1900"># change language</span></span>
+    <span style="font-weight: bold"><span style="color: #000000">crawl_wikipedia</span></span><span style="color: #990000">(</span>authors_file<span style="color: #990000">,</span> output_directory<span style="color: #990000">)</span>
+
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> __name__ <span style="color: #990000">==</span> <span style="color: #FF0000">"__main__"</span><span style="color: #990000">:</span>
+    <span style="font-weight: bold"><span style="color: #000080">import</span></span> sys
+    <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">1</span><span style="color: #990000">],</span> sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">2</span><span style="color: #990000">])</span></tt></pre></div></div>
+<div class="paragraph"><p>To run the script type the following command in your command line:</p></div>
+<div class="paragraph"><p><code>python3 script authorsfile outputdirectory</code></p></div>
+<div class="paragraph"><p>and press Enter.</p></div>
+<div class="paragraph"><p>For example:</p></div>
+<div class="paragraph"><p><code>python3 /users/networks/crawler.py /users/networks/my_own_file.txt /users/networks/wikis</code></p></div>
+<div class="paragraph"><p>If everything worked fine you should have one text file <strong>authors.txt</strong> containing a list of names in your working directory. In your output folder there should be one text file for each author listed in <strong>authors.txt</strong> containing the specific Wikipedia page.</p></div>
+</div>
+<div class="sect4">
+<h5 id="UsingDKProWrapperandNetworkX">Part 2: Using DKPro Wrapper and NetworkX to visualize networks</h5>
+<div class="paragraph"><p>In the second part of the recipe you will analyze your previously created text files with the DKPro-Wrapper.
+How to process a collection of files in the same folder is explained <a href="#InputFolders">further above</a>.
+After creating a <strong>.csv file</strong> for each text file you use Python for further work on your files. Make sure you import the different modules first.
+Create the second (and last) script starting after the first line with:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> csv
+<span style="font-weight: bold"><span style="color: #000080">from</span></span> collections <span style="font-weight: bold"><span style="color: #000080">import</span></span> defaultdict
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> itertools
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> glob
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> os
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> networkx as nx
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> matplotlib<span style="color: #990000">.</span>pyplot as plt
+<span style="font-weight: bold"><span style="color: #000080">import</span></span> re</tt></pre></div></div>
+<div class="paragraph"><p>The following function ingests the annotated file and extracts every NE. In the process first name and last name(s) or base name and extensions are merged. The <strong>.csv file</strong> marks first names and base names as B-PER and last names and extensions as I-PER. The function saves both B-PER and I-PER in a dictionary. Only B-PER or a B-PER followed by any combination of I-PER will be saved as one full name.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">ne_count</span></span><span style="color: #990000">(</span>input_file<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """Extracts only Named Entities"""</span></span>
+
+    ne_counter <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">defaultdict</span></span><span style="color: #990000">(</span>int<span style="color: #990000">)</span>
+    with <span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">(</span>input_file<span style="color: #990000">,</span> encoding<span style="color: #990000">=</span><span style="color: #FF0000">'utf-8'</span><span style="color: #990000">)</span> as csv_file<span style="color: #990000">:</span>
+        read_csv <span style="color: #990000">=</span> csv<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">DictReader</span></span><span style="color: #990000">(</span>csv_file<span style="color: #990000">,</span> delimiter<span style="color: #990000">=</span><span style="color: #FF0000">'\t'</span><span style="color: #990000">,</span> quoting<span style="color: #990000">=</span>csv<span style="color: #990000">.</span>QUOTE_NONE<span style="color: #990000">)</span>
+        lemma <span style="color: #990000">=</span> <span style="color: #990000">[]</span>
+
+        <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> row <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> read_csv<span style="color: #990000">:</span>
+            <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> row<span style="color: #990000">[</span><span style="color: #FF0000">'NamedEntity'</span><span style="color: #990000">]</span> <span style="color: #990000">!=</span> <span style="color: #FF0000">"_"</span> <span style="font-weight: bold"><span style="color: #0000FF">and</span></span> row<span style="color: #990000">[</span><span style="color: #FF0000">'CPOS'</span><span style="color: #990000">]</span> <span style="color: #990000">!=</span> <span style="color: #FF0000">"PUNC"</span><span style="color: #990000">:</span>
+                lemma<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">append</span></span><span style="color: #990000">(</span>row<span style="color: #990000">[</span><span style="color: #FF0000">'Lemma'</span><span style="color: #990000">])</span>
+            <span style="font-weight: bold"><span style="color: #0000FF">else</span></span><span style="color: #990000">:</span>
+                <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> lemma<span style="color: #990000">:</span>
+                    joined_lemma <span style="color: #990000">=</span> <span style="color: #FF0000">' '</span><span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">join</span></span><span style="color: #990000">(</span>lemma<span style="color: #990000">)</span>
+                    ne_counter<span style="color: #990000">[</span>joined_lemma<span style="color: #990000">]</span> <span style="color: #990000">+=</span> <span style="color: #993399">1</span>
+                    lemma <span style="color: #990000">=</span> <span style="color: #990000">[]</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> ne_counter</tt></pre></div></div>
+<div class="paragraph"><p>This one is used to compare the dictionaries created above. It returns the number of matches which will be used to determine if an edge between two authors will be drawn:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">compare_ne_counter</span></span><span style="color: #990000">(</span>ne_dict1<span style="color: #990000">,</span> ne_dict2<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """Compares two dictionaries"""</span></span>
+
+    weight <span style="color: #990000">=</span> <span style="color: #993399">0</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> key <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> ne_dict1<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">keys</span></span><span style="color: #990000">():</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> key <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> ne_dict2<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">keys</span></span><span style="color: #990000">():</span>
+            weight <span style="color: #990000">+=</span> <span style="color: #993399">1</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"this is the weight: "</span> <span style="color: #990000">+</span> <span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>weight<span style="color: #990000">))</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> weight</tt></pre></div></div>
+<div class="paragraph"><p>To label the nodes for the graph, this function extracts the names by removing the extensions of each author&#8217;s file name:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">extract_basename</span></span><span style="color: #990000">(</span>file_path<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """Extracts names from file names"""</span></span>
+
+    file_name_txt_csv <span style="color: #990000">=</span> os<span style="color: #990000">.</span>path<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">basename</span></span><span style="color: #990000">(</span>file_path<span style="color: #990000">)</span>
+    file_name_txt <span style="color: #990000">=</span> os<span style="color: #990000">.</span>path<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">splitext</span></span><span style="color: #990000">(</span>file_name_txt_csv<span style="color: #990000">)</span>
+    file_name <span style="color: #990000">=</span> os<span style="color: #990000">.</span>path<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">splitext</span></span><span style="color: #990000">(</span>file_name_txt<span style="color: #990000">[</span><span style="color: #993399">0</span><span style="color: #990000">])</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> file_name<span style="color: #990000">[</span><span style="color: #993399">0</span><span style="color: #990000">]</span></tt></pre></div></div>
+<div class="paragraph"><p>Finally, creating the graph:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">create_graph</span></span><span style="color: #990000">(</span>input_folder<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """Creates graph including nodes and edges"""</span></span>
+
+    G <span style="color: #990000">=</span> nx<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">Graph</span></span><span style="color: #990000">()</span>
+    file_list <span style="color: #990000">=</span> glob<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">glob</span></span><span style="color: #990000">(</span>input_folder<span style="color: #990000">)</span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> item <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> file_list<span style="color: #990000">:</span>
+        G<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">add_node</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">extract_basename</span></span><span style="color: #990000">(</span>item<span style="color: #990000">))</span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> a<span style="color: #990000">,</span> b <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> itertools<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">combinations</span></span><span style="color: #990000">(</span>file_list<span style="color: #990000">,</span> <span style="color: #993399">2</span><span style="color: #990000">):</span>
+        weight <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">compare_ne_counter</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">ne_count</span></span><span style="color: #990000">(</span>a<span style="color: #990000">),</span> <span style="font-weight: bold"><span style="color: #000000">ne_count</span></span><span style="color: #990000">(</span>b<span style="color: #990000">))</span>
+        <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> weight <span style="color: #990000">&gt;</span> <span style="color: #993399">10</span><span style="color: #990000">:</span>
+            G<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">add_edge</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">extract_basename</span></span><span style="color: #990000">(</span>a<span style="color: #990000">),</span> <span style="font-weight: bold"><span style="color: #000000">extract_basename</span></span><span style="color: #990000">(</span>b<span style="color: #990000">),</span> <span style="color: #990000">{</span><span style="color: #FF0000">'weight'</span><span style="color: #990000">:</span> weight<span style="color: #990000">})</span>
+            <span style="font-style: italic"><span style="color: #9A1900"># create edges a-&gt;b (weight)</span></span>
+
+    <span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Number of nodes:"</span><span style="color: #990000">,</span> G<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">number_of_nodes</span></span><span style="color: #990000">(),</span> <span style="color: #FF0000">"  Number of edges: "</span><span style="color: #990000">,</span> G<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">number_of_edges</span></span><span style="color: #990000">())</span>
+    <span style="font-weight: bold"><span style="color: #0000FF">return</span></span> G</tt></pre></div></div>
+</div>
+<div class="sect4">
+<h5 id="_output_3">Output:</h5>
+<div class="listingblock">
+<div class="content">
+<pre><code>this is the weight: 20
+this is the weight: 11
+this is the weight: 15
+this is the weight: 7
+this is the weight: 5
+this is the weight: 9
+this is the weight: 12
+this is the weight: 18
+this is the weight: 16
+this is the weight: 10
+this is the weight: 10
+this is the weight: 14
+this is the weight: 7
+this is the weight: 8
+this is the weight: 11
+this is the weight: 9
+this is the weight: 9
+this is the weight: 9
+this is the weight: 9
+this is the weight: 8
+this is the weight: 8
+Number of nodes: 7   Number of edges:  8</code></pre>
+</div></div>
+<div class="paragraph"><p>The following code lastly is the <code>main()</code> function, which calls the previously defined functions after having the user select an input and output folder:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.8
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>input_folder<span style="color: #990000">,</span> output_folder<span style="color: #990000">):</span>
+<span style="font-style: italic"><span style="color: #9A1900">    """</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param input_folder: e.g. /users/networks/csv</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    :param output_folder: e.g. /users/networks</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    """</span></span>
+
+    G <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">create_graph</span></span><span style="color: #990000">(</span>input_folder <span style="color: #990000">+</span> <span style="color: #FF0000">"/*"</span><span style="color: #990000">)</span>
+    <span style="font-style: italic"><span style="color: #9A1900"># If you want to create a circular graph, add '#' in front of every line of the following block,</span></span>
+    <span style="font-style: italic"><span style="color: #9A1900"># erase the '#' of the three lines after 'Circular drawing', and run the script (again)</span></span>
+    pos <span style="color: #990000">=</span> nx<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">spring_layout</span></span><span style="color: #990000">(</span>G<span style="color: #990000">)</span>
+    nx<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">draw_networkx_labels</span></span><span style="color: #990000">(</span>G<span style="color: #990000">,</span> pos<span style="color: #990000">,</span> font_size<span style="color: #990000">=</span><span style="color: #FF0000">'8'</span><span style="color: #990000">,</span> font_color<span style="color: #990000">=</span><span style="color: #FF0000">'r'</span><span style="color: #990000">)</span>
+    nx<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">draw_networkx_edges</span></span><span style="color: #990000">(</span>G<span style="color: #990000">,</span> pos<span style="color: #990000">,</span> alpha<span style="color: #990000">=</span><span style="color: #993399">0.1</span><span style="color: #990000">)</span>
+    plt<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">axis</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'off'</span><span style="color: #990000">)</span>
+    plt<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">savefig</span></span><span style="color: #990000">(</span>output_folder <span style="color: #990000">+</span> <span style="color: #FF0000">"/graph.png"</span><span style="color: #990000">)</span>
+
+    <span style="font-style: italic"><span style="color: #9A1900"># Circular drawing:</span></span>
+    <span style="font-style: italic"><span style="color: #9A1900"># nx.draw_circular(G, with_labels=True, alpha=0.3, font_size='8')</span></span>
+    <span style="font-style: italic"><span style="color: #9A1900"># plt.axis('off')</span></span>
+    <span style="font-style: italic"><span style="color: #9A1900"># plt.savefig(output_folder + "/circular.png")</span></span>
+
+
+<span style="font-weight: bold"><span style="color: #0000FF">if</span></span> __name__ <span style="color: #990000">==</span> <span style="color: #FF0000">"__main__"</span><span style="color: #990000">:</span>
+    <span style="font-weight: bold"><span style="color: #000080">import</span></span> sys
+    <span style="font-weight: bold"><span style="color: #000000">main</span></span><span style="color: #990000">(</span>sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">1</span><span style="color: #990000">],</span> sys<span style="color: #990000">.</span>argv<span style="color: #990000">[</span><span style="color: #993399">2</span><span style="color: #990000">])</span></tt></pre></div></div>
+<div class="paragraph"><p>To run the script type the following command in your command line:</p></div>
+<div class="paragraph"><p><code>python3 script inputfolder outputfolder</code></p></div>
+<div class="paragraph"><p>and press Enter.</p></div>
+<div class="paragraph"><p>For example:</p></div>
+<div class="paragraph"><p><code>python3 /users/networks/graph.py /users/networks/csv /users/networks</code></p></div>
+</div>
+<div class="sect4">
+<h5 id="_output_4">Output:</h5>
+<div class="paragraph"><p>Your output is a <strong>.png file</strong> and should look like one of these.</p></div>
+<div class="paragraph"><p>Poets of the 12th century:
+<span class="image">
+<img src="https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/12th_century.png" alt="image" />
+</span></p></div>
+<div class="paragraph"><p>Poets of the 13th century:
+<span class="image">
+<img src="https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/13th_century.png" alt="image" />
+</span></p></div>
+<div class="paragraph"><p>In case you decided to draw a circular graph:
+<span class="image">
+<img src="https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/circular_new.png" alt="image" />
+</span></p></div>
+<div class="paragraph"><p>This recipe also works with other languages, e.g. English. You have to update the main part of the <code>create_authors</code> function and one possible output could look like this for <code>"List of English-language poets" "A"</code>:
+<span class="image">
+<img src="https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/american_a.png" alt="image" />
+</span></p></div>
+</div>
+<div class="sect4">
+<h5 id="_discussion">Discussion:</h5>
+<div class="paragraph"><p>In this recipe we created a visualization of an author&#8217;s social network using the output of the DARIAH-DKPro-Wrapper and two simple Python scripts to gain knowledge about the authors' relations. This is a great starting point for further research as the existing relations can now be examined more closely. The graphs might even hint at certain connections that have not been made yet. This kind of analysis therefore provides a groundwork and direction for further investigations on the topic.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -2729,6 +3383,21 @@ Philip Dürholt
 Keli Du
 </p>
 </li>
+<li>
+<p>
+Michael Huber
+</p>
+</li>
+<li>
+<p>
+Severin Simmler
+</p>
+</li>
+<li>
+<p>
+Thora Hagen
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>All materials are published under
 a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons
@@ -2749,7 +3418,8 @@ provided by the German Federal Ministry for Research and Education
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-01-11 12:50:30 CET
+Last updated
+ 2016-05-02 15:52:40 CEST
 </div>
 </div>
 </body>
