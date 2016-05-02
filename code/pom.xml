@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
-	<version>0.4.3</version>
+	<version>0.4.4-SNAPSHOT</version>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
