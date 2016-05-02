@@ -655,6 +655,7 @@ public class RunPipeline {
 						);
 				} catch (OutOfMemoryError e) {
 					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());
+					e.printStackTrace();
 				}
 			}
 
