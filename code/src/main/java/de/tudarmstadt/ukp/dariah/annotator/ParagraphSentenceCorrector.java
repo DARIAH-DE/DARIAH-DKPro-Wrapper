@@ -20,7 +20,6 @@ package de.tudarmstadt.ukp.dariah.annotator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.TreeSet;
 
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
@@ -50,37 +49,36 @@ public class ParagraphSentenceCorrector extends JCasAnnotator_ImplBase {
 		
 		Collection<Sentence> sentences = JCasUtil.select(jCas, Sentence.class);
 		
-		LinkedList<Sentence> sentencesToDelete = new LinkedList<>();
 		LinkedList<Sentence> sentencesToAdd = new LinkedList<>();
 		
 		for(Sentence s : sentences) {
 			int beginParagraphId = getParagraphId(s.getBegin(), paragraphBoundaries);
 			int endParagraphId = getParagraphId(s.getEnd(), paragraphBoundaries);
-			
+
 			if(beginParagraphId != endParagraphId) {
-				//Delete the sentence and set new sentence boundaries
-				sentencesToDelete.add(s);
-				
-				//Add sentences for the paragraphs that lie in between
-				for(int paraId=beginParagraphId; paraId<endParagraphId; paraId++) {
+				// s is now a sentence that begins somewhere inside the first paragraph and ends somewhere within the nth paragraph
+				int overlongSentenceEnd = s.getEnd();
+
+				// 1. Shorten s to the end of the first paragraph
+				s.setEnd(paragraphBoundaries.get(beginParagraphId)[1]);
+
+				// 2. for the intermediate paragraphs, generate new sentences
+				for(int paraId=beginParagraphId+1; paraId<endParagraphId; paraId++) {
 					Sentence newSentence = new Sentence(jCas);					
 					newSentence.setBegin( paragraphBoundaries.get(paraId)[0] );
 					newSentence.setEnd( paragraphBoundaries.get(paraId)[1] );
 					sentencesToAdd.add(newSentence);
 				}
+				// 3. add sentence for the final paragraph
 				Sentence newSentence = new Sentence(jCas);			
 				newSentence.setBegin( paragraphBoundaries.get(endParagraphId)[0] );
-				newSentence.setEnd( s.getEnd() );
+				newSentence.setEnd( overlongSentenceEnd );
 				sentencesToAdd.add(newSentence);
 			}
-			
+
 		}
 		
-		//Remove wrong sentences and add new sentences to the annotations
-		for(Sentence s : sentencesToDelete) {
-			s.removeFromIndexes();
-		}
-		
+		//add new sentences to the annotations
 		for(Sentence s : sentencesToAdd) {
 			s.addToIndexes();
 		}
