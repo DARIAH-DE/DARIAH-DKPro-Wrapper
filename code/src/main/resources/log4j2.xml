@@ -2,16 +2,19 @@
 <Configuration status="WARN">
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT" follow="false">
-			<PatternLayout pattern="%level: %msg%n"/>
+			<PatternLayout 
+				alwaysWriteExceptions="false"
+			    noConsoleNoAnsi="true"
+				pattern="%highlight{%level:} %msg%replace{%throwable{short.className}}{.+}{ See error.log for more details.}%n"/>
 		</Console>
-		<File name="File" fileName="ddw.log">
+		<File name="File" fileName="error.log">
 			<PatternLayout pattern="%date{ISO8601} %level: %msg%n%xEx{full}"/>					
 		</File>
 	</Appenders>
 	<Loggers>
 		<Root level="debug">
-			<AppenderRef ref="Console" level="TRACE"/>
-			<AppenderRef ref="File" level="INFO"/>
+			<AppenderRef ref="Console" level="INFO"/>
+			<AppenderRef ref="File" level="TRACE"/>
 		</Root>
 	</Loggers>		
 </Configuration>
