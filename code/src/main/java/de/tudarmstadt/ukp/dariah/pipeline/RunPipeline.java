@@ -53,6 +53,8 @@ import org.apache.uima.fit.component.NoOpAnnotator;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import com.google.common.base.Joiner;
+
 import de.tudarmstadt.ukp.dariah.IO.AnnotationWriter;
 import de.tudarmstadt.ukp.dariah.IO.DARIAHWriter;
 import de.tudarmstadt.ukp.dariah.IO.GlobalFileStorage;
@@ -427,8 +429,10 @@ public class RunPipeline {
 
 	public static void main(String[] args)  {
 
-
 		Date startDate = new Date();
+		
+		logger.debug("==== Starting new session ====");
+		logger.debug("Arguments: " + Joiner.on(' ').join(args));
 
 		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN).buildPrintStream());
 		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.INFO).buildPrintStream());
