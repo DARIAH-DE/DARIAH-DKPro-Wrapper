@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,9 +41,9 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.io.IoBuilder;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
@@ -66,6 +67,8 @@ import de.tudarmstadt.ukp.dkpro.core.tokit.PatternBasedTokenSegmenter;
 public class RunPipeline {
 	
 	private static Logger logger = LogManager.getLogger(RunPipeline.class);
+	private static PrintStream stdout = System.out;	// we'll redirect the originals later to the logging syste
+	private static PrintStream stderr = System.err;
 	
 	private enum ReaderType {
 		Text, XML
@@ -429,18 +432,7 @@ public class RunPipeline {
 
 		System.setErr(IoBuilder.forLogger().setLevel(Level.WARN).buildPrintStream());
 		System.setOut(IoBuilder.forLogger().setLevel(Level.INFO).buildPrintStream());
-
-		PrintStream ps;
-		try {
-			ps = new PrintStream("error.log");
-			System.setErr(ps);
-		} catch (FileNotFoundException e) {
-			System.out.println("Errors cannot be redirected");
-		}
-
-
-
-
+		
 		try {
 			if(!parseArgs(args)) {
 				System.out.println("Usage: java -jar pipeline.jar -help");
@@ -449,9 +441,7 @@ public class RunPipeline {
 				return;
 			}
 		} catch (ParseException e) {			
-			e.printStackTrace();
-			System.out.println("Error when parsing command line arguments. Use\njava -jar pipeline.jar -help\n to get further information");
-			System.out.println("See error.log for further details");
+			logger.error("Error when parsing command line arguments. Use\njava -jar pipeline.jar -help\n to get further information", e);
 			return;
 		}
 
@@ -467,7 +457,7 @@ public class RunPipeline {
 		if(f.exists()) {
 			configFiles.add(path);		
 		} else {
-			System.out.println("Language config file: "+path+" not found");
+			logger.warn("Language config file: "+path+" not found.");
 		}
 
 
@@ -492,7 +482,7 @@ public class RunPipeline {
 				if(f.exists()) {
 					configFiles.add(path);		
 				} else {
-					System.out.println("Config file: "+configFile+" not found");
+					logger.warn("Config file: "+configFile+" not found");
 					return;
 				}
 			}			
@@ -503,9 +493,7 @@ public class RunPipeline {
 			try {
 				parseConfig(configFile);
 			} catch (Exception e) {				
-				e.printStackTrace();
-				System.out.println("Exception when parsing config file: "+configFile);
-				System.out.println("See error.log for further details");
+				logger.error("Exception when parsing config file: "+configFile, e);
 			} 
 		}
 
@@ -520,7 +508,7 @@ public class RunPipeline {
 			
 			GlobalFileStorage.getInstance().readFilePaths(optInput, defaultFileExtension, optOutput, optResume);	
 			
-			System.out.println("Process "+GlobalFileStorage.getInstance().size()+" files");
+			logger.info("Process "+GlobalFileStorage.getInstance().size()+" files");
 			
 			CollectionReaderDescription reader;
 			
@@ -602,7 +590,7 @@ public class RunPipeline {
 			AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
 
 
-			System.out.println("\nStart running the pipeline (this may take a while)...");
+			logger.info("Start running the pipeline (this may take a while)...");
 
 			while(!GlobalFileStorage.getInstance().isEmpty()) {
 				try {
@@ -628,8 +616,7 @@ public class RunPipeline {
 //						,annWriter
 						);
 				} catch (OutOfMemoryError e) {
-					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());
-					e.printStackTrace();
+					logger.error("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath(), e);
 				}
 			}
 
@@ -638,34 +625,17 @@ public class RunPipeline {
 			Date enddate = new Date();
 			double duration = (enddate.getTime() - startDate.getTime()) / (1000*60.0);
 
-			System.out.println("---- DONE -----");
-			System.out.printf("All files processed in %.2f minutes", duration);
+			logger.info("---- DONE -----");
+			logger.info(MessageFormat.format("All files processed in {0,number,#.##} minutes", duration));
 		} catch(ResourceInitializationException e) {
-			System.out.println("Error when initializing the pipeline.");	
-			if(e.getCause() instanceof FileNotFoundException) {
-				System.out.println("File not found. Maybe the input / output path is incorrect?");
-				System.out.println(e.getCause().getMessage());
-			}
-
-			e.printStackTrace();
-			System.out.println("See error.log for further details");
+			logger.fatal("Error when initializing the pipeline." + 
+				(e.getCause() instanceof FileNotFoundException? 
+				   "\nFile not found. Maybe the input / output path is incorrect?\n" + e.getCause().getMessage() :"")
+				, e);
 		} catch (UIMAException e) {			
-			e.printStackTrace();
-			System.out.println("Error in the pipeline.");			
-			System.out.println("See error.log for further details");
+			logger.fatal("Error in the pipeline.", e);			
 		} catch (IOException e) {			
-			e.printStackTrace();
-			System.out.println("Error while reading or writing to the file system. Maybe some paths are incorrect?");	
-			System.out.println("See error.log for further details");
+			logger.fatal("Error while reading or writing to the file system. Maybe some paths are incorrect?", e);	
 		}
-
-
-
 	}
-
-
-
-
-
-
 }
