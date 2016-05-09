@@ -17,8 +17,16 @@
  ******************************************************************************/
 package de.tudarmstadt.ukp.dariah.pipeline;
 
-import static org.apache.uima.fit.factory.AnalysisEngineFactory.*;
-import static org.apache.uima.fit.factory.CollectionReaderFactory.*;
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.apache.uima.fit.factory.CollectionReaderFactory.createReaderDescription;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -30,16 +38,16 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConfigurationUtils;
-import org.apache.commons.configuration.FileSystem;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tools.ant.DirectoryScanner;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.io.IoBuilder;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.collection.CollectionReaderDescription;
-import org.apache.uima.fit.component.CasDumpWriter;
 import org.apache.uima.fit.component.NoOpAnnotator;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -50,51 +58,14 @@ import de.tudarmstadt.ukp.dariah.IO.GlobalFileStorage;
 import de.tudarmstadt.ukp.dariah.IO.TextReaderWithInfo;
 import de.tudarmstadt.ukp.dariah.IO.XmlReader;
 import de.tudarmstadt.ukp.dariah.annotator.DirectSpeechAnnotator;
-import de.tudarmstadt.ukp.dariah.annotator.HyphenationAnnotator;
 import de.tudarmstadt.ukp.dariah.annotator.ParagraphSentenceCorrector;
-import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
-import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
-import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
-import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2012Writer;
-import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateLemmatizer;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateMorphTagger;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateParser;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MatePosTagger;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateSemanticRoleLabeler;
-import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
-import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordCoreferenceResolver;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.ParagraphSplitter;
 import de.tudarmstadt.ukp.dkpro.core.tokit.PatternBasedTokenSegmenter;
-import de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.URL;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.StreamHandler;
 
 
 public class RunPipeline {
+	
+	private static Logger logger = LogManager.getLogger(RunPipeline.class);
 	
 	private enum ReaderType {
 		Text, XML
@@ -455,6 +426,9 @@ public class RunPipeline {
 
 
 		Date startDate = new Date();
+
+		System.setErr(IoBuilder.forLogger().setLevel(Level.WARN).buildPrintStream());
+		System.setOut(IoBuilder.forLogger().setLevel(Level.INFO).buildPrintStream());
 
 		PrintStream ps;
 		try {

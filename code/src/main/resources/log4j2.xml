@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT" follow="false">
+			<PatternLayout pattern="%level: %msg%n"/>
+		</Console>
+		<File name="File" fileName="ddw.log">
+			<PatternLayout pattern="%date{ISO8601} %level: %msg%n%xEx{full}"/>					
+		</File>
+	</Appenders>
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console" level="TRACE"/>
+			<AppenderRef ref="File" level="INFO"/>
+		</Root>
+	</Loggers>		
+</Configuration>
