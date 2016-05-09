@@ -19,14 +19,13 @@ package de.tudarmstadt.ukp.dariah.IO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.uima.UimaContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.collection.CollectionException;
@@ -34,9 +33,7 @@ import org.apache.uima.fit.component.CasCollectionReader_ImplBase;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.descriptor.TypeCapability;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
-import org.apache.uima.util.ProgressImpl;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -71,6 +68,7 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 	private String language;
 
 
+	private static Logger logger = LogManager.getLogger(XmlReader.class);
 
 	@Override
 	public void getNext(CAS aCAS)
@@ -88,7 +86,7 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 			// parse the xml file
 			File xmlFile = GlobalFileStorage.getInstance().poll();
 			
-			System.out.println("Process file: "+xmlFile.getName());
+			logger.info("Process file: "+xmlFile.getName());
 			
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 	        SAXParser sp = spf.newSAXParser();

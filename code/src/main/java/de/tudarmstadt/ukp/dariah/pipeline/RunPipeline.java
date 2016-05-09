@@ -132,65 +132,65 @@ public class RunPipeline {
 	private static boolean optResume = false;
 
 	private static void printConfiguration(String[] configFileNames) {
-		System.out.println("Input: "+optInput);
-		System.out.println("Output: "+optOutput);
-		System.out.println("Config: "+StringUtils.join(configFileNames, ", "));
+		logger.info("Input: "+optInput);
+		logger.info("Output: "+optOutput);
+		logger.info("Config: "+StringUtils.join(configFileNames, ", "));
 
-		System.out.println("Language: "+optLanguage);
-		System.out.println("Reader: "+optReader);
-		System.out.println("Start Quote: "+optStartQuote);
-		System.out.println("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
+		logger.info("Language: "+optLanguage);
+		logger.info("Reader: "+optReader);
+		logger.info("Start Quote: "+optStartQuote);
+		logger.info("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
 
-		System.out.println("Segmenter: "+optSegmenter);
-		System.out.println("Segmenter: "+optSegmenterCls);
-		printIfNotEmpty("Segmenter: ", optSegmenterArguments);
+		logger.info("Segmenter: "+optSegmenter);
+		logger.info("Segmenter: "+optSegmenterCls);
+		infoIfNotEmpty("Segmenter: ", optSegmenterArguments);
 
-		System.out.println("POS-Tagger: "+optPOSTagger);
-		System.out.println("POS-Tagger: "+optPOSTaggerCls);
-		printIfNotEmpty("POS-Tagger: ", optPOSTaggerArguments);
+		logger.info("POS-Tagger: "+optPOSTagger);
+		logger.info("POS-Tagger: "+optPOSTaggerCls);
+		infoIfNotEmpty("POS-Tagger: ", optPOSTaggerArguments);
 
-		System.out.println("Lemmatizer: "+optLemmatizer);
-		System.out.println("Lemmatizer: "+optLemmatizerCls);
-		printIfNotEmpty("Lemmatizer: ", optLemmatizerArguments);
+		logger.info("Lemmatizer: "+optLemmatizer);
+		logger.info("Lemmatizer: "+optLemmatizerCls);
+		infoIfNotEmpty("Lemmatizer: ", optLemmatizerArguments);
 
-		System.out.println("Chunker: "+optChunker);
-		System.out.println("Chunker: "+optChunkerCls);
-		printIfNotEmpty("Chunker: ", optChunkerArguments);
+		logger.info("Chunker: "+optChunker);
+		logger.info("Chunker: "+optChunkerCls);
+		infoIfNotEmpty("Chunker: ", optChunkerArguments);
 
-		System.out.println("Morphology Tagging: "+optMorphTagger);
-		System.out.println("Morphology Tagging: "+optMorphTaggerCls);
-		printIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
+		logger.info("Morphology Tagging: "+optMorphTagger);
+		logger.info("Morphology Tagging: "+optMorphTaggerCls);
+		infoIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
 		
-		System.out.println("Hyphenation Algorithm: "+optHyphenation);
-		System.out.println("Hyphenation Algorithm: "+optHyphenationCls);
-		printIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
+		logger.info("Hyphenation Algorithm: "+optHyphenation);
+		logger.info("Hyphenation Algorithm: "+optHyphenationCls);
+		infoIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
 		
-		System.out.println("Named Entity Recognition: "+optNER);		
-		System.out.println("Named Entity Recognition: "+optNERCls);
-		printIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
+		logger.info("Named Entity Recognition: "+optNER);		
+		logger.info("Named Entity Recognition: "+optNERCls);
+		infoIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
 
-		System.out.println("Dependency Parsing: "+optDependencyParser);
-		System.out.println("Dependency Parsing: "+optDependencyParserCls);
-		printIfNotEmpty("Dependency Parsing: ", optDependencyParserArguments);
+		logger.info("Dependency Parsing: "+optDependencyParser);
+		logger.info("Dependency Parsing: "+optDependencyParserCls);
+		infoIfNotEmpty("Dependency Parsing: ", optDependencyParserArguments);
 
-		System.out.println("Constituency Parsing: "+optConstituencyParser);
-		System.out.println("Constituency Parsing: "+optConstituencyParserCls);
-		printIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
+		logger.info("Constituency Parsing: "+optConstituencyParser);
+		logger.info("Constituency Parsing: "+optConstituencyParserCls);
+		infoIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
 
-		System.out.println("Semantic Role Labeling: "+optSRL);		
-		System.out.println("Semantic Role Labeling: "+optSRLCls);
-		printIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
+		logger.info("Semantic Role Labeling: "+optSRL);		
+		logger.info("Semantic Role Labeling: "+optSRLCls);
+		infoIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
 		
-		System.out.println("Coreference Resolver: "+optCoref);		
-		System.out.println("Coreference Resolver: "+optCorefCls);
-		printIfNotEmpty("Coreference Resolver: ", optCorefArguments);
+		logger.info("Coreference Resolver: "+optCoref);		
+		logger.info("Coreference Resolver: "+optCorefCls);
+		infoIfNotEmpty("Coreference Resolver: ", optCorefArguments);
 
 	}
 
-	private static void printIfNotEmpty(String text,
+	private static void infoIfNotEmpty(String text,
 			Object[] arguments) {
 		if(arguments != null && arguments.length > 0)
-			System.out.println(text+StringUtils.join(arguments, ", "));
+			logger.info(text+StringUtils.join(arguments, ", "));
 	}
 
 	public static Class<? extends AnalysisComponent> getClassFromConfig(Configuration config, String key) throws ClassNotFoundException {
@@ -390,13 +390,13 @@ public class RunPipeline {
 		if(cmd.hasOption(input.getOpt())) {
 			optInput = cmd.getOptionValue(input.getOpt());
 		} else {
-			System.out.println("Input option required");
+			logger.error("Input option required");
 			return false;
 		}
 		if(cmd.hasOption(output.getOpt())) {
 			optOutput = cmd.getOptionValue(output.getOpt());
 		} else {
-			System.out.println("Output option required");
+			logger.error("Output option required");
 			return false;
 		}
 		if(cmd.hasOption(lang.getOpt())) {
@@ -411,8 +411,8 @@ public class RunPipeline {
 			} else if(readerParam.equals("xml") || readerParam.equals("xmlreader")){
 				optReader = ReaderType.XML;
 			} else {
-				System.out.println("The reader parameter is unknown: "+optReader);
-				System.out.println("Valid argument values are: text, xml");
+				logger.error("The reader parameter is unknown: "+optReader);
+				logger.error("Valid argument values are: text, xml");
 				return false;
 			}
 		}
@@ -430,14 +430,14 @@ public class RunPipeline {
 
 		Date startDate = new Date();
 
-		System.setErr(IoBuilder.forLogger().setLevel(Level.WARN).buildPrintStream());
-		System.setOut(IoBuilder.forLogger().setLevel(Level.INFO).buildPrintStream());
+		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN).buildPrintStream());
+		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.INFO).buildPrintStream());
 		
 		try {
 			if(!parseArgs(args)) {
-				System.out.println("Usage: java -jar pipeline.jar -help");
-				System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
-				System.out.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
+				stdout.println("Usage: java -jar pipeline.jar -help");
+				stdout.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
+				stdout.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
 				return;
 			}
 		} catch (ParseException e) {			
