@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
-	<version>0.4.4</version>
+	<version>0.4.4-SNAPSHOT</version>
 	<repositories>
 		<repository>
 			<id>ukp-snapshots</id>
@@ -36,22 +36,19 @@
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.io.text-asl
   			</artifactId>
-  			<version>1.8.0-SNAPSHOT</version>
-		</dependency>			
+  			</dependency>			
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.tokit-asl
   		</artifactId>
-  		<version>1.8.0-SNAPSHOT</version>
-		</dependency>
+  		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.opennlp-asl
   		</artifactId>
-  		<version>1.8.0-SNAPSHOT</version>
-		</dependency>
+  		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
@@ -64,21 +61,24 @@
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.io.conll-asl
   		</artifactId>
-  		<version>1.8.0-SNAPSHOT</version>
-		</dependency>
+  		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.api.parameter-asl
   		</artifactId>
-  		<version>1.8.0-SNAPSHOT</version>
-		</dependency>
+  		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.io.tei-asl
 			</artifactId>
-			<version>1.8.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -119,7 +119,13 @@
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.clearnlp-asl
 			</artifactId>
-			</dependency>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>
@@ -132,6 +138,12 @@
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.maltparser-asl
 			</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -167,6 +179,16 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-iostreams</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
 			<version>2.5</version>
 		</dependency>
 	</dependencies>

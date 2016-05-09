@@ -5,16 +5,20 @@
 			<PatternLayout 
 				alwaysWriteExceptions="false"
 			    noConsoleNoAnsi="true"
-				pattern="%highlight{%level:} %msg%replace{%throwable{short.className}}{.+}{ See error.log for more details.}%n"/>
+				pattern="%highlight{%level:} %msg%replace{%throwable{short.className}}{.+}{ See error.log for more details.} [%logger{1}]%n"/>
 		</Console>
 		<File name="File" fileName="error.log">
-			<PatternLayout pattern="%date{ISO8601} %level: %msg%n%xEx{full}"/>					
+			<PatternLayout pattern="%date{ISO8601}\t%level\t%logger\t%msg%n%xEx{full}"/>					
 		</File>
 	</Appenders>
 	<Loggers>
 		<Root level="debug">
-			<AppenderRef ref="Console" level="INFO"/>
-			<AppenderRef ref="File" level="TRACE"/>
+			<AppenderRef ref="Console" level="WARN"/>
+			<AppenderRef ref="File" level="WARN"/>			
 		</Root>
+		<Logger name="de.tudarmstadt.ukp.dariah" level="debug" additivity="false">
+			<AppenderRef ref="Console" level="INFO"/>
+			<AppenderRef ref="File" level="DEBUG"/>
+		</Logger>
 	</Loggers>		
 </Configuration>
