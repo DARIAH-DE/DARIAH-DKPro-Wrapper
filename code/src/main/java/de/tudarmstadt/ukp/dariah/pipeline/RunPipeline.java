@@ -17,8 +17,17 @@
  ******************************************************************************/
 package de.tudarmstadt.ukp.dariah.pipeline;
 
-import static org.apache.uima.fit.factory.AnalysisEngineFactory.*;
-import static org.apache.uima.fit.factory.CollectionReaderFactory.*;
+import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
+import static org.apache.uima.fit.factory.CollectionReaderFactory.createReaderDescription;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -30,19 +39,21 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConfigurationUtils;
-import org.apache.commons.configuration.FileSystem;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tools.ant.DirectoryScanner;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.io.IoBuilder;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.collection.CollectionReaderDescription;
-import org.apache.uima.fit.component.CasDumpWriter;
 import org.apache.uima.fit.component.NoOpAnnotator;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
+
+import com.google.common.base.Joiner;
 
 import de.tudarmstadt.ukp.dariah.IO.AnnotationWriter;
 import de.tudarmstadt.ukp.dariah.IO.DARIAHWriter;
@@ -50,51 +61,16 @@ import de.tudarmstadt.ukp.dariah.IO.GlobalFileStorage;
 import de.tudarmstadt.ukp.dariah.IO.TextReaderWithInfo;
 import de.tudarmstadt.ukp.dariah.IO.XmlReader;
 import de.tudarmstadt.ukp.dariah.annotator.DirectSpeechAnnotator;
-import de.tudarmstadt.ukp.dariah.annotator.HyphenationAnnotator;
 import de.tudarmstadt.ukp.dariah.annotator.ParagraphSentenceCorrector;
-import de.tudarmstadt.ukp.dkpro.core.api.parameter.ComponentParameters;
-import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2006Writer;
-import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2009Writer;
-import de.tudarmstadt.ukp.dkpro.core.io.conll.Conll2012Writer;
-import de.tudarmstadt.ukp.dkpro.core.io.text.TextReader;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateLemmatizer;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateMorphTagger;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateParser;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MatePosTagger;
-import de.tudarmstadt.ukp.dkpro.core.matetools.MateSemanticRoleLabeler;
-import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
-import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordCoreferenceResolver;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
 import de.tudarmstadt.ukp.dkpro.core.tokit.ParagraphSplitter;
 import de.tudarmstadt.ukp.dkpro.core.tokit.PatternBasedTokenSegmenter;
-import de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.URL;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.StreamHandler;
 
 
 public class RunPipeline {
+	
+	private static Logger logger = LogManager.getLogger(RunPipeline.class);
+	private static PrintStream stdout = System.out;	// we'll redirect the originals later to the logging syste
+	private static PrintStream stderr = System.err;
 	
 	private enum ReaderType {
 		Text, XML
@@ -158,65 +134,65 @@ public class RunPipeline {
 	private static boolean optResume = false;
 
 	private static void printConfiguration(String[] configFileNames) {
-		System.out.println("Input: "+optInput);
-		System.out.println("Output: "+optOutput);
-		System.out.println("Config: "+StringUtils.join(configFileNames, ", "));
+		logger.info("Input: "+optInput);
+		logger.info("Output: "+optOutput);
+		logger.info("Config: "+StringUtils.join(configFileNames, ", "));
 
-		System.out.println("Language: "+optLanguage);
-		System.out.println("Reader: "+optReader);
-		System.out.println("Start Quote: "+optStartQuote);
-		System.out.println("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
+		logger.info("Language: "+optLanguage);
+		logger.info("Reader: "+optReader);
+		logger.info("Start Quote: "+optStartQuote);
+		logger.info("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
 
-		System.out.println("Segmenter: "+optSegmenter);
-		System.out.println("Segmenter: "+optSegmenterCls);
-		printIfNotEmpty("Segmenter: ", optSegmenterArguments);
+		logger.info("Segmenter: "+optSegmenter);
+		logger.info("Segmenter: "+optSegmenterCls);
+		infoIfNotEmpty("Segmenter: ", optSegmenterArguments);
 
-		System.out.println("POS-Tagger: "+optPOSTagger);
-		System.out.println("POS-Tagger: "+optPOSTaggerCls);
-		printIfNotEmpty("POS-Tagger: ", optPOSTaggerArguments);
+		logger.info("POS-Tagger: "+optPOSTagger);
+		logger.info("POS-Tagger: "+optPOSTaggerCls);
+		infoIfNotEmpty("POS-Tagger: ", optPOSTaggerArguments);
 
-		System.out.println("Lemmatizer: "+optLemmatizer);
-		System.out.println("Lemmatizer: "+optLemmatizerCls);
-		printIfNotEmpty("Lemmatizer: ", optLemmatizerArguments);
+		logger.info("Lemmatizer: "+optLemmatizer);
+		logger.info("Lemmatizer: "+optLemmatizerCls);
+		infoIfNotEmpty("Lemmatizer: ", optLemmatizerArguments);
 
-		System.out.println("Chunker: "+optChunker);
-		System.out.println("Chunker: "+optChunkerCls);
-		printIfNotEmpty("Chunker: ", optChunkerArguments);
+		logger.info("Chunker: "+optChunker);
+		logger.info("Chunker: "+optChunkerCls);
+		infoIfNotEmpty("Chunker: ", optChunkerArguments);
 
-		System.out.println("Morphology Tagging: "+optMorphTagger);
-		System.out.println("Morphology Tagging: "+optMorphTaggerCls);
-		printIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
+		logger.info("Morphology Tagging: "+optMorphTagger);
+		logger.info("Morphology Tagging: "+optMorphTaggerCls);
+		infoIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
 		
-		System.out.println("Hyphenation Algorithm: "+optHyphenation);
-		System.out.println("Hyphenation Algorithm: "+optHyphenationCls);
-		printIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
+		logger.info("Hyphenation Algorithm: "+optHyphenation);
+		logger.info("Hyphenation Algorithm: "+optHyphenationCls);
+		infoIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
 		
-		System.out.println("Named Entity Recognition: "+optNER);		
-		System.out.println("Named Entity Recognition: "+optNERCls);
-		printIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
+		logger.info("Named Entity Recognition: "+optNER);		
+		logger.info("Named Entity Recognition: "+optNERCls);
+		infoIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
 
-		System.out.println("Dependency Parsing: "+optDependencyParser);
-		System.out.println("Dependency Parsing: "+optDependencyParserCls);
-		printIfNotEmpty("Dependency Parsing: ", optDependencyParserArguments);
+		logger.info("Dependency Parsing: "+optDependencyParser);
+		logger.info("Dependency Parsing: "+optDependencyParserCls);
+		infoIfNotEmpty("Dependency Parsing: ", optDependencyParserArguments);
 
-		System.out.println("Constituency Parsing: "+optConstituencyParser);
-		System.out.println("Constituency Parsing: "+optConstituencyParserCls);
-		printIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
+		logger.info("Constituency Parsing: "+optConstituencyParser);
+		logger.info("Constituency Parsing: "+optConstituencyParserCls);
+		infoIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
 
-		System.out.println("Semantic Role Labeling: "+optSRL);		
-		System.out.println("Semantic Role Labeling: "+optSRLCls);
-		printIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
+		logger.info("Semantic Role Labeling: "+optSRL);		
+		logger.info("Semantic Role Labeling: "+optSRLCls);
+		infoIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
 		
-		System.out.println("Coreference Resolver: "+optCoref);		
-		System.out.println("Coreference Resolver: "+optCorefCls);
-		printIfNotEmpty("Coreference Resolver: ", optCorefArguments);
+		logger.info("Coreference Resolver: "+optCoref);		
+		logger.info("Coreference Resolver: "+optCorefCls);
+		infoIfNotEmpty("Coreference Resolver: ", optCorefArguments);
 
 	}
 
-	private static void printIfNotEmpty(String text,
+	private static void infoIfNotEmpty(String text,
 			Object[] arguments) {
 		if(arguments != null && arguments.length > 0)
-			System.out.println(text+StringUtils.join(arguments, ", "));
+			logger.info(text+StringUtils.join(arguments, ", "));
 	}
 
 	public static Class<? extends AnalysisComponent> getClassFromConfig(Configuration config, String key) throws ClassNotFoundException {
@@ -416,13 +392,13 @@ public class RunPipeline {
 		if(cmd.hasOption(input.getOpt())) {
 			optInput = cmd.getOptionValue(input.getOpt());
 		} else {
-			System.out.println("Input option required");
+			logger.error("Input option required");
 			return false;
 		}
 		if(cmd.hasOption(output.getOpt())) {
 			optOutput = cmd.getOptionValue(output.getOpt());
 		} else {
-			System.out.println("Output option required");
+			logger.error("Output option required");
 			return false;
 		}
 		if(cmd.hasOption(lang.getOpt())) {
@@ -437,8 +413,8 @@ public class RunPipeline {
 			} else if(readerParam.equals("xml") || readerParam.equals("xmlreader")){
 				optReader = ReaderType.XML;
 			} else {
-				System.out.println("The reader parameter is unknown: "+optReader);
-				System.out.println("Valid argument values are: text, xml");
+				logger.error("The reader parameter is unknown: "+optReader);
+				logger.error("Valid argument values are: text, xml");
 				return false;
 			}
 		}
@@ -453,31 +429,23 @@ public class RunPipeline {
 
 	public static void main(String[] args)  {
 
-
 		Date startDate = new Date();
+		
+		logger.debug("==== Starting new session ====");
+		logger.debug("Arguments: " + Joiner.on(' ').join(args));
 
-		PrintStream ps;
-		try {
-			ps = new PrintStream("error.log");
-			System.setErr(ps);
-		} catch (FileNotFoundException e) {
-			System.out.println("Errors cannot be redirected");
-		}
-
-
-
-
+		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN).buildPrintStream());
+		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.INFO).buildPrintStream());
+		
 		try {
 			if(!parseArgs(args)) {
-				System.out.println("Usage: java -jar pipeline.jar -help");
-				System.out.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
-				System.out.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
+				stdout.println("Usage: java -jar pipeline.jar -help");
+				stdout.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
+				stdout.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
 				return;
 			}
 		} catch (ParseException e) {			
-			e.printStackTrace();
-			System.out.println("Error when parsing command line arguments. Use\njava -jar pipeline.jar -help\n to get further information");
-			System.out.println("See error.log for further details");
+			logger.error("Error when parsing command line arguments. Use\njava -jar pipeline.jar -help\n to get further information", e);
 			return;
 		}
 
@@ -493,7 +461,7 @@ public class RunPipeline {
 		if(f.exists()) {
 			configFiles.add(path);		
 		} else {
-			System.out.println("Language config file: "+path+" not found");
+			logger.warn("Language config file: "+path+" not found.");
 		}
 
 
@@ -518,7 +486,7 @@ public class RunPipeline {
 				if(f.exists()) {
 					configFiles.add(path);		
 				} else {
-					System.out.println("Config file: "+configFile+" not found");
+					logger.warn("Config file: "+configFile+" not found");
 					return;
 				}
 			}			
@@ -529,9 +497,7 @@ public class RunPipeline {
 			try {
 				parseConfig(configFile);
 			} catch (Exception e) {				
-				e.printStackTrace();
-				System.out.println("Exception when parsing config file: "+configFile);
-				System.out.println("See error.log for further details");
+				logger.error("Exception when parsing config file: "+configFile, e);
 			} 
 		}
 
@@ -546,7 +512,7 @@ public class RunPipeline {
 			
 			GlobalFileStorage.getInstance().readFilePaths(optInput, defaultFileExtension, optOutput, optResume);	
 			
-			System.out.println("Process "+GlobalFileStorage.getInstance().size()+" files");
+			logger.info("Process "+GlobalFileStorage.getInstance().size()+" files");
 			
 			CollectionReaderDescription reader;
 			
@@ -628,7 +594,7 @@ public class RunPipeline {
 			AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
 
 
-			System.out.println("\nStart running the pipeline (this may take a while)...");
+			logger.info("Start running the pipeline (this may take a while)...");
 
 			while(!GlobalFileStorage.getInstance().isEmpty()) {
 				try {
@@ -654,8 +620,7 @@ public class RunPipeline {
 //						,annWriter
 						);
 				} catch (OutOfMemoryError e) {
-					System.out.println("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath());
-					e.printStackTrace();
+					logger.error("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath(), e);
 				}
 			}
 
@@ -664,34 +629,17 @@ public class RunPipeline {
 			Date enddate = new Date();
 			double duration = (enddate.getTime() - startDate.getTime()) / (1000*60.0);
 
-			System.out.println("---- DONE -----");
-			System.out.printf("All files processed in %.2f minutes", duration);
+			logger.info("---- DONE -----");
+			logger.info(MessageFormat.format("All files processed in {0,number,#.##} minutes", duration));
 		} catch(ResourceInitializationException e) {
-			System.out.println("Error when initializing the pipeline.");	
-			if(e.getCause() instanceof FileNotFoundException) {
-				System.out.println("File not found. Maybe the input / output path is incorrect?");
-				System.out.println(e.getCause().getMessage());
-			}
-
-			e.printStackTrace();
-			System.out.println("See error.log for further details");
+			logger.fatal("Error when initializing the pipeline." + 
+				(e.getCause() instanceof FileNotFoundException? 
+				   "\nFile not found. Maybe the input / output path is incorrect?\n" + e.getCause().getMessage() :"")
+				, e);
 		} catch (UIMAException e) {			
-			e.printStackTrace();
-			System.out.println("Error in the pipeline.");			
-			System.out.println("See error.log for further details");
+			logger.fatal("Error in the pipeline.", e);			
 		} catch (IOException e) {			
-			e.printStackTrace();
-			System.out.println("Error while reading or writing to the file system. Maybe some paths are incorrect?");	
-			System.out.println("See error.log for further details");
+			logger.fatal("Error while reading or writing to the file system. Maybe some paths are incorrect?", e);	
 		}
-
-
-
 	}
-
-
-
-
-
-
 }
