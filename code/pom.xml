@@ -18,6 +18,10 @@
 			<id>ukp-releases</id>
 			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-releases</url>
 	    </repository>
+		<repository>
+			<id>dh-snapshots</id>
+			<url>http://dev.digital-humanities.de/nexus/content/repositories/snapshots/</url>
+	    </repository>
 	</repositories>
 	<dependencyManagement>
 		<dependencies>
