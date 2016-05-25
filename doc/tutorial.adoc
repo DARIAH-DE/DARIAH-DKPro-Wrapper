@@ -1034,7 +1034,7 @@ may become more informative when named entities are being excluded from
 the model.
 
 We are using the link:https://radimrehurek.com/gensim[Gensim] package for
-Python, but of course there are other well known LDA implementations,
+Python (make sure **v0.12.4** or higher is installed), but of course there are other well known LDA implementations,
 notably link:http://mallet.cs.umass.edu/[Mallett] for Java
 and link:http://cran.r-project.org/web/packages/topicmodels/index.html[topicmodels] for
 R. 
@@ -1077,7 +1077,7 @@ pip3 install gensim pandas numpy pyLDAvis
 02/2016)
 
 Also needed for this recipe is the widely used visualization
-package __matplotlib__ for which installation directions are a bit
+package __matplotlib__ (at least **v1.5.1** or higher) for which installation directions are a bit
 different on each platform. If you are on a Debian based Linux system
 such as Ubuntu, you can use
 
@@ -1342,7 +1342,7 @@ print(model, "\n")
 topics = model.show_topics(num_topics=no_of_topics)
  
 for item, i in zip(topics, enumerate(topics)):
-    print("topic #"+str(i[0])+": "+item+"\n")
+    print("topic #"+str(i[0])+": "+str(item)+"\n")
 ----
 
 For the example corpus this produces the following topics (shows the top
@@ -1416,7 +1416,7 @@ with open("out/"+foldername+"_doclabels.txt", "w") as f:
  
 with open("out/"+foldername+"_topics.txt", "w") as f:
     for item, i in zip(topics, enumerate(topics)):
-        f.write("topic #"+str(i[0])+": "+item+"\n")
+        f.write("topic #"+str(i[0])+": "+str(item)+"\n")
  
 dictionary.save("out/"+foldername+".dict")
 MmCorpus.serialize("out/"+foldername+".mm", corpus)
