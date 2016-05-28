@@ -233,6 +233,23 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<id>generate-doc</id>
+						<phase>generate-resources</phase>
+						<goals><goal>process-asciidoc</goal></goals>
+						<configuration>
+							<sourceDirectory>${basedir}/doc</sourceDirectory>
+							<backend>xhtml5</backend>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
