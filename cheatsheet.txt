@@ -2,4 +2,7 @@ asciidoc -n user-guide.adoc
  - Compiles the user guide to html
 
 mvn package
- - Run it in code folder to create the jar for the release
+ - Create the jar for the release
+
+mvn clean && git worktree add target/generated-docs gh-pages
+ - Prepare target/generated-docs for gh-pages maintenance
