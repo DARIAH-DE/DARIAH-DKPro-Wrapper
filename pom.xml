@@ -246,6 +246,12 @@
 						<configuration>
 							<sourceDirectory>${basedir}/doc</sourceDirectory>
 							<backend>xhtml5</backend>
+							<sourceHighlighter>coderay</sourceHighlighter>
+							<attributes>
+								<version>${project.version}</version>
+								<toc2>true</toc2>
+								
+							</attributes>
 						</configuration>
 					</execution>
 				</executions>
