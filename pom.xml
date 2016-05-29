@@ -250,12 +250,31 @@
 							<attributes>
 								<version>${project.version}</version>
 								<toc2>true</toc2>
-								
 							</attributes>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			
+			
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>prepare-config-zip</id>
+						<phase>generate-resources</phase>
+						<goals><goal>single</goal></goals>
+						<configuration>
+							<descriptors><descriptor>${basedir}/src/main/assembly/config.xml</descriptor></descriptors>
+							<outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
+							<finalName>configs</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>		
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 	<profiles>
@@ -286,7 +305,7 @@
 						<artifactId>maven-shade-plugin</artifactId>
 						<configuration>
 							<!-- Prevent huge shaded artifacts from being deployed to Artifactory -->
-							<outputFile>${project.build.directory}/ddw-${version}.jar</outputFile>
+							<outputFile>${project.build.directory}/ddw-${project.version}.jar</outputFile>
 						</configuration>
 					</plugin>
 				</plugins>
