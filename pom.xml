@@ -245,6 +245,7 @@
 						<goals><goal>process-asciidoc</goal></goals>
 						<configuration>
 							<sourceDirectory>${basedir}/doc</sourceDirectory>
+							<sourceDocumentExtensions><sourceDocumentExtension>adoc</sourceDocumentExtension></sourceDocumentExtensions>
 							<backend>xhtml5</backend>
 							<sourceHighlighter>coderay</sourceHighlighter>
 							<attributes>

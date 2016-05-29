@@ -1,0 +1,37 @@
+// Copyright 2015
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+    
+:version:  0.4.4
+
+= DARIAH-DKPro-Wrapper v{version}
+:Author: DARIAH2 – Cluster 5, Use Case 1 Team
+
+Wrapper for DKPro-Core to extract lingustic information from books.
+
+* https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases[Download]
+* link:user-guide[A short user guide]
+* link:tutorial[Extensive use-case oriented tutorial]
+* https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[GitHub project page], report issues here
+* link:configs.zip[Configuration files (ZIP)]
+
+'''
+
+The tool and its tutorials have been developed with support from
+the link:http://de.dariah.eu/[DARIAH-DE] initiative, the German branch
+of link:http://dariah.eu/[DARIAH-EU], the European Digital Research
+Infrastructure for the Arts and Humanities consortium. Funding has been
+provided by the German Federal Ministry for Research and Education
+(BMBF) under the identifier 01UG1110J.
+
+image:https://wiki.de.dariah.eu/download/thumbnails/40213783/DARIAH-DE-Logo.png?version=1&modificationDate=1436164753763&api=v2[image]image:https://wiki.de.dariah.eu/download/thumbnails/40213783/BMBF-Logo.png?version=1&modificationDate=1436164772540&api=v2[image]
