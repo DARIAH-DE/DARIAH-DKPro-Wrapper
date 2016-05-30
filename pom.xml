@@ -276,6 +276,17 @@
 				</executions>
 			</plugin>
 			
+			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>				
+				<configuration>
+					<rules>
+						<requireJavaVersion>
+							<version>1.8</version>
+						</requireJavaVersion>
+					</rules>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 	<profiles>
