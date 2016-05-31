@@ -134,62 +134,62 @@ public class RunPipeline {
 	private static boolean optResume = false;
 
 	private static void printConfiguration(String[] configFileNames) {
-		logger.info("Input: "+optInput);
-		logger.info("Output: "+optOutput);
-		logger.info("Config: "+StringUtils.join(configFileNames, ", "));
+		logger.debug("Input: "+optInput);
+		logger.debug("Output: "+optOutput);
+		logger.debug("Config: "+StringUtils.join(configFileNames, ", "));
 
-		logger.info("Language: "+optLanguage);
-		logger.info("Reader: "+optReader);
-		logger.info("Start Quote: "+optStartQuote);
-		logger.info("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
+		logger.debug("Language: "+optLanguage);
+		logger.debug("Reader: "+optReader);
+		logger.debug("Start Quote: "+optStartQuote);
+		logger.debug("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
 
-		logger.info("Segmenter: "+optSegmenter);
-		logger.info("Segmenter: "+optSegmenterCls);
-		infoIfNotEmpty("Segmenter: ", optSegmenterArguments);
+		logger.debug("Segmenter: "+optSegmenter);
+		logger.debug("Segmenter: "+optSegmenterCls);
+		debugIfNotEmpty("Segmenter: ", optSegmenterArguments);
 
-		logger.info("POS-Tagger: "+optPOSTagger);
-		logger.info("POS-Tagger: "+optPOSTaggerCls);
-		infoIfNotEmpty("POS-Tagger: ", optPOSTaggerArguments);
+		logger.debug("POS-Tagger: "+optPOSTagger);
+		logger.debug("POS-Tagger: "+optPOSTaggerCls);
+		debugIfNotEmpty("POS-Tagger: ", optPOSTaggerArguments);
 
-		logger.info("Lemmatizer: "+optLemmatizer);
-		logger.info("Lemmatizer: "+optLemmatizerCls);
-		infoIfNotEmpty("Lemmatizer: ", optLemmatizerArguments);
+		logger.debug("Lemmatizer: "+optLemmatizer);
+		logger.debug("Lemmatizer: "+optLemmatizerCls);
+		debugIfNotEmpty("Lemmatizer: ", optLemmatizerArguments);
 
-		logger.info("Chunker: "+optChunker);
-		logger.info("Chunker: "+optChunkerCls);
-		infoIfNotEmpty("Chunker: ", optChunkerArguments);
+		logger.debug("Chunker: "+optChunker);
+		logger.debug("Chunker: "+optChunkerCls);
+		debugIfNotEmpty("Chunker: ", optChunkerArguments);
 
-		logger.info("Morphology Tagging: "+optMorphTagger);
-		logger.info("Morphology Tagging: "+optMorphTaggerCls);
-		infoIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
+		logger.debug("Morphology Tagging: "+optMorphTagger);
+		logger.debug("Morphology Tagging: "+optMorphTaggerCls);
+		debugIfNotEmpty("Morphology Tagging: ", optMorphTaggerArguments);
 		
-		logger.info("Hyphenation Algorithm: "+optHyphenation);
-		logger.info("Hyphenation Algorithm: "+optHyphenationCls);
-		infoIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
+		logger.debug("Hyphenation Algorithm: "+optHyphenation);
+		logger.debug("Hyphenation Algorithm: "+optHyphenationCls);
+		debugIfNotEmpty("Morphology Tagging: ", optHyphenationArguments);
 		
-		logger.info("Named Entity Recognition: "+optNER);		
-		logger.info("Named Entity Recognition: "+optNERCls);
-		infoIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
+		logger.debug("Named Entity Recognition: "+optNER);		
+		logger.debug("Named Entity Recognition: "+optNERCls);
+		debugIfNotEmpty("Hyphenation Algorithm: ", optNERArguments);
 
-		logger.info("Dependency Parsing: "+optDependencyParser);
-		logger.info("Dependency Parsing: "+optDependencyParserCls);
-		infoIfNotEmpty("Dependency Parsing: ", optDependencyParserArguments);
+		logger.debug("Dependency Parsing: "+optDependencyParser);
+		logger.debug("Dependency Parsing: "+optDependencyParserCls);
+		debugIfNotEmpty("Dependency Parsing: ", optDependencyParserArguments);
 
-		logger.info("Constituency Parsing: "+optConstituencyParser);
-		logger.info("Constituency Parsing: "+optConstituencyParserCls);
-		infoIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
+		logger.debug("Constituency Parsing: "+optConstituencyParser);
+		logger.debug("Constituency Parsing: "+optConstituencyParserCls);
+		debugIfNotEmpty("Constituency Parsing: ", optConstituencyParserArguments);
 
-		logger.info("Semantic Role Labeling: "+optSRL);		
-		logger.info("Semantic Role Labeling: "+optSRLCls);
-		infoIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
+		logger.debug("Semantic Role Labeling: "+optSRL);		
+		logger.debug("Semantic Role Labeling: "+optSRLCls);
+		debugIfNotEmpty("Semantic Role Labeling: ", optSRLArguments);
 		
-		logger.info("Coreference Resolver: "+optCoref);		
-		logger.info("Coreference Resolver: "+optCorefCls);
-		infoIfNotEmpty("Coreference Resolver: ", optCorefArguments);
+		logger.debug("Coreference Resolver: "+optCoref);		
+		logger.debug("Coreference Resolver: "+optCorefCls);
+		debugIfNotEmpty("Coreference Resolver: ", optCorefArguments);
 
 	}
 
-	private static void infoIfNotEmpty(String text,
+	private static void debugIfNotEmpty(String text,
 			Object[] arguments) {
 		if(arguments != null && arguments.length > 0)
 			logger.info(text+StringUtils.join(arguments, ", "));
