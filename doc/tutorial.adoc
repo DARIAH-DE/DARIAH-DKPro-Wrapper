@@ -2402,18 +2402,18 @@ Your output is a *.png file* and should look like one of these.
 
 
 Poets of the 12th century:
-image:https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/12th_century.png[image]
+image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/12th_century.png[image]
 
 
 Poets of the 13th century:
-image:https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/13th_century.png[image]
+image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/13th_century.png[image]
 
 
 In case you decided to draw a circular graph:
-image:https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/circular_new.png[image]
+image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/circular_new.png[image]
 
 This recipe also works with other languages, e.g. English. You have to update the main part of the `create_authors` function and one possible output could look like this for `"List of English-language poets" "A"`:
-image:https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/american_a.png[image]
+image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/american_a.png[image]
 
 
 Discussion:
