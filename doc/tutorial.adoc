@@ -2410,10 +2410,10 @@ image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualizat
 
 
 In case you decided to draw a circular graph:
-image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/circular_new.png[image]
+image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/circular_new.png[image]
 
 This recipe also works with other languages, e.g. English. You have to update the main part of the `create_authors` function and one possible output could look like this for `"List of English-language poets" "A"`:
-image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/blob/master/graph/american_a.png[image]
+image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/american_a.png[image]
 
 
 Discussion:
