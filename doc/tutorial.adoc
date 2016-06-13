@@ -447,7 +447,7 @@ representation, a dependency tree can be described as flat. The lack of
 phrase structure makes dependency grammars a good match for languages
 with free word order, such as Czech and Turkish.
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/Wearetryingtounderstandthedifference_%282%29.jpg?version=1&modificationDate=1437060128891&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/Wearetryingtounderstandthedifference_%282%29.jpg[Parsing]
 
 link:https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg[Dependency
 vs. constituency] by
@@ -641,9 +641,9 @@ Specification  +
 ^^^^^^^^^^^^^^^^
 
 Example
-(from link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&modificationDate=1434960896211&api=v2[EffiBriestKurz.txt.csv]):
+(from link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png?version=1&modificationDate=1434537870562&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png[EffiBriestKurz.txt.csv]
 
 [[ReadingtheOutput]]
 Reading the Output
@@ -970,12 +970,12 @@ stylo()
 
 into the R console. The interface will appear:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/Stylo.png?version=1&modificationDate=1434987160559&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/Stylo.png[Stylo]
 
 You can now, for example, run a cluster analysis in Stylo. Doing that
 with the **unprocessed texts**, yields the following result:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/words_fig_01.png?version=1&modificationDate=1435065739646&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/words_fig_01.png[Cluster]
 
 The authors are clearly separated, the British authors Doyle and Kipling
 are grouped together on one branch, the two Americans on the other.
@@ -984,7 +984,7 @@ Now, you can change into the folder with the **descriptive vocabulary**,
 and try the same procedure. With the example data set, we get the
 following result:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/dv_fig_01.png?version=1&modificationDate=1435066010540&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/dv_fig_01.png[Cluster]
 
 While text from the same authors still clustering together, it seems
 that, in contrary to their overall stylistic profile, Howard and Kipling
@@ -997,7 +997,7 @@ in the Stylo interface and choose n-grams instead of single words as
 features. Our example data set, yields the following output, when using
 trigrams as features:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/pos_01.png?version=2&modificationDate=1435066645691&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/pos_01.png[image]
 
 Interpreting the frequency trigrams of part-of-speech tags an
 approximation for the preference of certain sentence structures, three
@@ -1453,7 +1453,7 @@ has been described in
 http://nlp.stanford.edu/events/illvi2014/papers/sievert-illvi2014.pdf[this
 paper].
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png?version=1&modificationDate=1443696593537&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png[image]
 
 [[Heatmap]]
 *Heatmap*
@@ -1476,7 +1476,7 @@ section] in __lda.py__) - smaller document sizes 'zoom in' on the
 thematic development inside texts, while larger ones 'zoom out', up
 until there is only one row per document to display.
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png?version=1&modificationDate=1443688101001&api=v2[image] +
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png[image] +
 
 
 [[Network]]
@@ -1491,7 +1491,7 @@ namely the
 link:http://nbviewer.ipython.org/github/sgsinclair/alta/blob/master/ipynb/TopicModelling.ipynb#Graphing-Topic-Terms[Graphing
 Topic Terms] function, which produces the following graph:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_network.png?version=2&modificationDate=1443698376913&api=v2[image]
+image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_network.png[image]
 
 The graph shows the top 30 terms for each topic. Terms that are only
 connected to one topic are placed on the outside, while the terms that
@@ -2455,4 +2455,4 @@ Infrastructure for the Arts and Humanities consortium. Funding has been
 provided by the German Federal Ministry for Research and Education
 (BMBF) under the identifier 01UG1110J.
 
-image:https://wiki.de.dariah.eu/download/thumbnails/40213783/DARIAH-DE-Logo.png?version=1&modificationDate=1436164753763&api=v2[image]image:https://wiki.de.dariah.eu/download/thumbnails/40213783/BMBF-Logo.png?version=1&modificationDate=1436164772540&api=v2[image]
+image:https://wiki.de.dariah.eu/download/thumbnails/40213783/DARIAH-DE-Logo.png[DARIAH]image:https://wiki.de.dariah.eu/download/thumbnails/40213783/BMBF-Logo.png[BMBF]
