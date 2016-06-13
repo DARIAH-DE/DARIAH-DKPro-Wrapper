@@ -20,10 +20,10 @@
 Wrapper for DKPro-Core to extract lingustic information from books.
 
 * https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases[Download]
-* link:user-guide[A short user guide]
-* link:tutorial[Extensive use-case oriented tutorial]
+* link:user-guide.adoc[A short user guide]
+* link:tutorial.adoc[Extensive use-case oriented tutorial]
 * https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[GitHub project page], report issues here
-* link:configs.zip[Configuration files (ZIP)]
+* link:/configs[Configuration files (ZIP)]
 
 '''
 
