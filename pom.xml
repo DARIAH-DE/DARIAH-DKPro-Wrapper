@@ -251,6 +251,7 @@
 							<attributes>
 								<version>${project.version}</version>
 								<toc2>true</toc2>
+								<asset-uri-scheme></asset-uri-scheme>
 							</attributes>
 						</configuration>
 					</execution>
