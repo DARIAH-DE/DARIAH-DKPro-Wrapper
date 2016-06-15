@@ -11,6 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+//
+// ATTENTION: This file won't work in the GitHub UI – but it does on
+//            the published site.
     
 :version:  0.4.4
 
@@ -20,10 +24,10 @@
 Wrapper for DKPro-Core to extract lingustic information from books.
 
 * https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases[Download]
-* link:user-guide.adoc[A short user guide]
-* link:tutorial.adoc[Extensive use-case oriented tutorial]
+* link:user-guide[A short user guide]
+* link:tutorial[Extensive use-case oriented tutorial]
 * https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[GitHub project page], report issues here
-* link:/configs[Configuration files]
+* link:configs.zip[Configuration files (ZIP)]
 
 '''
 
