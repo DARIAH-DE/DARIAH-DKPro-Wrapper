@@ -246,7 +246,7 @@
 						<configuration>
 							<sourceDirectory>${basedir}/doc</sourceDirectory>
 							<sourceDocumentExtensions><sourceDocumentExtension>adoc</sourceDocumentExtension></sourceDocumentExtensions>
-							<backend>xhtml5</backend>
+							<backend>html5</backend>
 							<sourceHighlighter>coderay</sourceHighlighter>
 							<attributes>
 								<version>${project.version}</version>
