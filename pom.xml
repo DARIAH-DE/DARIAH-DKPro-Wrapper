@@ -283,6 +283,16 @@
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>		
 					</execution>
+					<execution>
+						<id>prepare-dist-zip</id>
+						<phase>package</phase>
+						<goals><goal>single</goal></goals>
+						<configuration>
+							<descriptor>src/main/assembly/dist.xml</descriptor>							
+							<finalName>ddw-${project.version}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			
