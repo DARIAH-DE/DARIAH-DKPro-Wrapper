@@ -493,12 +493,20 @@ public class RunPipeline {
 		}
 
 
+		boolean configFileParsed = false;
 		for(String configFile : configFiles) {
 			try {
 				parseConfig(configFile);
+				configFileParsed = true;
 			} catch (Exception e) {				
 				logger.error("Exception when parsing config file: "+configFile, e);
 			} 
+		}
+		
+		if (!configFileParsed) {
+			File configFolderFile = new File(configFolder);
+			logger.fatal(MessageFormat.format("None of the configuration files ({0}) could be parsed. Please make sure the folder with the config files exists as {1}.", Joiner.on(", ").join(configFiles), configFolderFile.getAbsolutePath()));
+			System.exit(1);
 		}
 
 		printConfiguration(configFiles.toArray(new String[0])); 
