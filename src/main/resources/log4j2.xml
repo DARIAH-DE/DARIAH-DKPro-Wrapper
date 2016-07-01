@@ -6,6 +6,9 @@
 				alwaysWriteExceptions="false"
 			    noConsoleNoAnsi="true"
 				pattern="%highlight{%level:} %msg%replace{%throwable{short.className}}{.+}{ See error.log for more details.}%n"/>
+			<Filters>
+				<MarkerFilter marker="STDERR" onMatch="DENY" onMismatch="NEUTRAL"/>
+			</Filters>
 		</Console>
 		<File name="File" fileName="error.log">
 			<PatternLayout pattern="%date{ISO8601}\t%level\t%logger\t%msg%n%xEx{full}"/>					

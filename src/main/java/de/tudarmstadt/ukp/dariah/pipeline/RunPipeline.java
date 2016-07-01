@@ -44,10 +44,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 import org.apache.logging.log4j.io.IoBuilder;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_component.AnalysisComponent;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.collection.CollectionReaderDescription;
 import org.apache.uima.fit.component.NoOpAnnotator;
 import org.apache.uima.fit.pipeline.SimplePipeline;
@@ -434,8 +436,8 @@ public class RunPipeline {
 		logger.debug("==== Starting new session ====");
 		logger.debug("Arguments: " + Joiner.on(' ').join(args));
 
-		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN).buildPrintStream());
-		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.INFO).buildPrintStream());
+		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN).setMarker(MarkerManager.getMarker("STDERR")).buildPrintStream());
+		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.INFO).setMarker(MarkerManager.getMarker("STDOUT")).buildPrintStream());
 		
 		try {
 			if(!parseArgs(args)) {
