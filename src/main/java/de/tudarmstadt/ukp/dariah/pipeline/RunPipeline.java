@@ -629,6 +629,11 @@ public class RunPipeline {
 						);
 				} catch (OutOfMemoryError e) {
 					logger.error("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath(), e);
+				} catch (AnalysisEngineProcessException e) {
+					logger.error(MessageFormat.format("Processing failed for file: {0}, Message: {1}, Cause: {2}",
+							GlobalFileStorage.getInstance().getLastPolledFile().getPath(),
+							e.getMessage(),
+							e.getCause() == null? "none" : e.getCause().getMessage()), e);
 				}
 			}
 
