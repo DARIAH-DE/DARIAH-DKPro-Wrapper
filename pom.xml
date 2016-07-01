@@ -62,6 +62,12 @@
   			de.tudarmstadt.ukp.dkpro.core.matetools-gpl
   		</artifactId>
 			<version>${dkpro-version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>stanford-parser</artifactId>
+					<groupId>edu.stanford.nlp</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
