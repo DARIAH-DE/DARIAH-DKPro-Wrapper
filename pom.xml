@@ -4,11 +4,14 @@
 	<parent>
 		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 		<artifactId>de.tudarmstadt.ukp.dkpro.core-asl</artifactId>
-		<version>1.8.0-SNAPSHOT</version>
+		<version>1.8.0</version>
 	</parent>
 	<groupId>de.tudarmstadt.ukp.dariah</groupId>
 	<artifactId>de.tudarmstadt.ukp.dariah.pipeline</artifactId>
 	<version>0.4.5-SNAPSHOT</version>
+	<properties>
+		<dkpro-version>1.8.0</dkpro-version>
+	</properties>
 	<repositories>
 		<repository>
 			<id>ukp-snapshots</id>
@@ -28,7 +31,7 @@
 			<dependency>
 				<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 				<artifactId>de.tudarmstadt.ukp.dkpro.core-asl</artifactId>
-				<version>1.8.0-SNAPSHOT</version>
+				<version>${dkpro-version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -58,7 +61,7 @@
 			<artifactId>
   			de.tudarmstadt.ukp.dkpro.core.matetools-gpl
   		</artifactId>
-			<version>1.8.0-SNAPSHOT</version>
+			<version>${dkpro-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -89,7 +92,7 @@
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl
 			</artifactId>			
-			<version>1.8.0-SNAPSHOT</version>		
+			<version>${dkpro-version}</version>		
 			<exclusions>
 				<exclusion>		
 					<groupId>edu.stanford.nlp</groupId>
@@ -135,7 +138,7 @@
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.sfst-gpl
 			</artifactId>
-			<version>1.8.0-SNAPSHOT</version>
+			<version>${dkpro-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
@@ -154,7 +157,7 @@
 			<artifactId>
 				de.tudarmstadt.ukp.dkpro.core.berkeleyparser-gpl
 			</artifactId>
-			<version>1.8.0-SNAPSHOT</version>
+			<version>${dkpro-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
