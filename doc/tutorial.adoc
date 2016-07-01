@@ -135,7 +135,7 @@ Pipeline Download
 
 When the Java environment is prepared, you
 can link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[download the latest binary]. Select
-the file named dariah-dkpro-wrapper-{version}.zip and unpack it somewhere
+the file named ddw-{version}.zip and unpack it somewhere
 easily accessible. As a next step we need to navigate to this folder
 using the command line.
 

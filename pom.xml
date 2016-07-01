@@ -277,8 +277,7 @@
 						<phase>prepare-package</phase>
 						<goals><goal>single</goal></goals>
 						<configuration>
-							<descriptors><descriptor>${basedir}/src/main/assembly/config.xml</descriptor></descriptors>
-							<outputDirectory>${project.build.directory}/generated-docs</outputDirectory>
+							<descriptors><descriptor>${basedir}/src/main/assembly/config.xml</descriptor></descriptors>							
 							<finalName>configs</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>		
