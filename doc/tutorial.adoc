@@ -241,7 +241,7 @@ The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XM
 
 [subs="attributes"]
 ----
-java -Xmx4g -jar  ddw-{version}.jar -reader xml -input file.xml -output folder
+java -Xmx4g -jar ddw-{version}.jar -reader xml -input file.xml -output folder
 ----
 
 The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column *SectionId* in the output format.
@@ -255,7 +255,7 @@ In case you want to process a collection of texts rather than just a single file
 
 [subs="attributes"]
 ----
-java -Xmx4g -jar  ddw-{version}.jar -input folder/With/Files/ -output folder
+java -Xmx4g -jar ddw-{version}.jar -input folder/With/Files/ -output folder
 ----
 
 the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
@@ -264,7 +264,7 @@ You can speficy also patterns to read in only certain files or files with certai
 
 [subs="attributes"]
 ----
-java -Xmx4g -jar  ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder
+java -Xmx4g -jar ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder
 ----
 
 *Note:* If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.
@@ -273,7 +273,7 @@ To read all files in all subfolders, you can use a pattern like this:
 
 [subs="attributes"]
 ----
-java -Xmx4g -jar  ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -output folder
+java -Xmx4g -jar ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -output folder
 ----
 
 This will read in all _.txt_ files in all subfolders. Note that the subfolder path will not be maintained in the output folder.
@@ -287,7 +287,7 @@ You can change the language by specifying the language parameter for the pipelin
 
 [subs="attributes"]
 ----
-java -Xmx4g -jar  ddw-{version}.jar -language de -input file.txt -output folder
+java -Xmx4g -jar ddw-{version}.jar -language de -input file.txt -output folder
 ----
 
 
@@ -334,7 +334,7 @@ following in the command prompt:
 
 [subs="attributes"]
 ----
-java –Xms -jar ddw-{version}.jar -input file.txt -output folder
+java –Xms -jar ddw-{version}.jar -input file.txt -output folder
 ----
 
 and press enter.
