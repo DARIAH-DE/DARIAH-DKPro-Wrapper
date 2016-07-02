@@ -165,9 +165,9 @@ Navigate to the directory that contains the DKPro-pipeline. For example,
 if you are using windows and keeping your pipeline in folder named
 "DKPro" on drive "D:", by typing,
 
-****
-+cd D:\DKPro+
-****
+----
+cd D:\DKPro
+----
 
 and press enter.
 
@@ -190,25 +190,27 @@ Textarchiv]. *If you do not specify the `-language` parameter, the pipeline is p
 
 To process data type the following command in the command prompt
 
-****
-+java -Xmx4g -jar ddw-{version}.jar -input file.txt -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -input file.txt -output folder
+----
 
 and press Enter.
 
 For example:
 
-****
-+java -Xmx4g -jar ddw-{version}.jar -language de -input C:\EffiBriestKurz.txt -output D:\DKPro\Workspace+
-****
-
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -language de -input C:\EffiBriestKurz.txt -output D:\DKPro\Workspace
+----
 
 If your input and/or output file are located in the current directory you
 can type "." instead of the full input- and/or output-path. For example:
 
-****
-+java -Xmx4g -jar ddw-{version}.jar -language de -input .\EffiBriestKurz.txt -output .+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -language de -input .\EffiBriestKurz.txt -output .
+----
 
 The pipeline will process your data and save the output as
 a **.csv-File** in the specified folder.  If 
@@ -237,9 +239,10 @@ Text Reader & XML Reader
 
 The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the `-reader` parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:
 
-****
-+java -Xmx4g -jar  ddw-{version}.jar -reader xml -input file.xml -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar  ddw-{version}.jar -reader xml -input file.xml -output folder
+----
 
 The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column *SectionId* in the output format.
 
@@ -250,24 +253,28 @@ Reading Directories
 
 In case you want to process a collection of texts rather than just a single file, you can do that by providing a path to the `-input` option. If you run the pipeline in the following way:
 
-****
-+java -Xmx4g -jar  ddw-{version}.jar -input folder/With/Files/ -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar  ddw-{version}.jar -input folder/With/Files/ -output folder
+----
 
 the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
 
 You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.xmi_ with the XML reader, you must start the pipeline in the following way:
 
-****
-+java -Xmx4g -jar  ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar  ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder
+----
 
 *Note:* If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.
 
 To read all files in all subfolders, you can use a pattern like this:
-****
-+java -Xmx4g -jar  ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -output folder+
-****
+
+[subs="attributes"]
+----
+java -Xmx4g -jar  ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -output folder
+----
 
 This will read in all _.txt_ files in all subfolders. Note that the subfolder path will not be maintained in the output folder.
 
@@ -278,9 +285,10 @@ Language
 
 You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#UsingTreeTagger[TreeTagger] first. To run the pipeline for German, execute the following command:
 
-****
-+java -Xmx4g -jar  ddw-{version}.jar -language de -input file.txt -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar  ddw-{version}.jar -language de -input file.txt -output folder
+----
 
 
 [[CommandLineOptions]]
@@ -324,17 +332,19 @@ flag **Xms** specifies the initial memory allocation pool for a Java
 Virtual Machine (JVM). After adapting Windows' virtual memory type the
 following in the command prompt:
 
-****
-+java –Xms -jar ddw-{version}.jar -input file.txt -output folder+
-****
+[subs="attributes"]
+----
+java –Xms -jar ddw-{version}.jar -input file.txt -output folder
+----
 
 and press enter.
 
 For example, if you allocated 4GB then type:
 
-****
-+java -Xms4g -jar ddw-{version}.jar -input EffiBriestKurz.txt -output D:\DKPro\Workspace+
-****
+[subs="attributes"]
+----
+java -Xms4g -jar ddw-{version}.jar -input EffiBriestKurz.txt -output D:\DKPro\Workspace
+----
 
 
 **Note:** Allocating too much virtual memory can slow down your system -
@@ -513,28 +523,34 @@ The component link:#Segmentation[Segmentation] is set to boolean true by default
 
 You can run the pipeline with your `.properties`-file by setting the command argument.
 
-****
-+java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder
+----
 
 In case you store your `myconfigfile.properties` in the `configs` folder, you can run the pipeline via:
-****
-+java -Xmx4g -jar ddw-{version}.jar -config myconfigfile.properties -input file.txt -output folder+
-****
+
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -config myconfigfile.properties -input file.txt -output folder
+----
 
 You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:
 
-****
-+java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder
+----
 
 *Note:* The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.
 
 
 In case you like to use the _full_-version and also want to change the POS-tagger, you can run the pipeline in the following way:
-****
-+java -Xmx4g -jar ddw-{version}.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder+
-****
+
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder
+----
 
 In `myPOSTagger.properties` you just add the configuration for the different POS-tagger.
 
@@ -621,11 +637,13 @@ useLemmatizer = false
 
 Change the paths for the parameter _executablePath_ and _modelLocation_ to the correct paths on your machine. You can then use TreeTagger in your pipeline using the `-config` argument:
 
-****
-+java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language la -input file.txt -output folder+
-****
+[subs="attributes"]
+----
+java -Xmx4g -jar ddw-{version}.jar -config treetagger-example.properties -language la -input file.txt -output folder
+----
 
 Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:
+
 ----
 POS-Tagger: true
 POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
