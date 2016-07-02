@@ -165,7 +165,7 @@ constituencyParserArguments = writeDependency,boolean,false
 Here we specify the argument *writeDependency* with the boolean value *false*. As type you can use _boolean_, _integer_, and _string_.
 
 
-== [[TreeTagger]]Using TreeTagger
+== Using TreeTagger
 
 Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro. 
 
