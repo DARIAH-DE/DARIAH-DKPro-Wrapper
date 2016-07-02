@@ -25,5 +25,10 @@
   			<include>License_Components.txt</include>
   		</includes>
   	</fileSet>
+        <fileSet>
+                <directory>${project.build.directory}/generated-docs</directory>
+                <outputDirectory>doc</outputDirectory>
+                <includes><include>**/*</include></includes>
+        </fileSet>
   </fileSets>
 </assembly>
