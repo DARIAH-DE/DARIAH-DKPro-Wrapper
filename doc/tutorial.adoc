@@ -31,7 +31,7 @@ virtually no work experience with the framework. The example recipes
 further below describe how to use the pipeline's output for advanced
 analytic procedures.
 
-* link:#SettingupthePipeline[Setting up the Pipeline]
+* link:#SettingupthePipeline[Setting Up the Pipeline]
 ** link:#SystemRequirements[System Requirements]
 ** link:#JavaInstallation[Java Installation]
 ** link:#PipelineDownload[Pipeline Download]
@@ -53,13 +53,13 @@ analytic procedures.
 ** link:#NamedEntityRecognition[Named Entity Recognition]
 ** link:#SemanticRoleLabeling[Semantic Role Labeling]
 * link:#ConfiguringthePipeline[Configuring the Pipeline]
-** link:#Runthefullpipeline[Run the full pipeline]
-** link:#Writeyourownconfigfile[Write your own config file]
+** link:#Runthefullpipeline[Run the Full Pipeline]
+** link:#Writeyourownconfigfile[Write Your Own Config File]
 *** link:#UnderstandingtheArgumentParameter[Understanding the Argument Parameter]
-** link:#Buildingyourown[Building your own]
-* link:#UsingTreeTagger[Using TreeTagger]
-** link:#TreeTaggerInstallation[TreeTagger Installation]
-** link:#Configurationofthepipeline[Configuration of the pipeline]
+** link:#Buildingyourown[Building Your Own]
+** link:#UsingTreeTagger[Using TreeTagger]
+*** link:#Installation[Installation]
+*** link:#Configuration[Configuration]
 * link:#OutputFormat[Output Format]
 ** link:#Specification[Specification]
 ** link:#ReadingtheOutput[Reading the Output]
@@ -68,13 +68,13 @@ analytic procedures.
 ** link:#FurtherExamples[Further Examples]
 ** link:#API[API]
 * link:#ReadabilityMeasuresinR[Example Recipe: Calculate Readability Measures in R]
-* link:#StylometricAnalysiswiththeStyloPackageinR[Example Recipe: Stylometric Analysis with the "Stylo" Package in R]
+* link:#StylometricAnalysiswiththeStyloPackageinR[Example Recipe: Stylometric Analysis with the "Stylo" Package in R]
 ** link:#ExampleCorpus[Example Corpus]
 ** link:#PreparingDescriptiveVocabularyandPart-of-SpeechTags[Preparing Descriptive Vocabulary and Part-of-Speech Tags]
 ** link:#UsingStylo[Using Stylo]
 * link:#TopicModelinginPython[Example Recipe: Topic Modeling in Python]
 ** link:#ExampleCorpus.1[Example Corpus]
-** link:#SettinguptheEnvironment[Setting up the Environment]
+** link:#SettinguptheEnvironment[Setting Up the Environment]
 ** link:#ConfigurationSection[Configuration Section]
 ** link:#PreparingtheData[Preparing the Data]
 ** link:#FittingtheModel[Fitting the Model]
@@ -84,24 +84,22 @@ analytic procedures.
 *** link:#Network[Network]
 * link:#StylometricClassificationinPython[Example Recipe: Stylometric Classification in Python]
 ** link:#ExampleCorpus.2[Example Corpus]
-** link:#SettinguptheEnvironment.1[Setting up the Environment]
+** link:#SettinguptheEnvironment.1[Setting Up the Environment]
 ** link:#FeatureSelection[Feature Selection]
 ** link:#PreparingtheData.1[Preparing the Data]
 ** link:#TrainingandEvaluatingtheClassifier[Training and Evaluating the Classifier]
-** link:#PredictionusingtheClassifier[Prediction using the Classifier]
+** link:#PredictionusingtheClassifier[Prediction Using the Classifier]
 * link:#NetworkVisualizationinPython[Example Recipe: Network Visualization in Python]
-** link:#SettinguptheEnvironment.2[Setting up the Environment]
+** link:#SettinguptheEnvironment.2[Setting Up the Environment]
 ** link:#CrawlingWikipedia[Crawling Wikipedia]
-** link:#UsingDKProWrapperandNetworkX[Using DKPro Wrapper and NetworkX to visualize networks]
-* link:#AboutthisTutorial[About this Tutorial]
+** link:#UsingDKProWrapperandNetworkX[Using DKPro Wrapper and NetworkX to Visualize Networks]
+* link:#AboutthisTutorial[About This Tutorial]
 
 [[SettingupthePipeline]]
-Setting up the Pipeline
-~~~~~~~~~~~~~~~~~~~~~~~
+== Setting Up the Pipeline
 
 [[SystemRequirements]]
-System Requirements
-^^^^^^^^^^^^^^^^^^^
+=== System Requirements
 
 To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
@@ -118,8 +116,7 @@ running to download the models for the current configuration. *It does
 not work offline!*
 
 [[JavaInstallation]]
-Java Installation
-^^^^^^^^^^^^^^^^^
+=== Java Installation
 
 The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
@@ -130,8 +127,7 @@ link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_over
 instructions] for your operating system. You can check your current Java version by running `java -version` in your command line.
 
 [[PipelineDownload]]
-Pipeline Download
-^^^^^^^^^^^^^^^^^
+=== Pipeline Download
 
 When the Java environment is prepared, you
 can link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper[download the latest binary]. Select
@@ -140,12 +136,10 @@ easily accessible. As a next step we need to navigate to this folder
 using the command line.
 
 [[RunningthePipeline]]
-**Running the Pipeline**
-~~~~~~~~~~~~~~~~~~~~~~~~
+== Running the Pipeline
 
 [[UsingtheCommandLine]]
-Using the Command Line  +
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=== Using the Command Line
 
 The DKPro pipeline does not have a graphical user
 interface link:http://en.wikipedia.org/wiki/Graphical_user_interface[(GUI)].
@@ -175,8 +169,7 @@ Alternatively the directory can be accessed instantly by holding Shift + right-c
 needed and selecting "Open command window here".
 
 [[ProcessingaTextfile]]
-Processing a Textfile
-^^^^^^^^^^^^^^^^^^^^^
+=== Processing a Textfile
 
 Now you can process a text file. How to test when you don't have any
 data? We've prepared a demonstration text
@@ -228,14 +221,12 @@ a test file of 630 words may easily take 1-2 minutes, even if 4 GB RAM
 are allocated to the task.
 
 [[FileReader]]
-File Reader
-~~~~~~~~~~~
+=== File Reader
 
 You can process either single files or also all files inside a directory. Patterns can be used to select specific files that should be processed.
 
 [[TextReaderXMLReader]]
-Text Reader & XML Reader
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== Text Reader & XML Reader
 
 The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the `-reader` parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:
 
@@ -248,8 +239,7 @@ The XML reader skips XML tags and processes only text which is inside the XML ta
 
 
 [[ReadingDirectories]]
-Reading Directories
-^^^^^^^^^^^^^^^^^^^
+==== Reading Directories
 
 In case you want to process a collection of texts rather than just a single file, you can do that by providing a path to the `-input` option. If you run the pipeline in the following way:
 
@@ -280,8 +270,7 @@ This will read in all _.txt_ files in all subfolders. Note that the subfolder pa
 
 
 [[Language]]
-Language
-++++++++
+=== Language
 
 You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install link:#UsingTreeTagger[TreeTagger] first. To run the pipeline for German, execute the following command:
 
@@ -292,12 +281,10 @@ java -Xmx4g -jar ddw-{version}.jar -language de -input file.txt -output folder
 
 
 [[CommandLineOptions]]
-Command Line Options +
-^^^^^^^^^^^^^^^^^^^^^^
+=== Command Line Options
 
 [[Help]]
-Help
-++++
+==== Help
 
 The pipeline provides a help function that can be accessed on the
 command line with the "-help" option. Run +java -jar  ddw-{version}.jar -help+ to get an overview of the possible command line arguments:
@@ -316,8 +303,7 @@ The pipeline supports a resume function. By adding the `-resume` argument to the
 
 
 [[Troubleshooting]]
-Troubleshooting
-^^^^^^^^^^^^^^^
+=== Troubleshooting
 
 If there is no output in your output folder and your command prompt
 shows
@@ -352,14 +338,12 @@ java -Xms4g -jar ddw-{version}.jar -input EffiBriestKurz.txt -output D:\DKPro\Wo
 
 
 [[AvailableComponents]]
-**Available Components**  +
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Available Components
 
 As mentioned above, the pipeline contains a number of components
 
 [[Segmentation]]
-Segmentation
-^^^^^^^^^^^^
+=== Segmentation
 
 Segmentation is the task of dividing running text into units like
 sentences and words.
@@ -378,8 +362,7 @@ into a linear sequence of subtopics), Paragraph segmentation (which
 automatically break the text up into paragraphs) and so forth.
 
 [[Part-of-SpeechTagging]]
-Part-of-Speech Tagging
-^^^^^^^^^^^^^^^^^^^^^^
+=== Part-of-Speech Tagging
 
 Labeling every word and punctuation mark (token) in a text corpus with a
 predefined set of part-of-speech tags (standardized abbreviations) or
@@ -409,8 +392,7 @@ tagging called the transformation-based tagger, or the Brill tagger,
 which shares features of both above tagging architectures.
 
 [[Lemmatization]]
-Lemmatization
-^^^^^^^^^^^^^
+=== Lemmatization
 
 Mapping all different inflected word forms to one lemma is called
 lemmatization. It is related to stemming, an approach that tries to
@@ -428,8 +410,7 @@ of the words __gone__, __going__, and _goes_ will not include the
 related term __went__, which would be the case after lemmatization.
 
 [[ConstituencyandDependencyParsing]]
-Constituency and Dependency Parsing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== Constituency and Dependency Parsing
 
 Parsing is the main task behind breaking down a text into its more basic
 pieces and structures. A parser will take some input text and find
@@ -462,11 +443,10 @@ image:https://wiki.de.dariah.eu/download/attachments/40213783/Wearetryingtounder
 link:https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg[Dependency
 vs. constituency] by
 link:https://commons.wikimedia.org/w/index.php?title=User:Tjo3ya&action=edit&redlink=1[Tjo3ya]
-(link:https://creativecommons.org/licenses/by-sa/3.0/[CC BY-SA 3.0]) 
+(link:https://creativecommons.org/licenses/by-sa/3.0/[CC BY-SA 3.0])
 
 [[NamedEntityRecognition]]
-Named Entity Recognition
-^^^^^^^^^^^^^^^^^^^^^^^^
+=== Named Entity Recognition
 
 Named entity recognition (NER) is a pre-processing step in most
 information extraction tasks. Named entity stands for the text block,
@@ -475,8 +455,7 @@ text and categorizing them based on their different types, such as
 persons, organizations or locations.
 
 [[SemanticRoleLabeling]]
-Semantic Role Labeling
-^^^^^^^^^^^^^^^^^^^^^^
+=== Semantic Role Labeling
 
 Semantic role labeling (SRL, also: thematic role labeling, case role
 assignment) refers to a parsing approach that aims towards detecting all
@@ -485,19 +464,17 @@ roles to its arguments (such as __agent, patient, __or __instrument__),
 thus preparing for a semantic interpretation of the sentence.
 
 [[ConfiguringthePipeline]]
-*Configuring the Pipeline*
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Configuring the Pipeline
 
 [[Runthefullpipeline]]
-Run the full pipeline
-^^^^^^^^^^^^^^^^^^^^^
+=== Run the Full Pipeline
+
 By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
 
 If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
 
 [[Writeyourownconfigfile]]
-Write your own config file 
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== Write Your Own Config File
 
 The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_en.properties` for English and so on.
 
@@ -557,8 +534,7 @@ In `myPOSTagger.properties` you just add the configuration for the different POS
 *Note:* The properties-files must use the link:https://en.wikipedia.org/wiki/ISO/IEC_8859-1[ISO-8859-1] encoding. If you like to include link:https://en.wikipedia.org/wiki/UTF-8[UTF-8] characters, you must encode them using \u[HEXCode].
 
 [[UnderstandingtheArgumentParameter]]
-Understanding the Argument Parameter
-++++++++++++++++++++++++++++++++++++
+==== Understanding the Argument Parameter
 
 A parameter is a special variable, consisting one or more arguments, provided to the subroutine. Most components of the DKPro pipeline can be equipped with arguments to specify for example the model that should be used. A list of possible arguments is available link:https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/constant-values.html[here] in the column *Constant Field* or rather *Value*. Arguments are passed to the pipeline in a 3 tuple format:
 
@@ -576,8 +552,7 @@ Here we specify the argument *writeDependency* with the boolean value *false*. T
 
 
 [[Buildingyourown]]
-Building your own
-^^^^^^^^^^^^^^^^^
+=== Building Your Own
 
 For creating your own pipeline the latest version of Java SDK (1.8 or
 higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
@@ -600,14 +575,12 @@ the link:https://dkpro.github.io/dkpro-core/releases/1.7.0/models/[list
 of models].
 
 [[UsingTreeTagger]]
-Using TreeTagger
-~~~~~~~~~~~~~~~~
+=== Using TreeTagger
 
 Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.
 
-[[TreeTaggerInstallation]]
-TreeTagger Installation
-^^^^^^^^^^^^^^^^^^^^^^^
+[[Installation]]
+==== Installation
 
 . Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
 . From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
@@ -619,9 +592,8 @@ TreeTagger Installation
 .. Copy the extracted file latin.par into the folder `lib` in your created directory `tree-tagger`
 
 
-[[Configurationofthepipeline]]
-Configuration of the pipeline
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[[Configuration]]
+==== Configuration
 
 After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
 
@@ -651,12 +623,10 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 ----
 
 [[OutputFormat]]
-*Output Format* +
-~~~~~~~~~~~~~~~~~
+== Output Format
 
 [[Specification]]
-Specification  +
-^^^^^^^^^^^^^^^^
+=== Specification
 
 Example
 (from link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
@@ -664,10 +634,10 @@ Example
 image:https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png[EffiBriestKurz.txt.csv]
 
 [[ReadingtheOutput]]
-Reading the Output
-^^^^^^^^^^^^^^^^^^
+=== Reading the Output
 
 [[R]]
+==== R
 
 In R, a simple reader can be written as follows:
 
@@ -679,10 +649,8 @@ df = read.table("./data/EffiBriestKurz.txt.csv",    # or whatever file you want 
 ----
 
 
-
 [[Python]]
-Python
-++++++
+==== Python
 
 In Python, you can use the following code to ingest the output file.
 
@@ -696,8 +664,7 @@ df = pd.read_csv("EffiBriestKurz.txt.csv", sep="\t", quoting=csv.QUOTE_NONE)
 ----
 
 [[FurtherExamples]]
-Further Examples
-^^^^^^^^^^^^^^^^
+=== Further Examples
 
 You can also specify a subset of columns to use. Columns are addressed
 using their column names.
@@ -749,8 +716,7 @@ for sent_id, sent in sentences:                             # iterate through se
 ----
 
 [[API]]
-API
-^^^
+=== API
 
 In addition to the examples above, an API (application program
 interface) will be provided, containing helper functions that simplify
@@ -758,8 +724,8 @@ the retrieval of (combinations of) of features. 
 
 
 [[ReadabilityMeasuresinR]]
-Example Recipe: Calculate Readability Measures in R
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Example Recipe: Calculate Readability Measures in R
+
 Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works straight forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:
 
 [source, r]
@@ -844,8 +810,7 @@ LIX = (words / periods) + (100 * longwords / words)
 
 
 [[StylometricAnalysiswiththeStyloPackageinR]]
-Example Recipe: Stylometric Analysis with the "Stylo" Package in R
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Example Recipe: Stylometric Analysis with the "Stylo" Package in R
 
 In this recipe, we will demonstrate how to use the NLP pipeline's output
 to explore different stylometrical aspects in a set of example texts
@@ -866,8 +831,7 @@ abstract sentence structures in terms of n-grams of part-of-speech
 tags. 
 
 [[ExampleCorpus]]
-Example Corpus
-++++++++++++++
+=== Example Corpus
 
 The
 link:https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&modificationDate=1442405820574&api=v2[example
@@ -880,8 +844,7 @@ on link:https://www.gutenberg.org/[Project Gutenberg], headers and metadata
 were removed from the plain text files before processing.
 
 [[PreparingDescriptiveVocabularyandPart-of-SpeechTags]]
-*Preparing Descriptive Vocabulary and Part-of-Speech Tags*
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+=== Preparing Descriptive Vocabulary and Part-of-Speech Tags
 
 After running the NLP processing pipeline, the next step is to read out
 the relevant information from the CSV-files and store it in a form
@@ -942,8 +905,7 @@ for(file in files)
 ----
 
 [[UsingStylo]]
-Using Stylo
-+++++++++++
+=== Using Stylo
 
 If you have not *installed* the Stylo package yet, do that with the
 following command into the R console:
@@ -1024,8 +986,7 @@ individual syntax preferences, whereas the three texts the from Rudyard
 Kipling in our sample display a remarkable variability.
 
 [[TopicModelinginPython]]
-*Example Recipe: Topic Modeling in Python*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Example Recipe: Topic Modeling in Python
 
 Topic modeling refers to a family of computational techniques that can
 be used to discover the main themes in a set of texts by statistically
@@ -1061,8 +1022,7 @@ You can find the complete, ready-to-run scripts for this recipe
 link:https://github.com/stefanpernes/dariah-nlp-tutorial[here].
 
 [[ExampleCorpus.1]]
-Example Corpus
-++++++++++++++
+=== Example Corpus
 
 Any plain text or collection of texts can be used as input for topic
 modeling, however, this recipe is based on the pipeline's CSV output for
@@ -1074,8 +1034,7 @@ Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft, and Robert E.
 Howard. 
 
 [[SettinguptheEnvironment]]
-Setting up the Environment
-++++++++++++++++++++++++++
+=== Setting Up the Environment
 
 The following code is designed to run with Python 3, which is
 recommended for its
@@ -1156,8 +1115,7 @@ all CPU cores to speed up training. For the single core version, just
 replace 'LdaMulticore' with 'LdaModel'.
 
 [[ConfigurationSection]]
-Configuration Section
-+++++++++++++++++++++
+=== Configuration Section
 
 The following statements are so called 'constants' that reside in the
 global variable space of the script, being accessible to all functions
@@ -1212,8 +1170,7 @@ are trained on can be
 found link:https://dkpro.github.io/dkpro-core/releases/1.7.0/models/[here].
 
 [[PreparingtheData]]
-Preparing the Data
-++++++++++++++++++
+=== Preparing the Data
 
 As in many other machine learning applications, the amount of code
 needed to clean the data and to bring it into a form that can be
@@ -1327,8 +1284,7 @@ stopwords += names.tolist()
 ----
 
 [[FittingtheModel]]
-Fitting the Model
-+++++++++++++++++
+=== Fitting the Model
 
 Next, we can put it all together. The following is the script's entry
 point, which is usually placed at the bottom of every Python script. It
@@ -1442,8 +1398,7 @@ model.save("out/"+foldername+".lda")
 ----
 
 [[VisualizationOptions]]
-Visualization Options
-+++++++++++++++++++++
+=== Visualization Options
 
 Each of the following visualizations is generated by its own Python
 script that is able to draw on contents and metadata of the LDA model
@@ -1452,7 +1407,7 @@ to the generated model **.lda **file and that it is in the same
 directory as the other save files.
 
 [[Interactive]]
-*Interactive*
+==== Interactive
 
 **[link:https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_interactive.py[Source]]** This
 piece of code produces an interactive visualization of what the model
@@ -1474,7 +1429,7 @@ paper].
 image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png[image]
 
 [[Heatmap]]
-*Heatmap*
+==== Heatmap
 
 **[link:https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_heatmap.py[Source]] **The
 heatmap option displays the kind of information that is probably most
@@ -1498,7 +1453,7 @@ image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_he
 
 
 [[Network]]
-*Network*
+==== Network
 
 **[link:https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_network.py[Source]]** For
 a more artistic presentation of a topic model, consider the following
@@ -1524,8 +1479,7 @@ settings **k=0.060,** *iterations=30* were passed to the
 *nx.spring_layout()* function.
 
 [[StylometricClassificationinPython]]
-**Example Recipe: Stylometric Classification in Python** 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Example Recipe: Stylometric Classification in Python
 
 In this recipe, we will show how to implement a cross-genre stylometric
 classification system similar to the one proposed by van Halteren et al.
@@ -1545,8 +1499,7 @@ You can find the complete, ready-to-run Python script
 on link:https://github.com/stefanpernes/dariah-nlp-tutorial[GitHub].
 
 [[ExampleCorpus.2]]
-Example Corpus
-++++++++++++++
+=== Example Corpus
 
 The original corpus used in the paper is controlled for various factors
 and designed to make the classification task as hard as possible in
@@ -1578,8 +1531,7 @@ minimum text length of 300 words (labelled "Gedichte"). You can
 the example corpus here]**.
 
 [[SettinguptheEnvironment.1]]
-Setting up the Environment
-++++++++++++++++++++++++++
+=== Setting Up the Environment
 
 Assuming you have Python installed, issuing the following command at the
 command line will download and install the packages needed for this
@@ -1606,8 +1558,7 @@ from sklearn.cross_validation import cross_val_score, ShuffleSplit
 ----
 
 [[FeatureSelection]]
-Feature Selection
-+++++++++++++++++
+=== Feature Selection
 
 The author's approach to measuring a human stylome rests on the idea
 that any individual form can be classified as long as one looks for a
@@ -1807,8 +1758,7 @@ The output is a DataFrame that looks like this:
 ----
 
 [[PreparingtheData.1]]
-Preparing the Data
-++++++++++++++++++
+=== Preparing the Data
 
 What we need to do now, is to gather this information in bulk and
 convert it into a form suitable for training, respectively testing a
@@ -1871,8 +1821,7 @@ def preprocessing(path, n):
 ----
 
 [[TrainingandEvaluatingtheClassifier]]
-Training and Evaluating the Classifier
-++++++++++++++++++++++++++++++++++++++
+=== Training and Evaluating the Classifier
 
 Now, we can put it all together - first we check for two arguments,
 a folder containing CSV files for training and one file for testing the
@@ -1968,8 +1917,7 @@ mean accuracy: 0.76 (+/- 0.01)
 ----
 
 [[PredictionusingtheClassifier]]
-Prediction using the Classifier
-+++++++++++++++++++++++++++++++
+=== Prediction Using the Classifier
 
 Finally, we can use the trained classifier object to predict which
 author the text can be attributed to. The test text - which should be
@@ -2065,8 +2013,7 @@ other models and/or interesting parameter settings to work with and we
 will list them here.
 
 [[NetworkVisualizationinPython]]
-*Example Recipe: Network Visualization in Python*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Example Recipe: Network Visualization in Python
 
 The following example attempts to show how to create a simple social network visualization of German poets by using text files extracted from Wikipedia. The link:https://pypi.python.org/pypi/wikipedia[Wikipedia API] for Python is used to scrape the content from Wikipedia as *plain text*. With the help of the link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases[DARIAH-DKPro-Wrapper] we gain access to the link:https://en.wikipedia.org/wiki/Named-entity_recognition[Named Entities] (NE) in each file, compare them using basic Python programming and finally visualize them with the Python link:https://networkx.github.io[NetworkX] and link:http://matplotlib.org[matplotlib] packages.
 The basic assumption is that a connection between two authors exists if there is a certain amount of overlap in the Named Entities we extracted from their Wikipedia articles.
@@ -2076,8 +2023,7 @@ You can find the ready-to-run scripts for this recipe link:https://github.com/se
 
 
 [[SettinguptheEnvironment.2]]
-Setting up the Environment
-++++++++++++++++++++++++++
+=== Setting Up the Environment
 
 As explained in the link:#SettinguptheEnvironment[example above] you have to install three packages to realize this recipe.
 Issue the following command in the command line to download and install the needed packages:
@@ -2091,8 +2037,7 @@ Also make sure the package __matplotlib__ is installed.
 
 
 [[CrawlingWikipedia]]
-Part 1: Crawling Wikipedia
-++++++++++++++++++++++++++
+=== Crawling Wikipedia
 
 The first part of the recipe is designed for interactive use. It is recommended to copy the following code into a text file and interpret it with Python through the command prompt. For more clearness the whole script is divided into small parts with explanations on what is going on in the single parts.
 Use the following `import` statements in your first script after the first line:
@@ -2250,8 +2195,7 @@ For example:
 If everything worked fine you should have one text file *authors.txt* containing a list of names in your working directory. In your output folder there should be one text file for each author listed in *authors.txt* containing the specific Wikipedia page.
 
 [[UsingDKProWrapperandNetworkX]]
-Part 2: Using DKPro Wrapper and NetworkX to visualize networks
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+=== Using DKPro Wrapper and NetworkX to Visualize Networks
 
 In the second part of the recipe you will analyze your previously created text files with the DKPro-Wrapper. 
 How to process a collection of files in the same folder is explained link:#InputFolders[further above].
@@ -2434,14 +2378,12 @@ This recipe also works with other languages, e.g. English. You have to update th
 image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/american_a.png[image]
 
 
-Discussion:
-+++++++++++
+*Discussion:*
 In this recipe we created a visualization of an author's social network using the output of the DARIAH-DKPro-Wrapper and two simple Python scripts to gain knowledge about the authors' relations. This is a great starting point for further research as the existing relations can now be examined more closely. The graphs might even hint at certain connections that have not been made yet. This kind of analysis therefore provides a groundwork and direction for further investigations on the topic.
 
 
 [[AboutthisTutorial]]
-About this Tutorial
-~~~~~~~~~~~~~~~~~~~
+== About this Tutorial
 
 Contact:
 https://dev2.dariah.eu/wiki/display/publicde/Cluster+5%3A+Big+Data+in+den+Geisteswissenschaften#Partner[DARIAH-DE
