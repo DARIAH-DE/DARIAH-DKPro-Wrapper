@@ -2069,8 +2069,7 @@ As Wikipedia happens to consist of living documents we provide a snapshot of a l
 Alternatively, you can create your own list of authors (make sure you use the exact name used by Wikipedia).
 
 
-Output:
-+++++++
+*Output:*
 
 ----
 Creating authors.txt ...
@@ -2116,8 +2115,7 @@ def crawl_wikipedia(authors_file, output_directory):
 ----
 
 
-Output:
-+++++++
+*Output:*
 
 ----
 Crawling Wikipedia ...
@@ -2288,8 +2286,7 @@ def create_graph(input_folder):
     return G
 ----
 
-Output:
-+++++++
+*Output:*
 
 ----
 this is the weight: 20
@@ -2357,8 +2354,7 @@ For example:
 `python3 /users/networks/graph.py /users/networks/csv /users/networks`
 
 
-Output:
-+++++++
+*Output:*
 
 Your output is a *.png file* and should look like one of these.
 
