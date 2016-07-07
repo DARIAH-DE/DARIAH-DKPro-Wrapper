@@ -33,7 +33,7 @@ Furthermore, the  pipeline depends on a *internet connection* when running to do
 
 The pipeline requires *Java 1.8* or higher. You can download Java from the http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle website]. You can check your current Java version by running `java -version` in your command line.
 
-== Running the pipeline
+== Running the Pipeline
 
 After downloading and unzipping the files, execute in your command line the following code:
 
@@ -115,7 +115,7 @@ java -Xmx4g -jar  ddw-{version}.jar -input "folder/With/Subfolders/\**/*.txt" -o
 This will read in all _.txt_ files in all subfolders. Note that the subfolder path will not be maintained in the output folder.
 
 
-== Write your own config files
+== Write Your Own Config Files
 
 The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_en.properties` for English and so on.
 
@@ -169,7 +169,7 @@ Here we specify the argument *writeDependency* with the boolean value *false*. A
 
 Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro. 
 
-=== TreeTagger Installation
+=== Installation
 
 . Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
 . From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
@@ -180,7 +180,7 @@ Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro r
 .. Unzip the file (e.g. `gunzip latin-par-linux-3.2-utf8.bin.gz` or alternatively use a program like 7zip or WinRar)
 .. Copy the extracted file latin.par into the folder `lib` in your created directory `tree-tagger`
 
-=== Configuration of the pipeline
+=== Configuration
 After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the _configs_ folder _treetagger-example.properties_:
 
 ----
