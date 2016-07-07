@@ -173,7 +173,7 @@ Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro r
 
 . Go to the link:http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/[TreeTagger website]
 . From the download section, download the correct tagger package, i.e. PC-Linux, OS X or Windows
-.. Extract the .tar.gz as the case may be .zip archive
+.. Extract the .tar.gz and .zip archive, respectively
 .. Create a new directory `tree-tagger` containing two folders `bin` and `lib` on your hard drive, e.g. `C:/tree-tagger/bin` and `C:/tree-tagger/lib`
 .. Copy the `tree-tagger/bin/tree-tagger` file *from the previously downloaded archive* to your recently created directory `tree-tagger` into the folder `bin`
 . From the parameter file section, download the correct model. For the example below download Latin parameter file (latin-par-linux-3.2-utf8.bin.gz)
