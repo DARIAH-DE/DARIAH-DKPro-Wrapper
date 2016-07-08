@@ -513,19 +513,85 @@ table.CodeRay td.code>pre{padding:0}
 <h1>NLP Based Analysis of Literary Texts (M 5.2.3)</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#SettingupthePipeline">Setting Up the Pipeline</a>
 <ul class="sectlevel2">
-<li><a href="#SettingupthePipeline">Setting up the Pipeline</a></li>
-<li><a href="#RunningthePipeline"><strong>Running the Pipeline</strong></a></li>
+<li><a href="#SystemRequirements">System Requirements</a></li>
+<li><a href="#JavaInstallation">Java Installation</a></li>
+<li><a href="#PipelineDownload">Pipeline Download</a></li>
+</ul>
+</li>
+<li><a href="#RunningthePipeline">Running the Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#UsingtheCommandLine">Using the Command Line</a></li>
+<li><a href="#ProcessingaTextfile">Processing a Textfile</a></li>
 <li><a href="#FileReader">File Reader</a></li>
-<li><a href="#AvailableComponents"><strong>Available Components</strong> <br></a></li>
-<li><a href="#ConfiguringthePipeline"><strong>Configuring the Pipeline</strong></a></li>
+<li><a href="#Language">Language</a></li>
+<li><a href="#CommandLineOptions">Command Line Options</a></li>
+<li><a href="#Troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li><a href="#AvailableComponents">Available Components</a>
+<ul class="sectlevel2">
+<li><a href="#Segmentation">Segmentation</a></li>
+<li><a href="#Part-of-SpeechTagging">Part-of-Speech Tagging</a></li>
+<li><a href="#Lemmatization">Lemmatization</a></li>
+<li><a href="#ConstituencyandDependencyParsing">Constituency and Dependency Parsing</a></li>
+<li><a href="#NamedEntityRecognition">Named Entity Recognition</a></li>
+<li><a href="#SemanticRoleLabeling">Semantic Role Labeling</a></li>
+</ul>
+</li>
+<li><a href="#ConfiguringthePipeline">Configuring the Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#Runthefullpipeline">Run the Full Pipeline</a></li>
+<li><a href="#Writeyourownconfigfile">Write Your Own Config File</a></li>
+<li><a href="#Buildingyourown">Building Your Own</a></li>
 <li><a href="#UsingTreeTagger">Using TreeTagger</a></li>
-<li><a href="#OutputFormat"><strong>Output Format</strong><br></a></li>
+</ul>
+</li>
+<li><a href="#OutputFormat">Output Format</a>
+<ul class="sectlevel2">
+<li><a href="#Specification">Specification</a></li>
+<li><a href="#ReadingtheOutput">Reading the Output</a></li>
+<li><a href="#FurtherExamples">Further Examples</a></li>
+<li><a href="#API">API</a></li>
+</ul>
+</li>
 <li><a href="#ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</a></li>
-<li><a href="#StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a></li>
-<li><a href="#TopicModelinginPython"><strong>Example Recipe: Topic Modeling in Python</strong></a></li>
-<li><a href="#StylometricClassificationinPython"><strong>Example Recipe: Stylometric Classification in Python</strong> </a></li>
-<li><a href="#NetworkVisualizationinPython"><strong>Example Recipe: Network Visualization in Python</strong></a></li>
+<li><a href="#StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a>
+<ul class="sectlevel2">
+<li><a href="#ExampleCorpus">Example Corpus</a></li>
+<li><a href="#PreparingDescriptiveVocabularyandPart-of-SpeechTags">Preparing Descriptive Vocabulary and Part-of-Speech Tags</a></li>
+<li><a href="#UsingStylo">Using Stylo</a></li>
+</ul>
+</li>
+<li><a href="#TopicModelinginPython">Example Recipe: Topic Modeling in Python</a>
+<ul class="sectlevel2">
+<li><a href="#ExampleCorpus.1">Example Corpus</a></li>
+<li><a href="#SettinguptheEnvironment">Setting Up the Environment</a></li>
+<li><a href="#ConfigurationSection">Configuration Section</a></li>
+<li><a href="#PreparingtheData">Preparing the Data</a></li>
+<li><a href="#FittingtheModel">Fitting the Model</a></li>
+<li><a href="#VisualizationOptions">Visualization Options</a></li>
+</ul>
+</li>
+<li><a href="#StylometricClassificationinPython">Example Recipe: Stylometric Classification in Python</a>
+<ul class="sectlevel2">
+<li><a href="#ExampleCorpus.2">Example Corpus</a></li>
+<li><a href="#SettinguptheEnvironment.1">Setting Up the Environment</a></li>
+<li><a href="#FeatureSelection">Feature Selection</a></li>
+<li><a href="#PreparingtheData.1">Preparing the Data</a></li>
+<li><a href="#TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</a></li>
+<li><a href="#PredictionusingtheClassifier">Prediction Using the Classifier</a></li>
+</ul>
+</li>
+<li><a href="#NetworkVisualizationinPython">Example Recipe: Network Visualization in Python</a>
+<ul class="sectlevel2">
+<li><a href="#SettinguptheEnvironment.2">Setting Up the Environment</a></li>
+<li><a href="#CrawlingWikipedia">Crawling Wikipedia</a></li>
+<li><a href="#UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to Visualize Networks</a></li>
+</ul>
+</li>
 <li><a href="#AboutthisTutorial">About this Tutorial</a></li>
 </ul>
 </div>
@@ -551,7 +617,7 @@ analytic procedures.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#SettingupthePipeline">Setting up the Pipeline</a></p>
+<p><a href="#SettingupthePipeline">Setting Up the Pipeline</a></p>
 <div class="ulist">
 <ul>
 <li>
@@ -638,10 +704,10 @@ analytic procedures.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#Runthefullpipeline">Run the full pipeline</a></p>
+<p><a href="#Runthefullpipeline">Run the Full Pipeline</a></p>
 </li>
 <li>
-<p><a href="#Writeyourownconfigfile">Write your own config file</a></p>
+<p><a href="#Writeyourownconfigfile">Write Your Own Config File</a></p>
 <div class="ulist">
 <ul>
 <li>
@@ -651,20 +717,20 @@ analytic procedures.</p>
 </div>
 </li>
 <li>
-<p><a href="#Buildingyourown">Building your own</a></p>
-</li>
-</ul>
-</div>
+<p><a href="#Buildingyourown">Building Your Own</a></p>
 </li>
 <li>
 <p><a href="#UsingTreeTagger">Using TreeTagger</a></p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#TreeTaggerInstallation">TreeTagger Installation</a></p>
+<p><a href="#Installation">Installation</a></p>
 </li>
 <li>
-<p><a href="#Configurationofthepipeline">Configuration of the pipeline</a></p>
+<p><a href="#Configuration">Configuration</a></p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -702,7 +768,7 @@ analytic procedures.</p>
 <p><a href="#ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</a></p>
 </li>
 <li>
-<p><a href="#StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a></p>
+<p><a href="#StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a></p>
 <div class="ulist">
 <ul>
 <li>
@@ -725,7 +791,7 @@ analytic procedures.</p>
 <p><a href="#ExampleCorpus.1">Example Corpus</a></p>
 </li>
 <li>
-<p><a href="#SettinguptheEnvironment">Setting up the Environment</a></p>
+<p><a href="#SettinguptheEnvironment">Setting Up the Environment</a></p>
 </li>
 <li>
 <p><a href="#ConfigurationSection">Configuration Section</a></p>
@@ -763,7 +829,7 @@ analytic procedures.</p>
 <p><a href="#ExampleCorpus.2">Example Corpus</a></p>
 </li>
 <li>
-<p><a href="#SettinguptheEnvironment.1">Setting up the Environment</a></p>
+<p><a href="#SettinguptheEnvironment.1">Setting Up the Environment</a></p>
 </li>
 <li>
 <p><a href="#FeatureSelection">Feature Selection</a></p>
@@ -775,7 +841,7 @@ analytic procedures.</p>
 <p><a href="#TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</a></p>
 </li>
 <li>
-<p><a href="#PredictionusingtheClassifier">Prediction using the Classifier</a></p>
+<p><a href="#PredictionusingtheClassifier">Prediction Using the Classifier</a></p>
 </li>
 </ul>
 </div>
@@ -785,28 +851,29 @@ analytic procedures.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#SettinguptheEnvironment.2">Setting up the Environment</a></p>
+<p><a href="#SettinguptheEnvironment.2">Setting Up the Environment</a></p>
 </li>
 <li>
 <p><a href="#CrawlingWikipedia">Crawling Wikipedia</a></p>
 </li>
 <li>
-<p><a href="#UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to visualize networks</a></p>
+<p><a href="#UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to Visualize Networks</a></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><a href="#AboutthisTutorial">About this Tutorial</a></p>
+<p><a href="#AboutthisTutorial">About This Tutorial</a></p>
 </li>
 </ul>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="SettingupthePipeline">Setting Up the Pipeline</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="SettingupthePipeline">Setting up the Pipeline</h3>
-<div class="sect3">
-<h4 id="SystemRequirements">System Requirements</h4>
+<h3 id="SystemRequirements">System Requirements</h3>
 <div class="paragraph">
 <p>To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
@@ -831,8 +898,8 @@ running to download the models for the current configuration. <strong>It does
 not work offline!</strong></p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="JavaInstallation">Java Installation</h4>
+<div class="sect2">
+<h3 id="JavaInstallation">Java Installation</h3>
 <div class="paragraph">
 <p>The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
@@ -843,21 +910,23 @@ Java Site</a>, then follow the
 instructions</a> for your operating system. You can check your current Java version by running <code>java -version</code> in your command line.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="PipelineDownload">Pipeline Download</h4>
+<div class="sect2">
+<h3 id="PipelineDownload">Pipeline Download</h3>
 <div class="paragraph">
 <p>When the Java environment is prepared, you
 can <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper">download the latest binary</a>. Select
-the file named ddw-0.4.5.zip and unpack it somewhere
+the file named ddw-0.4.6.zip and unpack it somewhere
 easily accessible. As a next step we need to navigate to this folder
 using the command line.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="RunningthePipeline">Running the Pipeline</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="RunningthePipeline"><strong>Running the Pipeline</strong></h3>
-<div class="sect3">
-<h4 id="UsingtheCommandLine">Using the Command Line <br></h4>
+<h3 id="UsingtheCommandLine">Using the Command Line</h3>
 <div class="paragraph">
 <p>The DKPro pipeline does not have a graphical user
 interface <a href="http://en.wikipedia.org/wiki/Graphical_user_interface">(GUI)</a>.
@@ -887,11 +956,9 @@ and typing “cmd” in the search box. Alternatively type "cmd" in the
 if you are using windows and keeping your pipeline in folder named
 "DKPro" on drive "D:", by typing,</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>cd D:\DKPro</code></p>
-</div>
+<pre>cd D:\DKPro</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -902,8 +969,8 @@ if you are using windows and keeping your pipeline in folder named
 needed and selecting "Open command window here".</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="ProcessingaTextfile">Processing a Textfile</h4>
+<div class="sect2">
+<h3 id="ProcessingaTextfile">Processing a Textfile</h3>
 <div class="paragraph">
 <p>Now you can process a text file. How to test when you don&#8217;t have any
 data? We&#8217;ve prepared a demonstration text
@@ -918,11 +985,9 @@ Textarchiv</a>. <strong>If you do not specify the <code>-language</code> paramet
 <div class="paragraph">
 <p>To process data type the following command in the command prompt</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -input file.txt -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -931,22 +996,18 @@ Textarchiv</a>. <strong>If you do not specify the <code>-language</code> paramet
 <div class="paragraph">
 <p>For example:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -language de -input C:\EffiBriestKurz.txt -output D:\DKPro\Workspace</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -language de -input C:\EffiBriestKurz.txt -output D:\DKPro\Workspace</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>If your input and/or output file are located in the current directory you
 can type "." instead of the full input- and/or output-path. For example:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -language de -input .\EffiBriestKurz.txt -output .</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -language de -input .\EffiBriestKurz.txt -output .</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -968,7 +1029,6 @@ a test file of 630 words may easily take 1-2 minutes, even if 4 GB RAM
 are allocated to the task.</p>
 </div>
 </div>
-</div>
 <div class="sect2">
 <h3 id="FileReader">File Reader</h3>
 <div class="paragraph">
@@ -979,11 +1039,9 @@ are allocated to the task.</p>
 <div class="paragraph">
 <p>The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the <code>-reader</code> parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -reader xml -input file.xml -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -reader xml -input file.xml -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -995,11 +1053,9 @@ are allocated to the task.</p>
 <div class="paragraph">
 <p>In case you want to process a collection of texts rather than just a single file, you can do that by providing a path to the <code>-input</code> option. If you run the pipeline in the following way:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -input folder/With/Files/ -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -input folder/With/Files/ -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1008,11 +1064,9 @@ are allocated to the task.</p>
 <div class="paragraph">
 <p>You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only <em>.xmi</em> with the XML reader, you must start the pipeline in the following way:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -reader xml -input "folder/With/Files/*.xmi" -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -reader xml -input "folder/With/Files/*.xmi" -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1021,37 +1075,34 @@ are allocated to the task.</p>
 <div class="paragraph">
 <p>To read all files in all subfolders, you can use a pattern like this:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -input "folder/With/Subfolders/**/*.txt" -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -input "folder/With/Subfolders/\**/*.txt" -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>This will read in all <em>.txt</em> files in all subfolders. Note that the subfolder path will not be maintained in the output folder.</p>
 </div>
-<div class="sect4">
-<h5 id="Language">Language</h5>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Language">Language</h3>
 <div class="paragraph">
 <p>You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install <a href="#UsingTreeTagger">TreeTagger</a> first. To run the pipeline for German, execute the following command:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -language de -input file.txt -output folder</code></p>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -language de -input file.txt -output folder</pre>
 </div>
 </div>
 </div>
-</div>
-</div>
+<div class="sect2">
+<h3 id="CommandLineOptions">Command Line Options</h3>
 <div class="sect3">
-<h4 id="CommandLineOptions">Command Line Options<br></h4>
-<div class="sect4">
-<h5 id="Help">Help</h5>
+<h4 id="Help">Help</h4>
 <div class="paragraph">
 <p>The pipeline provides a help function that can be accessed on the
-command line with the "-help" option. Run <code>java -jar  ddw-0.4.5.jar -help</code> to get an overview of the possible command line arguments:</p>
+command line with the "-help" option. Run <code>java -jar  ddw-0.4.6.jar -help</code> to get an overview of the possible command line arguments:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1069,8 +1120,8 @@ command line with the "-help" option. Run <code>java -jar  ddw-0.4.5.jar -help</
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="Troubleshooting">Troubleshooting</h4>
+<div class="sect2">
+<h3 id="Troubleshooting">Troubleshooting</h3>
 <div class="paragraph">
 <p>If there is no output in your output folder and your command prompt
 shows</p>
@@ -1087,11 +1138,9 @@ flag <strong>Xms</strong> specifies the initial memory allocation pool for a J
 Virtual Machine (JVM). After adapting Windows' virtual memory type the
 following in the command prompt:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java –Xms -jar ddw-0.4.5.jar -input file.txt -output folder</code></p>
-</div>
+<pre>java –Xms -jar ddw-0.4.6.jar -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1100,11 +1149,9 @@ following in the command prompt:</p>
 <div class="paragraph">
 <p>For example, if you allocated 4GB then type:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xms4g -jar ddw-0.4.5.jar -input EffiBriestKurz.txt -output D:\DKPro\Workspace</code></p>
-</div>
+<pre>java -Xms4g -jar ddw-0.4.6.jar -input EffiBriestKurz.txt -output D:\DKPro\Workspace</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1113,13 +1160,15 @@ following in the command prompt:</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="AvailableComponents"><strong>Available Components</strong> <br></h3>
+</div>
+<div class="sect1">
+<h2 id="AvailableComponents">Available Components</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>As mentioned above, the pipeline contains a number of components</p>
 </div>
-<div class="sect3">
-<h4 id="Segmentation">Segmentation</h4>
+<div class="sect2">
+<h3 id="Segmentation">Segmentation</h3>
 <div class="paragraph">
 <p>Segmentation is the task of dividing running text into units like
 sentences and words.</p>
@@ -1147,8 +1196,8 @@ automatically break the text up into paragraphs) and so forth.</p>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="Part-of-SpeechTagging">Part-of-Speech Tagging</h4>
+<div class="sect2">
+<h3 id="Part-of-SpeechTagging">Part-of-Speech Tagging</h3>
 <div class="paragraph">
 <p>Labeling every word and punctuation mark (token) in a text corpus with a
 predefined set of part-of-speech tags (standardized abbreviations) or
@@ -1214,8 +1263,8 @@ tagging called the transformation-based tagger, or the Brill tagger,
 which shares features of both above tagging architectures.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="Lemmatization">Lemmatization</h4>
+<div class="sect2">
+<h3 id="Lemmatization">Lemmatization</h3>
 <div class="paragraph">
 <p>Mapping all different inflected word forms to one lemma is called
 lemmatization. It is related to stemming, an approach that tries to
@@ -1233,8 +1282,8 @@ of the words <em>gone</em>, <em>going</em>, and <em>goes</em> will not include t
 related term <em>went</em>, which would be the case after lemmatization.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="ConstituencyandDependencyParsing">Constituency and Dependency Parsing</h4>
+<div class="sect2">
+<h3 id="ConstituencyandDependencyParsing">Constituency and Dependency Parsing</h3>
 <div class="paragraph">
 <p>Parsing is the main task behind breaking down a text into its more basic
 pieces and structures. A parser will take some input text and find
@@ -1271,11 +1320,11 @@ with free word order, such as Czech and Turkish.</p>
 <p><a href="https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg">Dependency
 vs. constituency</a> by
 <a href="https://commons.wikimedia.org/w/index.php?title=User:Tjo3ya&amp;action=edit&amp;redlink=1">Tjo3ya</a>
-(<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>) </p>
+(<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>)</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="NamedEntityRecognition">Named Entity Recognition</h4>
+<div class="sect2">
+<h3 id="NamedEntityRecognition">Named Entity Recognition</h3>
 <div class="paragraph">
 <p>Named entity recognition (NER) is a pre-processing step in most
 information extraction tasks. Named entity stands for the text block,
@@ -1284,8 +1333,8 @@ text and categorizing them based on their different types, such as
 persons, organizations or locations.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="SemanticRoleLabeling">Semantic Role Labeling</h4>
+<div class="sect2">
+<h3 id="SemanticRoleLabeling">Semantic Role Labeling</h3>
 <div class="paragraph">
 <p>Semantic role labeling (SRL, also: thematic role labeling, case role
 assignment) refers to a parsing approach that aims towards detecting all
@@ -1295,10 +1344,12 @@ thus preparing for a semantic interpretation of the sentence.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="ConfiguringthePipeline">Configuring the Pipeline</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="ConfiguringthePipeline"><strong>Configuring the Pipeline</strong></h3>
-<div class="sect3">
-<h4 id="Runthefullpipeline">Run the full pipeline</h4>
+<h3 id="Runthefullpipeline">Run the Full Pipeline</h3>
 <div class="paragraph">
 <p>By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are <strong>disabled</strong>.</p>
 </div>
@@ -1306,8 +1357,8 @@ thus preparing for a semantic interpretation of the sentence.</p>
 <p>If you like to use them, feel free to enable them in the <code>default.properties</code> or create a new <code>.properties</code>-File and pass the path to this file via the <code>config</code>-parameter.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="Writeyourownconfigfile">Write your own config file </h4>
+<div class="sect2">
+<h3 id="Writeyourownconfigfile">Write Your Own Config File</h3>
 <div class="paragraph">
 <p>The pipeline can be configurated via properties-files that are stored in the <code>configs</code> folder. In this folder you find a <code>default.properties</code>, the most basic configuration file. For the different supported languages, you can find further properties-files, for example <code>default_de.properties</code> for German, <code>default_en.properties</code> for English and so on.</p>
 </div>
@@ -1338,31 +1389,25 @@ segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
 <div class="paragraph">
 <p>You can run the pipeline with your <code>.properties</code>-file by setting the command argument.</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>In case you store your <code>myconfigfile.properties</code> in the <code>configs</code> folder, you can run the pipeline via:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config myconfigfile.properties -input file.txt -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config myconfigfile.properties -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1371,11 +1416,9 @@ segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
 <div class="paragraph">
 <p>In case you like to use the <em>full</em>-version and also want to change the POS-tagger, you can run the pipeline in the following way:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1384,8 +1427,8 @@ segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
 <div class="paragraph">
 <p><strong>Note:</strong> The properties-files must use the <a href="https://en.wikipedia.org/wiki/ISO/IEC_8859-1">ISO-8859-1</a> encoding. If you like to include <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a> characters, you must encode them using \u[HEXCode].</p>
 </div>
-<div class="sect4">
-<h5 id="UnderstandingtheArgumentParameter">Understanding the Argument Parameter</h5>
+<div class="sect3">
+<h4 id="UnderstandingtheArgumentParameter">Understanding the Argument Parameter</h4>
 <div class="paragraph">
 <p>A parameter is a special variable, consisting one or more arguments, provided to the subroutine. Most components of the DKPro pipeline can be equipped with arguments to specify for example the model that should be used. A list of possible arguments is available <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/constant-values.html">here</a> in the column <strong>Constant Field</strong> or rather <strong>Value</strong>. Arguments are passed to the pipeline in a 3 tuple format:</p>
 </div>
@@ -1415,8 +1458,8 @@ segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="Buildingyourown">Building your own</h4>
+<div class="sect2">
+<h3 id="Buildingyourown">Building Your Own</h3>
 <div class="paragraph">
 <p>For creating your own pipeline the latest version of Java SDK (1.8 or
 higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
@@ -1440,14 +1483,13 @@ the <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/models/">list
 of models</a>.</p>
 </div>
 </div>
-</div>
 <div class="sect2">
 <h3 id="UsingTreeTagger">Using TreeTagger</h3>
 <div class="paragraph">
 <p>Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.</p>
 </div>
 <div class="sect3">
-<h4 id="TreeTaggerInstallation">TreeTagger Installation</h4>
+<h4 id="Installation">Installation</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1458,7 +1500,7 @@ of models</a>.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Extract the .tar.gz as the case may be .zip archive</p>
+<p>Extract the .tar.gz and .zip archive, respectively</p>
 </li>
 <li>
 <p>Create a new directory <code>tree-tagger</code> containing two folders <code>bin</code> and <code>lib</code> on your hard drive, e.g. <code>C:/tree-tagger/bin</code> and <code>C:/tree-tagger/lib</code></p>
@@ -1486,7 +1528,7 @@ of models</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="Configurationofthepipeline">Configuration of the pipeline</h4>
+<h4 id="Configuration">Configuration</h4>
 <div class="paragraph">
 <p>After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the <em>configs</em> folder <em>treetagger-example.properties</em>:</p>
 </div>
@@ -1504,11 +1546,9 @@ useLemmatizer = false</pre>
 <div class="paragraph">
 <p>Change the paths for the parameter <em>executablePath</em> and <em>modelLocation</em> to the correct paths on your machine. You can then use TreeTagger in your pipeline using the <code>-config</code> argument:</p>
 </div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config treetagger-example.properties -language la -input file.txt -output folder</code></p>
-</div>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config treetagger-example.properties -language la -input file.txt -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1523,10 +1563,13 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="OutputFormat">Output Format</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="OutputFormat"><strong>Output Format</strong><br></h3>
-<div class="sect3">
-<h4 id="Specification">Specification <br></h4>
+<h3 id="Specification">Specification</h3>
 <div class="paragraph">
 <p>Example
 (from <a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv">EffiBriestKurz.txt.csv</a>):</p>
@@ -1535,9 +1578,11 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 <p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png" alt="EffiBriestKurz.txt.csv"></span></p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="ReadingtheOutput">Reading the Output</h3>
 <div class="sect3">
-<h4 id="ReadingtheOutput">Reading the Output</h4>
-<div id="R" class="paragraph">
+<h4 id="R">R</h4>
+<div class="paragraph">
 <p>In R, a simple reader can be written as follows:</p>
 </div>
 <div class="listingblock">
@@ -1547,8 +1592,9 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
                 fill = T)                           # fill empty cells to avoid errors</code></pre>
 </div>
 </div>
-<div class="sect4">
-<h5 id="Python">Python</h5>
+</div>
+<div class="sect3">
+<h4 id="Python">Python</h4>
 <div class="paragraph">
 <p>In Python, you can use the following code to ingest the output file.</p>
 </div>
@@ -1563,8 +1609,8 @@ df = pd.read_csv(<span class="string"><span class="delimiter">&quot;</span><span
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="FurtherExamples">Further Examples</h4>
+<div class="sect2">
+<h3 id="FurtherExamples">Further Examples</h3>
 <div class="paragraph">
 <p>You can also specify a subset of columns to use. Columns are addressed
 using their column names.</p>
@@ -1620,8 +1666,8 @@ to process the entire file, e.g. in portions of sentences.</p>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="API">API</h4>
+<div class="sect2">
+<h3 id="API">API</h3>
 <div class="paragraph">
 <p>In addition to the examples above, an API (application program
 interface) will be provided, containing helper functions that simplify
@@ -1629,8 +1675,10 @@ the retrieval of (combinations of) of features. </p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</h3>
+</div>
+<div class="sect1">
+<h2 id="ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works straight forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:</p>
 </div>
@@ -1726,8 +1774,10 @@ word_length = word_length[df$CPOS != &quot;PUNC&quot;]</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</h3>
+</div>
+<div class="sect1">
+<h2 id="StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>In this recipe, we will demonstrate how to use the NLP pipeline&#8217;s output
 to explore different stylometrical aspects in a set of example texts
@@ -1747,8 +1797,8 @@ the descriptive vocabulary, i.e. the adjectives and adverbs, and the
 abstract sentence structures in terms of n-grams of part-of-speech
 tags. </p>
 </div>
-<div class="sect4">
-<h5 id="ExampleCorpus">Example Corpus</h5>
+<div class="sect2">
+<h3 id="ExampleCorpus">Example Corpus</h3>
 <div class="paragraph">
 <p>The
 <a href="https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&amp;modificationDate=1442405820574&amp;api=v2">example
@@ -1761,8 +1811,8 @@ on <a href="https://www.gutenberg.org/">Project Gutenberg</a>, headers and metad
 were removed from the plain text files before processing.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="PreparingDescriptiveVocabularyandPart-of-SpeechTags"><strong>Preparing Descriptive Vocabulary and Part-of-Speech Tags</strong></h5>
+<div class="sect2">
+<h3 id="PreparingDescriptiveVocabularyandPart-of-SpeechTags">Preparing Descriptive Vocabulary and Part-of-Speech Tags</h3>
 <div class="paragraph">
 <p>After running the NLP processing pipeline, the next step is to read out
 the relevant information from the CSV-files and store it in a form
@@ -1825,8 +1875,8 @@ for(file in files)
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="UsingStylo">Using Stylo</h5>
+<div class="sect2">
+<h3 id="UsingStylo">Using Stylo</h3>
 <div class="paragraph">
 <p>If you have not <strong>installed</strong> the Stylo package yet, do that with the
 following command into the R console:</p>
@@ -1923,8 +1973,10 @@ Kipling in our sample display a remarkable variability.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="TopicModelinginPython"><strong>Example Recipe: Topic Modeling in Python</strong></h3>
+</div>
+<div class="sect1">
+<h2 id="TopicModelinginPython">Example Recipe: Topic Modeling in Python</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Topic modeling refers to a family of computational techniques that can
 be used to discover the main themes in a set of texts by statistically
@@ -1961,8 +2013,8 @@ R. </p>
 <p>You can find the complete, ready-to-run scripts for this recipe
 <a href="https://github.com/stefanpernes/dariah-nlp-tutorial">here</a>.</p>
 </div>
-<div class="sect4">
-<h5 id="ExampleCorpus.1">Example Corpus</h5>
+<div class="sect2">
+<h3 id="ExampleCorpus.1">Example Corpus</h3>
 <div class="paragraph">
 <p>Any plain text or collection of texts can be used as input for topic
 modeling, however, this recipe is based on the pipeline&#8217;s CSV output for
@@ -1974,8 +2026,8 @@ Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft, and Robert E.
 Howard. </p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="SettinguptheEnvironment">Setting up the Environment</h5>
+<div class="sect2">
+<h3 id="SettinguptheEnvironment">Setting Up the Environment</h3>
 <div class="paragraph">
 <p>The following code is designed to run with Python 3, which is
 recommended for its
@@ -2065,8 +2117,8 @@ all CPU cores to speed up training. For the single core version, just
 replace <em>LdaMulticore</em> with <em>LdaModel</em>.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="ConfigurationSection">Configuration Section</h5>
+<div class="sect2">
+<h3 id="ConfigurationSection">Configuration Section</h3>
 <div class="paragraph">
 <p>The following statements are so called <em>constants</em> that reside in the
 global variable space of the script, being accessible to all functions
@@ -2122,8 +2174,8 @@ are trained on can be
 found <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/models/">here</a>.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="PreparingtheData">Preparing the Data</h5>
+<div class="sect2">
+<h3 id="PreparingtheData">Preparing the Data</h3>
 <div class="paragraph">
 <p>As in many other machine learning applications, the amount of code
 needed to clean the data and to bring it into a form that can be
@@ -2239,8 +2291,8 @@ stopwords += names.tolist()</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="FittingtheModel">Fitting the Model</h5>
+<div class="sect2">
+<h3 id="FittingtheModel">Fitting the Model</h3>
 <div class="paragraph">
 <p>Next, we can put it all together. The following is the script&#8217;s entry
 point, which is usually placed at the bottom of every Python script. It
@@ -2360,8 +2412,8 @@ model.save(<span class="string"><span class="delimiter">&quot;</span><span class
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="VisualizationOptions">Visualization Options</h5>
+<div class="sect2">
+<h3 id="VisualizationOptions">Visualization Options</h3>
 <div class="paragraph">
 <p>Each of the following visualizations is generated by its own Python
 script that is able to draw on contents and metadata of the LDA model
@@ -2369,9 +2421,8 @@ using the save files generated by <em>lda.py. </em>The scripts expect a path
 to the generated model <strong>.lda </strong>file and that it is in the same
 directory as the other save files.</p>
 </div>
-<div id="Interactive" class="paragraph">
-<p><strong>Interactive</strong></p>
-</div>
+<div class="sect3">
+<h4 id="Interactive">Interactive</h4>
 <div class="paragraph">
 <p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_interactive.py">Source</a>]</strong> This
 piece of code produces an interactive visualization of what the model
@@ -2393,9 +2444,9 @@ paper</a>.</p>
 <div class="paragraph">
 <p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png" alt="image"></span></p>
 </div>
-<div id="Heatmap" class="paragraph">
-<p><strong>Heatmap</strong></p>
 </div>
+<div class="sect3">
+<h4 id="Heatmap">Heatmap</h4>
 <div class="paragraph">
 <p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_heatmap.py">Source</a>] </strong>The
 heatmap option displays the kind of information that is probably most
@@ -2418,9 +2469,9 @@ until there is only one row per document to display.</p>
 <div class="paragraph">
 <p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png" alt="image"></span><br></p>
 </div>
-<div id="Network" class="paragraph">
-<p><strong>Network</strong></p>
 </div>
+<div class="sect3">
+<h4 id="Network">Network</h4>
 <div class="paragraph">
 <p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_network.py">Source</a>]</strong> For
 a more artistic presentation of a topic model, consider the following
@@ -2450,8 +2501,11 @@ settings <strong>k=0.060,</strong> <strong>iterations=30</strong> were passed t
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="StylometricClassificationinPython"><strong>Example Recipe: Stylometric Classification in Python</strong> </h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="StylometricClassificationinPython">Example Recipe: Stylometric Classification in Python</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>In this recipe, we will show how to implement a cross-genre stylometric
 classification system similar to the one proposed by van Halteren et al.
@@ -2471,8 +2525,8 @@ around 0.70 using only the feature set.</p>
 <p>You can find the complete, ready-to-run Python script
 on <a href="https://github.com/stefanpernes/dariah-nlp-tutorial">GitHub</a>.</p>
 </div>
-<div class="sect4">
-<h5 id="ExampleCorpus.2">Example Corpus</h5>
+<div class="sect2">
+<h3 id="ExampleCorpus.2">Example Corpus</h3>
 <div class="paragraph">
 <p>The original corpus used in the paper is controlled for various factors
 and designed to make the classification task as hard as possible in
@@ -2505,8 +2559,8 @@ minimum text length of 300 words (labelled "Gedichte"). You can
 the example corpus here</a></strong>.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="SettinguptheEnvironment.1">Setting up the Environment</h5>
+<div class="sect2">
+<h3 id="SettinguptheEnvironment.1">Setting Up the Environment</h3>
 <div class="paragraph">
 <p>Assuming you have Python installed, issuing the following command at the
 command line will download and install the packages needed for this
@@ -2534,8 +2588,8 @@ following import statements:</p>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="FeatureSelection">Feature Selection</h5>
+<div class="sect2">
+<h3 id="FeatureSelection">Feature Selection</h3>
 <div class="paragraph">
 <p>The author&#8217;s approach to measuring a human stylome rests on the idea
 that any individual form can be classified as long as one looks for a
@@ -2739,8 +2793,8 @@ calculation of specified classes:</p>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="PreparingtheData.1">Preparing the Data</h5>
+<div class="sect2">
+<h3 id="PreparingtheData.1">Preparing the Data</h3>
 <div class="paragraph">
 <p>What we need to do now, is to gather this information in bulk and
 convert it into a form suitable for training, respectively testing a
@@ -2803,8 +2857,8 @@ their respective rows.</p>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</h5>
+<div class="sect2">
+<h3 id="TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</h3>
 <div class="paragraph">
 <p>Now, we can put it all together - first we check for two arguments,
 a folder containing CSV files for training and one file for testing the
@@ -2903,8 +2957,8 @@ mean accuracy: 0.76 (+/- 0.01)</pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="PredictionusingtheClassifier">Prediction using the Classifier</h5>
+<div class="sect2">
+<h3 id="PredictionusingtheClassifier">Prediction Using the Classifier</h3>
 <div class="paragraph">
 <p>Finally, we can use the trained classifier object to predict which
 author the text can be attributed to. The test text - which should be
@@ -3008,8 +3062,10 @@ will list them here.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="NetworkVisualizationinPython"><strong>Example Recipe: Network Visualization in Python</strong></h3>
+</div>
+<div class="sect1">
+<h2 id="NetworkVisualizationinPython">Example Recipe: Network Visualization in Python</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The following example attempts to show how to create a simple social network visualization of German poets by using text files extracted from Wikipedia. The <a href="https://pypi.python.org/pypi/wikipedia">Wikipedia API</a> for Python is used to scrape the content from Wikipedia as <strong>plain text</strong>. With the help of the <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases">DARIAH-DKPro-Wrapper</a> we gain access to the <a href="https://en.wikipedia.org/wiki/Named-entity_recognition">Named Entities</a> (NE) in each file, compare them using basic Python programming and finally visualize them with the Python <a href="https://networkx.github.io">NetworkX</a> and <a href="http://matplotlib.org">matplotlib</a> packages.
 The basic assumption is that a connection between two authors exists if there is a certain amount of overlap in the Named Entities we extracted from their Wikipedia articles.
@@ -3018,8 +3074,8 @@ Every author is represented by a node, a connection between two authors by an ed
 <div class="paragraph">
 <p>You can find the ready-to-run scripts for this recipe <a href="https://github.com/severinsimmler/DARIAH-Network-Visualization">here</a>.</p>
 </div>
-<div class="sect4">
-<h5 id="SettinguptheEnvironment.2">Setting up the Environment</h5>
+<div class="sect2">
+<h3 id="SettinguptheEnvironment.2">Setting Up the Environment</h3>
 <div class="paragraph">
 <p>As explained in the <a href="#SettinguptheEnvironment">example above</a> you have to install three packages to realize this recipe.
 Issue the following command in the command line to download and install the needed packages:</p>
@@ -3034,8 +3090,8 @@ pip3 install networkx</pre>
 <p>Also make sure the package <em>matplotlib</em> is installed.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="CrawlingWikipedia">Part 1: Crawling Wikipedia</h5>
+<div class="sect2">
+<h3 id="CrawlingWikipedia">Crawling Wikipedia</h3>
 <div class="paragraph">
 <p>The first part of the recipe is designed for interactive use. It is recommended to copy the following code into a text file and interpret it with Python through the command prompt. For more clearness the whole script is divided into small parts with explanations on what is going on in the single parts.
 Use the following <code>import</code> statements in your first script after the first line:</p>
@@ -3069,9 +3125,9 @@ Use the following <code>import</code> statements in your first script after the 
 <div class="paragraph">
 <p>Alternatively, you can create your own list of authors (make sure you use the exact name used by Wikipedia).</p>
 </div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
 </div>
-<div class="sect4">
-<h5 id="_output">Output:</h5>
 <div class="listingblock">
 <div class="content">
 <pre>Creating authors.txt ...
@@ -3117,9 +3173,9 @@ Spervogel</pre>
                 <span class="keyword">pass</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
 </div>
-<div class="sect4">
-<h5 id="_output_2">Output:</h5>
 <div class="listingblock">
 <div class="content">
 <pre>Crawling Wikipedia ...
@@ -3209,8 +3265,8 @@ Spervogel: saved</pre>
 <p>If everything worked fine you should have one text file <strong>authors.txt</strong> containing a list of names in your working directory. In your output folder there should be one text file for each author listed in <strong>authors.txt</strong> containing the specific Wikipedia page.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="UsingDKProWrapperandNetworkX">Part 2: Using DKPro Wrapper and NetworkX to visualize networks</h5>
+<div class="sect2">
+<h3 id="UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to Visualize Networks</h3>
 <div class="paragraph">
 <p>In the second part of the recipe you will analyze your previously created text files with the DKPro-Wrapper.
 How to process a collection of files in the same folder is explained <a href="#InputFolders">further above</a>.
@@ -3307,9 +3363,9 @@ Create the second (and last) script starting after the first line with:</p>
     <span class="keyword">return</span> G</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
 </div>
-<div class="sect4">
-<h5 id="_output_3">Output:</h5>
 <div class="listingblock">
 <div class="content">
 <pre>this is the weight: 20
@@ -3382,9 +3438,9 @@ Number of nodes: 7   Number of edges:  8</pre>
 <div class="paragraph">
 <p><code>python3 /users/networks/graph.py /users/networks/csv /users/networks</code></p>
 </div>
+<div class="paragraph">
+<p><strong>Output:</strong></p>
 </div>
-<div class="sect4">
-<h5 id="_output_4">Output:</h5>
 <div class="paragraph">
 <p>Your output is a <strong>.png file</strong> and should look like one of these.</p>
 </div>
@@ -3404,16 +3460,16 @@ Number of nodes: 7   Number of edges:  8</pre>
 <p>This recipe also works with other languages, e.g. English. You have to update the main part of the <code>create_authors</code> function and one possible output could look like this for <code>"List of English-language poets" "A"</code>:
 <span class="image"><img src="https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/american_a.png" alt="image"></span></p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_discussion">Discussion:</h5>
 <div class="paragraph">
-<p>In this recipe we created a visualization of an author&#8217;s social network using the output of the DARIAH-DKPro-Wrapper and two simple Python scripts to gain knowledge about the authors' relations. This is a great starting point for further research as the existing relations can now be examined more closely. The graphs might even hint at certain connections that have not been made yet. This kind of analysis therefore provides a groundwork and direction for further investigations on the topic.</p>
+<p><strong>Discussion:</strong>
+In this recipe we created a visualization of an author&#8217;s social network using the output of the DARIAH-DKPro-Wrapper and two simple Python scripts to gain knowledge about the authors' relations. This is a great starting point for further research as the existing relations can now be examined more closely. The graphs might even hint at certain connections that have not been made yet. This kind of analysis therefore provides a groundwork and direction for further investigations on the topic.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="AboutthisTutorial">About this Tutorial</h3>
+</div>
+<div class="sect1">
+<h2 id="AboutthisTutorial">About this Tutorial</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Contact:
 <a href="https://dev2.dariah.eu/wiki/display/publicde/Cluster+5%3A+Big+Data+in+den+Geisteswissenschaften#Partner">DARIAH-DE
@@ -3475,9 +3531,10 @@ provided by the German Federal Ministry for Research and Education
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-01 18:14:59 CEST
+Last updated 2016-07-08 11:21:47 CEST
 </div>
 </div>
 </body>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
 <meta name="author" content="DARIAH2 - Cluster 5, Use Case 1 Team">
-<title>DARIAH-DKPro-Wrapper v0.4.5</title>
+<title>DARIAH-DKPro-Wrapper v0.4.6</title>
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -511,7 +511,7 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>DARIAH-DKPro-Wrapper v0.4.5</h1>
+<h1>DARIAH-DKPro-Wrapper v0.4.6</h1>
 <div class="details">
 <span id="author" class="author">DARIAH2 - Cluster 5, Use Case 1 Team</span><br>
 </div>
@@ -519,7 +519,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toctitle">User Guide</div>
 <ul class="sectlevel1">
 <li><a href="#_system_requirements">System Requirements</a></li>
-<li><a href="#_running_the_pipeline">Running the pipeline</a></li>
+<li><a href="#_running_the_pipeline">Running the Pipeline</a></li>
 <li><a href="#_run_the_full_pipeline">Run the full pipeline</a></li>
 <li><a href="#_program_parameters">Program Parameters</a></li>
 <li><a href="#_file_reader">File Reader</a>
@@ -528,17 +528,18 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_reading_directories">Reading Directories</a></li>
 </ul>
 </li>
-<li><a href="#_write_your_own_config_files">Write your own config files</a>
+<li><a href="#_write_your_own_config_files">Write Your Own Config Files</a>
 <ul class="sectlevel2">
 <li><a href="#_understanding_the_argument_parameter">Understanding the Argument Parameter</a></li>
 </ul>
 </li>
-<li><a href="#__a_id_treetagger_a_using_treetagger"><a id="TreeTagger"></a>Using TreeTagger</a>
+<li><a href="#_using_treetagger">Using TreeTagger</a>
 <ul class="sectlevel2">
-<li><a href="#_treetagger_installation">TreeTagger Installation</a></li>
-<li><a href="#_configuration_of_the_pipeline">Configuration of the pipeline</a></li>
+<li><a href="#_installation">Installation</a></li>
+<li><a href="#_configuration">Configuration</a></li>
 </ul>
 </li>
+<li><a href="#_logging_and_reporting_errors">Logging and reporting errors</a></li>
 </ul>
 </div>
 </div>
@@ -546,7 +547,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is a short user guide for the current version v0.4.5 of the DARIAH-DKPro-Wrapper.</p>
+<p>This is a short user guide for the current version v0.4.6 of the DARIAH-DKPro-Wrapper.</p>
 </div>
 </div>
 </div>
@@ -579,19 +580,23 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_pipeline">Running the pipeline</h2>
+<h2 id="_running_the_pipeline">Running the Pipeline</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>After downloading and unzipping the files, execute in your command line the following code:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -input file.txt -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If you do not specify the <code>-language</code> parameter, the pipeline is prepared to analyze English input. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install <a href="#TreeTagger">TreeTagger</a> first. To run the pipeline for German, execute the following command:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -language de -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar  ddw-0.4.6.jar -language de -input file.txt -output folder</pre>
+</div>
 </div>
 </div>
 </div>
@@ -610,7 +615,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_program_parameters">Program Parameters</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Run <code>java -jar  ddw-0.4.5.jar -help</code>  to get an overview of the possible command line arguments:</p>
+<p>Run <code>java -jar  ddw-0.4.6.jar -help</code>  to get an overview of the possible command line arguments:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -639,8 +644,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the <code>-reader</code> parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -reader xml -input file.xml -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar  ddw-0.4.6.jar -reader xml -input file.xml -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The XML reader skips XML tags and processes only text which is inside the XML tags. The XPath to each tag is conserved and stored in the column <strong>SectionId</strong> in the ouput format.</p>
@@ -651,8 +658,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>You can also specify for the <strong>-input</strong> argument a directory instead of a file. If you run the pipeline in the following way:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -input folder/With/Files/ -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar  ddw-0.4.6.jar -input folder/With/Files/ -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>the pipeline will process all files with a <em>.txt</em> extension for the Text-reader. For the XML-reader, it will process all files with a <em>.xml</em> extension.</p>
@@ -660,8 +669,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only <em>.xmi</em> with the XML reader, you must start the pipeline in the following way:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -reader xml -input "folder/With/Files/*.xmi" -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar  ddw-0.4.6.jar -reader xml -input "folder/With/Files/*.xmi" -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> If you use patterns (i.e. paths containing an *), you must set it into quotes to prevent shell globbing.</p>
@@ -669,8 +680,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>To read all files in all subfolders, you can use a pattern like this:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar  ddw-0.4.5.jar -input "folder/With/Subfolders/**/*.txt" -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar  ddw-0.4.6.jar -input "folder/With/Subfolders/\**/*.txt" -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>This will read in all <em>.txt</em> files in all subfolders. Note that the subfolder path will not be maintained in the output folder.</p>
@@ -679,7 +692,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="_write_your_own_config_files">Write your own config files</h2>
+<h2 id="_write_your_own_config_files">Write Your Own Config Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The pipeline can be configurated via properties-files that are stored in the <code>configs</code> folder. In this folder you find a <code>default.properties</code>, the most basic configuration file. For the different supported languages, you can find further properties-files, for example <code>default_de.properties</code> for German, <code>default_en.properties</code> for English and so on.</p>
@@ -687,20 +700,26 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>If you like to write your own config file, just create your own <code>.properties</code> file. You can run the pipeline with your <code>.properties</code>-file by setting the command argument.</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config /path/to/my/config/myconfigfile.properties -input file.txt -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>In case you store your <code>myconfigfile.properties</code> in the <code>configs</code> folder, you can run the pipeline via:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config myconfigfile.properties -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config myconfigfile.properties -input file.txt -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>You can split your config file into different parts and pass them all to the pipeline by seperating the paths using comma or semicolons. The pipeline examines all passed config files and derives the final configuration from all files. The config-file passed as last arguments has the highest priority, i.e. it can overwrite the values for all previous config files:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config myfile1.properties,myconfig2.properties,myfile3.properties -input file.txt -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> The system always uses the default.properties and default_[langcode].properties as basic configuration files. All further config files are added on top of these files.</p>
@@ -708,8 +727,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>In case you like to use the <em>full</em>-version and also want to change the POS-tagger, you can run the pipeline in the following way:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config myFullVersion.properties,myPOSTagger.properties -input file.txt -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>In <code>myPOSTagger.properties</code> you just add the configuration for the different POS-tagger.</p>
@@ -734,13 +755,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="__a_id_treetagger_a_using_treetagger"><a id="TreeTagger"></a>Using TreeTagger</h2>
+<h2 id="_using_treetagger">Using TreeTagger</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.</p>
 </div>
 <div class="sect2">
-<h3 id="_treetagger_installation">TreeTagger Installation</h3>
+<h3 id="_installation">Installation</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -751,7 +772,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Extract the .tar.gz as the case may be .zip archive</p>
+<p>Extract the .tar.gz and .zip archive, respectively</p>
 </li>
 <li>
 <p>Create a new directory <code>tree-tagger</code> containing two folders <code>bin</code> and <code>lib</code> on your hard drive, e.g. <code>C:/tree-tagger/bin</code> and <code>C:/tree-tagger/lib</code></p>
@@ -779,7 +800,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration_of_the_pipeline">Configuration of the pipeline</h3>
+<h3 id="_configuration">Configuration</h3>
 <div class="paragraph">
 <p>After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the <em>configs</em> folder <em>treetagger-example.properties</em>:</p>
 </div>
@@ -797,8 +818,10 @@ useLemmatizer = false</pre>
 <div class="paragraph">
 <p>Change the paths for the parameter <em>executablePath</em> and <em>modelLocation</em> to the correct paths on your machine. You can then use TreeTagger in your pipeline using the <code>-config</code> argument:</p>
 </div>
-<div class="paragraph">
-<p><code>java -Xmx4g -jar ddw-0.4.5.jar -config treetagger-example.properties -language la -input file.txt -output folder</code></p>
+<div class="listingblock">
+<div class="content">
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -config treetagger-example.properties -language la -input file.txt -output folder</pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Check the output of the pipeline that TreeTagger is used. The output of your pipeline should look something like this:</p>
@@ -813,10 +836,29 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_logging_and_reporting_errors">Logging and reporting errors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The pipeline will only display terse status and error information on the screen in order to not overload users with useless information. Detailed information will be written to a log file, <code>ddw.log</code> — when you report bugs, please always provide that log file.  The log file contains status information that is written to the screen, but also output that otherwise would be written to the screen by other components, together with source information and timestamps. Existing files will be appended to.</p>
+</div>
+<div class="paragraph">
+<p>Experts might want to fine-tune what is displayed and what is logged — you can do so by providing your own log4j2 configuration file. To do so, download and modify <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/blob/master/src/main/resources/log4j2.xml">our default log4j2 configuration file</a> and run the pipeline using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>java -Dlog4j.configurationFile=your-log4j2.xml -Xmx4g ddw-0.4.6.jar [options]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the <a href="https://logging.apache.org/log4j/2.x/manual/configuration.html">log4j2 manual</a> for more information.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-01 18:14:59 CEST
+Last updated 2016-07-08 14:59:59 CEST
 </div>
 </div>
 </body>
