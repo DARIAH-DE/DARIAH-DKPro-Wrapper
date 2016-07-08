@@ -138,6 +138,7 @@ public class RunPipeline {
 
 	
 	private static boolean optResume = false;
+	private static boolean optWriteAnn = false;
 
 	private static void printConfiguration(String[] configFileNames) {
 		logger.info("Input: "+optInput);
@@ -383,6 +384,12 @@ public class RunPipeline {
 		
 		Option resume = OptionBuilder.withDescription("Already processed files will be skipped").create("resume");
 		options.addOption(resume);
+		
+		Option writeAnnotations = OptionBuilder
+				.withDescription("Debug option: Dump annotations to the log")
+				.create("wann");
+		options.addOption(writeAnnotations);
+				
 
 
 
@@ -435,6 +442,9 @@ public class RunPipeline {
 		if(cmd.hasOption(resume.getOpt())) {
 			optResume = true;
 		}
+		if (cmd.hasOption(writeAnnotations.getOpt())) {
+			optWriteAnn = true;
+		}
 
 
 		return true;
@@ -443,6 +453,7 @@ public class RunPipeline {
 	public static void main(String[] args)  {
 
 		Date startDate = new Date();
+		
 		
 		logger.debug("==== Starting new session ====");
 		logger.debug("Arguments: " + Joiner.on(' ').join(args));
@@ -637,8 +648,8 @@ public class RunPipeline {
 						(optNER) ? ner : noOp,
 						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 						(optCoref) ? coref : noOp,
-						writer
-//						,annWriter
+						writer,
+						optWriteAnn? annWriter : noOp
 						);
 				} catch (OutOfMemoryError e) {
 					logger.error("Out of Memory at file: "+GlobalFileStorage.getInstance().getLastPolledFile().getAbsolutePath(), e);
