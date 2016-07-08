@@ -70,6 +70,10 @@ import de.tudarmstadt.ukp.dkpro.core.tokit.PatternBasedTokenSegmenter;
 
 public class RunPipeline {
 	
+	static {
+		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
+	}
+	
 	private static Logger logger = LogManager.getLogger(RunPipeline.class);
 	private static PrintStream stdout = System.out;	// we'll redirect the originals later to the logging syste
 	private static PrintStream stderr = System.err;
