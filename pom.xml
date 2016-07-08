@@ -11,6 +11,7 @@
 	<version>0.4.6-SNAPSHOT</version>
 	<properties>
 		<dkpro-version>1.8.0</dkpro-version>
+		<rat.skip>true</rat.skip>
 	</properties>
 	<repositories>
 		<repository>
