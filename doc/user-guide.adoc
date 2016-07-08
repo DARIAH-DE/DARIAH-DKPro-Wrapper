@@ -207,3 +207,15 @@ POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/latin.par, modelEncoding, utf-8
 ----
 
+== Logging and reporting errors
+
+The pipeline will only display terse status and error information on the screen in order to not overload users with useless information. Detailed information will be written to a log file, `ddw.log` — when you report bugs, please always provide that log file.  The log file contains status information that is written to the screen, but also output that otherwise would be written to the screen by other components, together with source information and timestamps. Existing files will be appended to. 
+
+Experts might want to fine-tune what is displayed and what is logged — you can do so by providing your own log4j2 configuration file. To do so, download and modify https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/blob/master/src/main/resources/log4j2.xml[our default log4j2 configuration file] and run the pipeline using: 
+
+[subs="attributes"]
+----
+java -Dlog4j.configurationFile=your-log4j2.xml -Xmx4g ddw-{version}.jar [options]
+----
+
+See the link:https://logging.apache.org/log4j/2.x/manual/configuration.html[log4j2 manual] for more information.
