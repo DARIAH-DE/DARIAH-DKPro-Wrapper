@@ -118,8 +118,8 @@ public class XmlReader extends CasCollectionReader_ImplBase {
 	        DocumentMetaData docMetaData = DocumentMetaData.create(aCAS);
             docMetaData.setDocumentTitle(xmlFile.getName());
             docMetaData.setDocumentId(xmlFile.getAbsolutePath());
-            docMetaData.setDocumentBaseUri("file:"+xmlFile.getParentFile().getAbsolutePath());
-            docMetaData.setDocumentUri("file:"+xmlFile.getAbsolutePath());
+            docMetaData.setDocumentBaseUri(xmlFile.getParentFile().getAbsoluteFile().toURI().toString());
+            docMetaData.setDocumentUri(xmlFile.getAbsoluteFile().toURI().toString());
 
 		} catch (Exception e) {
 			//e.printStackTrace();
