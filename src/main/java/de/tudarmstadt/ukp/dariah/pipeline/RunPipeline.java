@@ -136,12 +136,12 @@ public class RunPipeline {
 	private static boolean optResume = false;
 
 	private static void printConfiguration(String[] configFileNames) {
-		logger.debug("Input: "+optInput);
-		logger.debug("Output: "+optOutput);
-		logger.debug("Config: "+StringUtils.join(configFileNames, ", "));
+		logger.info("Input: "+optInput);
+		logger.info("Output: "+optOutput);
+		logger.info("Config: "+StringUtils.join(configFileNames, ", "));
 
-		logger.debug("Language: "+optLanguage);
-		logger.debug("Reader: "+optReader);
+		logger.info("Language: "+optLanguage);
+		logger.info("Reader: "+optReader);
 		logger.debug("Start Quote: "+optStartQuote);
 		logger.debug("Paragraph Single Line Break: "+optParagraphSingleLineBreak);
 
@@ -194,7 +194,7 @@ public class RunPipeline {
 	private static void debugIfNotEmpty(String text,
 			Object[] arguments) {
 		if(arguments != null && arguments.length > 0)
-			logger.info(text+StringUtils.join(arguments, ", "));
+			logger.debug(text+StringUtils.join(arguments, ", "));
 	}
 
 	public static Class<? extends AnalysisComponent> getClassFromConfig(Configuration config, String key) throws ClassNotFoundException {
@@ -388,7 +388,14 @@ public class RunPipeline {
 		if(cmd.hasOption("help")) {
 			// automatically generate the help statement
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp( "pipeline.jar", options );
+			PrintStream loggedOut = System.out;
+			System.setOut(stdout);
+			try {
+				formatter.printHelp("ddw.jar",  options);
+			} finally {
+				System.setOut(loggedOut);
+			}
+			
 			return false;
 		}
 		if(cmd.hasOption(input.getOpt())) {
@@ -436,8 +443,8 @@ public class RunPipeline {
 		logger.debug("==== Starting new session ====");
 		logger.debug("Arguments: " + Joiner.on(' ').join(args));
 
-		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN).setMarker(MarkerManager.getMarker("STDERR")).buildPrintStream());
-		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.INFO).setMarker(MarkerManager.getMarker("STDOUT")).buildPrintStream());
+		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN) .setMarker(MarkerManager.getMarker("STDERR")).buildPrintStream());
+		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.DEBUG).setMarker(MarkerManager.getMarker("STDOUT")).buildPrintStream());
 		
 		try {
 			if(!parseArgs(args)) {
