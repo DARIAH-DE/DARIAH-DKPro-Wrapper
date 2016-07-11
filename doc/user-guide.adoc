@@ -49,7 +49,7 @@ If you do not specify the `-language` parameter, the pipeline is prepared to ana
 java -Xmx4g -jar  ddw-{version}.jar -language de -input file.txt -output folder
 ----
 
-== Run the full pipeline
+=== Run the Full Pipeline
 By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are *disabled*.
 
 If you like to use them, feel free to enable them in the `default.properties` or create a new `.properties`-File and pass the path to this file via the `config`-parameter.
