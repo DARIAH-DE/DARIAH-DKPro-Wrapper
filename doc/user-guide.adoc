@@ -209,6 +209,10 @@ POS-Tagger: class de.tudarmstadt.ukp.dkpro.core.treetagger.TreeTaggerPosTagger
 POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C:/tree-tagger/lib/latin.par, modelEncoding, utf-8
 ----
 
+== Output files
+
+The output files are UTF-8 encoded _tab separated values_ that have a field heading line and _don't use quoting_. Each line represents one token. The fields do not contain whitespace, but they may contain `"` or `'` characters if these are in the text, so if you have trouble importing the output files, check your CSV reader's settings. See the link:tutorial.html[Tutorial] for a usage example.
+
 == Logging and reporting errors
 
 The pipeline will only display terse status and error information on the screen in order to not overload users with useless information. Detailed information will be written to a log file, `ddw.log` — when you report bugs, please always provide that log file.  The log file contains status information that is written to the screen, but also output that otherwise would be written to the screen by other components, together with source information and timestamps. Existing files will be appended to. 
