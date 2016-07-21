@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
     
-:version:  0.4.5
+:version:  0.4.6
 
 = DARIAH-DKPro-Wrapper v{version}
 :Author: DARIAH2 - Cluster 5, Use Case 1 Team
@@ -29,7 +29,7 @@ To run the pipeline properly, a system equipped with and able to handle at least
 * Linux (Ubuntu 14.04, 15.10)
 * Windows 7/8/10
 
-Furthermore, the  pipeline depends on a *internet connection* when running to download the models for the current configuration. *It does not work off line!*
+Furthermore, the  pipeline depends on an *internet connection* when running to download the models for the current configuration. *It does not work off line!*
 
 The pipeline requires *Java 1.8* or higher. You can download Java from the http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html[Oracle website]. You can check your current Java version by running `java -version` in your command line. You should use the *64 bit* version of Java in order to be able to allocate ≥ 4 GB of RAM.
 
