@@ -172,10 +172,9 @@ needed and selecting "Open command window here".
 === Processing a Textfile
 
 Now you can process a text file. How to test when you don't have any
-data? We've prepared a demonstration text
-link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt?version=1&modificationDate=1434979988305&api=v2[[1\]] that
+data? We've prepared a link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt[demonstration text] that
 can be downloaded and processed via the pipeline. You can compare your
-output with this file link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&modificationDate=1434960896211&api=v2[[2\]].
+output with link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv[this file].
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
 from link:http://textgridrep.org/[TextGrid Repository] or link:http://www.deutschestextarchiv.de/[Deutsches
