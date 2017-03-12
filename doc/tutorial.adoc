@@ -15,7 +15,7 @@
 :version:  0.4.6
 
 = NLP Based Analysis of Literary Texts (M 5.2.3)
-:toc: macro
+:toc: left
 :toc-title: 
 
 The following tutorial describes how to analyze texts, by first
