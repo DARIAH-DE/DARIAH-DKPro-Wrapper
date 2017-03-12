@@ -18,9 +18,6 @@
 :toc: left
 //:toc-placement!:
 
-//toc::[]
-:numbered:
-
 The following tutorial describes how to analyze texts, by first
 *link:#RunningthePipeline[generating linguistic annotations]* with a simple, single java program that bundles
 the abilities of several state-of-the-art NLP (Natural Language
@@ -34,6 +31,9 @@ convenient access to many important DKPro features even for users with
 virtually no work experience with the framework. The example recipes
 further below describe how to use the pipeline's output for advanced
 analytic procedures.
+
+//toc::[]
+:numbered:
 
 == Setting Up the Pipeline
 === System Requirements
