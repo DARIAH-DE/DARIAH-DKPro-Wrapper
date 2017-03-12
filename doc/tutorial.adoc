@@ -172,9 +172,9 @@ needed and selecting "Open command window here".
 === Processing a Textfile
 
 Now you can process a text file. How to test when you don't have any
-data? We've prepared a link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt[demonstration text] that
+data? We've prepared a link:content/EffiBriestKurz.txt[demonstration text] that
 can be downloaded and processed via the pipeline. You can compare your
-output with link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv[this file].
+output with link:content/EffiBriestKurz.txt.csv[this file].
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
 from link:http://textgridrep.org/[TextGrid Repository] or link:http://www.deutschestextarchiv.de/[Deutsches
@@ -437,7 +437,7 @@ representation, a dependency tree can be described as flat. The lack of
 phrase structure makes dependency grammars a good match for languages
 with free word order, such as Czech and Turkish.
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/Wearetryingtounderstandthedifference_%282%29.jpg[Parsing]
+image:content/constituency_dependency.jpg[Parsing]
 
 link:https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg[Dependency
 vs. constituency] by
@@ -477,7 +477,7 @@ If you like to use them, feel free to enable them in the `default.properties` or
 
 The pipeline can be configurated via properties-files that are stored in the `configs` folder. In this folder you find a `default.properties`, the most basic configuration file. For the different supported languages, you can find further properties-files, for example `default_de.properties` for German, `default_en.properties` for English and so on.
 
-If you like to write your own config file, just create your own `.properties` file. You have a range of possibilities to modify the pipeline for your purpose as you can see link:https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/index.html[here]. 
+If you like to write your own config file, just create your own `.properties` file. You have a range of possibilities to modify the pipeline for your purpose as you can see link:https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/index.html[here].
 
 For clarification have a look at line 3 to 13 in `default.properties`:
 
@@ -628,9 +628,9 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 === Specification
 
 Example
-(from link:https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
+(from link:content/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png[EffiBriestKurz.txt.csv]
+image:content/effibriest_screenshot.png[EffiBriestKurz.txt.csv]
 
 [[ReadingtheOutput]]
 === Reading the Output
@@ -833,7 +833,7 @@ tags. 
 === Example Corpus
 
 The
-link:https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&modificationDate=1442405820574&api=v2[example
+link:content/beispielkorpus-kurzgeschichten.zip[example
 set] is a small collection of English short stories (the "small" and
 "short" aspects hopefully improving processing time in a way suitable
 for an example tutorial) written between 1889 and 1936 by four different
@@ -949,12 +949,12 @@ stylo()
 
 into the R console. The interface will appear:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/Stylo.png[Stylo]
+image:content/stylo.png[Stylo]
 
 You can now, for example, run a cluster analysis in Stylo. Doing that
 with the **unprocessed texts**, yields the following result:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/words_fig_01.png[Cluster]
+image:content/unprocessed_cluster.png[Cluster]
 
 The authors are clearly separated, the British authors Doyle and Kipling
 are grouped together on one branch, the two Americans on the other.
@@ -963,7 +963,7 @@ Now, you can change into the folder with the **descriptive vocabulary**,
 and try the same procedure. With the example data set, we get the
 following result:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/dv_fig_01.png[Cluster]
+image:content/descriptive_cluster.png[Cluster]
 
 While text from the same authors still clustering together, it seems
 that, in contrary to their overall stylistic profile, Howard and Kipling
@@ -976,7 +976,7 @@ in the Stylo interface and choose n-grams instead of single words as
 features. Our example data set, yields the following output, when using
 trigrams as features:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/pos_01.png[image]
+image:content/pos_cluster.png[image]
 
 Interpreting the frequency trigrams of part-of-speech tags an
 approximation for the preference of certain sentence structures, three
@@ -1027,7 +1027,7 @@ Any plain text or collection of texts can be used as input for topic
 modeling, however, this recipe is based on the pipeline's CSV output for
 an improved feature selection process, e.g. controlling what should be
 included or excluded from the model. We will use the
-same link:https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&modificationDate=1442405820574&api=v2[collection
+same link:content/beispielkorpus-kurzgeschichten.zip?[collection
 of English short stories] as in the last recipe, featuring works by
 Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft, and Robert E.
 Howard. 
@@ -1412,7 +1412,7 @@ directory as the other save files.
 piece of code produces an interactive visualization of what the model
 has learned from the data. You can explore our example model by
 downloading
-link:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.html?version=1&modificationDate=1443696896209&api=v2[this
+link:content/kurzgeschichten_interactive.html[this
 HTML file] and opening it in a browser. The figure in the left column
 shows a projection of the inter-topic distances onto two dimensions, the
 barchart on the right shows the most useful terms for interpreting
@@ -1425,7 +1425,7 @@ has been described in
 http://nlp.stanford.edu/events/illvi2014/papers/sievert-illvi2014.pdf[this
 paper].
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png[image]
+image:content/kurzgeschichten_interactive.png[image]
 
 [[Heatmap]]
 ==== Heatmap
@@ -1448,7 +1448,7 @@ section] in __lda.py__) - smaller document sizes 'zoom in' on the
 thematic development inside texts, while larger ones 'zoom out', up
 until there is only one row per document to display.
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png[image] +
+image:content/kurzgeschichten_heatmap.png[image]
 
 
 [[Network]]
@@ -1463,7 +1463,7 @@ namely the
 link:http://nbviewer.ipython.org/github/sgsinclair/alta/blob/master/ipynb/TopicModelling.ipynb#Graphing-Topic-Terms[Graphing
 Topic Terms] function, which produces the following graph:
 
-image:https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_network.png[image]
+image:content/kurzgeschichten_network.png[image]
 
 The graph shows the top 30 terms for each topic. Terms that are only
 connected to one topic are placed on the outside, while the terms that
@@ -1526,7 +1526,7 @@ information is not needed for the classification experiment) and
 indicate whether a longer text has been truncated ("Anfang").
 Additionally, some poems had to be concatenated in order to arrive at a
 minimum text length of 300 words (labelled "Gedichte"). You can
-**link:https://wiki.de.dariah.eu/download/attachments/40213783/grillparzer-kleist.zip?version=1&modificationDate=1436871578064&api=v2[get
+**link:content/grillparzer-kleist.zip[get
 the example corpus here]**.
 
 [[SettinguptheEnvironment.1]]
@@ -2053,7 +2053,7 @@ In the following part we will create a new text file including a list of authors
 ----
 def create_authors(working_directory, wiki_page, wiki_section):
     """Gathers names from Wikipedia"""
-    
+
     print("\nCreating authors.txt ...")
     with open(working_directory + "/authors.txt", "w", encoding='utf-8') as authors:
         full_content = wikipedia.page(wiki_page)
@@ -2063,7 +2063,7 @@ def create_authors(working_directory, wiki_page, wiki_section):
         print(only_name)
 ----
 
-As Wikipedia happens to consist of living documents we provide a snapshot of a list of authors: link:https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/doc/author.txt[author.txt]
+As Wikipedia happens to consist of living documents, we provide a snapshot of a list of authors link:content/author.txt[here].
 
 Alternatively, you can create your own list of authors (make sure you use the exact name used by Wikipedia).
 
@@ -2141,7 +2141,7 @@ def main(working_directory, output_directory, wiki_page, wiki_section):
     :param wiki_page: e.g. "Liste deutschsprachiger Lyriker"
     :param wiki_section: e.g. "12. Jahrhundert"
     """
-    
+
     wikipedia.set_lang("de")    # change language
     create_authors(working_directory, wiki_page, wiki_section)
     crawl_wikipedia(sys.argv[1] + "/authors.txt", output_directory)
@@ -2194,7 +2194,7 @@ If everything worked fine you should have one text file *authors.txt* containing
 [[UsingDKProWrapperandNetworkX]]
 === Using DKPro Wrapper and NetworkX to Visualize Networks
 
-In the second part of the recipe you will analyze your previously created text files with the DKPro-Wrapper. 
+In the second part of the recipe you will analyze your previously created text files with the DKPro-Wrapper.
 How to process a collection of files in the same folder is explained link:#InputFolders[further above].
 After creating a *.csv file* for each text file you use Python for further work on your files. Make sure you import the different modules first.
 Create the second (and last) script starting after the first line with:
@@ -2217,7 +2217,7 @@ The following function ingests the annotated file and extracts every NE. In the 
 ----
 def ne_count(input_file):
     """Extracts only Named Entities"""
-    
+
     ne_counter = defaultdict(int)
     with open(input_file, encoding='utf-8') as csv_file:
         read_csv = csv.DictReader(csv_file, delimiter='\t', quoting=csv.QUOTE_NONE)
@@ -2240,7 +2240,7 @@ This one is used to compare the dictionaries created above. It returns the numbe
 ----
 def compare_ne_counter(ne_dict1, ne_dict2):
     """Compares two dictionaries"""
-    
+
     weight = 0
     for key in ne_dict1.keys():
         if key in ne_dict2.keys():
@@ -2255,7 +2255,7 @@ To label the nodes for the graph, this function extracts the names by removing t
 ----
 def extract_basename(file_path):
     """Extracts names from file names"""
-    
+
     file_name_txt_csv = os.path.basename(file_path)
     file_name_txt = os.path.splitext(file_name_txt_csv)
     file_name = os.path.splitext(file_name_txt[0])
@@ -2268,7 +2268,7 @@ Finally, creating the graph:
 ----
 def create_graph(input_folder):
     """Creates graph including nodes and edges"""
-    
+
     G = nx.Graph()
     file_list = glob.glob(input_folder)
 
@@ -2321,7 +2321,7 @@ def main(input_folder, output_folder):
     :param input_folder: e.g. /users/networks/csv
     :param output_folder: e.g. /users/networks
     """
-    
+
     G = create_graph(input_folder + "/*")
     # If you want to create a circular graph, add '#' in front of every line of the following block,
     # erase the '#' of the three lines after 'Circular drawing', and run the script (again)
@@ -2359,18 +2359,18 @@ Your output is a *.png file* and should look like one of these.
 
 
 Poets of the 12th century:
-image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/12th_century.png[image]
+image:content/12th_century.png[image]
 
 
 Poets of the 13th century:
-image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/13th_century.png[image]
+image:content/13th_century.png[image]
 
 
 In case you decided to draw a circular graph:
-image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/circular_new.png[image]
+image:content/circular_new.png[image]
 
 This recipe also works with other languages, e.g. English. You have to update the main part of the `create_authors` function and one possible output could look like this for `"List of English-language poets" "A"`:
-image:https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/american_a.png[image]
+image:content/american_a.png[image]
 
 
 *Discussion:*
@@ -2381,8 +2381,7 @@ In this recipe we created a visualization of an author's social network using th
 == About this Tutorial
 
 Contact:
-https://dev2.dariah.eu/wiki/display/publicde/Cluster+5%3A+Big+Data+in+den+Geisteswissenschaften#Partner[DARIAH-DE
-Cluster 5 - Big Data in the Humanities]
+link:https://wiki.de.dariah.eu/display/publicde/Cluster+5%3A+Quantitative+Datenanalyse[DARIAH-DE, Cluster 5 - Big Data in the Humanities]
 
 Comments are welcome, as are reports of bugs and typos.
 
@@ -2410,4 +2409,5 @@ Infrastructure for the Arts and Humanities consortium. Funding has been
 provided by the German Federal Ministry for Research and Education
 (BMBF) under the identifier 01UG1110J.
 
-image:https://wiki.de.dariah.eu/download/thumbnails/40213783/DARIAH-DE-Logo.png[DARIAH]image:https://wiki.de.dariah.eu/download/thumbnails/40213783/BMBF-Logo.png[BMBF]
+image:content/dariah-de_logo.png[DARIAH]
+image:content/bmbf_logo.png[BMBF]
