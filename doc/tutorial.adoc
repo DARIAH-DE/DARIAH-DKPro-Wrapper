@@ -15,8 +15,7 @@
 :version:  0.4.6
 
 = NLP Based Analysis of Literary Texts (M 5.2.3)
-:toc: left
-//:toc-placement!:
+:toc: macro
 
 The following tutorial describes how to analyze texts, by first
 *link:#RunningthePipeline[generating linguistic annotations]* with a simple, single java program that bundles
@@ -32,7 +31,7 @@ virtually no work experience with the framework. The example recipes
 further below describe how to use the pipeline's output for advanced
 analytic procedures.
 
-//toc::[]
+toc::[]
 :numbered:
 
 == Setting Up the Pipeline
