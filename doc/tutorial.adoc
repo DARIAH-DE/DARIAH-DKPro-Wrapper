@@ -16,6 +16,7 @@
 
 = NLP Based Analysis of Literary Texts (M 5.2.3)
 :toc: macro
+:toc-title: 
 
 The following tutorial describes how to analyze texts, by first
 *link:#RunningthePipeline[generating linguistic annotations]* with a simple, single java program that bundles
