@@ -727,7 +727,7 @@ tags. 
 === Example Corpus
 
 The
-link:content/beispielkorpus-kurzgeschichten.zip[example
+link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/raw/master/doc/content/beispielkorpus-kurzgeschichten.zip[example
 set] is a small collection of English short stories (the "small" and
 "short" aspects hopefully improving processing time in a way suitable
 for an example tutorial) written between 1889 and 1936 by four different
@@ -918,7 +918,7 @@ Any plain text or collection of texts can be used as input for topic
 modeling, however, this recipe is based on the pipeline's CSV output for
 an improved feature selection process, e.g. controlling what should be
 included or excluded from the model. We will use the
-same link:content/beispielkorpus-kurzgeschichten.zip?[collection
+same link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/raw/master/doc/content/beispielkorpus-kurzgeschichten.zip[collection
 of English short stories] as in the last recipe, featuring works by
 Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft, and Robert E.
 Howard. 
@@ -1407,7 +1407,7 @@ information is not needed for the classification experiment) and
 indicate whether a longer text has been truncated ("Anfang").
 Additionally, some poems had to be concatenated in order to arrive at a
 minimum text length of 300 words (labelled "Gedichte"). You can
-**link:content/grillparzer-kleist.zip[get
+**link:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/raw/master/doc/content/grillparzer-kleist.zip[get
 the example corpus here]**.
 
 === Setting Up the Environment
