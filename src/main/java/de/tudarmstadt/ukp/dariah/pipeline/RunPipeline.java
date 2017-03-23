@@ -24,6 +24,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryType;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -40,6 +44,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -457,6 +462,13 @@ public class RunPipeline {
 		
 		logger.debug("==== Starting new session ====");
 		logger.debug("Arguments: " + Joiner.on(' ').join(args));
+		
+		logger.info(MessageFormat.format("Running on up to {0} cores, max heap is about {1} GB",
+				Runtime.getRuntime().availableProcessors(),
+				ManagementFactory.getMemoryPoolMXBeans().stream()
+					.filter(pool -> pool.getType().equals(MemoryType.HEAP))
+					.mapToLong(pool -> pool.getUsage().getMax())
+					.sum() / (1024.0 * 1024 * 1024)));
 
 		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN) .setMarker(MarkerManager.getMarker("STDERR")).buildPrintStream());
 		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.DEBUG).setMarker(MarkerManager.getMarker("STDOUT")).buildPrintStream());
@@ -470,7 +482,7 @@ public class RunPipeline {
 			}
 		} catch (ParseException e) {			
 			logger.error("Error when parsing command line arguments. Use\njava -jar pipeline.jar -help\n to get further information", e);
-			return;
+			return; 
 		}
 
 		LinkedList<String> configFiles = new LinkedList<>();
@@ -533,7 +545,7 @@ public class RunPipeline {
 			System.exit(1);
 		}
 
-		printConfiguration(configFiles.toArray(new String[0])); 
+		printConfiguration(configFiles.toArray(new String[0]));
 	
 		
 
