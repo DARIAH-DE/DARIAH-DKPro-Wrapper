@@ -445,7 +445,9 @@ public class Hyphenator {
 						default: break;
 						}
 					} break;
-					default: if(cc!=-1) cc=codelist[cc]; break;
+					default: if(cc!=-1 && cc < codelist.length) 
+						cc=codelist[cc]; 
+					break;
 					}
 				} catch(java.io.IOException e) {
 					error(e.toString());
