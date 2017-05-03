@@ -476,8 +476,8 @@ public class RunPipeline {
 		try {
 			if(!parseArgs(args)) {
 				stdout.println("Usage: java -jar pipeline.jar -help");
-				stdout.println("Usage: java -jar pipeline.jar -input <Input File> -output <Output Folder>");
-				stdout.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File> -output <Output Folder>");
+				stdout.println("Usage: java -jar pipeline.jar -input <Input File or Folder> -output <Output Folder>");
+				stdout.println("Usage: java -jar pipeline.jar -config <Config File> -input <Input File or Folder> -output <Output Folder>");
 				return;
 			}
 		} catch (ParseException e) {			
