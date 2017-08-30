@@ -177,11 +177,11 @@ java -Xmx4g -jar ddw-{version}.jar -input folder/With/Files/ -output folder
 
 the pipeline will process all files with a _.txt_ extension for the Text-reader. For the XML-reader, it will process all files with a _.xml_ extension.
 
-You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.xmi_ with the XML reader, you must start the pipeline in the following way:
+You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only _.tei_ with the XML reader, you must start the pipeline in the following way:
 
 [subs="attributes"]
 ----
-java -Xmx4g -jar ddw-{version}.jar -reader xml -input "folder/With/Files/*.xmi" -output folder
+java -Xmx4g -jar ddw-{version}.jar -reader xml -input "folder/With/Files/*.tei" -output folder
 ----
 
 *Note:* If you use patterns (i.e. paths containing an *), you must set it into quotation marks to prevent shell globbing.
