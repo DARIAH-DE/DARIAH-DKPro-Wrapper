@@ -314,7 +314,7 @@ public class RunPipeline {
 	 * The parameterString is of the format parameterName1,parameterType1,parameterValue2,parameterName2,parameterType2,parameterValue2
 	 * @param config 
 	 * 
-	 * @param parametersString
+	 * @param parameterName
 	 * @return Mapped paramaterString to an Object[] array that can be inputted to UIMA components
 	 */
 	private static Object[] parseParameters(Configuration config, String parameterName) throws ConfigurationException {
@@ -469,6 +469,9 @@ public class RunPipeline {
 					.filter(pool -> pool.getType().equals(MemoryType.HEAP))
 					.mapToLong(pool -> pool.getUsage().getMax())
 					.sum() / (1024.0 * 1024 * 1024)));
+
+		if (System.getProperty("sun.arch.data.model", "").equals("32"))
+			logger.warn(MessageFormat.format("You are running a 32-bit java ({0}), try a 64-bit version for more memory", System.getProperty("java.vm.name")));
 
 		System.setErr(IoBuilder.forLogger(logger.getName() + ".stderr").setLevel(Level.WARN) .setMarker(MarkerManager.getMarker("STDERR")).buildPrintStream());
 		System.setOut(IoBuilder.forLogger(logger.getName() + ".stdout").setLevel(Level.DEBUG).setMarker(MarkerManager.getMarker("STDOUT")).buildPrintStream());
