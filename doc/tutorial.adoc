@@ -104,9 +104,9 @@ needed and selecting "Open command window here".
 === Processing a Textfile
 
 Now you can process a text file. How to test when you don't have any
-data? We've prepared a link:content/EffiBriestKurz.txt[demonstration text] that
+data? We've prepared a link:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/EffiBriestKurz.txt[demonstration text] that
 can be downloaded and processed via the pipeline. You can compare your
-output with link:content/EffiBriestKurz.txt.csv[this file].
+output with link:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/EffiBriestKurz.txt.csv[this file].
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
 from link:http://textgridrep.org/[TextGrid Repository] or link:http://www.deutschestextarchiv.de/[Deutsches
@@ -354,7 +354,7 @@ representation, a dependency tree can be described as flat. The lack of
 phrase structure makes dependency grammars a good match for languages
 with free word order, such as Czech and Turkish.
 
-image:content/constituency_dependency.jpg[Parsing]
+image:https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/blob/master/doc/content/constituency_dependency.jpg[Parsing]
 
 link:https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg[Dependency
 vs. constituency] by
@@ -530,9 +530,9 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 === Specification
 
 Example
-(from link:content/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
+(from link:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
 
-image:content/effibriest_screenshot.png[EffiBriestKurz.txt.csv]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/effibriest_screenshot.png[EffiBriestKurz.txt.csv]
 
 [[ReadingtheOutput]]
 === Reading the Output
@@ -841,12 +841,12 @@ stylo()
 
 into the R console. The interface will appear:
 
-image:content/stylo.png[Stylo]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/stylo.png[Stylo]
 
 You can now, for example, run a cluster analysis in Stylo. Doing that
 with the **unprocessed texts**, yields the following result:
 
-image:content/unprocessed_cluster.png[Cluster]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/unprocessed_cluster.png[Cluster]
 
 The authors are clearly separated, the British authors Doyle and Kipling
 are grouped together on one branch, the two Americans on the other.
@@ -855,7 +855,7 @@ Now, you can change into the folder with the **descriptive vocabulary**,
 and try the same procedure. With the example data set, we get the
 following result:
 
-image:content/descriptive_cluster.png[Cluster]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/descriptive_cluster.png[Cluster]
 
 While text from the same authors still clustering together, it seems
 that, in contrary to their overall stylistic profile, Howard and Kipling
@@ -868,7 +868,7 @@ in the Stylo interface and choose n-grams instead of single words as
 features. Our example data set, yields the following output, when using
 trigrams as features:
 
-image:content/pos_cluster.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/pos_cluster.png[image]
 
 Interpreting the frequency trigrams of part-of-speech tags an
 approximation for the preference of certain sentence structures, three
@@ -1297,7 +1297,7 @@ directory as the other save files.
 piece of code produces an interactive visualization of what the model
 has learned from the data. You can explore our example model by
 downloading
-link:content/kurzgeschichten_interactive.html[this
+link:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/kurzgeschichten_interactive.html[this
 HTML file] and opening it in a browser. The figure in the left column
 shows a projection of the inter-topic distances onto two dimensions, the
 barchart on the right shows the most useful terms for interpreting
@@ -1310,7 +1310,7 @@ has been described in
 http://nlp.stanford.edu/events/illvi2014/papers/sievert-illvi2014.pdf[this
 paper].
 
-image:content/kurzgeschichten_interactive.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/kurzgeschichten_interactive.png[image]
 
 ==== Heatmap
 
@@ -1332,7 +1332,7 @@ section] in __lda.py__) - smaller document sizes 'zoom in' on the
 thematic development inside texts, while larger ones 'zoom out', up
 until there is only one row per document to display.
 
-image:content/kurzgeschichten_heatmap.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/kurzgeschichten_heatmap.png[image]
 
 
 ==== Network
@@ -1346,7 +1346,7 @@ namely the
 link:http://nbviewer.ipython.org/github/sgsinclair/alta/blob/master/ipynb/TopicModelling.ipynb#Graphing-Topic-Terms[Graphing
 Topic Terms] function, which produces the following graph:
 
-image:content/kurzgeschichten_network.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/kurzgeschichten_network.png[image]
 
 The graph shows the top 30 terms for each topic. Terms that are only
 connected to one topic are placed on the outside, while the terms that
@@ -1934,7 +1934,7 @@ def create_authors(working_directory, wiki_page, wiki_section):
         print(only_name)
 ----
 
-As Wikipedia happens to consist of living documents, we provide a snapshot of a list of authors link:content/author.txt[here].
+As Wikipedia happens to consist of living documents, we provide a snapshot of a list of authors link:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/author.txt[here].
 
 Alternatively, you can create your own list of authors (make sure you use the exact name used by Wikipedia).
 
@@ -2229,18 +2229,18 @@ Your output is a *.png file* and should look like one of these.
 
 
 Poets of the 12th century:
-image:content/12th_century.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/12th_century.png[image]
 
 
 Poets of the 13th century:
-image:content/13th_century.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/13th_century.png[image]
 
 
 In case you decided to draw a circular graph:
-image:content/circular_new.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/circular_new.png[image]
 
 This recipe also works with other languages, e.g. English. You have to update the main part of the `create_authors` function and one possible output could look like this for `"List of English-language poets" "A"`:
-image:content/american_a.png[image]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/american_a.png[image]
 
 
 *Discussion:*
@@ -2277,5 +2277,5 @@ Infrastructure for the Arts and Humanities consortium. Funding has been
 provided by the German Federal Ministry for Research and Education
 (BMBF) under the identifier 01UG1110J.
 
-image:content/dariah-de_logo.png[DARIAH]
-image:content/bmbf_logo.png[BMBF]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/dariah-de_logo.png[DARIAH]
+image:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/bmbf_logo.png[BMBF]
