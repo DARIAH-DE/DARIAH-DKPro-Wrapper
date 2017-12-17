@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
+<meta name="generator" content="Asciidoctor 1.5.5">
 <title>NLP Based Analysis of Literary Texts (M 5.2.3)</title>
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
 /* Remove comment around @import statement below when using as a custom stylesheet */
@@ -17,7 +17,6 @@ audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 script{display:none!important}
 html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
-body{margin:0}
 a{background:transparent}
 a:focus{outline:thin dotted}
 a:active,a:hover{outline:0}
@@ -52,7 +51,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -64,7 +63,6 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-body{-webkit-font-smoothing:antialiased}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
@@ -119,13 +117,16 @@ table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
-body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
 .clearfix:after,.float-group:after{clear:both}
-*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
 .keyseq{color:rgba(51,51,51,.8)}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
@@ -416,185 +417,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<style>
-/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
-/*pre.CodeRay {background-color:#f7f7f8;}*/
-.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
-.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
-.CodeRay .line-numbers strong{color:rgba(0,0,0,.4)}
-table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
-table.CodeRay td{vertical-align: top;line-height:1.45}
-table.CodeRay td.line-numbers{text-align:right}
-table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
-table.CodeRay td.code{padding:0 0 0 .5em}
-table.CodeRay td.code>pre{padding:0}
-.CodeRay .debug{color:#fff !important;background:#000080 !important}
-.CodeRay .annotation{color:#007}
-.CodeRay .attribute-name{color:#000080}
-.CodeRay .attribute-value{color:#700}
-.CodeRay .binary{color:#509}
-.CodeRay .comment{color:#998;font-style:italic}
-.CodeRay .char{color:#04d}
-.CodeRay .char .content{color:#04d}
-.CodeRay .char .delimiter{color:#039}
-.CodeRay .class{color:#458;font-weight:bold}
-.CodeRay .complex{color:#a08}
-.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
-.CodeRay .color{color:#099}
-.CodeRay .class-variable{color:#369}
-.CodeRay .decorator{color:#b0b}
-.CodeRay .definition{color:#099}
-.CodeRay .delimiter{color:#000}
-.CodeRay .doc{color:#970}
-.CodeRay .doctype{color:#34b}
-.CodeRay .doc-string{color:#d42}
-.CodeRay .escape{color:#666}
-.CodeRay .entity{color:#800}
-.CodeRay .error{color:#808}
-.CodeRay .exception{color:inherit}
-.CodeRay .filename{color:#099}
-.CodeRay .function{color:#900;font-weight:bold}
-.CodeRay .global-variable{color:#008080}
-.CodeRay .hex{color:#058}
-.CodeRay .integer,.CodeRay .float{color:#099}
-.CodeRay .include{color:#555}
-.CodeRay .inline{color:#000}
-.CodeRay .inline .inline{background:#ccc}
-.CodeRay .inline .inline .inline{background:#bbb}
-.CodeRay .inline .inline-delimiter{color:#d14}
-.CodeRay .inline-delimiter{color:#d14}
-.CodeRay .important{color:#555;font-weight:bold}
-.CodeRay .interpreted{color:#b2b}
-.CodeRay .instance-variable{color:#008080}
-.CodeRay .label{color:#970}
-.CodeRay .local-variable{color:#963}
-.CodeRay .octal{color:#40e}
-.CodeRay .predefined{color:#369}
-.CodeRay .preprocessor{color:#579}
-.CodeRay .pseudo-class{color:#555}
-.CodeRay .directive{font-weight:bold}
-.CodeRay .type{font-weight:bold}
-.CodeRay .predefined-type{color:inherit}
-.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
-.CodeRay .key{color:#808}
-.CodeRay .key .delimiter{color:#606}
-.CodeRay .key .char{color:#80f}
-.CodeRay .value{color:#088}
-.CodeRay .regexp .delimiter{color:#808}
-.CodeRay .regexp .content{color:#808}
-.CodeRay .regexp .modifier{color:#808}
-.CodeRay .regexp .char{color:#d14}
-.CodeRay .regexp .function{color:#404;font-weight:bold}
-.CodeRay .string{color:#d20}
-.CodeRay .string .string .string{background:#ffd0d0}
-.CodeRay .string .content{color:#d14}
-.CodeRay .string .char{color:#d14}
-.CodeRay .string .delimiter{color:#d14}
-.CodeRay .shell{color:#d14}
-.CodeRay .shell .delimiter{color:#d14}
-.CodeRay .symbol{color:#990073}
-.CodeRay .symbol .content{color:#a60}
-.CodeRay .symbol .delimiter{color:#630}
-.CodeRay .tag{color:#008080}
-.CodeRay .tag-special{color:#d70}
-.CodeRay .variable{color:#036}
-.CodeRay .insert{background:#afa}
-.CodeRay .delete{background:#faa}
-.CodeRay .change{color:#aaf;background:#007}
-.CodeRay .head{color:#f8f;background:#505}
-.CodeRay .insert .insert{color:#080}
-.CodeRay .delete .delete{color:#800}
-.CodeRay .change .change{color:#66f}
-.CodeRay .head .head{color:#f4f}
-</style>
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
 <h1>NLP Based Analysis of Literary Texts (M 5.2.3)</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#SettingupthePipeline">Setting Up the Pipeline</a>
-<ul class="sectlevel2">
-<li><a href="#SystemRequirements">System Requirements</a></li>
-<li><a href="#JavaInstallation">Java Installation</a></li>
-<li><a href="#PipelineDownload">Pipeline Download</a></li>
-</ul>
-</li>
-<li><a href="#RunningthePipeline">Running the Pipeline</a>
-<ul class="sectlevel2">
-<li><a href="#UsingtheCommandLine">Using the Command Line</a></li>
-<li><a href="#ProcessingaTextfile">Processing a Textfile</a></li>
-<li><a href="#FileReader">File Reader</a></li>
-<li><a href="#Language">Language</a></li>
-<li><a href="#CommandLineOptions">Command Line Options</a></li>
-<li><a href="#Troubleshooting">Troubleshooting</a></li>
-</ul>
-</li>
-<li><a href="#AvailableComponents">Available Components</a>
-<ul class="sectlevel2">
-<li><a href="#Segmentation">Segmentation</a></li>
-<li><a href="#Part-of-SpeechTagging">Part-of-Speech Tagging</a></li>
-<li><a href="#Lemmatization">Lemmatization</a></li>
-<li><a href="#ConstituencyandDependencyParsing">Constituency and Dependency Parsing</a></li>
-<li><a href="#NamedEntityRecognition">Named Entity Recognition</a></li>
-<li><a href="#SemanticRoleLabeling">Semantic Role Labeling</a></li>
-</ul>
-</li>
-<li><a href="#ConfiguringthePipeline">Configuring the Pipeline</a>
-<ul class="sectlevel2">
-<li><a href="#Runthefullpipeline">Run the Full Pipeline</a></li>
-<li><a href="#Writeyourownconfigfile">Write Your Own Config File</a></li>
-<li><a href="#Buildingyourown">Building Your Own</a></li>
-<li><a href="#UsingTreeTagger">Using TreeTagger</a></li>
-</ul>
-</li>
-<li><a href="#OutputFormat">Output Format</a>
-<ul class="sectlevel2">
-<li><a href="#Specification">Specification</a></li>
-<li><a href="#ReadingtheOutput">Reading the Output</a></li>
-<li><a href="#FurtherExamples">Further Examples</a></li>
-<li><a href="#API">API</a></li>
-</ul>
-</li>
-<li><a href="#ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</a></li>
-<li><a href="#StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a>
-<ul class="sectlevel2">
-<li><a href="#ExampleCorpus">Example Corpus</a></li>
-<li><a href="#PreparingDescriptiveVocabularyandPart-of-SpeechTags">Preparing Descriptive Vocabulary and Part-of-Speech Tags</a></li>
-<li><a href="#UsingStylo">Using Stylo</a></li>
-</ul>
-</li>
-<li><a href="#TopicModelinginPython">Example Recipe: Topic Modeling in Python</a>
-<ul class="sectlevel2">
-<li><a href="#ExampleCorpus.1">Example Corpus</a></li>
-<li><a href="#SettinguptheEnvironment">Setting Up the Environment</a></li>
-<li><a href="#ConfigurationSection">Configuration Section</a></li>
-<li><a href="#PreparingtheData">Preparing the Data</a></li>
-<li><a href="#FittingtheModel">Fitting the Model</a></li>
-<li><a href="#VisualizationOptions">Visualization Options</a></li>
-</ul>
-</li>
-<li><a href="#StylometricClassificationinPython">Example Recipe: Stylometric Classification in Python</a>
-<ul class="sectlevel2">
-<li><a href="#ExampleCorpus.2">Example Corpus</a></li>
-<li><a href="#SettinguptheEnvironment.1">Setting Up the Environment</a></li>
-<li><a href="#FeatureSelection">Feature Selection</a></li>
-<li><a href="#PreparingtheData.1">Preparing the Data</a></li>
-<li><a href="#TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</a></li>
-<li><a href="#PredictionusingtheClassifier">Prediction Using the Classifier</a></li>
-</ul>
-</li>
-<li><a href="#NetworkVisualizationinPython">Example Recipe: Network Visualization in Python</a>
-<ul class="sectlevel2">
-<li><a href="#SettinguptheEnvironment.2">Setting Up the Environment</a></li>
-<li><a href="#CrawlingWikipedia">Crawling Wikipedia</a></li>
-<li><a href="#UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to Visualize Networks</a></li>
-</ul>
-</li>
-<li><a href="#AboutthisTutorial">About this Tutorial</a></li>
-</ul>
-</div>
 </div>
 <div id="content">
 <div id="preamble">
@@ -614,266 +440,97 @@ virtually no work experience with the framework. The example recipes
 further below describe how to use the pipeline&#8217;s output for advanced
 analytic procedures.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#SettingupthePipeline">Setting Up the Pipeline</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#SystemRequirements">System Requirements</a></p>
-</li>
-<li>
-<p><a href="#JavaInstallation">Java Installation</a></p>
-</li>
-<li>
-<p><a href="#PipelineDownload">Pipeline Download</a></p>
-</li>
+<div id="toc" class="toc">
+<div id="toctitle" class="title"></div>
+<ul class="sectlevel1">
+<li><a href="#_setting_up_the_pipeline">1. Setting Up the Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_system_requirements">1.1. System Requirements</a></li>
+<li><a href="#_java_installation">1.2. Java Installation</a></li>
+<li><a href="#_pipeline_download">1.3. Pipeline Download</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#RunningthePipeline">Running the Pipeline</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#UsingtheCommandLine">Using the Command Line</a></p>
-</li>
-<li>
-<p><a href="#ProcessingaTextfile">Processing a Textfile</a></p>
-</li>
-<li>
-<p><a href="#FileReader">File Reader</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#TextReaderXMLReader">Text Reader &amp; XML Reader</a></p>
-</li>
-<li>
-<p><a href="#ReadingDirectories">Reading Directories</a></p>
-</li>
+<li><a href="#RunningthePipeline">2. Running the Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_using_the_command_line">2.1. Using the Command Line</a></li>
+<li><a href="#_processing_a_textfile">2.2. Processing a Textfile</a></li>
+<li><a href="#_file_reader">2.3. File Reader</a></li>
+<li><a href="#_language">2.4. Language</a></li>
+<li><a href="#_command_line_options">2.5. Command Line Options</a></li>
+<li><a href="#_troubleshooting">2.6. Troubleshooting</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#Language">Language</a></p>
-</li>
-<li>
-<p><a href="#CommandLineOptions">Command Line Options</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Help">Help</a></p>
-</li>
+<li><a href="#_available_components">3. Available Components</a>
+<ul class="sectlevel2">
+<li><a href="#_segmentation">3.1. Segmentation</a></li>
+<li><a href="#_part_of_speech_tagging">3.2. Part-of-Speech Tagging</a></li>
+<li><a href="#_lemmatization">3.3. Lemmatization</a></li>
+<li><a href="#_constituency_and_dependency_parsing">3.4. Constituency and Dependency Parsing</a></li>
+<li><a href="#_named_entity_recognition">3.5. Named Entity Recognition</a></li>
+<li><a href="#_semantic_role_labeling">3.6. Semantic Role Labeling</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#Troubleshooting">Troubleshooting</a></p>
-</li>
+<li><a href="#_configuring_the_pipeline">4. Configuring the Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_run_the_full_pipeline">4.1. Run the Full Pipeline</a></li>
+<li><a href="#_write_your_own_config_file">4.2. Write Your Own Config File</a></li>
+<li><a href="#_building_your_own">4.3. Building Your Own</a></li>
+<li><a href="#_using_treetagger">4.4. Using TreeTagger</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#AvailableComponents">Available Components</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Segmentation">Segmentation</a></p>
-</li>
-<li>
-<p><a href="#Part-of-SpeechTagging">Part-of-Speech Tagging</a></p>
-</li>
-<li>
-<p><a href="#Lemmatization">Lemmatization</a></p>
-</li>
-<li>
-<p><a href="#ConstituencyandDependencyParsing">Constituency and Dependency Parsing</a></p>
-</li>
-<li>
-<p><a href="#NamedEntityRecognition">Named Entity Recognition</a></p>
-</li>
-<li>
-<p><a href="#SemanticRoleLabeling">Semantic Role Labeling</a></p>
-</li>
+<li><a href="#OutputFormat">5. Output Format</a>
+<ul class="sectlevel2">
+<li><a href="#_specification">5.1. Specification</a></li>
+<li><a href="#ReadingtheOutput">5.2. Reading the Output</a></li>
+<li><a href="#_further_examples">5.3. Further Examples</a></li>
+<li><a href="#_api">5.4. API</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#ConfiguringthePipeline">Configuring the Pipeline</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Runthefullpipeline">Run the Full Pipeline</a></p>
-</li>
-<li>
-<p><a href="#Writeyourownconfigfile">Write Your Own Config File</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#UnderstandingtheArgumentParameter">Understanding the Argument Parameter</a></p>
-</li>
+<li><a href="#_example_recipe_calculate_readability_measures_in_r">6. Example Recipe: Calculate Readability Measures in R</a></li>
+<li><a href="#_example_recipe_stylometric_analysis_with_the_stylo_package_in_r">7. Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a>
+<ul class="sectlevel2">
+<li><a href="#_example_corpus">7.1. Example Corpus</a></li>
+<li><a href="#_preparing_descriptive_vocabulary_and_part_of_speech_tags">7.2. Preparing Descriptive Vocabulary and Part-of-Speech Tags</a></li>
+<li><a href="#_using_stylo">7.3. Using Stylo</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#Buildingyourown">Building Your Own</a></p>
-</li>
-<li>
-<p><a href="#UsingTreeTagger">Using TreeTagger</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Installation">Installation</a></p>
-</li>
-<li>
-<p><a href="#Configuration">Configuration</a></p>
-</li>
+<li><a href="#TopicModelinginPython">8. Example Recipe: Topic Modeling in Python</a>
+<ul class="sectlevel2">
+<li><a href="#_example_corpus_2">8.1. Example Corpus</a></li>
+<li><a href="#_setting_up_the_environment">8.2. Setting Up the Environment</a></li>
+<li><a href="#_configuration_section">8.3. Configuration Section</a></li>
+<li><a href="#_preparing_the_data">8.4. Preparing the Data</a></li>
+<li><a href="#_fitting_the_model">8.5. Fitting the Model</a></li>
+<li><a href="#_visualization_options">8.6. Visualization Options</a></li>
 </ul>
-</div>
 </li>
+<li><a href="#_example_recipe_stylometric_classification_in_python">9. Example Recipe: Stylometric Classification in Python</a>
+<ul class="sectlevel2">
+<li><a href="#_example_corpus_3">9.1. Example Corpus</a></li>
+<li><a href="#_setting_up_the_environment_2">9.2. Setting Up the Environment</a></li>
+<li><a href="#_feature_selection">9.3. Feature Selection</a></li>
+<li><a href="#_preparing_the_data_2">9.4. Preparing the Data</a></li>
+<li><a href="#_training_and_evaluating_the_classifier">9.5. Training and Evaluating the Classifier</a></li>
+<li><a href="#_prediction_using_the_classifier">9.6. Prediction Using the Classifier</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#OutputFormat">Output Format</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Specification">Specification</a></p>
-</li>
-<li>
-<p><a href="#ReadingtheOutput">Reading the Output</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#R">R</a></p>
-</li>
-<li>
-<p><a href="#Python">Python</a></p>
-</li>
+<li><a href="#_example_recipe_network_visualization_in_python">10. Example Recipe: Network Visualization in Python</a>
+<ul class="sectlevel2">
+<li><a href="#_setting_up_the_environment_3">10.1. Setting Up the Environment</a></li>
+<li><a href="#_crawling_wikipedia">10.2. Crawling Wikipedia</a></li>
+<li><a href="#_using_dkpro_wrapper_and_networkx_to_visualize_networks">10.3. Using DKPro Wrapper and NetworkX to Visualize Networks</a></li>
 </ul>
-</div>
 </li>
-<li>
-<p><a href="#FurtherExamples">Further Examples</a></p>
-</li>
-<li>
-<p><a href="#API">API</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="#ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</a></p>
-</li>
-<li>
-<p><a href="#StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#ExampleCorpus">Example Corpus</a></p>
-</li>
-<li>
-<p><a href="#PreparingDescriptiveVocabularyandPart-of-SpeechTags">Preparing Descriptive Vocabulary and Part-of-Speech Tags</a></p>
-</li>
-<li>
-<p><a href="#UsingStylo">Using Stylo</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="#TopicModelinginPython">Example Recipe: Topic Modeling in Python</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#ExampleCorpus.1">Example Corpus</a></p>
-</li>
-<li>
-<p><a href="#SettinguptheEnvironment">Setting Up the Environment</a></p>
-</li>
-<li>
-<p><a href="#ConfigurationSection">Configuration Section</a></p>
-</li>
-<li>
-<p><a href="#PreparingtheData">Preparing the Data</a></p>
-</li>
-<li>
-<p><a href="#FittingtheModel">Fitting the Model</a></p>
-</li>
-<li>
-<p><a href="#VisualizationOptions">Visualization Options</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Interactive">Interactive</a></p>
-</li>
-<li>
-<p><a href="#Heatmap">Heatmap</a></p>
-</li>
-<li>
-<p><a href="#Network">Network</a></p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="#StylometricClassificationinPython">Example Recipe: Stylometric Classification in Python</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#ExampleCorpus.2">Example Corpus</a></p>
-</li>
-<li>
-<p><a href="#SettinguptheEnvironment.1">Setting Up the Environment</a></p>
-</li>
-<li>
-<p><a href="#FeatureSelection">Feature Selection</a></p>
-</li>
-<li>
-<p><a href="#PreparingtheData.1">Preparing the Data</a></p>
-</li>
-<li>
-<p><a href="#TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</a></p>
-</li>
-<li>
-<p><a href="#PredictionusingtheClassifier">Prediction Using the Classifier</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="#NetworkVisualizationinPython">Example Recipe: Network Visualization in Python</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#SettinguptheEnvironment.2">Setting Up the Environment</a></p>
-</li>
-<li>
-<p><a href="#CrawlingWikipedia">Crawling Wikipedia</a></p>
-</li>
-<li>
-<p><a href="#UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to Visualize Networks</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="#AboutthisTutorial">About This Tutorial</a></p>
-</li>
+<li><a href="#_about_this_tutorial">11. About this Tutorial</a></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="SettingupthePipeline">Setting Up the Pipeline</h2>
+<h2 id="_setting_up_the_pipeline">1. Setting Up the Pipeline</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="SystemRequirements">System Requirements</h3>
+<h3 id="_system_requirements">1.1. System Requirements</h3>
 <div class="paragraph">
 <p>To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
@@ -882,13 +539,13 @@ been tested:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Mac OS X (10.10, 10.11)</p>
+<p>macOS (10.10 - 10.13)</p>
 </li>
 <li>
-<p>Linux (Ubuntu 14.04, 15.10)</p>
+<p>Linux (Ubuntu 14.04 - 17.10)</p>
 </li>
 <li>
-<p>Windows 7/8/10</p>
+<p>Windows 7 - 10</p>
 </li>
 </ul>
 </div>
@@ -899,7 +556,7 @@ not work offline!</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="JavaInstallation">Java Installation</h3>
+<h3 id="_java_installation">1.2. Java Installation</h3>
 <div class="paragraph">
 <p>The following step installs the base system requirements needed to run
 DKPro Core pipelines on your machine. This needs to be performed only
@@ -911,7 +568,7 @@ instructions</a> for your operating system. You can check your current Java vers
 </div>
 </div>
 <div class="sect2">
-<h3 id="PipelineDownload">Pipeline Download</h3>
+<h3 id="_pipeline_download">1.3. Pipeline Download</h3>
 <div class="paragraph">
 <p>When the Java environment is prepared, you
 can <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper">download the latest binary</a>. Select
@@ -923,10 +580,10 @@ using the command line.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="RunningthePipeline">Running the Pipeline</h2>
+<h2 id="RunningthePipeline">2. Running the Pipeline</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="UsingtheCommandLine">Using the Command Line</h3>
+<h3 id="_using_the_command_line">2.1. Using the Command Line</h3>
 <div class="paragraph">
 <p>The DKPro pipeline does not have a graphical user
 interface <a href="http://en.wikipedia.org/wiki/Graphical_user_interface">(GUI)</a>.
@@ -970,13 +627,12 @@ needed and selecting "Open command window here".</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ProcessingaTextfile">Processing a Textfile</h3>
+<h3 id="_processing_a_textfile">2.2. Processing a Textfile</h3>
 <div class="paragraph">
 <p>Now you can process a text file. How to test when you don&#8217;t have any
-data? We&#8217;ve prepared a demonstration text
-<a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt?version=1&amp;modificationDate=1434979988305&amp;api=v2">[1]</a> that
+data? We&#8217;ve prepared a <a href="content/EffiBriestKurz.txt">demonstration text</a> that
 can be downloaded and processed via the pipeline. You can compare your
-output with this file <a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv?version=1&amp;modificationDate=1434960896211&amp;api=v2">[2]</a>.
+output with <a href="content/EffiBriestKurz.txt.csv">this file</a>.
 If you receive an identical output DKPro pipeline works fine on your
 computer. There are also a plenty of free texts available
 from <a href="http://textgridrep.org/">TextGrid Repository</a> or <a href="http://www.deutschestextarchiv.de/">Deutsches
@@ -1030,12 +686,12 @@ are allocated to the task.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="FileReader">File Reader</h3>
+<h3 id="_file_reader">2.3. File Reader</h3>
 <div class="paragraph">
 <p>You can process either single files or also all files inside a directory. Patterns can be used to select specific files that should be processed.</p>
 </div>
 <div class="sect3">
-<h4 id="TextReaderXMLReader">Text Reader &amp; XML Reader</h4>
+<h4 id="_text_reader_xml_reader">2.3.1. Text Reader &amp; XML Reader</h4>
 <div class="paragraph">
 <p>The DARIAH-DKPro-Wrapper implements two base readers, one text reader and one XML-file reader. You can specify the reader that should be used with the <code>-reader</code> parameter. By default, the text reader is used. To use the XML reader, run the pipeline in the following way:</p>
 </div>
@@ -1049,7 +705,7 @@ are allocated to the task.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="ReadingDirectories">Reading Directories</h4>
+<h4 id="_reading_directories">2.3.2. Reading Directories</h4>
 <div class="paragraph">
 <p>In case you want to process a collection of texts rather than just a single file, you can do that by providing a path to the <code>-input</code> option. If you run the pipeline in the following way:</p>
 </div>
@@ -1062,11 +718,11 @@ are allocated to the task.</p>
 <p>the pipeline will process all files with a <em>.txt</em> extension for the Text-reader. For the XML-reader, it will process all files with a <em>.xml</em> extension.</p>
 </div>
 <div class="paragraph">
-<p>You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only <em>.xmi</em> with the XML reader, you must start the pipeline in the following way:</p>
+<p>You can speficy also patterns to read in only certain files or files with certain extension. For example to read in only <em>.tei</em> with the XML reader, you must start the pipeline in the following way:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>java -Xmx4g -jar ddw-0.4.6.jar -reader xml -input "folder/With/Files/*.xmi" -output folder</pre>
+<pre>java -Xmx4g -jar ddw-0.4.6.jar -reader xml -input "folder/With/Files/*.tei" -output folder</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1086,7 +742,7 @@ are allocated to the task.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Language">Language</h3>
+<h3 id="_language">2.4. Language</h3>
 <div class="paragraph">
 <p>You can change the language by specifying the language parameter for the pipeline. Support for the following languages are included in the current version of the DARIAH-DKPro-Wrapper: German (de), English (en), Spanish (es), and French (fr). If you want to work with Bulgarian (bg), Danish (da), Estonian (et), Finnish (fi), Galician (gl), Latin (la), Mongolian (mn), Polish (pl), Russian (ru), Slovakian (sk) or Swahili (sw) input, you have to install <a href="#UsingTreeTagger">TreeTagger</a> first. To run the pipeline for German, execute the following command:</p>
 </div>
@@ -1097,12 +753,12 @@ are allocated to the task.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="CommandLineOptions">Command Line Options</h3>
+<h3 id="_command_line_options">2.5. Command Line Options</h3>
 <div class="sect3">
-<h4 id="Help">Help</h4>
+<h4 id="_help">2.5.1. Help</h4>
 <div class="paragraph">
 <p>The pipeline provides a help function that can be accessed on the
-command line with the "-help" option. Run <code>java -jar  ddw-0.4.6.jar -help</code> to get an overview of the possible command line arguments:</p>
+command line with the "-help" option. Run java -jar  ddw-{version}.jar -help to get an overview of the possible command line arguments:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1121,7 +777,7 @@ command line with the "-help" option. Run <code>java -jar  ddw-0.4.6.jar -help</
 </div>
 </div>
 <div class="sect2">
-<h3 id="Troubleshooting">Troubleshooting</h3>
+<h3 id="_troubleshooting">2.6. Troubleshooting</h3>
 <div class="paragraph">
 <p>If there is no output in your output folder and your command prompt
 shows</p>
@@ -1162,13 +818,13 @@ following in the command prompt:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="AvailableComponents">Available Components</h2>
+<h2 id="_available_components">3. Available Components</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>As mentioned above, the pipeline contains a number of components</p>
 </div>
 <div class="sect2">
-<h3 id="Segmentation">Segmentation</h3>
+<h3 id="_segmentation">3.1. Segmentation</h3>
 <div class="paragraph">
 <p>Segmentation is the task of dividing running text into units like
 sentences and words.</p>
@@ -1197,7 +853,7 @@ automatically break the text up into paragraphs) and so forth.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Part-of-SpeechTagging">Part-of-Speech Tagging</h3>
+<h3 id="_part_of_speech_tagging">3.2. Part-of-Speech Tagging</h3>
 <div class="paragraph">
 <p>Labeling every word and punctuation mark (token) in a text corpus with a
 predefined set of part-of-speech tags (standardized abbreviations) or
@@ -1208,9 +864,9 @@ interoperability of components in different languages):</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 33%;">
-<col style="width: 33%;">
-<col style="width: 33%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
@@ -1264,7 +920,7 @@ which shares features of both above tagging architectures.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Lemmatization">Lemmatization</h3>
+<h3 id="_lemmatization">3.3. Lemmatization</h3>
 <div class="paragraph">
 <p>Mapping all different inflected word forms to one lemma is called
 lemmatization. It is related to stemming, an approach that tries to
@@ -1283,7 +939,7 @@ related term <em>went</em>, which would be the case after lemmatization.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ConstituencyandDependencyParsing">Constituency and Dependency Parsing</h3>
+<h3 id="_constituency_and_dependency_parsing">3.4. Constituency and Dependency Parsing</h3>
 <div class="paragraph">
 <p>Parsing is the main task behind breaking down a text into its more basic
 pieces and structures. A parser will take some input text and find
@@ -1314,7 +970,7 @@ phrase structure makes dependency grammars a good match for languages
 with free word order, such as Czech and Turkish.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/Wearetryingtounderstandthedifference_%282%29.jpg" alt="Parsing"></span></p>
+<p><span class="image"><img src="content/constituency_dependency.jpg" alt="Parsing"></span></p>
 </div>
 <div class="paragraph">
 <p><a href="https://commons.wikimedia.org/wiki/File:Wearetryingtounderstandthedifference_(2).jpg">Dependency
@@ -1324,7 +980,7 @@ vs. constituency</a> by
 </div>
 </div>
 <div class="sect2">
-<h3 id="NamedEntityRecognition">Named Entity Recognition</h3>
+<h3 id="_named_entity_recognition">3.5. Named Entity Recognition</h3>
 <div class="paragraph">
 <p>Named entity recognition (NER) is a pre-processing step in most
 information extraction tasks. Named entity stands for the text block,
@@ -1334,7 +990,7 @@ persons, organizations or locations.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="SemanticRoleLabeling">Semantic Role Labeling</h3>
+<h3 id="_semantic_role_labeling">3.6. Semantic Role Labeling</h3>
 <div class="paragraph">
 <p>Semantic role labeling (SRL, also: thematic role labeling, case role
 assignment) refers to a parsing approach that aims towards detecting all
@@ -1346,10 +1002,10 @@ thus preparing for a semantic interpretation of the sentence.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="ConfiguringthePipeline">Configuring the Pipeline</h2>
+<h2 id="_configuring_the_pipeline">4. Configuring the Pipeline</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="Runthefullpipeline">Run the Full Pipeline</h3>
+<h3 id="_run_the_full_pipeline">4.1. Run the Full Pipeline</h3>
 <div class="paragraph">
 <p>By default, the pipeline runs in a light mode, the memory and time intensive components for parsing and semantic role labeling are <strong>disabled</strong>.</p>
 </div>
@@ -1358,7 +1014,7 @@ thus preparing for a semantic interpretation of the sentence.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Writeyourownconfigfile">Write Your Own Config File</h3>
+<h3 id="_write_your_own_config_file">4.2. Write Your Own Config File</h3>
 <div class="paragraph">
 <p>The pipeline can be configurated via properties-files that are stored in the <code>configs</code> folder. In this folder you find a <code>default.properties</code>, the most basic configuration file. For the different supported languages, you can find further properties-files, for example <code>default_de.properties</code> for German, <code>default_en.properties</code> for English and so on.</p>
 </div>
@@ -1428,7 +1084,7 @@ segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
 <p><strong>Note:</strong> The properties-files must use the <a href="https://en.wikipedia.org/wiki/ISO/IEC_8859-1">ISO-8859-1</a> encoding. If you like to include <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a> characters, you must encode them using \u[HEXCode].</p>
 </div>
 <div class="sect3">
-<h4 id="UnderstandingtheArgumentParameter">Understanding the Argument Parameter</h4>
+<h4 id="_understanding_the_argument_parameter">4.2.1. Understanding the Argument Parameter</h4>
 <div class="paragraph">
 <p>A parameter is a special variable, consisting one or more arguments, provided to the subroutine. Most components of the DKPro pipeline can be equipped with arguments to specify for example the model that should be used. A list of possible arguments is available <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/apidocs/constant-values.html">here</a> in the column <strong>Constant Field</strong> or rather <strong>Value</strong>. Arguments are passed to the pipeline in a 3 tuple format:</p>
 </div>
@@ -1459,7 +1115,7 @@ segmenter = de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpSegmenter # line 7
 </div>
 </div>
 <div class="sect2">
-<h3 id="Buildingyourown">Building Your Own</h3>
+<h3 id="_building_your_own">4.3. Building Your Own</h3>
 <div class="paragraph">
 <p>For creating your own pipeline the latest version of Java SDK (1.8 or
 higher), Eclipse (4.3.x), the Maven Integration for Eclipse (M2E) plugin
@@ -1484,12 +1140,12 @@ of models</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="UsingTreeTagger">Using TreeTagger</h3>
+<h3 id="_using_treetagger">4.4. Using TreeTagger</h3>
 <div class="paragraph">
 <p>Due to copyright issues, TreeTagger cannot directly be accessed from the DKPro repository. Instead, you have first to download and to install TreeTagger to able to use it with DKPro.</p>
 </div>
 <div class="sect3">
-<h4 id="Installation">Installation</h4>
+<h4 id="_installation">4.4.1. Installation</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1528,7 +1184,7 @@ of models</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="Configuration">Configuration</h4>
+<h4 id="_configuration">4.4.2. Configuration</h4>
 <div class="paragraph">
 <p>After downloading the correct executable and correct model, we must configure our pipeline in order to be able to use TreeTagger. You can find an example configuration in the <em>configs</em> folder <em>treetagger-example.properties</em>:</p>
 </div>
@@ -1566,60 +1222,60 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 </div>
 </div>
 <div class="sect1">
-<h2 id="OutputFormat">Output Format</h2>
+<h2 id="OutputFormat">5. Output Format</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="Specification">Specification</h3>
+<h3 id="_specification">5.1. Specification</h3>
 <div class="paragraph">
 <p>Example
-(from <a href="https://wiki.de.dariah.eu/download/attachments/40213783/EffiBriestKurz.txt.csv">EffiBriestKurz.txt.csv</a>):</p>
+(from <a href="content/EffiBriestKurz.txt.csv">EffiBriestKurz.txt.csv</a>):</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/Screenshot%20from%202015-06-17%2012%3A43%3A34.png" alt="EffiBriestKurz.txt.csv"></span></p>
+<p><span class="image"><img src="content/effibriest_screenshot.png" alt="EffiBriestKurz.txt.csv"></span></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ReadingtheOutput">Reading the Output</h3>
+<h3 id="ReadingtheOutput">5.2. Reading the Output</h3>
 <div class="sect3">
-<h4 id="R">R</h4>
+<h4 id="_r">5.2.1. R</h4>
 <div class="paragraph">
 <p>In R, a simple reader can be written as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">df = read.table(&quot;./data/EffiBriestKurz.txt.csv&quot;,    # or whatever file you want to read
+<pre class="highlight"><code class="language-r" data-lang="r">df = read.table("./data/EffiBriestKurz.txt.csv",    # or whatever file you want to read
                 header = T,                         # first line as headers
                 fill = T)                           # fill empty cells to avoid errors</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="Python">Python</h4>
+<h4 id="_python">5.2.2. Python</h4>
 <div class="paragraph">
 <p>In Python, you can use the following code to ingest the output file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">pandas</span> <span class="keyword">as</span> pd
+<pre class="highlight"><code class="language-python" data-lang="python">import pandas as pd
 
-<span class="keyword">import</span> <span class="include">csv</span>
+import csv
 
-df = pd.read_csv(<span class="string"><span class="delimiter">&quot;</span><span class="content">EffiBriestKurz.txt.csv</span><span class="delimiter">&quot;</span></span>, sep=<span class="string"><span class="delimiter">&quot;</span><span class="char">\t</span><span class="delimiter">&quot;</span></span>, quoting=csv.QUOTE_NONE)</code></pre>
+df = pd.read_csv("EffiBriestKurz.txt.csv", sep="\t", quoting=csv.QUOTE_NONE)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="FurtherExamples">Further Examples</h3>
+<h3 id="_further_examples">5.3. Further Examples</h3>
 <div class="paragraph">
 <p>You can also specify a subset of columns to use. Columns are addressed
 using their column names.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">columns_input = [<span class="string"><span class="delimiter">'</span><span class="content">SentenceId</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">TokenId</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">Token</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>]
+<pre class="highlight"><code class="language-python" data-lang="python">columns_input = ['SentenceId', 'TokenId', 'Token', 'CPOS']
 
-df = df[columns_input]                                     <span class="comment"># use only the selected columns</span></code></pre>
+df = df[columns_input]                                     # use only the selected columns</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1628,9 +1284,9 @@ contents. The following example shows how to retrieve a sentence.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">sentences = df.groupby(<span class="string"><span class="delimiter">'</span><span class="content">SentenceId</span><span class="delimiter">'</span></span>)                        <span class="comment"># sort by sentence id</span>
+<pre class="highlight"><code class="language-python" data-lang="python">sentences = df.groupby('SentenceId')                        # sort by sentence id
 
-sent = sentences.get_group(<span class="integer">10</span>)                              <span class="comment"># get sentence no. 10, returns a smaller dataframe</span></code></pre>
+sent = sentences.get_group(10)                              # get sentence no. 10, returns a smaller dataframe</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1639,9 +1295,9 @@ part-of-speech.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">tags = df.groupby(<span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>)                                   <span class="comment"># sort by CPOS values</span>
+<pre class="highlight"><code class="language-python" data-lang="python">tags = df.groupby('CPOS')                                   # sort by CPOS values
 
-adj = tags.get_group(<span class="string"><span class="delimiter">'</span><span class="content">ADJ</span><span class="delimiter">'</span></span>)                                 <span class="comment"># get all adjectives</span></code></pre>
+adj = tags.get_group('ADJ')                                 # get all adjectives</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1649,7 +1305,7 @@ adj = tags.get_group(<span class="string"><span class="delimiter">'</span><span 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">nn = sent[sent[<span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>] == <span class="string"><span class="delimiter">'</span><span class="content">NN</span><span class="delimiter">'</span></span>]                             <span class="comment"># get nouns from the sentence</span></code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">nn = sent[sent['CPOS'] == 'NN']                             # get nouns from the sentence</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1658,16 +1314,16 @@ to process the entire file, e.g. in portions of sentences.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">for</span> sent_id, sent <span class="keyword">in</span> sentences:                             <span class="comment"># iterate through sentences</span>
+<pre class="highlight"><code class="language-python" data-lang="python">for sent_id, sent in sentences:                             # iterate through sentences
 
-    <span class="keyword">for</span> tok_id, tok, pos <span class="keyword">in</span> <span class="predefined">zip</span>(sent[<span class="string"><span class="delimiter">'</span><span class="content">TokenId</span><span class="delimiter">'</span></span>], sent[<span class="string"><span class="delimiter">'</span><span class="content">Token</span><span class="delimiter">'</span></span>], sent[<span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>]):  <span class="comment"># go through each token in the sentence</span>
+    for tok_id, tok, pos in zip(sent['TokenId'], sent['Token'], sent['CPOS']):  # go through each token in the sentence
 
         print(tok_id, tok, pos)</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="API">API</h3>
+<h3 id="_api">5.4. API</h3>
 <div class="paragraph">
 <p>In addition to the examples above, an API (application program
 interface) will be provided, containing helper functions that simplify
@@ -1677,35 +1333,35 @@ the retrieval of (combinations of) of features. </p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="ReadabilityMeasuresinR">Example Recipe: Calculate Readability Measures in R</h2>
+<h2 id="_example_recipe_calculate_readability_measures_in_r">6. Example Recipe: Calculate Readability Measures in R</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Extracting certain linguistic metrics using the output format of the NLP pipeline as a data frame in R or Python Pandas works straight forward. The following recipe is mainly aimed at demonstrating how to access, address, and use data in an R data frame. As already shown above, the output file can be loaded into the R environment with the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">df = read.table(&quot;PathToFile&quot;, header = T, fill = T)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">df = read.table("PathToFile", header = T, fill = T)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To compute, for example, the <strong>type token ratio</strong> (TTR) of the text, we take the column containing the tokens that can be addressed as <em>df$Token</em>. We remove the punctuation by subsetting that vector formulating a logical condition that refers to the column containing the part-of-speech tags (df$Token[df$CPOS != "PUNC"]). The function unique() and length() allow us to generate a vector of unique types, and to measure the lengths of vectors.</p>
+<p>To compute, for example, the <strong>type token ratio</strong> (TTR) of the text, we take the column containing the tokens that can be addressed as 'df$Token'. We remove the punctuation by subsetting that vector formulating a logical condition that refers to the column containing the part-of-speech tags (df$Token[df$CPOS != "PUNC"]). The function unique() and length() allow us to generate a vector of unique types, and to measure the lengths of vectors.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">types = length(unique(df$Token[df$CPOS != &quot;PUNC&quot;]))
-tokens = length(df$Token[df$CPOS != &quot;PUNC&quot;])
+<pre class="highlight"><code class="language-r" data-lang="r">types = length(unique(df$Token[df$CPOS != "PUNC"]))
+tokens = length(df$Token[df$CPOS != "PUNC"])
 TTR = types / tokens</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now, that we have computed the TTR, we can advance to slightly more complicated calculations in the same manner. Readability measures, a widely used class of linguistic metrics, are a simple means to estimate the difficulty of reading a text, e.g. to choose a suitable text for a reading exercise at school. We can easily calculate the such measures too. In this recipe we want to calculate both the so-called <em>Automated Readability Index</em> or <strong>ARI</strong> and the <strong>LIX</strong> readability index from the output data frame in R. The ARI is calculated from the number of characters, the number of words, and the number of sentences. For computing the LIX we need the number of words, the number of periods, and the number of words longer than six characters.</p>
+<p>Now, that we have computed the TTR, we can advance to slightly more complicated calculations in the same manner. Readability measures, a widely used class of linguistic metrics, are a simple means to estimate the difficulty of reading a text, e.g. to choose a suitable text for a reading exercise at school. We can easily calculate the such measures too. In this recipe we want to calculate both the so-called 'Automated Readability Index' or <strong>ARI</strong> and the <strong>LIX</strong> readability index from the output data frame in R. The ARI is calculated from the number of characters, the number of words, and the number of sentences. For computing the LIX we need the number of words, the number of periods, and the number of words longer than six characters.</p>
 </div>
 <div class="paragraph">
 <p>The easiest step is to extract the <strong>number of sentences</strong>: The only thing you need to do is to find the highest sentence ID number using the function max() on the column containing the sentence IDs (df$sentenceId).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">sentences = max(df$SentenceId, na.rm = T)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">sentences = max(df$SentenceId, na.rm = T)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1713,7 +1369,7 @@ TTR = types / tokens</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">words = length(df$Token[df$CPOS != &quot;PUNC&quot;])</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">words = length(df$Token[df$CPOS != "PUNC"])</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1721,15 +1377,15 @@ TTR = types / tokens</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">periods = length(df$CPOS[df$CPOS == &quot;PUNC&quot; &amp; df$Token != &quot;,&quot; &amp; df$Token != &quot;;&quot;])</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">periods = length(df$CPOS[df$CPOS == "PUNC" &amp; df$Token != "," &amp; df$Token != ";"])</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To calculate the remaining features, we begin by counting the <strong>characters in each word</strong>. The words themselves can be found in the column <em>df$Token</em>. The function nchar() counts the characters in a string. The function lapply() can be used to apply nchar() upon each single element of df$Token. nchar() Can only be applied on character strings. To ensure that df$Token is of that type and has not accidentally interpreted as a factor when the data frame was loaded, we use the function as.character(), that can transform a factor into a vector of strings.</p>
+<p>To calculate the remaining features, we begin by counting the <strong>characters in each word</strong>. The words themselves can be found in the column 'df$Token'. The function nchar() counts the characters in a string. The function lapply() can be used to apply nchar() upon each single element of df$Token. nchar() Can only be applied on character strings. To ensure that df$Token is of that type and has not accidentally interpreted as a factor when the data frame was loaded, we use the function as.character(), that can transform a factor into a vector of strings.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">word_length = lapply(as.character(df$Token), nchar)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">word_length = lapply(as.character(df$Token), nchar)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1737,8 +1393,8 @@ TTR = types / tokens</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">word_length = unlist(word_length)
-word_length = word_length[df$CPOS != &quot;PUNC&quot;]</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">word_length = unlist(word_length)
+word_length = word_length[df$CPOS != "PUNC"]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1746,7 +1402,7 @@ word_length = word_length[df$CPOS != &quot;PUNC&quot;]</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">characters = sum(word_length)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">characters = sum(word_length)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1754,7 +1410,7 @@ word_length = word_length[df$CPOS != &quot;PUNC&quot;]</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">longwords = length(word_length[word_length &gt; 6])</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">longwords = length(word_length[word_length &gt; 6])</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1762,7 +1418,7 @@ word_length = word_length[df$CPOS != &quot;PUNC&quot;]</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">ARI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">ARI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1770,13 +1426,13 @@ word_length = word_length[df$CPOS != &quot;PUNC&quot;]</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">LIX = (words / periods) + (100 * longwords / words)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">LIX = (words / periods) + (100 * longwords / words)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="StylometricAnalysiswiththeStyloPackageinR">Example Recipe: Stylometric Analysis with the "Stylo" Package in R</h2>
+<h2 id="_example_recipe_stylometric_analysis_with_the_stylo_package_in_r">7. Example Recipe: Stylometric Analysis with the "Stylo" Package in R</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this recipe, we will demonstrate how to use the NLP pipeline&#8217;s output
@@ -1798,10 +1454,10 @@ abstract sentence structures in terms of n-grams of part-of-speech
 tags. </p>
 </div>
 <div class="sect2">
-<h3 id="ExampleCorpus">Example Corpus</h3>
+<h3 id="_example_corpus">7.1. Example Corpus</h3>
 <div class="paragraph">
 <p>The
-<a href="https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&amp;modificationDate=1442405820574&amp;api=v2">example
+<a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/raw/master/doc/content/beispielkorpus-kurzgeschichten.zip">example
 set</a> is a small collection of English short stories (the "small" and
 "short" aspects hopefully improving processing time in a way suitable
 for an example tutorial) written between 1889 and 1936 by four different
@@ -1812,7 +1468,7 @@ were removed from the plain text files before processing.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="PreparingDescriptiveVocabularyandPart-of-SpeechTags">Preparing Descriptive Vocabulary and Part-of-Speech Tags</h3>
+<h3 id="_preparing_descriptive_vocabulary_and_part_of_speech_tags">7.2. Preparing Descriptive Vocabulary and Part-of-Speech Tags</h3>
 <div class="paragraph">
 <p>After running the NLP processing pipeline, the next step is to read out
 the relevant information from the CSV-files and store it in a form
@@ -1828,7 +1484,7 @@ R console, like in</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">setwd(&quot;~/DKPro/&quot;)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">setwd("~/DKPro/")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1837,7 +1493,7 @@ compute it by typing</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">getwd()</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">getwd()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1846,14 +1502,14 @@ CSV-files and store them in a Stylo-accessible way.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r"># Extract file names
-files = list.files(pattern = &quot;*.csv&quot;)
+<pre class="highlight"><code class="language-r" data-lang="r"># Extract file names
+files = list.files(pattern = "*.csv")
  
 # Create directories
-dir.create(&quot;dv/&quot;)
-dir.create(&quot;pos/&quot;)
-dir.create(&quot;dv/corpus/&quot;)
-dir.create(&quot;pos/corpus/&quot;)
+dir.create("dv/")
+dir.create("pos/")
+dir.create("dv/corpus/")
+dir.create("pos/corpus/")
  
 for(file in files)
 {
@@ -1861,29 +1517,29 @@ for(file in files)
   df = read.table(file, header = T, fill = T)
  
   # Prepare filename
-  shortfile = sub(&quot;.csv&quot;, &quot;&quot;, file)
+  shortfile = sub(".csv", "", file)
  
   # Write Adjectives and Adverbes to analyse the author's inventaar of descriptive vocabulary
-  dv = df$Lemma[df$CPOS == &quot;ADJ&quot; | df$CPOS == &quot;ADV&quot;]
-  filename = paste(&quot;./dv/corpus/&quot;, shortfile, sep = &quot;&quot;)
-  write(paste(dv, collapse = &quot; &quot;), file = filename)
+  dv = df$Lemma[df$CPOS == "ADJ" | df$CPOS == "ADV"]
+  filename = paste("./dv/corpus/", shortfile, sep = "")
+  write(paste(dv, collapse = " "), file = filename)
  
   # Write POS tags to compare sentence structure
-  filename = paste(&quot;./pos/corpus/&quot;, shortfile, sep = &quot;&quot;)
-  write(paste(df$CPOS, collapse=&quot; &quot;), file = filename)
+  filename = paste("./pos/corpus/", shortfile, sep = "")
+  write(paste(df$CPOS, collapse=" "), file = filename)
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="UsingStylo">Using Stylo</h3>
+<h3 id="_using_stylo">7.3. Using Stylo</h3>
 <div class="paragraph">
 <p>If you have not <strong>installed</strong> the Stylo package yet, do that with the
 following command into the R console:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">install.packages(&quot;stylo&quot;)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">install.packages("stylo")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1891,7 +1547,7 @@ following command into the R console:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">library(stylo)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">library(stylo)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1904,7 +1560,7 @@ the <strong>descriptive vocabulary</strong>, type:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">setwd(&quot;./dv/&quot;)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">setwd("./dv/")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1912,7 +1568,7 @@ the <strong>descriptive vocabulary</strong>, type:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">setwd(&quot;./pos/&quot;)</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">setwd("./pos/")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1920,21 +1576,21 @@ the <strong>descriptive vocabulary</strong>, type:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="r">stylo()</code></pre>
+<pre class="highlight"><code class="language-r" data-lang="r">stylo()</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>into the R console. The interface will appear:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/Stylo.png" alt="Stylo"></span></p>
+<p><span class="image"><img src="content/stylo.png" alt="Stylo"></span></p>
 </div>
 <div class="paragraph">
 <p>You can now, for example, run a cluster analysis in Stylo. Doing that
 with the <strong>unprocessed texts</strong>, yields the following result:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/words_fig_01.png" alt="Cluster"></span></p>
+<p><span class="image"><img src="content/unprocessed_cluster.png" alt="Cluster"></span></p>
 </div>
 <div class="paragraph">
 <p>The authors are clearly separated, the British authors Doyle and Kipling
@@ -1946,7 +1602,7 @@ and try the same procedure. With the example data set, we get the
 following result:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/dv_fig_01.png" alt="Cluster"></span></p>
+<p><span class="image"><img src="content/descriptive_cluster.png" alt="Cluster"></span></p>
 </div>
 <div class="paragraph">
 <p>While text from the same authors still clustering together, it seems
@@ -1962,7 +1618,7 @@ features. Our example data set, yields the following output, when using
 trigrams as features:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/pos_01.png" alt="image"></span></p>
+<p><span class="image"><img src="content/pos_cluster.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p>Interpreting the frequency trigrams of part-of-speech tags an
@@ -1975,7 +1631,7 @@ Kipling in our sample display a remarkable variability.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="TopicModelinginPython">Example Recipe: Topic Modeling in Python</h2>
+<h2 id="TopicModelinginPython">8. Example Recipe: Topic Modeling in Python</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Topic modeling refers to a family of computational techniques that can
@@ -2014,20 +1670,20 @@ R. </p>
 <a href="https://github.com/stefanpernes/dariah-nlp-tutorial">here</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="ExampleCorpus.1">Example Corpus</h3>
+<h3 id="_example_corpus_2">8.1. Example Corpus</h3>
 <div class="paragraph">
 <p>Any plain text or collection of texts can be used as input for topic
 modeling, however, this recipe is based on the pipeline&#8217;s CSV output for
 an improved feature selection process, e.g. controlling what should be
 included or excluded from the model. We will use the
-same <a href="https://wiki.de.dariah.eu/download/attachments/40213783/DDW-Beispielkorpus-Kurzgeschichten.zip?version=1&amp;modificationDate=1442405820574&amp;api=v2">collection
+same <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/raw/master/doc/content/beispielkorpus-kurzgeschichten.zip">collection
 of English short stories</a> as in the last recipe, featuring works by
 Rudyard Kipling, Arthur Conan Doyle, H. P. Lovecraft, and Robert E.
 Howard. </p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="SettinguptheEnvironment">Setting Up the Environment</h3>
+<h3 id="_setting_up_the_environment">8.2. Setting Up the Environment</h3>
 <div class="paragraph">
 <p>The following code is designed to run with Python 3, which is
 recommended for its
@@ -2039,7 +1695,7 @@ recipe:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">pip3 install gensim pandas numpy pyLDAvis</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">pip3 install gensim pandas numpy pyLDAvis</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2055,7 +1711,7 @@ such as Ubuntu, you can use</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">sudo apt-get install python-matplotlib</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">sudo apt-get install python-matplotlib</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2063,7 +1719,7 @@ such as Ubuntu, you can use</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">pip3 install matplotlib</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">pip3 install matplotlib</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2083,7 +1739,7 @@ by Python. When naming the script, use the file extension <em>.py</em> - e.g.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="comment">#!/usr/bin/env python</span></code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2098,13 +1754,13 @@ correctly:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">from</span> <span class="include">gensim.corpora</span> <span class="keyword">import</span> <span class="include">MmCorpus</span>, <span class="include">Dictionary</span>
-<span class="keyword">from</span> <span class="include">gensim.models</span> <span class="keyword">import</span> <span class="include">LdaMulticore</span>
-<span class="keyword">import</span> <span class="include">pandas</span> <span class="keyword">as</span> pd
-<span class="keyword">import</span> <span class="include">numpy</span> <span class="keyword">as</span> np
-<span class="keyword">import</span> <span class="include">os</span>
-<span class="keyword">import</span> <span class="include">sys</span>
-<span class="keyword">import</span> <span class="include">csv</span></code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">from gensim.corpora import MmCorpus, Dictionary
+from gensim.models import LdaMulticore
+import pandas as pd
+import numpy as np
+import os
+import sys
+import csv</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2114,48 +1770,48 @@ interactively, they are the first lines of the script.</p>
 <div class="paragraph">
 <p><strong>Note:</strong> The model specified here is its parallelized version that uses
 all CPU cores to speed up training. For the single core version, just
-replace <em>LdaMulticore</em> with <em>LdaModel</em>.</p>
+replace 'LdaMulticore' with 'LdaModel'.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ConfigurationSection">Configuration Section</h3>
+<h3 id="_configuration_section">8.3. Configuration Section</h3>
 <div class="paragraph">
-<p>The following statements are so called <em>constants</em> that reside in the
+<p>The following statements are so called 'constants' that reside in the
 global variable space of the script, being accessible to all functions
 and other sub-entities. This can be viewed as a configuration section,
 which we will use to set parameters for pre-processing and modeling.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># input</span>
-columns = [<span class="string"><span class="delimiter">'</span><span class="content">ParagraphId</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">TokenId</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">NamedEntity</span><span class="delimiter">'</span></span>]   <span class="comment"># columns to read from csv file</span>
-pos_tags = [<span class="string"><span class="delimiter">'</span><span class="content">ADJ</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">NN</span><span class="delimiter">'</span></span>]                        <span class="comment"># parts-of-speech to include into the model</span>
-<span class="error"> </span>
-<span class="comment"># stopwords</span>
-stopwordlist = <span class="string"><span class="delimiter">&quot;</span><span class="content">stopwords.txt</span><span class="delimiter">&quot;</span></span>                  <span class="comment"># path to text file, e.g. stopwords.txt in the same directory as the script</span>
-<span class="error"> </span>
-<span class="comment"># document size (in words)</span>
-<span class="comment">#doc_size = 1000000 # set to arbitrarily large value to use original doc size</span>
-doc_size = <span class="integer">1000</span>                                 <span class="comment"># the document size for LDA commonly ranges from 500-2000 words</span>
-doc_split = <span class="integer">0</span>                                   <span class="comment"># uses the pipeline's ParagraphId to split text into documents, overrides doc_size - 1: on, 0: off </span>
-<span class="error"> </span>
-<span class="comment"># model parameters, cf. https://radimrehurek.com/gensim/models/ldamodel.html</span>
-no_of_topics = <span class="integer">20</span>                               <span class="comment"># no. of topics to be generated</span>
-no_of_passes = <span class="integer">200</span>                              <span class="comment"># no. of lda iterations - usually, the more the better, but increases computing time</span>
-<span class="error"> </span>
-eval = <span class="integer">1</span>                                        <span class="comment"># perplexity estimation every n chunks - the smaller the better, but increases computing time</span>
-chunk = <span class="integer">10</span>                                      <span class="comment"># documents to process at once</span>
-<span class="error"> </span>
-alpha = <span class="string"><span class="delimiter">&quot;</span><span class="content">symmetric</span><span class="delimiter">&quot;</span></span> <span class="comment"># &quot;symmetric&quot;, &quot;asymmetric&quot;, &quot;auto&quot;, or array (default: a symmetric 1.0/num_topics prior)</span>
-                                                <span class="comment"># affects sparsity of the document-topic (theta) distribution</span>
+<pre class="highlight"><code class="language-python" data-lang="python"># input
+columns = ['ParagraphId', 'TokenId', 'Lemma', 'CPOS', 'NamedEntity']   # columns to read from csv file
+pos_tags = ['ADJ', 'NN']                        # parts-of-speech to include into the model
+ 
+# stopwords
+stopwordlist = "stopwords.txt"                  # path to text file, e.g. stopwords.txt in the same directory as the script
+ 
+# document size (in words)
+#doc_size = 1000000 # set to arbitrarily large value to use original doc size
+doc_size = 1000                                 # the document size for LDA commonly ranges from 500-2000 words
+doc_split = 0                                   # uses the pipeline's ParagraphId to split text into documents, overrides doc_size - 1: on, 0: off 
+ 
+# model parameters, cf. https://radimrehurek.com/gensim/models/ldamodel.html
+no_of_topics = 20                               # no. of topics to be generated
+no_of_passes = 200                              # no. of lda iterations - usually, the more the better, but increases computing time
+ 
+eval = 1                                        # perplexity estimation every n chunks - the smaller the better, but increases computing time
+chunk = 10                                      # documents to process at once
+ 
+alpha = "symmetric" # "symmetric", "asymmetric", "auto", or array (default: a symmetric 1.0/num_topics prior)
+                                                # affects sparsity of the document-topic (theta) distribution
 
 
-<span class="comment"># custom alpha may increase topic coherence, but may also produce more topics with zero probability</span>
-<span class="comment">#alpha = np.array([ 0.02, 0.02, 0.02, 0.03, 0.03, 0.03, 0.04, 0.04, 0.04, 0.05,</span>
-<span class="comment"># 0.05, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02])</span>
+# custom alpha may increase topic coherence, but may also produce more topics with zero probability
+#alpha = np.array([ 0.02, 0.02, 0.02, 0.03, 0.03, 0.03, 0.04, 0.04, 0.04, 0.05,
+# 0.05, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02])
 
-eta = <span class="predefined-constant">None</span>                                      <span class="comment"># can be a number (int/float), an array, or None</span>
-                                                <span class="comment"># affects topic-word (lambda) distribution - not necessarily beneficial to topic coherence</span></code></pre>
+eta = None                                      # can be a number (int/float), an array, or None
+                                                # affects topic-word (lambda) distribution - not necessarily beneficial to topic coherence</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2175,7 +1831,7 @@ found <a href="https://dkpro.github.io/dkpro-core/releases/1.7.0/models/">here</
 </div>
 </div>
 <div class="sect2">
-<h3 id="PreparingtheData">Preparing the Data</h3>
+<h3 id="_preparing_the_data">8.4. Preparing the Data</h3>
 <div class="paragraph">
 <p>As in many other machine learning applications, the amount of code
 needed to clean the data and to bring it into a form that can be
@@ -2197,64 +1853,64 @@ count paragraphs using a string pattern.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">preprocessing</span>(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
+<pre class="highlight"><code class="language-python" data-lang="python">def preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist):
     docs = []
     doc_labels = []
-    stopwords = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>
-<span class="error"> </span>
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">reading files ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
-    <span class="keyword">try</span>:
-        <span class="keyword">with</span> <span class="predefined">open</span>(stopwordlist, <span class="string"><span class="delimiter">'</span><span class="content">r</span><span class="delimiter">'</span></span>) <span class="keyword">as</span> f: stopwords = f.read()
-    <span class="keyword">except</span> <span class="exception">OSError</span>:
-        <span class="keyword">pass</span>
-    stopwords = <span class="predefined">sorted</span>(<span class="predefined">set</span>(stopwords.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)))
-<span class="error"> </span>
-    <span class="keyword">for</span> <span class="predefined">file</span> <span class="keyword">in</span> os.listdir(path=path):
-        <span class="keyword">if</span> <span class="keyword">not</span> <span class="predefined">file</span>.startswith(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>):
-            filepath = path+<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>+<span class="predefined">file</span>
+    stopwords = ""
+ 
+    print("reading files ...\n")
+ 
+    try:
+        with open(stopwordlist, 'r') as f: stopwords = f.read()
+    except OSError:
+        pass
+    stopwords = sorted(set(stopwords.split("\n")))
+ 
+    for file in os.listdir(path=path):
+        if not file.startswith("."):
+            filepath = path+"/"+file
             print(filepath)
-<span class="error"> </span>
-            df = pd.read_csv(filepath, sep=<span class="string"><span class="delimiter">&quot;</span><span class="char">\t</span><span class="delimiter">&quot;</span></span>, quoting=csv.QUOTE_NONE)
+ 
+            df = pd.read_csv(filepath, sep="\t", quoting=csv.QUOTE_NONE)
             df = df[columns]
-            df = df.groupby(<span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>)
-<span class="error"> </span>
+            df = df.groupby('CPOS')
+ 
             doc = pd.DataFrame()
-            <span class="keyword">for</span> p <span class="keyword">in</span> pos_tags:                          <span class="comment"># collect only the specified parts-of-speech</span>
+            for p in pos_tags:                          # collect only the specified parts-of-speech
                 doc = doc.append(df.get_group(p))
-<span class="error"> </span>
-            names = df.get_group(<span class="string"><span class="delimiter">'</span><span class="content">NP</span><span class="delimiter">'</span></span>)[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>)  <span class="comment"># add proper nouns to stopword list</span>
+ 
+            names = df.get_group('NP')['Lemma'].values.astype(str)  # add proper nouns to stopword list
             stopwords += names.tolist()
-<span class="error"> </span>
-            <span class="comment"># construct documents</span>
-            <span class="keyword">if</span> doc_split:                               <span class="comment"># size according to paragraph id</span>
-                doc = doc.groupby(<span class="string"><span class="delimiter">'</span><span class="content">ParagraphId</span><span class="delimiter">'</span></span>)
-                <span class="keyword">for</span> para_id, para <span class="keyword">in</span> doc:
-                    docs.append(para[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>))
-                    doc_labels.append(<span class="predefined">file</span>.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>)[<span class="integer">0</span>]+<span class="string"><span class="delimiter">&quot;</span><span class="content"> #</span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(para_id))     <span class="comment"># use filename + doc id as plot label</span>
-            <span class="keyword">else</span>:                                       <span class="comment"># size according to doc_size</span>
-                doc = doc.sort(columns=<span class="string"><span class="delimiter">'</span><span class="content">TokenId</span><span class="delimiter">'</span></span>)
-                i = <span class="integer">1</span>
-                <span class="keyword">while</span>(doc_size &lt; doc.shape[<span class="integer">0</span>]):
-                    docs.append(doc[:doc_size][<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>))
-                    doc_labels.append(<span class="predefined">file</span>.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>)[<span class="integer">0</span>]+<span class="string"><span class="delimiter">&quot;</span><span class="content"> #</span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(i))
-                    doc = doc.drop(doc.index[:doc_size])        <span class="comment"># drop doc_size rows</span>
-                    i += <span class="integer">1</span>
-                docs.append(doc[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>))    <span class="comment"># add the rest</span>
-                doc_labels.append(<span class="predefined">file</span>.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>)[<span class="integer">0</span>]+<span class="string"><span class="delimiter">&quot;</span><span class="content"> #</span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(i))
-<span class="error"> </span>
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">normalizing and vectorizing ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)        <span class="comment"># cf. https://radimrehurek.com/gensim/tut1.html</span>
-<span class="error"> </span>
-    texts = [[word <span class="keyword">for</span> word <span class="keyword">in</span> doc <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> stopwords] <span class="keyword">for</span> doc <span class="keyword">in</span> docs]       <span class="comment"># remove stopwords</span>
-<span class="error"> </span>
-    all_tokens = <span class="predefined">sum</span>(texts, [])                                                     <span class="comment"># remove words that appear only once</span>
-    tokens_once = <span class="predefined">set</span>(word <span class="keyword">for</span> word <span class="keyword">in</span> <span class="predefined">set</span>(all_tokens) <span class="keyword">if</span> all_tokens.count(word) == <span class="integer">1</span>)
-    texts = [[word <span class="keyword">for</span> word <span class="keyword">in</span> text <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> tokens_once] <span class="keyword">for</span> text <span class="keyword">in</span> texts]
-<span class="error"> </span>
-    dictionary = Dictionary(texts)                      <span class="comment"># vectorize</span>
-    corpus = [dictionary.doc2bow(text) <span class="keyword">for</span> text <span class="keyword">in</span> texts]
-<span class="error"> </span>
-    <span class="keyword">return</span> dictionary, corpus, doc_labels</code></pre>
+ 
+            # construct documents
+            if doc_split:                               # size according to paragraph id
+                doc = doc.groupby('ParagraphId')
+                for para_id, para in doc:
+                    docs.append(para['Lemma'].values.astype(str))
+                    doc_labels.append(file.split(".")[0]+" #"+str(para_id))     # use filename + doc id as plot label
+            else:                                       # size according to doc_size
+                doc = doc.sort(columns='TokenId')
+                i = 1
+                while(doc_size &lt; doc.shape[0]):
+                    docs.append(doc[:doc_size]['Lemma'].values.astype(str))
+                    doc_labels.append(file.split(".")[0]+" #"+str(i))
+                    doc = doc.drop(doc.index[:doc_size])        # drop doc_size rows
+                    i += 1
+                docs.append(doc['Lemma'].values.astype(str))    # add the rest
+                doc_labels.append(file.split(".")[0]+" #"+str(i))
+ 
+    print("\nnormalizing and vectorizing ...\n")        # cf. https://radimrehurek.com/gensim/tut1.html
+ 
+    texts = [[word for word in doc if word not in stopwords] for doc in docs]       # remove stopwords
+ 
+    all_tokens = sum(texts, [])                                                     # remove words that appear only once
+    tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
+    texts = [[word for word in text if word not in tokens_once] for text in texts]
+ 
+    dictionary = Dictionary(texts)                      # vectorize
+    corpus = [dictionary.doc2bow(text) for text in texts]
+ 
+    return dictionary, corpus, doc_labels</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2268,11 +1924,11 @@ this. The following lines will add all named entities to the stopword list.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">df = df.groupby(<span class="string"><span class="delimiter">'</span><span class="content">NamedEntity</span><span class="delimiter">'</span></span>)
+<pre class="highlight"><code class="language-python" data-lang="python">df = df.groupby('NamedEntity')
 
-names = df.get_group(<span class="string"><span class="delimiter">'</span><span class="content">B-PER</span><span class="delimiter">'</span></span>)[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>)
+names = df.get_group('B-PER')['Lemma'].values.astype(str)
 
-names += df.get_group(<span class="string"><span class="delimiter">'</span><span class="content">I-PER</span><span class="delimiter">'</span></span>)[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>)
+names += df.get_group('I-PER')['Lemma'].values.astype(str)
 
 stopwords += names.tolist()</code></pre>
 </div>
@@ -2283,16 +1939,16 @@ out all proper nouns (NP).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">df = df.groupby(<span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>)
+<pre class="highlight"><code class="language-python" data-lang="python">df = df.groupby('CPOS')
 
-names = df.get_group(<span class="string"><span class="delimiter">'</span><span class="content">NP</span><span class="delimiter">'</span></span>)[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>].values.astype(<span class="predefined">str</span>)
+names = df.get_group('NP')['Lemma'].values.astype(str)
 
 stopwords += names.tolist()</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="FittingtheModel">Fitting the Model</h3>
+<h3 id="_fitting_the_model">8.5. Fitting the Model</h3>
 <div class="paragraph">
 <p>Next, we can put it all together. The following is the script&#8217;s entry
 point, which is usually placed at the bottom of every Python script. It
@@ -2304,27 +1960,27 @@ create a LdaMulticore() model. Afterwards, the topics are displayed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">if</span> <span class="predefined">len</span>(sys.argv) &lt; <span class="integer">2</span>:
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">usage: {0} [folder containing csv files]</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-          <span class="string"><span class="delimiter">&quot;</span><span class="content">parameters are set inside the script.</span><span class="delimiter">&quot;</span></span>.format(sys.argv[<span class="integer">0</span>]))
-    sys.exit(<span class="integer">1</span>)
-<span class="error"> </span>
-path = sys.argv[<span class="integer">1</span>]
-foldername = path.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)[-<span class="integer">1</span>]
-<span class="error"> </span>
+<pre class="highlight"><code class="language-python" data-lang="python">if len(sys.argv) &lt; 2:
+    print("usage: {0} [folder containing csv files]\n"
+          "parameters are set inside the script.".format(sys.argv[0]))
+    sys.exit(1)
+ 
+path = sys.argv[1]
+foldername = path.split("/")[-1]
+ 
 dictionary, corpus, doc_labels = preprocessing(path, columns, pos_tags, doc_size, doc_split, stopwordlist)
 
-print(<span class="string"><span class="delimiter">&quot;</span><span class="content">fitting the model ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
+print("fitting the model ...\n")
+ 
 model = LdaMulticore(corpus=corpus, id2word=dictionary, num_topics=no_of_topics, passes=no_of_passes,
-                 eval_every=<span class="predefined">eval</span>, chunksize=chunk, alpha=alpha, eta=eta)
-<span class="error"> </span>
-print(model, <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
+                 eval_every=eval, chunksize=chunk, alpha=alpha, eta=eta)
+ 
+print(model, "\n")
+ 
 topics = model.show_topics(num_topics=no_of_topics)
-<span class="error"> </span>
-<span class="keyword">for</span> item, i <span class="keyword">in</span> <span class="predefined">zip</span>(topics, <span class="predefined">enumerate</span>(topics)):
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">topic #</span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(i[<span class="integer">0</span>])+<span class="string"><span class="delimiter">&quot;</span><span class="content">: </span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(item)+<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)</code></pre>
+ 
+for item, i in zip(topics, enumerate(topics)):
+    print("topic #"+str(i[0])+": "+str(item)+"\n")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2380,8 +2036,8 @@ output.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">logging</span>
-logging.basicConfig(format=<span class="string"><span class="delimiter">'</span><span class="content">%(asctime)s : %(levelname)s : %(message)s</span><span class="delimiter">'</span></span>, level=logging.INFO)</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">import logging
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2395,25 +2051,25 @@ files.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">print(<span class="string"><span class="delimiter">&quot;</span><span class="content">saving ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
-<span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string"><span class="delimiter">&quot;</span><span class="content">out</span><span class="delimiter">&quot;</span></span>): os.makedirs(<span class="string"><span class="delimiter">&quot;</span><span class="content">out</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
-<span class="keyword">with</span> <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">out/</span><span class="delimiter">&quot;</span></span>+foldername+<span class="string"><span class="delimiter">&quot;</span><span class="content">_doclabels.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>) <span class="keyword">as</span> f:
-    <span class="keyword">for</span> item <span class="keyword">in</span> doc_labels: f.write(item+<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
-<span class="keyword">with</span> <span class="predefined">open</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">out/</span><span class="delimiter">&quot;</span></span>+foldername+<span class="string"><span class="delimiter">&quot;</span><span class="content">_topics.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>) <span class="keyword">as</span> f:
-    <span class="keyword">for</span> item, i <span class="keyword">in</span> <span class="predefined">zip</span>(topics, <span class="predefined">enumerate</span>(topics)):
-        f.write(<span class="string"><span class="delimiter">&quot;</span><span class="content">topic #</span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(i[<span class="integer">0</span>])+<span class="string"><span class="delimiter">&quot;</span><span class="content">: </span><span class="delimiter">&quot;</span></span>+<span class="predefined">str</span>(item)+<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
-dictionary.save(<span class="string"><span class="delimiter">&quot;</span><span class="content">out/</span><span class="delimiter">&quot;</span></span>+foldername+<span class="string"><span class="delimiter">&quot;</span><span class="content">.dict</span><span class="delimiter">&quot;</span></span>)
-MmCorpus.serialize(<span class="string"><span class="delimiter">&quot;</span><span class="content">out/</span><span class="delimiter">&quot;</span></span>+foldername+<span class="string"><span class="delimiter">&quot;</span><span class="content">.mm</span><span class="delimiter">&quot;</span></span>, corpus)
-model.save(<span class="string"><span class="delimiter">&quot;</span><span class="content">out/</span><span class="delimiter">&quot;</span></span>+foldername+<span class="string"><span class="delimiter">&quot;</span><span class="content">.lda</span><span class="delimiter">&quot;</span></span>)</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">print("saving ...\n")
+ 
+if not os.path.exists("out"): os.makedirs("out")
+ 
+with open("out/"+foldername+"_doclabels.txt", "w") as f:
+    for item in doc_labels: f.write(item+"\n")
+ 
+with open("out/"+foldername+"_topics.txt", "w") as f:
+    for item, i in zip(topics, enumerate(topics)):
+        f.write("topic #"+str(i[0])+": "+str(item)+"\n")
+ 
+dictionary.save("out/"+foldername+".dict")
+MmCorpus.serialize("out/"+foldername+".mm", corpus)
+model.save("out/"+foldername+".lda")</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="VisualizationOptions">Visualization Options</h3>
+<h3 id="_visualization_options">8.6. Visualization Options</h3>
 <div class="paragraph">
 <p>Each of the following visualizations is generated by its own Python
 script that is able to draw on contents and metadata of the LDA model
@@ -2422,17 +2078,17 @@ to the generated model <strong>.lda </strong>file and that it is in the same
 directory as the other save files.</p>
 </div>
 <div class="sect3">
-<h4 id="Interactive">Interactive</h4>
+<h4 id="_interactive">8.6.1. Interactive</h4>
 <div class="paragraph">
 <p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_interactive.py">Source</a>]</strong> This
 piece of code produces an interactive visualization of what the model
 has learned from the data. You can explore our example model by
 downloading
-<a href="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.html?version=1&amp;modificationDate=1443696896209&amp;api=v2">this
+<a href="content/kurzgeschichten_interactive.html">this
 HTML file</a> and opening it in a browser. The figure in the left column
 shows a projection of the inter-topic distances onto two dimensions, the
 barchart on the right shows the most useful terms for interpreting
-selected topic based on the <em>relevance metric</em> slider. Basically, it
+selected topic based on the 'relevance metric' slider. Basically, it
 allows for an interactive reranking and thus exploration of all terms
 connected to the topic, also those, which the model might have placed at
 the bottom. Another thing is that terms can be selected and in turn show
@@ -2442,11 +2098,11 @@ has been described in
 paper</a>.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_interactive.png" alt="image"></span></p>
+<p><span class="image"><img src="content/kurzgeschichten_interactive.png" alt="image"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="Heatmap">Heatmap</h4>
+<h4 id="_heatmap">8.6.2. Heatmap</h4>
 <div class="paragraph">
 <p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_heatmap.py">Source</a>] </strong>The
 heatmap option displays the kind of information that is probably most
@@ -2462,16 +2118,16 @@ in computational analysis, such as document classification or authorship
 attribution. To get a feel for this visualization you can try
 e.g. building a number of models with varying document size
 (see <a href="#ConfigurationSection">configuration
-section</a> in <em>lda.py</em>) - smaller document sizes <em>zoom in</em> on the
-thematic development inside texts, while larger ones <em>zoom out</em>, up
+section</a> in <em>lda.py</em>) - smaller document sizes 'zoom in' on the
+thematic development inside texts, while larger ones 'zoom out', up
 until there is only one row per document to display.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_heatmap.png" alt="image"></span><br></p>
+<p><span class="image"><img src="content/kurzgeschichten_heatmap.png" alt="image"></span></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="Network">Network</h4>
+<h4 id="_network">8.6.3. Network</h4>
 <div class="paragraph">
 <p><strong>[<a href="https://github.com/stefanpernes/dariah-nlp-tutorial/blob/master/lda_network.py">Source</a>]</strong> For
 a more artistic presentation of a topic model, consider the following
@@ -2483,7 +2139,7 @@ namely the
 Topic Terms</a> function, which produces the following graph:</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/attachments/40213783/kurzgeschichten_network.png" alt="image"></span></p>
+<p><span class="image"><img src="content/kurzgeschichten_network.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p>The graph shows the top 30 terms for each topic. Terms that are only
@@ -2504,7 +2160,7 @@ settings <strong>k=0.060,</strong> <strong>iterations=30</strong> were passed t
 </div>
 </div>
 <div class="sect1">
-<h2 id="StylometricClassificationinPython">Example Recipe: Stylometric Classification in Python</h2>
+<h2 id="_example_recipe_stylometric_classification_in_python">9. Example Recipe: Stylometric Classification in Python</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this recipe, we will show how to implement a cross-genre stylometric
@@ -2514,7 +2170,7 @@ in
 Machine Learning Methods Demonstrate the Existence of a Human
 Stylome</a></em>. In short, the authors propose a set of features and a
 classification algorithm based on the idea that everyone&#8217;s individual
-language form can be classified in terms of a <em>stylome</em>, as much as it
+language form can be classified in terms of a 'stylome', as much as it
 can be for experienced writers. While we employ an ordinary <em>Random
 Forest Classifier</em> instead of the author&#8217;s own <em>Weighted Probability
 Distribution Voting</em> algorithm, we can show how to build a pairwise
@@ -2526,7 +2182,7 @@ around 0.70 using only the feature set.</p>
 on <a href="https://github.com/stefanpernes/dariah-nlp-tutorial">GitHub</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="ExampleCorpus.2">Example Corpus</h3>
+<h3 id="_example_corpus_3">9.1. Example Corpus</h3>
 <div class="paragraph">
 <p>The original corpus used in the paper is controlled for various factors
 and designed to make the classification task as hard as possible in
@@ -2555,12 +2211,12 @@ information is not needed for the classification experiment) and
 indicate whether a longer text has been truncated ("Anfang").
 Additionally, some poems had to be concatenated in order to arrive at a
 minimum text length of 300 words (labelled "Gedichte"). You can
-<strong><a href="https://wiki.de.dariah.eu/download/attachments/40213783/grillparzer-kleist.zip?version=1&amp;modificationDate=1436871578064&amp;api=v2">get
+<strong><a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/raw/master/doc/content/grillparzer-kleist.zip">get
 the example corpus here</a></strong>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="SettinguptheEnvironment.1">Setting Up the Environment</h3>
+<h3 id="_setting_up_the_environment_2">9.2. Setting Up the Environment</h3>
 <div class="paragraph">
 <p>Assuming you have Python installed, issuing the following command at the
 command line will download and install the packages needed for this
@@ -2568,7 +2224,7 @@ recipe:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">pip3 install pandas scikit-learn</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">pip3 install pandas scikit-learn</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2577,19 +2233,19 @@ following import statements:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">pandas</span> <span class="keyword">as</span> pd
-<span class="keyword">import</span> <span class="include">numpy</span> <span class="keyword">as</span> np
-<span class="keyword">import</span> <span class="include">os</span>, <span class="include">sys</span>
-<span class="keyword">from</span> <span class="include">collections</span> <span class="keyword">import</span> <span class="include">Counter</span>
-<span class="keyword">from</span> <span class="include">sklearn.feature_extraction</span> <span class="keyword">import</span> <span class="include">DictVectorizer</span>
-<span class="keyword">from</span> <span class="include">sklearn.preprocessing</span> <span class="keyword">import</span> <span class="include">Imputer</span>
-<span class="keyword">from</span> <span class="include">sklearn.ensemble</span> <span class="keyword">import</span> <span class="include">RandomForestClassifier</span>
-<span class="keyword">from</span> <span class="include">sklearn.cross_validation</span> <span class="keyword">import</span> <span class="include">cross_val_score</span>, <span class="include">ShuffleSplit</span></code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">import pandas as pd
+import numpy as np
+import os, sys
+from collections import Counter
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.preprocessing import Imputer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.cross_validation import cross_val_score, ShuffleSplit</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="FeatureSelection">Feature Selection</h3>
+<h3 id="_feature_selection">9.3. Feature Selection</h3>
 <div class="paragraph">
 <p>The author&#8217;s approach to measuring a human stylome rests on the idea
 that any individual form can be classified as long as one looks for a
@@ -2628,129 +2284,129 @@ calculation of specified classes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">wordcount</span>(wordlist):
+<pre class="highlight"><code class="language-python" data-lang="python">def wordcount(wordlist):
     dict = {}
-    <span class="keyword">for</span> word <span class="keyword">in</span> wordlist:
-        <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> <span class="predefined">dict</span>: <span class="predefined">dict</span>[word] = <span class="integer">1</span>
-        <span class="keyword">else</span>: <span class="predefined">dict</span>[word] += <span class="integer">1</span>
-    <span class="keyword">return</span> <span class="predefined">dict</span>
-<span class="error"> </span>
-<span class="keyword">def</span> <span class="function">token_in_textblock</span>(text, token):        <span class="comment"># returns number of blocks (consisting of 1/7th of the text)</span>
-    blocks = []                             <span class="comment"># in which the current token is found, in 4 classes: 1, 2-3,4-6,7</span>
-    block_size = <span class="predefined">len</span>(text)/<span class="integer">7</span>
-    last = no_of_blocks = <span class="integer">0</span>
-<span class="error"> </span>
-    <span class="keyword">while</span> last &lt; <span class="predefined">len</span>(text):
-        blocks.append(text[<span class="predefined">int</span>(last):<span class="predefined">int</span>(last + block_size)])
+    for word in wordlist:
+        if word not in dict: dict[word] = 1
+        else: dict[word] += 1
+    return dict
+ 
+def token_in_textblock(text, token):        # returns number of blocks (consisting of 1/7th of the text)
+    blocks = []                             # in which the current token is found, in 4 classes: 1, 2-3,4-6,7
+    block_size = len(text)/7
+    last = no_of_blocks = 0
+ 
+    while last &lt; len(text):
+        blocks.append(text[int(last):int(last + block_size)])
         last += block_size
-<span class="error"> </span>
-    <span class="keyword">for</span> block <span class="keyword">in</span> blocks:
-        <span class="keyword">if</span> token <span class="keyword">in</span> block: no_of_blocks += <span class="integer">1</span>
-<span class="error"> </span>
-    <span class="keyword">if</span> no_of_blocks == <span class="integer">1</span>: occur_class = <span class="integer">1</span>
-    <span class="keyword">elif</span> <span class="integer">2</span> &lt;= no_of_blocks &lt;= <span class="integer">3</span>: occur_class = <span class="integer">2</span>
-    <span class="keyword">elif</span> <span class="integer">4</span> &lt;= no_of_blocks &lt;= <span class="integer">6</span>: occur_class = <span class="integer">3</span>
-    <span class="keyword">else</span>: occur_class = <span class="integer">4</span>
-<span class="error"> </span>
-    <span class="keyword">return</span> occur_class
-<span class="error"> </span>
-<span class="keyword">def</span> <span class="function">distance_to_previous</span>(curr_tok_id, curr_sent_id, occurrences):
-    <span class="comment"># returns distance in sentences to the previous occurrence</span>
-    <span class="comment"># of the current token (in 7 classes: NONE, SAME, 1, 2-3,4-7,8-15,16+</span>
-<span class="error"> </span>
-    occurrences = occurrences.reset_index()                             <span class="comment"># add new index from 0 .. len(occurrences.index)</span>
-<span class="error"> </span>
-    current_key = occurrences[occurrences[<span class="string"><span class="delimiter">'</span><span class="content">TokenId</span><span class="delimiter">'</span></span>] == curr_tok_id].index[<span class="integer">0</span>]   <span class="comment"># get row corresponding to curr_tok_id + its new index value</span>
-<span class="error"> </span>
-    <span class="keyword">if</span> current_key &gt; <span class="integer">0</span>:                                                 <span class="comment"># there is more than one &amp;&amp; its not the first occurrence</span>
-        prev_sent_id = <span class="predefined">int</span>(occurrences.iloc[current_key-<span class="integer">1</span>, <span class="integer">1</span>])          <span class="comment"># get previous sentence id based on that index</span>
-<span class="error"> </span>
+ 
+    for block in blocks:
+        if token in block: no_of_blocks += 1
+ 
+    if no_of_blocks == 1: occur_class = 1
+    elif 2 &lt;= no_of_blocks &lt;= 3: occur_class = 2
+    elif 4 &lt;= no_of_blocks &lt;= 6: occur_class = 3
+    else: occur_class = 4
+ 
+    return occur_class
+ 
+def distance_to_previous(curr_tok_id, curr_sent_id, occurrences):
+    # returns distance in sentences to the previous occurrence
+    # of the current token (in 7 classes: NONE, SAME, 1, 2-3,4-7,8-15,16+
+ 
+    occurrences = occurrences.reset_index()                             # add new index from 0 .. len(occurrences.index)
+ 
+    current_key = occurrences[occurrences['TokenId'] == curr_tok_id].index[0]   # get row corresponding to curr_tok_id + its new index value
+ 
+    if current_key &gt; 0:                                                 # there is more than one &amp;&amp; its not the first occurrence
+        prev_sent_id = int(occurrences.iloc[current_key-1, 1])          # get previous sentence id based on that index
+ 
         dist = curr_sent_id - prev_sent_id
-<span class="error"> </span>
-        <span class="keyword">if</span> dist == <span class="integer">0</span>: d_class = <span class="integer">2</span>
-        <span class="keyword">elif</span> dist == <span class="integer">1</span>: d_class = <span class="integer">3</span>
-        <span class="keyword">elif</span> <span class="integer">2</span> &lt;= dist &lt;= <span class="integer">3</span>: d_class = <span class="integer">4</span>
-        <span class="keyword">elif</span> <span class="integer">4</span> &lt;= dist &lt;= <span class="integer">7</span>: d_class = <span class="integer">5</span>
-        <span class="keyword">elif</span> <span class="integer">8</span> &lt;= dist &lt;= <span class="integer">15</span>: d_class = <span class="integer">6</span>
-        <span class="keyword">elif</span> <span class="integer">16</span> &lt;= dist: d_class = <span class="integer">7</span>
-    <span class="keyword">else</span>:
-        d_class = <span class="integer">1</span>
-<span class="error"> </span>
-    <span class="keyword">return</span> d_class
-<span class="error"> </span>
+ 
+        if dist == 0: d_class = 2
+        elif dist == 1: d_class = 3
+        elif 2 &lt;= dist &lt;= 3: d_class = 4
+        elif 4 &lt;= dist &lt;= 7: d_class = 5
+        elif 8 &lt;= dist &lt;= 15: d_class = 6
+        elif 16 &lt;= dist: d_class = 7
+    else:
+        d_class = 1
+ 
+    return d_class
+ 
 
 
-<span class="keyword">def</span> <span class="function">featureselect</span>(text):
-    columns = [<span class="string"><span class="delimiter">'</span><span class="content">SentenceId</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">TokenId</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">Token</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>]
-    columns_features = [<span class="string"><span class="delimiter">'</span><span class="content">CurrToken</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">PrevToken</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">NextToken</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">TokenTags</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">LengthPosition</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">TagFreqOccur</span><span class="delimiter">'</span></span>]
-<span class="error"> </span>
-    csv = pd.read_csv(text, sep=<span class="string"><span class="delimiter">&quot;</span><span class="char">\t</span><span class="delimiter">&quot;</span></span>)
-    df = csv[columns]                               <span class="comment"># create copy containing only the specified columns</span>
-<span class="error"> </span>
-    sent_max = df[<span class="string"><span class="delimiter">&quot;</span><span class="content">SentenceId</span><span class="delimiter">&quot;</span></span>].max()               <span class="comment"># number of sentences in the text</span>
-    token_max = df[<span class="string"><span class="delimiter">&quot;</span><span class="content">TokenId</span><span class="delimiter">&quot;</span></span>].max()                 <span class="comment"># number of tokens in the text</span>
-<span class="error"> </span>
-    text = <span class="predefined">list</span>(df[<span class="string"><span class="delimiter">&quot;</span><span class="content">Token</span><span class="delimiter">&quot;</span></span>])
-    word_freq = wordcount(text)                     <span class="comment"># word frequencies</span>
-<span class="error"> </span>
-    features = pd.DataFrame(columns=columns_features, index=<span class="predefined">range</span>(token_max+<span class="integer">1</span>))       <span class="comment"># dataframe to hold the results</span>
-<span class="error"> </span>
-    <span class="keyword">for</span> sent_id <span class="keyword">in</span> <span class="predefined">range</span>(sent_max+<span class="integer">1</span>):               <span class="comment"># iterate through sentences</span>
-        sentence = df[df[<span class="string"><span class="delimiter">'</span><span class="content">SentenceId</span><span class="delimiter">'</span></span>] == sent_id]  <span class="comment"># return rows corresponding to sent_id</span>
-<span class="error"> </span>
-        s_len = <span class="predefined">len</span>(sentence.index)                 <span class="comment"># length of the sentence</span>
-        <span class="keyword">if</span> s_len == <span class="integer">1</span>: s_class = <span class="integer">1</span>                  <span class="comment"># in 7 classes: 1, 2, 3, 4, 5-10,11-20 or 21+ tokens</span>
-        <span class="keyword">elif</span> s_len == <span class="integer">2</span>: s_class = <span class="integer">2</span>
-        <span class="keyword">elif</span> s_len == <span class="integer">3</span>: s_class = <span class="integer">3</span>
-        <span class="keyword">elif</span> s_len == <span class="integer">4</span>: s_class = <span class="integer">4</span>
-        <span class="keyword">elif</span> <span class="integer">5</span> &lt;= s_len &lt;= <span class="integer">10</span>: s_class = <span class="integer">5</span>
-        <span class="keyword">elif</span> <span class="integer">11</span> &lt;= s_len &lt;= <span class="integer">20</span>: s_class = <span class="integer">6</span>
-        <span class="keyword">elif</span> <span class="integer">21</span> &lt;= s_len: s_class = <span class="integer">7</span>
-<span class="error"> </span>
-        tok_count = <span class="integer">1</span>
-        <span class="keyword">for</span> row <span class="keyword">in</span> sentence.iterrows():
-            tok_id = row[<span class="integer">0</span>]                         <span class="comment"># row/dataframe index is the same as TokenId</span>
-<span class="error"> </span>
-            features.iat[tok_id, <span class="integer">0</span>] = current_tok = row[<span class="integer">1</span>].get(<span class="string"><span class="delimiter">&quot;</span><span class="content">Token</span><span class="delimiter">&quot;</span></span>)             <span class="comment"># save current token</span>
-            tokentags = current_pos = row[<span class="integer">1</span>].get(<span class="string"><span class="delimiter">&quot;</span><span class="content">CPOS</span><span class="delimiter">&quot;</span></span>)                            <span class="comment"># get current pos tag</span>
-<span class="error"> </span>
-            <span class="keyword">if</span> tok_id &gt; <span class="integer">0</span>:
-                features.iat[tok_id, <span class="integer">1</span>] = df.iloc[tok_id-<span class="integer">1</span>, <span class="integer">2</span>]                      <span class="comment"># save previous token</span>
-                tokentags += <span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span> + df.iloc[tok_id-<span class="integer">1</span>, <span class="integer">3</span>]                             <span class="comment"># get previous pos tag</span>
-            <span class="keyword">else</span>:
-                tokentags += <span class="string"><span class="delimiter">&quot;</span><span class="content">-NaN</span><span class="delimiter">&quot;</span></span>
-<span class="error"> </span>
-            <span class="keyword">if</span> tok_id &lt; token_max:
-                features.iat[tok_id, <span class="integer">2</span>] = df.iloc[tok_id+<span class="integer">1</span>, <span class="integer">2</span>]                      <span class="comment"># save next token</span>
-                tokentags += <span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span> + df.iloc[tok_id+<span class="integer">1</span>, <span class="integer">3</span>]                             <span class="comment"># get next pos tag</span>
-            <span class="keyword">else</span>:
-                tokentags += <span class="string"><span class="delimiter">&quot;</span><span class="content">-NaN</span><span class="delimiter">&quot;</span></span>
-<span class="error"> </span>
-            features.iat[tok_id, <span class="integer">3</span>] = tokentags                         <span class="comment"># save pos tags</span>
-<span class="error"> </span>
-            <span class="keyword">if</span> tok_count &lt;= <span class="integer">3</span>: t_class = <span class="integer">1</span>                              <span class="comment"># position in the sentence</span>
-            <span class="keyword">elif</span> (s_len-<span class="integer">3</span>) &lt; tok_count &lt;= s_len: t_class = <span class="integer">2</span>            <span class="comment"># in 3 classes: first three tokens, last three tokens, other</span>
-            <span class="keyword">else</span>: t_class = <span class="integer">3</span>
-<span class="error"> </span>
-            features.iat[tok_id, <span class="integer">4</span>] = <span class="predefined">str</span>(s_class) + <span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span> + <span class="predefined">str</span>(t_class) <span class="comment"># save sentence length + token position</span>
-<span class="error"> </span>
-            tok_freq = word_freq[current_tok]                           <span class="comment"># frequency of the current token in the text</span>
-            <span class="keyword">if</span> tok_freq == <span class="integer">1</span>: f_class = <span class="integer">1</span>                               <span class="comment"># in 5 classes: 1, 2-5, 6-10,11-20 or 21+</span>
-            <span class="keyword">elif</span> <span class="integer">2</span> &lt;= tok_freq &lt;= <span class="integer">5</span>: f_class = <span class="integer">2</span>
-            <span class="keyword">elif</span> <span class="integer">6</span> &lt;= tok_freq &lt;= <span class="integer">10</span>: f_class = <span class="integer">3</span>
-            <span class="keyword">elif</span> <span class="integer">11</span> &lt;= tok_freq &lt;= <span class="integer">20</span>: f_class = <span class="integer">4</span>
-            <span class="keyword">elif</span> <span class="integer">21</span> &lt;= tok_freq: f_class = <span class="integer">5</span>
-<span class="error"> </span>
+def featureselect(text):
+    columns = ['SentenceId', 'TokenId', 'Token', 'CPOS']
+    columns_features = ['CurrToken', 'PrevToken', 'NextToken', 'TokenTags', 'LengthPosition', 'TagFreqOccur']
+ 
+    csv = pd.read_csv(text, sep="\t")
+    df = csv[columns]                               # create copy containing only the specified columns
+ 
+    sent_max = df["SentenceId"].max()               # number of sentences in the text
+    token_max = df["TokenId"].max()                 # number of tokens in the text
+ 
+    text = list(df["Token"])
+    word_freq = wordcount(text)                     # word frequencies
+ 
+    features = pd.DataFrame(columns=columns_features, index=range(token_max+1))       # dataframe to hold the results
+ 
+    for sent_id in range(sent_max+1):               # iterate through sentences
+        sentence = df[df['SentenceId'] == sent_id]  # return rows corresponding to sent_id
+ 
+        s_len = len(sentence.index)                 # length of the sentence
+        if s_len == 1: s_class = 1                  # in 7 classes: 1, 2, 3, 4, 5-10,11-20 or 21+ tokens
+        elif s_len == 2: s_class = 2
+        elif s_len == 3: s_class = 3
+        elif s_len == 4: s_class = 4
+        elif 5 &lt;= s_len &lt;= 10: s_class = 5
+        elif 11 &lt;= s_len &lt;= 20: s_class = 6
+        elif 21 &lt;= s_len: s_class = 7
+ 
+        tok_count = 1
+        for row in sentence.iterrows():
+            tok_id = row[0]                         # row/dataframe index is the same as TokenId
+ 
+            features.iat[tok_id, 0] = current_tok = row[1].get("Token")             # save current token
+            tokentags = current_pos = row[1].get("CPOS")                            # get current pos tag
+ 
+            if tok_id &gt; 0:
+                features.iat[tok_id, 1] = df.iloc[tok_id-1, 2]                      # save previous token
+                tokentags += "-" + df.iloc[tok_id-1, 3]                             # get previous pos tag
+            else:
+                tokentags += "-NaN"
+ 
+            if tok_id &lt; token_max:
+                features.iat[tok_id, 2] = df.iloc[tok_id+1, 2]                      # save next token
+                tokentags += "-" + df.iloc[tok_id+1, 3]                             # get next pos tag
+            else:
+                tokentags += "-NaN"
+ 
+            features.iat[tok_id, 3] = tokentags                         # save pos tags
+ 
+            if tok_count &lt;= 3: t_class = 1                              # position in the sentence
+            elif (s_len-3) &lt; tok_count &lt;= s_len: t_class = 2            # in 3 classes: first three tokens, last three tokens, other
+            else: t_class = 3
+ 
+            features.iat[tok_id, 4] = str(s_class) + "-" + str(t_class) # save sentence length + token position
+ 
+            tok_freq = word_freq[current_tok]                           # frequency of the current token in the text
+            if tok_freq == 1: f_class = 1                               # in 5 classes: 1, 2-5, 6-10,11-20 or 21+
+            elif 2 &lt;= tok_freq &lt;= 5: f_class = 2
+            elif 6 &lt;= tok_freq &lt;= 10: f_class = 3
+            elif 11 &lt;= tok_freq &lt;= 20: f_class = 4
+            elif 21 &lt;= tok_freq: f_class = 5
+ 
             block_occur = token_in_textblock(text, current_tok)
-<span class="error"> </span>
-            occurrences = df[df[<span class="string"><span class="delimiter">'</span><span class="content">Token</span><span class="delimiter">'</span></span>] == current_tok]                <span class="comment"># new dataframe containing all of curr_token's occurrences</span>
+ 
+            occurrences = df[df['Token'] == current_tok]                # new dataframe containing all of curr_token's occurrences
             previous_distance = distance_to_previous(tok_id, sent_id, occurrences)
-<span class="error"> </span>
-            features.iat[tok_id, <span class="integer">5</span>] = current_pos + <span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span> + <span class="predefined">str</span>(f_class) + <span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span> + <span class="predefined">str</span>(block_occur) + <span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span> + <span class="predefined">str</span>(previous_distance)
-<span class="error"> </span>
-            tok_count += <span class="integer">1</span>
-<span class="error"> </span>
-    <span class="keyword">return</span> features</code></pre>
+ 
+            features.iat[tok_id, 5] = current_pos + "-" + str(f_class) + "-" + str(block_occur) + "-" + str(previous_distance)
+ 
+            tok_count += 1
+ 
+    return features</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2794,7 +2450,7 @@ calculation of specified classes:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="PreparingtheData.1">Preparing the Data</h3>
+<h3 id="_preparing_the_data_2">9.4. Preparing the Data</h3>
 <div class="paragraph">
 <p>What we need to do now, is to gather this information in bulk and
 convert it into a form suitable for training, respectively testing a
@@ -2817,48 +2473,48 @@ their respective rows.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">preprocessing</span>(path, n):
+<pre class="highlight"><code class="language-python" data-lang="python">def preprocessing(path, n):
     feats = []
     y = []
-<span class="error"> </span>
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">processing files and randomly selecting {0} features each ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>.format(n))
-<span class="error"> </span>
-    <span class="keyword">for</span> <span class="predefined">file</span> <span class="keyword">in</span> os.listdir(path=path):
-        <span class="keyword">if</span> <span class="keyword">not</span> <span class="predefined">file</span>.startswith(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>):
-            author = <span class="predefined">file</span>.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span>)[<span class="integer">0</span>].replace(<span class="string"><span class="delimiter">&quot;</span><span class="content">%20</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>)
-            filepath = path+<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>+<span class="predefined">file</span>
+ 
+    print("processing files and randomly selecting {0} features each ...\n".format(n))
+ 
+    for file in os.listdir(path=path):
+        if not file.startswith("."):
+            author = file.split("-")[0].replace("%20", " ")
+            filepath = path+"/"+file
             print(filepath)
-<span class="error"> </span>
-            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(n): y.append(author)                     <span class="comment"># add n labels to y</span>
-<span class="error"> </span>
-            <span class="keyword">with</span> <span class="predefined">open</span>(filepath, <span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>) <span class="keyword">as</span> f:
-                feat = featureselect(f)                             <span class="comment"># perform feature selection</span>
-                rows = np.random.choice(feat.index.values, n)       <span class="comment"># randomly select n observations</span>
+ 
+            for i in range(n): y.append(author)                     # add n labels to y
+ 
+            with open(filepath, "r") as f:
+                feat = featureselect(f)                             # perform feature selection
+                rows = np.random.choice(feat.index.values, n)       # randomly select n observations
                 feat_rand = feat.ix[rows]
-<span class="error"> </span>
+ 
                 feats.append(feat_rand)
                 f.close()
-<span class="error"> </span>
-    data = pd.concat(feats, ignore_index=<span class="predefined-constant">True</span>)                      <span class="comment"># merge into one dataframe</span>
-<span class="error"> </span>
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">dimensions of X: {0}</span><span class="delimiter">&quot;</span></span>.format(data.shape))
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">dimensions of y: {0}</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>.format(<span class="predefined">len</span>(y)))
-<span class="error"> </span>
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">vectorizing ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-<span class="error"> </span>
-    vec = DictVectorizer(sparse=<span class="predefined-constant">False</span>)
+ 
+    data = pd.concat(feats, ignore_index=True)                      # merge into one dataframe
+ 
+    print("\ndimensions of X: {0}".format(data.shape))
+    print("dimensions of y: {0}\n".format(len(y)))
+ 
+    print("vectorizing ...\n")
+ 
+    vec = DictVectorizer(sparse=False)
     X = vec.fit_transform(data.T.to_dict().values())
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">dimensions of X after vectorization: {0}</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>.format(X.shape))
-<span class="error"> </span>
-    imp = Imputer(missing_values=<span class="string"><span class="delimiter">'</span><span class="content">NaN</span><span class="delimiter">'</span></span>, strategy=<span class="string"><span class="delimiter">'</span><span class="content">median</span><span class="delimiter">'</span></span>, axis=<span class="integer">0</span>)    <span class="comment"># replace NaN</span>
+    print("dimensions of X after vectorization: {0}\n".format(X.shape))
+ 
+    imp = Imputer(missing_values='NaN', strategy='median', axis=0)    # replace NaN
     X = imp.fit_transform(X)
-<span class="error"> </span>
-    <span class="keyword">return</span> X, y, vec</code></pre>
+ 
+    return X, y, vec</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="TrainingandEvaluatingtheClassifier">Training and Evaluating the Classifier</h3>
+<h3 id="_training_and_evaluating_the_classifier">9.5. Training and Evaluating the Classifier</h3>
 <div class="paragraph">
 <p>Now, we can put it all together - first we check for two arguments,
 a folder containing CSV files for training and one file for testing the
@@ -2888,27 +2544,27 @@ the classifier.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">n_obs = <span class="integer">700</span>                                                         <span class="comment"># no. of observations to select</span>
-n_trees = <span class="integer">30</span>                                                        <span class="comment"># no. of estimators in RandomForestClassifier</span>
-<span class="error"> </span>
-<span class="keyword">if</span> <span class="predefined">len</span>(sys.argv) &lt; <span class="integer">3</span>:
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">usage: {0} [folder containing csv files for training] [csv file for testing]</span><span class="delimiter">&quot;</span></span>.format(sys.argv[<span class="integer">0</span>]))
-    sys.exit(<span class="integer">1</span>)
-<span class="error"> </span>
-<span class="comment"># do feature selection, normalization, and vectorization</span>
-X, y, vec = preprocessing(sys.argv[<span class="integer">1</span>], n_obs)
-<span class="error"> </span>
-<span class="comment"># model training</span>
-print(<span class="string"><span class="delimiter">&quot;</span><span class="content">training classifier ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
-clf = RandomForestClassifier(n_estimators=n_trees, n_jobs=-<span class="integer">1</span>).fit(X, y) <span class="comment"># -1 sets n_jobs to the number of CPU cores</span>
+<pre class="highlight"><code class="language-python" data-lang="python">n_obs = 700                                                         # no. of observations to select
+n_trees = 30                                                        # no. of estimators in RandomForestClassifier
+ 
+if len(sys.argv) &lt; 3:
+    print("usage: {0} [folder containing csv files for training] [csv file for testing]".format(sys.argv[0]))
+    sys.exit(1)
+ 
+# do feature selection, normalization, and vectorization
+X, y, vec = preprocessing(sys.argv[1], n_obs)
+ 
+# model training
+print("training classifier ...\n")
+clf = RandomForestClassifier(n_estimators=n_trees, n_jobs=-1).fit(X, y) # -1 sets n_jobs to the number of CPU cores
 print(clf)
-<span class="error"> </span>
-<span class="comment"># evaluation</span>
-print(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">performing cross validation (n_iter=5, test_size=0.125) ...</span><span class="delimiter">&quot;</span></span>)
-cv = ShuffleSplit(X.shape[<span class="integer">0</span>], n_iter=<span class="integer">5</span>, test_size=<span class="float">0.125</span>, random_state=<span class="integer">4</span>)
-scores = cross_val_score(clf, X, y, cv=cv, n_jobs=-<span class="integer">1</span>)
+ 
+# evaluation
+print("\nperforming cross validation (n_iter=5, test_size=0.125) ...")
+cv = ShuffleSplit(X.shape[0], n_iter=5, test_size=0.125, random_state=4)
+scores = cross_val_score(clf, X, y, cv=cv, n_jobs=-1)
 print(scores)
-print(<span class="string"><span class="delimiter">&quot;</span><span class="content">mean accuracy: %0.2f (+/- %0.2f)</span><span class="char">\n</span><span class="delimiter">&quot;</span></span><span class="error"> </span>% (scores.mean(), scores.std() * <span class="integer">2</span>))</code></pre>
+print("mean accuracy: %0.2f (+/- %0.2f)\n" % (scores.mean(), scores.std() * 2))</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2958,7 +2614,7 @@ mean accuracy: 0.76 (+/- 0.01)</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="PredictionusingtheClassifier">Prediction Using the Classifier</h3>
+<h3 id="_prediction_using_the_classifier">9.6. Prediction Using the Classifier</h3>
 <div class="paragraph">
 <p>Finally, we can use the trained classifier object to predict which
 author the text can be attributed to. The test text - which should be
@@ -2975,31 +2631,31 @@ persistence</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python">print(<span class="string"><span class="delimiter">&quot;</span><span class="content">predicting author for {0} ...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>.format(sys.argv[<span class="integer">2</span>]))
-<span class="error"> </span>
-<span class="comment"># feature selection and preprocessing for testfile</span>
-<span class="keyword">with</span> <span class="predefined">open</span>(sys.argv[<span class="integer">2</span>], <span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>) <span class="keyword">as</span> f:
-    feat = featureselect(f)                             <span class="comment"># perform feature selection</span>
-    rows = np.random.choice(feat.index.values, n_obs)       <span class="comment"># randomly select n observations</span>
+<pre class="highlight"><code class="language-python" data-lang="python">print("predicting author for {0} ...\n".format(sys.argv[2]))
+ 
+# feature selection and preprocessing for testfile
+with open(sys.argv[2], "r") as f:
+    feat = featureselect(f)                             # perform feature selection
+    rows = np.random.choice(feat.index.values, n_obs)       # randomly select n observations
     feat = feat.ix[rows]
-<span class="error"> </span>
-print(<span class="string"><span class="delimiter">&quot;</span><span class="content">dimensions of X_test: {0}</span><span class="delimiter">&quot;</span></span>.format(feat.shape))
-<span class="error"> </span>
-X_test = vec.transform(feat.T.to_dict().values())       <span class="comment"># vec must be the same DictVectorizer object as generated by preprocessing()</span>
-<span class="error"> </span>
-print(<span class="string"><span class="delimiter">&quot;</span><span class="content">dimensions of X_test after vectorization: {0}</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>.format(X_test.shape))
-<span class="error"> </span>
-imp = Imputer(missing_values=<span class="string"><span class="delimiter">'</span><span class="content">NaN</span><span class="delimiter">'</span></span>, strategy=<span class="string"><span class="delimiter">'</span><span class="content">median</span><span class="delimiter">'</span></span>, axis=<span class="integer">0</span>)    <span class="comment"># replace NaN</span>
+ 
+print("dimensions of X_test: {0}".format(feat.shape))
+ 
+X_test = vec.transform(feat.T.to_dict().values())       # vec must be the same DictVectorizer object as generated by preprocessing()
+ 
+print("dimensions of X_test after vectorization: {0}\n".format(X_test.shape))
+ 
+imp = Imputer(missing_values='NaN', strategy='median', axis=0)    # replace NaN
 X_test = imp.fit_transform(X_test)
-<span class="error"> </span>
-<span class="comment"># prediction</span>
+ 
+# prediction
 y_pred = clf.predict(X_test)
-<span class="error"> </span>
+ 
 c = Counter(y_pred)
-c_key = <span class="predefined">list</span>(c.keys())
-c_val = <span class="predefined">list</span>(c.values())
-print(c_key[<span class="integer">0</span>], c_val[<span class="integer">0</span>]/(<span class="predefined">sum</span>(c.values())/<span class="integer">100</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">% - </span><span class="delimiter">&quot;</span></span>,
-      c_key[<span class="integer">1</span>], c_val[<span class="integer">1</span>]/(<span class="predefined">sum</span>(c.values())/<span class="integer">100</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">%</span><span class="delimiter">&quot;</span></span>)</code></pre>
+c_key = list(c.keys())
+c_val = list(c.values())
+print(c_key[0], c_val[0]/(sum(c.values())/100), "% - ",
+      c_key[1], c_val[1]/(sum(c.values())/100), "%")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3024,8 +2680,8 @@ statements:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">warnings</span>
-warnings.filterwarnings(<span class="string"><span class="delimiter">&quot;</span><span class="content">ignore</span><span class="delimiter">&quot;</span></span>)</code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">import warnings
+warnings.filterwarnings("ignore")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3064,7 +2720,7 @@ will list them here.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="NetworkVisualizationinPython">Example Recipe: Network Visualization in Python</h2>
+<h2 id="_example_recipe_network_visualization_in_python">10. Example Recipe: Network Visualization in Python</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The following example attempts to show how to create a simple social network visualization of German poets by using text files extracted from Wikipedia. The <a href="https://pypi.python.org/pypi/wikipedia">Wikipedia API</a> for Python is used to scrape the content from Wikipedia as <strong>plain text</strong>. With the help of the <a href="https://github.com/DARIAH-DE/DARIAH-DKPro-Wrapper/releases">DARIAH-DKPro-Wrapper</a> we gain access to the <a href="https://en.wikipedia.org/wiki/Named-entity_recognition">Named Entities</a> (NE) in each file, compare them using basic Python programming and finally visualize them with the Python <a href="https://networkx.github.io">NetworkX</a> and <a href="http://matplotlib.org">matplotlib</a> packages.
@@ -3075,7 +2731,7 @@ Every author is represented by a node, a connection between two authors by an ed
 <p>You can find the ready-to-run scripts for this recipe <a href="https://github.com/severinsimmler/DARIAH-Network-Visualization">here</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="SettinguptheEnvironment.2">Setting Up the Environment</h3>
+<h3 id="_setting_up_the_environment_3">10.1. Setting Up the Environment</h3>
 <div class="paragraph">
 <p>As explained in the <a href="#SettinguptheEnvironment">example above</a> you have to install three packages to realize this recipe.
 Issue the following command in the command line to download and install the needed packages:</p>
@@ -3091,15 +2747,15 @@ pip3 install networkx</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="CrawlingWikipedia">Crawling Wikipedia</h3>
+<h3 id="_crawling_wikipedia">10.2. Crawling Wikipedia</h3>
 <div class="paragraph">
 <p>The first part of the recipe is designed for interactive use. It is recommended to copy the following code into a text file and interpret it with Python through the command prompt. For more clearness the whole script is divided into small parts with explanations on what is going on in the single parts.
 Use the following <code>import</code> statements in your first script after the first line:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">wikipedia</span>
-<span class="keyword">import</span> <span class="include">re</span></code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">import wikipedia
+import re</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3107,20 +2763,20 @@ Use the following <code>import</code> statements in your first script after the 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">create_authors</span>(working_directory, wiki_page, wiki_section):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">Gathers names from Wikipedia</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def create_authors(working_directory, wiki_page, wiki_section):
+    """Gathers names from Wikipedia"""
 
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Creating authors.txt ...</span><span class="delimiter">&quot;</span></span>)
-    <span class="keyword">with</span> <span class="predefined">open</span>(working_directory + <span class="string"><span class="delimiter">&quot;</span><span class="content">/authors.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, encoding=<span class="string"><span class="delimiter">'</span><span class="content">utf-8</span><span class="delimiter">'</span></span>) <span class="keyword">as</span> authors:
+    print("\nCreating authors.txt ...")
+    with open(working_directory + "/authors.txt", "w", encoding='utf-8') as authors:
         full_content = wikipedia.page(wiki_page)
         selected_content = full_content.section(wiki_section)
-        only_name = re.sub(<span class="string"><span class="delimiter">&quot;</span><span class="content">[ </span><span class="char">\t</span><span class="char">\r</span><span class="char">\n</span><span class="char">\f</span><span class="content">]+[</span><span class="content">\(</span><span class="content">\[</span><span class="content">].*?[</span><span class="content">\]</span><span class="content">\)</span><span class="content">]</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>, selected_content)  <span class="comment"># erases characters after full name</span>
+        only_name = re.sub("[ \t\r\n\f]+[\(\[].*?[\]\)]","", selected_content)  # erases characters after full name
         authors.write(only_name)
         print(only_name)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As Wikipedia happens to consist of living documents we provide a snapshot of a list of authors: <a href="https://github.com/severinsimmler/DARIAH-Network-Visualization/blob/master/doc/author.txt">author.txt</a></p>
+<p>As Wikipedia happens to consist of living documents, we provide a snapshot of a list of authors <a href="content/author.txt">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>Alternatively, you can create your own list of authors (make sure you use the exact name used by Wikipedia).</p>
@@ -3147,30 +2803,30 @@ Spervogel</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">crawl_wikipedia</span>(authors_file, output_directory):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">Crawls Wikipedia with authors.txt</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def crawl_wikipedia(authors_file, output_directory):
+    """Crawls Wikipedia with authors.txt"""
 
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Crawling Wikipedia ...</span><span class="delimiter">&quot;</span></span>)
-    <span class="keyword">with</span> <span class="predefined">open</span>(authors_file, <span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>, encoding=<span class="string"><span class="delimiter">&quot;</span><span class="content">utf-8</span><span class="delimiter">&quot;</span></span>) <span class="keyword">as</span> authors:
-        <span class="keyword">for</span> author <span class="keyword">in</span> authors.read().splitlines():
-            <span class="keyword">try</span>:
+    print("\nCrawling Wikipedia ...")
+    with open(authors_file, "r", encoding="utf-8") as authors:
+        for author in authors.read().splitlines():
+            try:
                 page_title = wikipedia.page(author)
-                <span class="keyword">if</span> page_title:
-                    <span class="keyword">with</span> <span class="predefined">open</span>(output_directory + <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span> + author + <span class="string"><span class="delimiter">&quot;</span><span class="content">.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>, encoding=<span class="string"><span class="delimiter">'</span><span class="content">utf-8</span><span class="delimiter">'</span></span>) <span class="keyword">as</span> new_author:
+                if page_title:
+                    with open(output_directory + "/" + author + ".txt", "w", encoding='utf-8') as new_author:
                         new_author.write(page_title.content)
-                        print(author + <span class="string"><span class="delimiter">&quot;</span><span class="content">: saved</span><span class="delimiter">&quot;</span></span>)
+                        print(author + ": saved")
 
-                <span class="keyword">else</span>:
-                    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Error: Cannot create variable for wikipedia.page</span><span class="delimiter">&quot;</span></span>)
+                else:
+                    print("Error: Cannot create variable for wikipedia.page")
 
-            <span class="keyword">except</span> wikipedia.exceptions.DisambiguationError:
-                <span class="keyword">pass</span>
-            <span class="keyword">except</span> wikipedia.exceptions.HTTPTimeoutError:
-                <span class="keyword">pass</span>
-            <span class="keyword">except</span> wikipedia.exceptions.RedirectError:
-                <span class="keyword">pass</span>
-            <span class="keyword">except</span> wikipedia.exceptions.PageError:
-                <span class="keyword">pass</span></code></pre>
+            except wikipedia.exceptions.DisambiguationError:
+                pass
+            except wikipedia.exceptions.HTTPTimeoutError:
+                pass
+            except wikipedia.exceptions.RedirectError:
+                pass
+            except wikipedia.exceptions.PageError:
+                pass</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3195,21 +2851,21 @@ Spervogel: saved</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">main</span>(working_directory, output_directory, wiki_page, wiki_section):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">
-</span><span class="content">    :param working_directory: e.g. /users/networks</span><span class="content">
-</span><span class="content">    :param output_directory: e.g. /users/networks/wikis</span><span class="content">
-</span><span class="content">    :param wiki_page: e.g. &quot;Liste deutschsprachiger Lyriker&quot;</span><span class="content">
-</span><span class="content">    :param wiki_section: e.g. &quot;12. Jahrhundert&quot;</span><span class="content">
-</span><span class="content">    </span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def main(working_directory, output_directory, wiki_page, wiki_section):
+    """
+    :param working_directory: e.g. /users/networks
+    :param output_directory: e.g. /users/networks/wikis
+    :param wiki_page: e.g. "Liste deutschsprachiger Lyriker"
+    :param wiki_section: e.g. "12. Jahrhundert"
+    """
 
-    wikipedia.set_lang(<span class="string"><span class="delimiter">&quot;</span><span class="content">de</span><span class="delimiter">&quot;</span></span>)    <span class="comment"># change language</span>
+    wikipedia.set_lang("de")    # change language
     create_authors(working_directory, wiki_page, wiki_section)
-    crawl_wikipedia(sys.argv[<span class="integer">1</span>] + <span class="string"><span class="delimiter">&quot;</span><span class="content">/authors.txt</span><span class="delimiter">&quot;</span></span>, output_directory)
+    crawl_wikipedia(sys.argv[1] + "/authors.txt", output_directory)
 
-<span class="keyword">if</span> __name__ == <span class="string"><span class="delimiter">&quot;</span><span class="content">__main__</span><span class="delimiter">&quot;</span></span>:
-    <span class="keyword">import</span> <span class="include">sys</span>
-    main(sys.argv[<span class="integer">1</span>], sys.argv[<span class="integer">2</span>], sys.argv[<span class="integer">3</span>], sys.argv[<span class="integer">4</span>])</code></pre>
+if __name__ == "__main__":
+    import sys
+    main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3232,18 +2888,18 @@ Spervogel: saved</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">main</span>(authors_file, output_directory):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">
-</span><span class="content">    :param authors_file: e.g. /users/networks/my_own_file.txt</span><span class="content">
-</span><span class="content">    :param output_directory: e.g. /users/networks/wikis</span><span class="content">
-</span><span class="content">    </span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def main(authors_file, output_directory):
+    """
+    :param authors_file: e.g. /users/networks/my_own_file.txt
+    :param output_directory: e.g. /users/networks/wikis
+    """
 
-    wikipedia.set_lang(<span class="string"><span class="delimiter">&quot;</span><span class="content">de</span><span class="delimiter">&quot;</span></span>)    <span class="comment"># change language</span>
+    wikipedia.set_lang("de")    # change language
     crawl_wikipedia(authors_file, output_directory)
 
-<span class="keyword">if</span> __name__ == <span class="string"><span class="delimiter">&quot;</span><span class="content">__main__</span><span class="delimiter">&quot;</span></span>:
-    <span class="keyword">import</span> <span class="include">sys</span>
-    main(sys.argv[<span class="integer">1</span>], sys.argv[<span class="integer">2</span>])</code></pre>
+if __name__ == "__main__":
+    import sys
+    main(sys.argv[1], sys.argv[2])</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3266,7 +2922,7 @@ Spervogel: saved</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="UsingDKProWrapperandNetworkX">Using DKPro Wrapper and NetworkX to Visualize Networks</h3>
+<h3 id="_using_dkpro_wrapper_and_networkx_to_visualize_networks">10.3. Using DKPro Wrapper and NetworkX to Visualize Networks</h3>
 <div class="paragraph">
 <p>In the second part of the recipe you will analyze your previously created text files with the DKPro-Wrapper.
 How to process a collection of files in the same folder is explained <a href="#InputFolders">further above</a>.
@@ -3275,14 +2931,14 @@ Create the second (and last) script starting after the first line with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">csv</span>
-<span class="keyword">from</span> <span class="include">collections</span> <span class="keyword">import</span> <span class="include">defaultdict</span>
-<span class="keyword">import</span> <span class="include">itertools</span>
-<span class="keyword">import</span> <span class="include">glob</span>
-<span class="keyword">import</span> <span class="include">os</span>
-<span class="keyword">import</span> <span class="include">networkx</span> <span class="keyword">as</span> nx
-<span class="keyword">import</span> <span class="include">matplotlib.pyplot</span> <span class="keyword">as</span> plt
-<span class="keyword">import</span> <span class="include">re</span></code></pre>
+<pre class="highlight"><code class="language-python" data-lang="python">import csv
+from collections import defaultdict
+import itertools
+import glob
+import os
+import networkx as nx
+import matplotlib.pyplot as plt
+import re</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3290,23 +2946,23 @@ Create the second (and last) script starting after the first line with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">ne_count</span>(input_file):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">Extracts only Named Entities</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def ne_count(input_file):
+    """Extracts only Named Entities"""
 
-    ne_counter = defaultdict(<span class="predefined">int</span>)
-    <span class="keyword">with</span> <span class="predefined">open</span>(input_file, encoding=<span class="string"><span class="delimiter">'</span><span class="content">utf-8</span><span class="delimiter">'</span></span>) <span class="keyword">as</span> csv_file:
-        read_csv = csv.DictReader(csv_file, delimiter=<span class="string"><span class="delimiter">'</span><span class="char">\t</span><span class="delimiter">'</span></span>, quoting=csv.QUOTE_NONE)
+    ne_counter = defaultdict(int)
+    with open(input_file, encoding='utf-8') as csv_file:
+        read_csv = csv.DictReader(csv_file, delimiter='\t', quoting=csv.QUOTE_NONE)
         lemma = []
 
-        <span class="keyword">for</span> row <span class="keyword">in</span> read_csv:
-            <span class="keyword">if</span> row[<span class="string"><span class="delimiter">'</span><span class="content">NamedEntity</span><span class="delimiter">'</span></span>] != <span class="string"><span class="delimiter">&quot;</span><span class="content">_</span><span class="delimiter">&quot;</span></span> <span class="keyword">and</span> row[<span class="string"><span class="delimiter">'</span><span class="content">CPOS</span><span class="delimiter">'</span></span>] != <span class="string"><span class="delimiter">&quot;</span><span class="content">PUNC</span><span class="delimiter">&quot;</span></span>:
-                lemma.append(row[<span class="string"><span class="delimiter">'</span><span class="content">Lemma</span><span class="delimiter">'</span></span>])
-            <span class="keyword">else</span>:
-                <span class="keyword">if</span> lemma:
-                    joined_lemma = <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>.join(lemma)
-                    ne_counter[joined_lemma] += <span class="integer">1</span>
+        for row in read_csv:
+            if row['NamedEntity'] != "_" and row['CPOS'] != "PUNC":
+                lemma.append(row['Lemma'])
+            else:
+                if lemma:
+                    joined_lemma = ' '.join(lemma)
+                    ne_counter[joined_lemma] += 1
                     lemma = []
-    <span class="keyword">return</span> ne_counter</code></pre>
+    return ne_counter</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3314,15 +2970,15 @@ Create the second (and last) script starting after the first line with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">compare_ne_counter</span>(ne_dict1, ne_dict2):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">Compares two dictionaries</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def compare_ne_counter(ne_dict1, ne_dict2):
+    """Compares two dictionaries"""
 
-    weight = <span class="integer">0</span>
-    <span class="keyword">for</span> key <span class="keyword">in</span> ne_dict1.keys():
-        <span class="keyword">if</span> key <span class="keyword">in</span> ne_dict2.keys():
-            weight += <span class="integer">1</span>
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">this is the weight: </span><span class="delimiter">&quot;</span></span> + <span class="predefined">str</span>(weight))
-    <span class="keyword">return</span> weight</code></pre>
+    weight = 0
+    for key in ne_dict1.keys():
+        if key in ne_dict2.keys():
+            weight += 1
+    print("this is the weight: " + str(weight))
+    return weight</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3330,13 +2986,13 @@ Create the second (and last) script starting after the first line with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">extract_basename</span>(file_path):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">Extracts names from file names</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def extract_basename(file_path):
+    """Extracts names from file names"""
 
     file_name_txt_csv = os.path.basename(file_path)
     file_name_txt = os.path.splitext(file_name_txt_csv)
-    file_name = os.path.splitext(file_name_txt[<span class="integer">0</span>])
-    <span class="keyword">return</span> file_name[<span class="integer">0</span>]</code></pre>
+    file_name = os.path.splitext(file_name_txt[0])
+    return file_name[0]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3344,23 +3000,23 @@ Create the second (and last) script starting after the first line with:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">create_graph</span>(input_folder):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">Creates graph including nodes and edges</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def create_graph(input_folder):
+    """Creates graph including nodes and edges"""
 
     G = nx.Graph()
     file_list = glob.glob(input_folder)
 
-    <span class="keyword">for</span> item <span class="keyword">in</span> file_list:
+    for item in file_list:
         G.add_node(extract_basename(item))
 
-    <span class="keyword">for</span> a, b <span class="keyword">in</span> itertools.combinations(file_list, <span class="integer">2</span>):
+    for a, b in itertools.combinations(file_list, 2):
         weight = compare_ne_counter(ne_count(a), ne_count(b))
-        <span class="keyword">if</span> weight &gt; <span class="integer">10</span>:
-            G.add_edge(extract_basename(a), extract_basename(b), {<span class="string"><span class="delimiter">'</span><span class="content">weight</span><span class="delimiter">'</span></span>: weight})
-            <span class="comment"># create edges a-&gt;b (weight)</span>
+        if weight &gt; 10:
+            G.add_edge(extract_basename(a), extract_basename(b), {'weight': weight})
+            # create edges a-&gt;b (weight)
 
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Number of nodes:</span><span class="delimiter">&quot;</span></span>, G.number_of_nodes(), <span class="string"><span class="delimiter">&quot;</span><span class="content">  Number of edges: </span><span class="delimiter">&quot;</span></span>, G.number_of_edges())
-    <span class="keyword">return</span> G</code></pre>
+    print("Number of nodes:", G.number_of_nodes(), "  Number of edges: ", G.number_of_edges())
+    return G</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3397,30 +3053,30 @@ Number of nodes: 7   Number of edges:  8</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">def</span> <span class="function">main</span>(input_folder, output_folder):
-    <span class="docstring"><span class="delimiter">&quot;&quot;&quot;</span><span class="content">
-</span><span class="content">    :param input_folder: e.g. /users/networks/csv</span><span class="content">
-</span><span class="content">    :param output_folder: e.g. /users/networks</span><span class="content">
-</span><span class="content">    </span><span class="delimiter">&quot;&quot;&quot;</span></span>
+<pre class="highlight"><code class="language-python" data-lang="python">def main(input_folder, output_folder):
+    """
+    :param input_folder: e.g. /users/networks/csv
+    :param output_folder: e.g. /users/networks
+    """
 
-    G = create_graph(input_folder + <span class="string"><span class="delimiter">&quot;</span><span class="content">/*</span><span class="delimiter">&quot;</span></span>)
-    <span class="comment"># If you want to create a circular graph, add '#' in front of every line of the following block,</span>
-    <span class="comment"># erase the '#' of the three lines after 'Circular drawing', and run the script (again)</span>
+    G = create_graph(input_folder + "/*")
+    # If you want to create a circular graph, add '#' in front of every line of the following block,
+    # erase the '#' of the three lines after 'Circular drawing', and run the script (again)
     pos = nx.spring_layout(G)
-    nx.draw_networkx_labels(G, pos, font_size=<span class="string"><span class="delimiter">'</span><span class="content">8</span><span class="delimiter">'</span></span>, font_color=<span class="string"><span class="delimiter">'</span><span class="content">r</span><span class="delimiter">'</span></span>)
-    nx.draw_networkx_edges(G, pos, alpha=<span class="float">0.1</span>)
-    plt.axis(<span class="string"><span class="delimiter">'</span><span class="content">off</span><span class="delimiter">'</span></span>)
-    plt.savefig(output_folder + <span class="string"><span class="delimiter">&quot;</span><span class="content">/graph.png</span><span class="delimiter">&quot;</span></span>)
+    nx.draw_networkx_labels(G, pos, font_size='8', font_color='r')
+    nx.draw_networkx_edges(G, pos, alpha=0.1)
+    plt.axis('off')
+    plt.savefig(output_folder + "/graph.png")
 
-    <span class="comment"># Circular drawing:</span>
-    <span class="comment"># nx.draw_circular(G, with_labels=True, alpha=0.3, font_size='8')</span>
-    <span class="comment"># plt.axis('off')</span>
-    <span class="comment"># plt.savefig(output_folder + &quot;/circular.png&quot;)</span>
+    # Circular drawing:
+    # nx.draw_circular(G, with_labels=True, alpha=0.3, font_size='8')
+    # plt.axis('off')
+    # plt.savefig(output_folder + "/circular.png")
 
 
-<span class="keyword">if</span> __name__ == <span class="string"><span class="delimiter">&quot;</span><span class="content">__main__</span><span class="delimiter">&quot;</span></span>:
-    <span class="keyword">import</span> <span class="include">sys</span>
-    main(sys.argv[<span class="integer">1</span>], sys.argv[<span class="integer">2</span>])</code></pre>
+if __name__ == "__main__":
+    import sys
+    main(sys.argv[1], sys.argv[2])</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3446,19 +3102,19 @@ Number of nodes: 7   Number of edges:  8</pre>
 </div>
 <div class="paragraph">
 <p>Poets of the 12th century:
-<span class="image"><img src="https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/12th_century.png" alt="image"></span></p>
+<span class="image"><img src="content/12th_century.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p>Poets of the 13th century:
-<span class="image"><img src="https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/13th_century.png" alt="image"></span></p>
+<span class="image"><img src="content/13th_century.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p>In case you decided to draw a circular graph:
-<span class="image"><img src="https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/circular_new.png" alt="image"></span></p>
+<span class="image"><img src="content/circular_new.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p>This recipe also works with other languages, e.g. English. You have to update the main part of the <code>create_authors</code> function and one possible output could look like this for <code>"List of English-language poets" "A"</code>:
-<span class="image"><img src="https://raw.githubusercontent.com/severinsimmler/DARIAH-Network-Visualization/master/graph/american_a.png" alt="image"></span></p>
+<span class="image"><img src="content/american_a.png" alt="image"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>Discussion:</strong>
@@ -3468,12 +3124,11 @@ In this recipe we created a visualization of an author&#8217;s social network us
 </div>
 </div>
 <div class="sect1">
-<h2 id="AboutthisTutorial">About this Tutorial</h2>
+<h2 id="_about_this_tutorial">11. About this Tutorial</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Contact:
-<a href="https://dev2.dariah.eu/wiki/display/publicde/Cluster+5%3A+Big+Data+in+den+Geisteswissenschaften#Partner">DARIAH-DE
-Cluster 5 - Big Data in the Humanities</a></p>
+<a href="https://wiki.de.dariah.eu/display/publicde/Cluster+5%3A+Quantitative+Datenanalyse">DARIAH-DE, Cluster 5 - Big Data in the Humanities</a></p>
 </div>
 <div class="paragraph">
 <p>Comments are welcome, as are reports of bugs and typos.</p>
@@ -3527,14 +3182,15 @@ provided by the German Federal Ministry for Research and Education
 (BMBF) under the identifier 01UG1110J.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://wiki.de.dariah.eu/download/thumbnails/40213783/DARIAH-DE-Logo.png" alt="DARIAH"></span><span class="image"><img src="https://wiki.de.dariah.eu/download/thumbnails/40213783/BMBF-Logo.png" alt="BMBF"></span></p>
+<p><span class="image"><img src="content/dariah-de_logo.png" alt="DARIAH"></span>
+<span class="image"><img src="content/bmbf_logo.png" alt="BMBF"></span></p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-09 10:55:10 CEST
+Last updated 2017-12-17 22:10:31 CET
 </div>
 </div>
 </body>
