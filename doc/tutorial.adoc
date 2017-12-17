@@ -42,11 +42,11 @@ To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
 been tested:
 
-* Mac OS X (10.10, 10.11, 10.12)
+* Mac OS X (10.10 - 10.13)
 
-* Linux (Ubuntu 14.04, 15.10, 16.04)
+* Linux (Ubuntu 14.04 - 17.10)
 
-* Windows 7/8/10
+* Windows 7 - 10
 
 Furthermore, the pipeline depends on an *internet connection* when
 running to download the models for the current configuration. *It does
