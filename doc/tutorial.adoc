@@ -42,7 +42,7 @@ To run the pipeline properly, a system equipped with and able to handle
 at least 4 GB RAM is recommended. The following operating systems have
 been tested:
 
-* Mac OS X (10.10 - 10.13)
+* macOS (10.10 - 10.13)
 
 * Linux (Ubuntu 14.04 - 17.10)
 
