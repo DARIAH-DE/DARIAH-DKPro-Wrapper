@@ -490,7 +490,12 @@ public class RunPipeline {
 
 		LinkedList<String> configFiles = new LinkedList<>();
 
-		String configFolder = "configs/";
+		// Get absolute path of the JAR file
+		RunPipeline referenceClass = new RunPipeline();
+		File jarPath = new File(referenceClass.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+		// Construct absolute path to configs dir
+		String configFolder = jarPath.getParentFile().getAbsolutePath()+"/configs/";
+
 		configFiles.add(configFolder+"default.properties");
 		
 		
@@ -695,3 +700,4 @@ public class RunPipeline {
 		}
 	}
 }
+
