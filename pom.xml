@@ -323,6 +323,15 @@
 					</rules>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.uima</groupId>
+				<artifactId>uimafit-maven-plugin</artifactId>
+				<version>2.4.0</version>
+				<configuration>
+					<failOnMissingMetaData>false</failOnMissingMetaData>
+				</configuration>
+			</plugin>
 			
 		</plugins>
 	</build>
