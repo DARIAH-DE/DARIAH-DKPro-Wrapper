@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.tudarmstadt.ukp.dkpro.core.io.xmi.XmiWriter;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -74,7 +75,9 @@ import de.tudarmstadt.ukp.dkpro.core.tokit.PatternBasedTokenSegmenter;
 
 
 public class RunPipeline {
-	
+
+    private static boolean optWriteXmi = false;
+
 	static {
 		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
 	}
@@ -394,9 +397,9 @@ public class RunPipeline {
 				.withDescription("Debug option: Dump annotations to the log")
 				.create("wann");
 		options.addOption(writeAnnotations);
-				
 
-
+		Option writeXmi = OptionBuilder.withDescription("Also write XMI files").create("xmi");
+		options.addOption(writeXmi);
 
 
 		CommandLineParser argParser = new BasicParser();
@@ -449,6 +452,9 @@ public class RunPipeline {
 		}
 		if (cmd.hasOption(writeAnnotations.getOpt())) {
 			optWriteAnn = true;
+		}
+		if (cmd.hasOption(writeXmi.getOpt())) {
+			optWriteXmi = true;
 		}
 
 
@@ -636,10 +642,12 @@ public class RunPipeline {
 					);
 
 
-			
+			AnalysisEngineDescription xmiWriter = createEngineDescription(XmiWriter.class,
+					XmiWriter.PARAM_TARGET_LOCATION, optOutput,
+					XmiWriter.PARAM_OVERWRITE, true,
+					XmiWriter.PARAM_TYPE_SYSTEM_FILE, new File(optOutput, "typesystem.xml"));
 
 			AnalysisEngineDescription noOp = createEngineDescription(NoOpAnnotator.class);
-
 
 			logger.info("Start running the pipeline (this may take a while)...");
 
@@ -664,6 +672,7 @@ public class RunPipeline {
 						(optSRL) ? srl : noOp, //Requires DKPro 1.8.0
 						(optCoref) ? coref : noOp,
 						writer,
+						optWriteXmi? xmiWriter : noOp,
 						optWriteAnn? annWriter : noOp
 						);
 				} catch (OutOfMemoryError e) {
