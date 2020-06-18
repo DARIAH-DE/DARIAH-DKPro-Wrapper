@@ -212,7 +212,10 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 
 == Output files
 
-The output files are UTF-8 encoded _tab separated values_ that have a field heading line and _don't use quoting_. Each line represents one token. The fields do not contain whitespace, but they may contain `"` or `'` characters if these are in the text, so if you have trouble importing the output files, check your CSV reader's settings. See the link:tutorial.adoc[Tutorial] for a usage example.
+The output files are UTF-8 encoded _tab separated values_ that have a field heading line and _don't use quoting_. Each line represents one token. The fields do not contain whitespace, but they may contain `"` or `'` characters if these are in the text, so if you have trouble importing the output files, check your CSV reader's settings. See the link:tutorial[Tutorial] for a usage example.
+
+
+The wrapper's output format is described in link:http://webdoc.sub.gwdg.de/pub/mon/dariah-de/dwp-2016-20.pdf[Fotis Jannidis, Stefan Pernes, Steffen Pielström, Isabella Reger, Nils Reimers, Thorsten Vitt: "DARIAH-DKPro-Wrapper Output Format (DOF) Specification". DARIAH-DE Working Papers Nr. 20. Göttingen: DARIAH-DE, 2016. URN: urn:nbn:de:gbv:7-dariah-2016-6-2].
 
 == Logging and reporting errors
 

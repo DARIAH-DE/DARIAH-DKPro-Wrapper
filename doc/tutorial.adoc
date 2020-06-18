@@ -529,6 +529,8 @@ POS-Tagger: executablePath, C:/tree-tagger/bin/tree-tagger.exe, modelLocation, C
 == Output Format
 === Specification
 
+The wrapper's output format is described in link:http://webdoc.sub.gwdg.de/pub/mon/dariah-de/dwp-2016-20.pdf[Fotis Jannidis, Stefan Pernes, Steffen Pielström, Isabella Reger, Nils Reimers, Thorsten Vitt: "DARIAH-DKPro-Wrapper Output Format (DOF) Specification". DARIAH-DE Working Papers Nr. 20. Göttingen: DARIAH-DE, 2016. URN: urn:nbn:de:gbv:7-dariah-2016-6-2].
+
 Example
 (from link:https://raw.githubusercontent.com/DARIAH-DE/DARIAH-DKPro-Wrapper/master/doc/content/EffiBriestKurz.txt.csv[EffiBriestKurz.txt.csv]):
 
